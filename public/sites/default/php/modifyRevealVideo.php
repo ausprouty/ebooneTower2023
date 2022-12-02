@@ -50,7 +50,6 @@ function modifyRevealVideo($text, $bookmark, $p){
     $debug = '';
     $previous_title_phrase= '';
     $watch_phrase=videoTemplateWatchPhrase($bookmark);
-    $template_options = '<div id="ShowOptionsFor[video]"></div>'; // [ChangeLanguage] is changed in local.js
     $previous_url = '';
     $find = '<div class="reveal film">';
     $count = substr_count($text, $find);
@@ -66,10 +65,10 @@ function modifyRevealVideo($text, $bookmark, $p){
         $title_phrase =  $word = str_replace('%', $title, $watch_phrase);
         //find url
         $url = modifyVideoRevealFindText($old, 4);
-        if ($p['destination'] == 'website' || $p['destination'] == 'staging' ||
+        if ($p['destination'] == 'website' || $p['destination'] == 'staging'){
             $new = videoTemplateOnline($old, $title_phrase, $url, $bookmark);
         }
-        if ($p['destination'] == 'sdcard' || $p['destination'] == 'nojs' || $p['destination']== 'apk'){
+        elseif ($p['destination'] == 'sdcard' || $p['destination'] == 'nojs' || $p['destination']== 'apk'){
             // in these destinations we concantinate sequential videos (Acts#1 and Acts #2)
             $follows = videoFollows($previous_url, $url);
             $previous_url = $url;
@@ -85,7 +84,6 @@ function modifyRevealVideo($text, $bookmark, $p){
             $start_time = 0;
             $duration = 0;
         }
-       
         // replace old  from https://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match
         $length = $pos_end - $pos_start + 6;  // add 6 because last item is 6 long
         $text = substr_replace($text, $new, $pos_start, $length);

@@ -24,7 +24,7 @@ export const pageMixin = {
       read: false,
       recnum: null,
       rldir: 'ltr',
-      sdcard: true,
+      sdcard: false,
       show_page_image: false,
       show_page_title: false,
       show_navigation_title: false,

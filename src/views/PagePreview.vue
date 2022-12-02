@@ -255,6 +255,7 @@ export default {
             if (this.publish) {
               if (this.publish_date) {
                 this.publish_text = 'Publish  Again'
+                this.sdcard = true
                 this.sdcard_text = 'SDCard'
               } else {
                 this.publish_text = 'Publish '

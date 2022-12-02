@@ -11,14 +11,14 @@ function videoTemplateOffline($title_phrase, $p, $offline_video_count, $bookmark
         $video .= '-'. $offline_video_count;
     }
     $video .='.mp4';
-    $old = array[
+    $old = array(
         '[video]',
         '[title_phrase]'
-    ];
-    $new = array[
+    );
+    $new = array(
         $video,
         $title_phrase
-    ];
+    );
     $output = str_replace($old, $new, $template);
     return $output; 
 }

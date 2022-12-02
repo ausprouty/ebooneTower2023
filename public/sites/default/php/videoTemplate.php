@@ -80,11 +80,13 @@ function videoTemplateLink($bookmark, $url){
         onclick="dbtVideoPlay(\'[id]\', \'[play_list]\', \'[start_time]\', \'[duration]\')">[title_phrase]</button>
             <div class="collapsed">
                 <video preload="none" id="dbtVideo[id]"  controls crossorigin></video>
-            </div>';
+            </div>'
+       
     }
     else{
         $template_link = '<button id="revealButton[id]" type="button" class="external-movie">[title_phrase]</button>
-        <div class="collapsed">[video]</div>';
+        <div class="collapsed">[video]</div>
+        <div id="ShowOptionsFor[video]"></div>'; // [ChangeLanguage] is changed in local.js;';
     }
     return  $template_link;
 
