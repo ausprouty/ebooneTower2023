@@ -1,0 +1,6 @@
+{
+    "require": {
+        "mpdf/mpdf": "^8.0",
+        "google/cloud-translate": "^1.12"
+    }
+}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html>
+
+   <head>
+   <link rel="manifest" href="/site.webmanifest" />
+
+
+      <script>
+
+          // go to last page visited or intitial index
+
+      if (localStorage.getItem("lastpage")) {
+
+         var lastpage = localStorage.getItem("lastpage");
+
+         localStorage.removeItem("lastpage");
+
+         window.location.replace(lastpage);
+
+      } else {
+
+         window.location.replace('/content/index.html')
+
+      }
+
+      </script>
+
+   </head>
+
+   <body onload="router()">
+
+      <script>
+
+         // go to last page visited or intitial index
+
+      if (localStorage.getItem("lastpage")) {
+
+         var lastpage = localStorage.getItem("lastpage");
+
+         localStorage.removeItem("lastpage");
+
+         window.location.replace(lastpage);
+
+      } else {
+
+         window.location.replace('/content/index.html')
+
+      }
+
+     </script>
+
+      <p>Bob Welcomes you to MyFriends</p>
+
+   </body>
+
+</html>
+
+
+
+<script>
+
+   function router(){ 
+
+      // go to last page visited or intitial index
+
+      if (localStorage.getItem("lastpage")) {
+
+         var lastpage = localStorage.getItem("lastpage");
+
+         localStorage.removeItem("lastpage");
+
+         window.location.replace(lastpage);
+
+      } else {
+
+         window.location.replace('/content/index.html')
+
+      }
+
+   } 
+
+</script>
+

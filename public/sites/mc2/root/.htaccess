@@ -1,0 +1,21 @@
+Header set Access-Control-Allow-Origin "https://globalchurchmovements.org/wp-content/uploads/*"
+Header set Access-Control-Allow-Methods "GET,PUT,POST,DELETE"
+Header set Access-Control-Allow-Headers "Content-Type, Authorization"
+
+# Canonical HTTPS/non-WWW
+<IfModule mod_rewrite.c>
+	RewriteCond %{HTTPS} off [OR]
+	RewriteCond %{HTTP_HOST} ^www\.app\.mc2\.online [NC]
+	RewriteRule (.*) https://app.mc2.online/$1 [L,R=301]
+</IfModule>
+
+
+<IfModule mod_headers.c>
+
+    Header always set Content-Security-Policy "upgrade-insecure-requests;" env=UPGRADE
+
+</IfModule>
+
+
+
+ErrorDocument 404 /content/index.html

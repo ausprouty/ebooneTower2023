@@ -1,0 +1,34 @@
+<div class="previous-step-area" id="previousstep#">
+	<h3>Previous Goal</h3>
+
+	<form id="next-step#">
+		<textarea id="next-step-text#"
+                 class="next-steps"
+                 placeholder="My next step from the previous session"
+                 rows="3"
+                 onkeyup="saveStepWritten(#)"></textarea>
+
+	<div class="action-progress">
+	<div><input id="next-step-complete#" type="checkbox" {checked} onclick="saveStepWritten(#)" /> <label> Finished</label></div>
+
+	<div><button onclick="shareStep(#)">Share</button></div>
+
+	</div>
+	------------------------------------
+	
+	<div class="next-step-area" id="nextstep#">
+	<h3>Next Step Goal</h3>
+
+	<form id="next-step#">
+		<textarea id="next-step-text#"
+                 class="next-steps"
+                 placeholder="I will ___ by ____(when)"
+                 rows="3"
+                 onkeyup="saveStepWritten(#)"></textarea>
+
+	<div class="action-progress">
+	<div></div>
+
+	<div><button onclick="shareStep(#)">Share</button></div>
+
+	</div>
