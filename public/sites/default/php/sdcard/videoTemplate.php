@@ -5,7 +5,6 @@ myRequireOnce ('videoFindForSDCardNewName.php', 'sdcard');
 function videoTemplateOffline($title_phrase, $p, $offline_video_count, $bookmark){
 
     $template = videoTemplateLink();
-    $video = $new = videoTemplateLink($bookmark, $url);
     $filename = $bookmark['page']->filename;
     $video = '/MC2/'. $p['language_iso'] .'/video/'.  $p['folder_name'] .'/';
     $video .= videoFindForSDCardNewName($filename) ;
