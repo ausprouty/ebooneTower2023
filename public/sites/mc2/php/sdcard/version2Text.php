@@ -1,7 +1,7 @@
 <?php
 
 function version2Text($text){
-    writeLog('version2Text-3 of mc2', $text);
+    writeLog('version2Text-3 of mc2 php', $text);
     $text = str_ireplace('src="/content/ZZ/images/mc2/mc2back.png"', 'src="/sites/mc2/images/standard/look-back.png"', $text);
     $text = str_ireplace('src="/content/ZZ/images/mc2/mc2up.png"', 'src="/sites/mc2/images/standard/look-up.png"', $text);
     $text = str_ireplace('src="/content/ZZ/images/mc2/mc2forward.png"', 'src="/sites/mc2/images/standard/look-forward.png"', $text);
@@ -21,5 +21,11 @@ function version2Text($text){
      $text = str_ireplace('/sites/mc2/content//sites/mc2/content/', '/sites/mc2/content/', $text);
     //$text = str_ireplace('sites/mc2/content/', 'content/', $text);
     //writeLog('version2Text-9', $text);
+    $text = version2TextForSDCard($text);
    return $text;
+}
+
+function version2TextForSDCard($text){
+    $text = str_ireplace('sites/mc2/images/standard/', '@assets/images/', $text);
+    return $text;
 }

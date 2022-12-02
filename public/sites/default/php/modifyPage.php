@@ -17,7 +17,7 @@ myRequireOnce ('modifyRevealTrainer.php');
 myRequireOnce ('modifyRevealVideo.php');
 myRequireOnce ('modifySendAction.php');
 myRequireOnce ('modifyZoomImage.php');
-myRequireOnce ('version2Text.php');
+myRequireOnce ('version2Text.php', $p['destination']);
 myRequireOnce ('writeLog.php');
 
 

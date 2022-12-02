@@ -2,7 +2,7 @@
 
 myRequireOnce ('publishFiles.php');
 myRequireOnce ('sql.php');
-myRequireOnce ('version2Text.php');
+myRequireOnce ('version2Text.php', $p['destination']);
 myRequireOnce ('writeLog.php');
 myRequireOnce ('myGetPrototypeFile.php');
 

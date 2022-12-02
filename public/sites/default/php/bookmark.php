@@ -5,7 +5,7 @@
 myRequireOnce ('getLatestContent.php');
 myRequireOnce ('publishFiles.php');
 myRequireOnce ('writeLog.php');
-myRequireOnce ('version2Text.php');
+myRequireOnce ('version2Text.php', $p['destination']);
 
 /* returns bookmark values
    requires: $p['recnum'] and $p['library_code];

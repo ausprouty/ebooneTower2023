@@ -2,7 +2,7 @@
 myRequireOnce ('bibleDbtArray.php');
 myRequireOnce ('bibleGetPassage.php');
 myRequireOnce ('sql.php');
-myRequireOnce ('version2Text.php');
+myRequireOnce ('version2Text.php', $p['destination']);
 
 function getPageOrTemplate ($p){
 
