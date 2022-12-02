@@ -5,7 +5,7 @@
 myRequireOnce ('getLatestContent.php');
 myRequireOnce ('publishFiles.php');
 myRequireOnce ('writeLog.php');
-myRequireOnce ('version2Text.php', $p['destination']);
+
 
 /* returns bookmark values
    requires: $p['recnum'] and $p['library_code];
@@ -13,6 +13,7 @@ myRequireOnce ('version2Text.php', $p['destination']);
 
 */
 function bookmark ($p){
+    myRequireOnce ('version2Text.php');
     $rand=  random_int(0, 99999);
     //writeLogDebug('bookmark-17-p-' . $rand, $p);
     $b['bookmark'] = null;

@@ -20,7 +20,7 @@ if (isset($p['my_uid'])){
 myHeaders(); // send cors headers
 myRequireOnce ('getLatestContent.php');
 myRequireOnce ('getContentByRecnum.php');
-myRequireOnce ('version2Text.php', $p['destination']);
+myRequireOnce ('version2Text.php');
 $debug .= 'past Parameters' . "\n";
 
 if (isset($p['recnum'])){

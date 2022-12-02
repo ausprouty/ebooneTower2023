@@ -2,13 +2,14 @@
 
 myRequireOnce ('publishFiles.php');
 myRequireOnce ('sql.php');
-myRequireOnce ('version2Text.php', $p['destination']);
+
 myRequireOnce ('writeLog.php');
 myRequireOnce ('myGetPrototypeFile.php');
 
 /* return latest content (with all fi)
 */
 function getLatestContent($p){
+    myRequireOnce ('version2Text.php');
 
     $debug ='In getLatestContent Dec 18' . "\n";
     if (!isset($p['scope'])){

@@ -6,7 +6,7 @@
 //define("ROOT_EDIT", '/home/globa544/edit.mc2.online/');
 myRequireOnce ('publishDestination.php');
 myRequireOnce ('writeLog.php');
-myRequireOnce ('version2Text.php', $p['destination']);
+
 
 function  publishFilesInPage($text, $p){
     $files_in_page = [];
@@ -15,7 +15,7 @@ function  publishFilesInPage($text, $p){
         if ($p['destination'] == 'nojs' || $p['destination'] == 'pdf'){
            return $files_in_page;
         }
-    }
+    }\myRequireOnce ('version2Text.php');
     $text = version2Text($text);
     $find_begin = 'src="';
     $result= publishFilesInPageFind($find_begin, $text, $p);

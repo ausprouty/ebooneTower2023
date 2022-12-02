@@ -5,10 +5,11 @@
 */
 myRequireOnce ('publishDestination.php');
 myRequireOnce ('writeLog.php');
-myRequireOnce ('version2Text.php', $p['destination']);
+
 
 function publishCSS($text, $p){
     // need to make sure it is clean because old CSS may be added from a data file.
+    myRequireOnce ('version2Text.php');
     $text = version2Text($text);
     $count = substr_count($text, '<link rel="stylesheet');
     $css = [];

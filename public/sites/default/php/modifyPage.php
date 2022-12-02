@@ -17,31 +17,19 @@ myRequireOnce ('modifyRevealTrainer.php');
 myRequireOnce ('modifyRevealVideo.php');
 myRequireOnce ('modifySendAction.php');
 myRequireOnce ('modifyZoomImage.php');
-myRequireOnce ('version2Text.php', $p['destination']);
+myRequireOnce ('version2Text.php');
+
 myRequireOnce ('writeLog.php');
 
 
 function modifyPage($text, $p, $data, $bookmark){
-    $debug = 'Begin bookmark'. "\n";// what is bookmark?
-    foreach ($bookmark as $key => $value){
-        $debug .= $key . "\n";
-        if (is_array($value)){
-            foreach ($value as $key2 => $value2){
-                $debug .= '    '. $key2 . "\n";
-                if (is_string($value2)){
-                    $debug .= '        '. $value2 . "\n";
-                }
-            }
-        }
-        else{
-            //$debug .= ' '. $value . "\n";
-        }
-
-    }
-    $debug .= 'end of bookmark'. "\n";
-    $debug .= 'read is ' . isset($bookmark['language']->read) ? $bookmark['language']->read : 'Not Set' . "\n";
-
     $text= version2Text($text);
+    if (isset($p['destination'])){
+        if ($p['destination'] == 'sdcard'){
+            myRequireOnce ('modifyTextForVue.php', 'sdcard');
+            $text = modifyTextForVue($text);
+        }
+    }
     ////writeLog('modifyPages-43-version2text', $text);
     //
     // modify note fields
