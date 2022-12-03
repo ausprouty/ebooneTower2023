@@ -6,7 +6,7 @@ function routesCreateForSeries($data, $p)
 {
     $series = json_decode($data['text']);
     writeLogDebug('PublishRoutes-6', $data);
-    writeLogDebug('PublishRoutes-7', $text);
+    writeLogDebug('PublishRoutes-7', $series);
     $template = '
     {
         path: "[path]",
@@ -23,9 +23,10 @@ function routesCreateForSeries($data, $p)
     );
     $text = "export default[\n";
     foreach ($series->chapters as $chapter) {
-        $path = $data['country_code'] . '/' . $data['language_iso']  . '/' . $data['folder_name'] . '/' . $chapter['filename'];
-        $name = $data['language_iso'] . '-' . $chapter['filename'];
-        $vue =  $data['country_code'] . '/' . $data['language_iso']  . '/' . $data['folder_name'] . '/Session' . ucfirst($chapter['filename']);
+        writeLogDebug('PublishRoutes-26', $chapter);
+        $path = $data['country_code'] . '/' . $data['language_iso']  . '/' . $data['folder_name'] . '/' . $chapter->filename;
+        $name = $data['language_iso'] . '-' . $chapter->filename;
+        $vue =  $data['country_code'] . '/' . $data['language_iso']  . '/' . $data['folder_name'] . '/Session' . ucfirst($chapter->filename);
         $new = array(
             $path,
             $name,
@@ -36,7 +37,7 @@ function routesCreateForSeries($data, $p)
         $text .= $new . "\n";
     }
     $text .= '];';
-    $filename = '/router/routes/' . ucfirst($data['language_iso'])  . ucfirst($data['folder_name']);
+    $filename = '/router/routes' . ucfirst($data['language_iso'])  . ucfirst($data['folder_name'] . '.js');
     fileWrite($filename, $text, $p);
     return;
 }

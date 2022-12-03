@@ -61,7 +61,7 @@ function publishSeries($p)
                 $fname = $dir . 'index.html';
             }
             if ($p['destination'] == 'sdcard') {
-                $fname = $dir . 'index.vue';
+                $fname = $dir . ucfirst($p['language_iso']) . ucfirst($p['folder_name']) . 'Index.vue';
                 $fname = str_replace('sdcard.mc2/M2/', 'sdcard.mc2/views/M2/', $fname);
                 $bad = array(
                     '<img src="content/',

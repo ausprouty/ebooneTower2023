@@ -143,8 +143,15 @@ function createSeries($p, $data)
                         <div class="chapter_title series {{ language.rldir }}">'  . $chapter->title . '</div>
                     </div>';
                 }
+                if ($p['destination'] == 'website' || $p['destination'] == 'staging' ){
+                    $link =  $chapter->filename . '.html';
+                }
+                elseif ($p['destination'] == 'sdcard' ){
+                    $link =  $p['language_iso'] . '-' . $chapter->filename ;
+                }
+              
                 $replace = array(
-                    $chapter->filename . '.html',
+                    $link
                     $bookmark['language']->rldir,
                     $title,
                     $description,
