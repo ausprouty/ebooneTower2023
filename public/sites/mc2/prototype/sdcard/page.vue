@@ -15,7 +15,12 @@ export default {
     },
     popUp(verse){
       usePopUp(verse)
-    }
+    },
+    vuePush(id){
+      this.$router.push({
+        name: id,
+      })
+    },
   },
   mounted () {
     useShowNotes(this.$route.name)
@@ -26,6 +31,6 @@ export default {
 }
 </script>
 <template>
-    <div> [html]</div>
- 
+  <div>[html]</div>
+  <Footer/>
 </template>

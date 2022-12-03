@@ -30,7 +30,10 @@ function dirCreate($scope, $destination,  $p, $folders = null){
             $dir = ROOT_WEBSITE. 'content/';
             break;
         case 'sdcard':
-            $dir = ROOT_SDCARD . $p['sdcard_settings']->subDirectory .'/folder/content/';
+            $dir = ROOT_SDCARD;
+            if (isset($p['sdcard_settings']->subDirectory)){
+                $dir .= $p['sdcard_settings']->subDirectory.'/views/';
+            }
             break;
         case 'root':
         case 'default':

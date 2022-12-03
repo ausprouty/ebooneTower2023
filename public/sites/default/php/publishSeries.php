@@ -1,92 +1,98 @@
 <?php
 
-myRequireOnce ('createSeries.php');
-myRequireOnce ('dirCreate.php');
-myRequireOnce ('publishFiles.php');
+myRequireOnce('createSeries.php');
+myRequireOnce('dirCreate.php');
+myRequireOnce('publishFiles.php');
 
 
-// returns $p[files_json] for use by prototypeSeriesandChapters
-function publishSeries ($p){
+// returns $p[files_json] for use by publishSeriesandChapters
+function publishSeries($p)
+{
     // when coming in with only book information the folder_name is not yet set
 
-    if (!isset($p['folder_name'])){
-        if (isset($p['code'])){
+    if (!isset($p['folder_name'])) {
+        if (isset($p['code'])) {
             $p['folder_name'] = $p['code'];
         }
     }
     //
     //find series data
     //
-    if ($p['destination'] == 'staging'){
+    if ($p['destination'] == 'staging') {
         $sql = "SELECT * FROM content
-            WHERE  country_code = '". $p['country_code'] ."'
-            AND  language_iso = '". $p['language_iso'] ."'
-            AND folder_name = '" .$p['folder_name'] ."'  AND filename = 'index'
+            WHERE  country_code = '" . $p['country_code'] . "'
+            AND  language_iso = '" . $p['language_iso'] . "'
+            AND folder_name = '" . $p['folder_name'] . "'  AND filename = 'index'
             ORDER BY recnum DESC LIMIT 1";
-    }
-    else{
-         $sql = "SELECT * FROM content
-            WHERE  country_code = '". $p['country_code'] ."'
-            AND  language_iso = '". $p['language_iso'] ."'
-            AND folder_name = '" .$p['folder_name'] ."'  AND filename = 'index'
+    } else {
+        $sql = "SELECT * FROM content
+            WHERE  country_code = '" . $p['country_code'] . "'
+            AND  language_iso = '" . $p['language_iso'] . "'
+            AND folder_name = '" . $p['folder_name'] . "'  AND filename = 'index'
             AND prototype_date IS NOT NULL
             ORDER BY recnum DESC LIMIT 1";
     }
-   // $debug .= $sql. "\n";
+    // $debug .= $sql. "\n";
     $data = sqlArray($sql);
-    if (!$data){
-       $message = 'No data found for: ' . $sql;
-       writeLogError('publishSeries-29', $message);
-       return $p;
+    if (!$data) {
+        $message = 'No data found for: ' . $sql;
+        writeLogError('publishSeries-29', $message);
+        return $p;
     }
     //$debug .= $data['text'] . "\n";
     $text = json_decode($data['text']);
 
-    if ($text){
+    if ($text) {
         // create Series
         $result = createSeries($p, $data);
         $p = $result['p']; // this gives us $p['files_json']
-        if ($result['text']){
+        if ($result['text']) {
             // find css
-            if (isset($p['recnum'])){
+            if (isset($p['recnum'])) {
                 $b['recnum'] = $p['recnum'];
                 $b['library_code'] = $p['library_code'];
-            }
-            else{
+            } else {
                 $b = $p;
             }
             $bookmark  = bookmark($b);
-            $selected_css = isset($bookmark['book']->style) ? $bookmark['book']->style :STANDARD_CSS ;
+            $selected_css = isset($bookmark['book']->style) ? $bookmark['book']->style : STANDARD_CSS;
             $dir = dirCreate('series', $p['destination'],  $p, $folders = null);
-            $fname = $dir . 'index.html';
+            if ($p['destination'] != 'sdcard') {
+                $fname = $dir . 'index.html';
+            }
+            if ($p['destination'] == 'sdcard') {
+                $fname = $dir . 'index.vue';
+                $fname = str_replace('/folder/content/', '/views/', $fname);
+                $text = str_replace('<img src="content/', '<img src="assets/', $text);
+            }
+
+            writeLogDebug('publishSeries-68',  $result['text']);
             $result['text'] .= '<!--- Created by publishSeries-->' . "\n";
-            publishFiles( $p['destination'], $p, $fname, $result['text'],  STANDARD_CSS, $selected_css);
+            publishFiles($p['destination'], $p, $fname, $result['text'],  STANDARD_CSS, $selected_css);
             $time = time();
-            if ($p['destination'] == 'staging'){
+            if ($p['destination'] == 'staging') {
                 $sql = "UPDATE content
-                    SET prototype_date = '$time', prototype_uid = '". $p['my_uid']. "'
-                    WHERE  country_code = '". $p['country_code'] ."' AND
-                    language_iso = '" . $p['language_iso'] ."'
-                    AND folder_name = '" . $p['folder_name'] ."'  AND filename = 'index'
+                    SET prototype_date = '$time', prototype_uid = '" . $p['my_uid'] . "'
+                    WHERE  country_code = '" . $p['country_code'] . "' AND
+                    language_iso = '" . $p['language_iso'] . "'
+                    AND folder_name = '" . $p['folder_name'] . "'  AND filename = 'index'
                     AND prototype_date IS NULL";
                 sqlArray($sql, 'update');
-           }
-            if ($p['destination'] == 'website'){
+            }
+            if ($p['destination'] == 'website') {
                 $sql = "UPDATE content
-                    SET publish_date = '$time', publish_uid = '". $p['my_uid']. "'
-                    WHERE  country_code = '". $p['country_code'] ."' AND
-                    language_iso = '" . $p['language_iso'] ."'
-                    AND folder_name = '" . $p['folder_name'] ."'  AND filename = 'index'
+                    SET publish_date = '$time', publish_uid = '" . $p['my_uid'] . "'
+                    WHERE  country_code = '" . $p['country_code'] . "' AND
+                    language_iso = '" . $p['language_iso'] . "'
+                    AND folder_name = '" . $p['folder_name'] . "'  AND filename = 'index'
                     AND prototype_date IS NOT NULL
                     AND publish_date IS NULL";
                 sqlArray($sql, 'update');
-           }
+            }
         }
-    }
-    else{
-        $message ='No text found for '.  $query ."\n";
+    } else {
+        $message = 'No text found for ' .  $query . "\n";
         writeLogAppend('ERROR- publishSeries-93', $message);
-
     }
     return $p;
 }

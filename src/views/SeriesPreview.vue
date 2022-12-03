@@ -26,11 +26,6 @@
               {{ this.sdcard_text }}
             </button>
           </div>
-          <div>
-            <button class="button" @click="localPublish('nojs')">
-              {{ this.nojs_text }}
-            </button>
-          </div>
         </div>
         <div v-if="this.pdf">
           <div>
@@ -110,6 +105,7 @@ import Chapter from '@/components/ChapterPreview.vue'
 import LogService from '@/services/LogService.js'
 import PrototypeService from '@/services/PrototypeService.js'
 import PublishService from '@/services/PublishService.js'
+import SDCardService from '@/services/SDCardService.js'
 import NavBar from '@/components/NavBarAdmin.vue'
 
 import { seriesMixin } from '@/mixins/SeriesMixin.js'
@@ -202,6 +198,13 @@ export default {
         response = await PublishService.publish('seriesAndChapters', params)
         this.publish_text = 'Published'
       }
+      if (location == 'sdcard') {
+        console.log ('location is sdcard')
+        this.sdcard_text = 'Publishing'
+        response = await SDCardService.publish('seriesAndChapters', params)
+        console.log ('finsihed publishing to  sdcard')
+        this.sdcard_text = 'Published to SD Card'
+      }
 
       if (response['error']) {
         this.error = response['message']
@@ -243,6 +246,7 @@ export default {
         // authorize for prototype and publish
         this.prototype = false
         this.publish = false
+        this.pdf = false
         if (this.recnum) {
           this.prototype = this.mayPrototypeSeries()
           if (this.prototype) {
@@ -258,11 +262,15 @@ export default {
           if (this.prototype_date) {
             this.publish = this.mayPublishSeries()
             if (this.publish) {
+              this.sdcard = true;
               if (this.publish_date) {
                 this.publish_text = 'Publish Series and Chapters Again'
               } else {
                 this.publish_text = 'Publish Series and Chapters'
               }
+              this.sdcard_text = 'Publish Series and Chapters for SDCard'
+              this.videolist_text = 'Publish VideoList'
+              this.pdf = 'Publish PDF'
             }
           }
         }
