@@ -1,4 +1,11 @@
-<button id="101" type="button" class="external-movie">
-        Watch <i>John 10:22-30</i>&nbsp; online
-      </button>
-        <div class="collapsed"></div>
+export default [
+  {
+    path: "/multiply1/multiply101",
+    name: "multiply101",
+    component: function () {
+      return import(
+        /* webpackChunkName: "prototype" */ "../views/multiply1/MultiplySession101.vue"
+      );
+    },
+  },
+];

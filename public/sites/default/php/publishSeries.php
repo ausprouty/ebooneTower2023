@@ -62,12 +62,21 @@ function publishSeries($p)
             }
             if ($p['destination'] == 'sdcard') {
                 $fname = $dir . 'index.vue';
-                $fname = str_replace('folder/content', 'views', $fname);
-                $result['text'] = str_replace('<img src="content/', '<img src="assets/', $result['text']);
-                writeLogDebug('publishSeries-68', $fname);
+                $fname = str_replace('sdcard.mc2/M2/', 'sdcard.mc2/views/M2/', $fname);
+                $bad = array(
+                    '<img src="content/',
+                    'src="/sites/mc2/content/M2/'
+                );
+                $good = array(
+                    '<img src="@assets/',
+                    'src="@assets/M2/'
+                );
+                $result['text'] = str_replace($bad, $good, $result['text']);
+                myRequireOnce('routesCreateForSeries.php', 'sdcard');
+                routesCreateForSeries($data, $p);
             }
 
-            writeLogDebug('publishSeries-70',  $result['text']);
+
             $result['text'] .= '<!--- Created by publishSeries-->' . "\n";
             publishFiles($p['destination'], $p, $fname, $result['text'],  STANDARD_CSS, $selected_css);
             $time = time();

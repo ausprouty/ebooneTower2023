@@ -73,7 +73,7 @@ function publishPage($p)
         $fname = $series_dir . $data['filename'] . '.html';
     }
     if ($p['destination'] == 'sdcard') {
-        $fname = $series_dir . $data['filename'] . '.vue';
+        $fname = $series_dir .  ucfirst($data['language_iso'])  . ucfirst($data['filename']) . '.vue';
     }
 
 
