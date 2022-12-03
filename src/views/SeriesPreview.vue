@@ -127,6 +127,8 @@ export default {
       book_image: null,
       prototype_text: 'Prototype Series and Chapters',
       publish_text: 'Publish Series and Chapters',
+      sdcard_text: 'Publish Series and Chapters to SD Card',
+      pdf_text: 'Publish Series and Chapters to PDF',
       prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
       download_ready: '',
       download_now: '',
@@ -270,7 +272,7 @@ export default {
               }
               this.sdcard_text = 'Publish Series and Chapters for SDCard'
               this.videolist_text = 'Publish VideoList'
-              this.pdf = 'Publish PDF'
+              this.pdf_text = 'Publish PDF'
             }
           }
         }
