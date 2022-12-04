@@ -138,10 +138,13 @@ function createSeries($p, $data)
                 $title = $chapter->title;
                 if ($chapter->count) {
                     // $title = $chapter->count . '. '. $chapter->title;
-                    $title = '<div class="block {{ language.rldir }}">
-                        <div class="chapter_number series {{ language.rldir }}">' .  $chapter->count . '.' . '</div>
-                        <div class="chapter_title series {{ language.rldir }}">'  . $chapter->title . '</div>
-                    </div>';
+                    $title = '
+                    <!-- chapter title begin -->
+                        <div class="block {{ language.rldir }}">
+                            <div class="chapter_number series {{ language.rldir }}">' .  $chapter->count . '.' . '</div>
+                            <div class="chapter_title series {{ language.rldir }}">'  . $chapter->title . '</div>
+                        </div>
+                    <!-- chapter title end -->' . "\n";
                 }
                 if ($p['destination'] == 'website' || $p['destination'] == 'staging') {
                     $link =  $chapter->filename . '.html';
