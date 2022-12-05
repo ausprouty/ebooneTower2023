@@ -1,4 +1,17 @@
-[[nav]]
+<script>
+export default {
+  methods:{
+    vuePush(id){
+      this.$router.push({
+        name: id,
+      })
+    },
+  },
+}
+</script>
+<template>
+  <!-- sdcard template from mc2 -->
+  [[nav]]
 <div class="page_content" dir="{{ language.rldir }}">
   <div  class="app-series-header">
     <img src="{{ book.image }}" class="app-series-header" />
@@ -15,3 +28,4 @@
     {{ footer }}
   </div>
 </div>
+</template>
