@@ -10,7 +10,7 @@ function videoTemplateOnline($old, $title_phrase, $url, $bookmark)
     $duration = ($end_time - $start_time) * 1000;
     // find type of video and trim url
     if (strpos($url, 'api.arclight.org/videoPlayerUrl?') != FALSE) {
-        $new .=  $template_options; // JESUS project videos are available in many languages
+        $new .=  '<div id="ShowOptionsFor[video]"></div>'; // JESUS project videos are available in many languages
         //https://api.arclight.org/videoPlayerUrl?refId=6_529-GOMatt2512
         $url = str_ireplace('https://api.arclight.org/videoPlayerUrl?refId=', '', $url); //6_529-GOMatt2512
         $video_type_string = substr($url, 0, 1); //6

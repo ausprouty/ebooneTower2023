@@ -68,10 +68,11 @@ function publishSeries($p)
                     'src="/sites/mc2/content/M2/'
                 );
                 $good = array(
-                    '<img src="@assets/',
-                    'src="@assets/M2/'
+                    '<img src="@/assets/',
+                    'src="@/assets/'
                 );
                 $result['text'] = str_replace($bad, $good, $result['text']);
+                writeLogDebug('publishSeries-75', $result['text']);
                 myRequireOnce('routesCreateForSeries.php', 'sdcard');
                 routesCreateForSeries($data, $p);
             }
