@@ -1,5 +1,6 @@
 <?php
 
-function removeExternalLinks($p){
+function removeLinksExternal($p)
+{
     return false;
 }

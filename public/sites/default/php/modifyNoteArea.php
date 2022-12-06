@@ -4,6 +4,15 @@ myRequireOnce('myGetPrototypeFile.php');
 
 /*
 
+Input is:
+
+<div class="note-area" id="note1">
+<form id="note1">Notes: (click outside box to save)<br />
+<textarea rows="5"></textarea></form>
+</div>
+
+Output depends on destination
+
 This is an attempt to have a growing note area on the iphone
 SEE https://css-tricks.com/auto-growing-inputs-textareas/
 
@@ -11,6 +20,8 @@ SEE https://css-tricks.com/auto-growing-inputs-textareas/
 function modifyNoteArea($text,  $bookmark, $p)
 {
     $template = myGetPrototypeFile('note.html', $p['destination']);
+    writeLogDebug('modifyNoteArea-14', $p['destination']);
+    writeLogDebug('modifyNoteArea-15', $template);
     if ($p['destination'] == 'nojs') {
         $template = '<div class="note-removed">';
     }
@@ -18,7 +29,7 @@ function modifyNoteArea($text,  $bookmark, $p)
     for ($i = 1; $i <= $count; $i++) {
         $pos_start = strpos($text, '<div class="note-area"');
         $pos_end = strpos($text, '</div>', $pos_start);
-        $length = $pos_end - $pos_start;
+        $length = $pos_end - $pos_start + 6;
         $block = substr($text, $pos_start, $length);
         $row_start = strpos($block, 'rows="') + 6;
         $row_end = strpos($block, '">', $row_start);

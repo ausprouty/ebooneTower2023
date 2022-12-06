@@ -10,8 +10,6 @@ function modifyReadMore($text, $bookmark)
     $find[] = '<a class="bible-readmore"';
     $read_more = $bookmark['language']->read_more;
     $read_more_online = $bookmark['language']->read_more_online;
-    //writeLog('modifyReadMore-12-bookmark',  $bookmark);
-    //writeLog('modifyReadMore-13-readmore', $read_more . '|'. $read_more_online);
     $new = '';
     foreach ($find as $find_now) {
         $count = substr_count($text, $find_now);
