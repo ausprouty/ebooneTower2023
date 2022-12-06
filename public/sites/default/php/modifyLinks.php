@@ -2,6 +2,7 @@
 
 myRequireOnce('writeLog.php');
 myRequireOnce('modifyPrototypeAndFinalLinks.php');
+myRequireOnce('modifyLinksMakeRelative.php');
 myRequireOnce('modifyLinksReadmoreBible.php');
 
 function modifyLinks($text, $p)
@@ -187,16 +188,4 @@ function _removeReadmoreLinks($text)
     }
     //writeLogError('_removeReadmoreLinks-185', $text);
     return $text;
-}
-// '/sites/mc2/content/M2/eng/tc/tc01.html'
-//      to
-//    '../tc/tc01.html'
-
-function modifyLinksMakeRelative($link)
-{
-    $parts = explode('/', $link);
-    $filename = array_pop($parts);
-    $directory = array_pop($parts);
-    $new = '../' . $directory . '/' . $filename;
-    return $new;
 }
