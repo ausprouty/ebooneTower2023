@@ -3,18 +3,44 @@
 
 function modifyTextForVue($text, $bookmark)
 {
+    writeLogAppend('modifyTextForVue-5', $text);
     $bad = array(
         '<form class = "auto_submit_item">',
         '<form>',
         '</form>'
     );
     $text = str_replace($bad, '', $text);
-    $text = str_ireplace('sites/mc2/images/standard/', '@/assets/images/standard/', $text);
-
+    $text = modifyTextForImages($text, $bookmark);
     $text = modifyTextForVuePopUp($text);
-    writeLogDebug('modifyTextForVue-8', $text);
-    $text =  modifyTextForVueReadMore($text, $bookmark);
-    writeLogDebug('modifyTextForVue-10', $text);
+    $text = modifyTextForVueReadMore($text, $bookmark);
+    writeLogAppend('modifyTextForVue-16', $text);
+    return $text;
+}
+function modifyTextForImages($text, $bookmark)
+{
+    $text = str_ireplace('sites/mc2/images/standard/', '@/assets/images/standard/', $text);
+    $bad = array(
+        '<img src="content/',
+        'src="/sites/mc2/content/M2/'
+    );
+    $good = array(
+        '<img src="@/assets/',
+        'src="@/assets/'
+    );
+    $text = str_replace($bad, $good, $text);
+    writeLogDebug('modifyTextForImages-31', $bookmark);
+    $language_iso = $bookmark['language']->iso;
+    writeLogDebug('modifyTextForImages-33', $language_iso);
+    $bad = array(
+        '/@/assets',
+        '/' . $language_iso . '/images/',
+
+    );
+    $good = array(
+        '@/assets',
+        '/images/' . $language_iso . '/',
+    );
+    $text = str_replace($bad, $good, $text);
     return $text;
 }
 

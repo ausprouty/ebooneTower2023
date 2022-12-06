@@ -5,6 +5,7 @@ myRequireOnce('dirCreate.php');
 myRequireOnce('publishFiles.php');
 
 
+
 // returns $p[files_json] for use by publishSeriesandChapters
 function publishSeries($p)
 {
@@ -63,15 +64,8 @@ function publishSeries($p)
             if ($p['destination'] == 'sdcard') {
                 $fname = $dir . ucfirst($p['language_iso']) . ucfirst($p['folder_name']) . 'Index.vue';
                 $fname = str_replace('sdcard.mc2/M2/', 'sdcard.mc2/views/M2/', $fname);
-                $bad = array(
-                    '<img src="content/',
-                    'src="/sites/mc2/content/M2/'
-                );
-                $good = array(
-                    '<img src="@/assets/',
-                    'src="@/assets/'
-                );
-                $result['text'] = str_replace($bad, $good, $result['text']);
+                myRequireOnce('modifyTextForVue.php', 'sdcard');
+                $result['text'] = modifyTextForVue($result['text'], $bookmark);
                 writeLogDebug('publishSeries-75', $result['text']);
                 myRequireOnce('routesCreateForSeries.php', 'sdcard');
                 routesCreateForSeries($data, $p);
