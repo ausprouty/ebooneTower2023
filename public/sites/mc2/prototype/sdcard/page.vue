@@ -1,8 +1,9 @@
 <script>
-import { useAddNote, useShowNotes} from "@/assets/javascript/notes.js";
-import { useFindSummaries, useFindCollapsible, usePopUp } from "@/assets/javascript/app.js";
-import { useRevealVideo } from "@/assets/javascript/revealVideo.js";
-import Footer from '@/components/FooterGlobal.vue';
+import { useAddNote, useShowNotes} from "@/assets/javascript/notes.js"
+import { useFindSummaries, useFindCollapsible, usePopUp} from "@/assets/javascript/revealText.js"
+import { useGoToPageAndSetReturn, usePageGoBack } from "@/assets/javascript/travel.js"
+import { useRevealVideo, useRevealAudio } from "@/assets/javascript/revealMedia.js"
+import Footer from '@/components/FooterGlobal.vue'
 
 export default {
   components: {
@@ -13,6 +14,12 @@ export default {
     addNote(){
       useAddNote(this.$route.name)
     },
+    goToPageAndSetReturn(page){
+      useGoToPageAndSetReturn(page)
+    },
+    pageGoBack(){
+      usePageGoBack()
+    },
     popUp(verse){
       usePopUp(verse)
     },
@@ -22,12 +29,13 @@ export default {
       })
     },
   },
-  mounted () {
-    useShowNotes(this.$route.name)
+  mounted() {
     useFindSummaries()
     useFindCollapsible()
+    useRevealAudio()
     useRevealVideo()
-  }
+    useShowNotes(this.$route.name)
+  },
 }
 </script>
 <template>
