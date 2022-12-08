@@ -2,7 +2,7 @@
 import { useAddNote, useShowNotes} from "@/assets/javascript/notes.js"
 import { useFindSummaries, useFindCollapsible, usePopUp} from "@/assets/javascript/revealText.js"
 import { useGoToPageAndSetReturn, usePageGoBack } from "@/assets/javascript/travel.js"
-import { useRevealVideo, useRevealAudio } from "@/assets/javascript/revealMedia.js"
+import { useRevealMedia } from "@/assets/javascript/revealMedia.js"
 import Footer from '@/components/FooterGlobal.vue'
 
 export default {
@@ -14,8 +14,8 @@ export default {
     addNote(){
       useAddNote(this.$route.name)
     },
-    goToPageAndSetReturn(page){
-      useGoToPageAndSetReturn(page)
+    goToPageAndSetReturn(goto){
+      useGoToPageAndSetReturn(goto, this.$route.name)
     },
     pageGoBack(){
       usePageGoBack()
@@ -32,8 +32,11 @@ export default {
   mounted() {
     useFindSummaries()
     useFindCollapsible()
-    useRevealAudio()
-    useRevealVideo()
+    let route_path = this.$route.path
+    let last = route_path.lastIndexOf('/')
+    let series_path = route_path.substr(0, last)
+    console.log (series_path)
+    useRevealMedia(series_path)
     useShowNotes(this.$route.name)
   },
 }
