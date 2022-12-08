@@ -113,15 +113,6 @@ function  modifyLinksContent($text, $find)
     return $text;
 }
 
-/*  <a href="https://generations.prototype.myfriends.network/content/A2/eng/emc/mc201.html">
-      to
-    <a href='/content/A2/eng/emc/mc201.html">
-*/
-function modifyPrototypeAndFinalLinks($text, $replace)
-{
-    $text = str_replace($replace, '', $text);
-    return $text;
-}
 /*  <a href="/sites/mc2/content/M2/eng/tc/tc01.html">
        to
     <a  href="#" onclick="goToPageAndSetReturn('../tc/tc01.html');">

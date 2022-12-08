@@ -1,6 +1,6 @@
 <?php
-myRequireOnce ('writeLog.php');
-myRequireOnce ('audioReference.php', 'sdcard');
+myRequireOnce('writeLog.php');
+myRequireOnce('audioReference.php', 'sdcard');
 /*
 Input is:
     <--Start Audio Template-->
@@ -57,23 +57,23 @@ Input is:
     </div>
 
 */
-function modifyRevealAudio($text, $bookmark, $p){
-    $debug ='';
+function modifyRevealAudio($text, $bookmark, $p)
+{
+    $debug = '';
     //writeLog('modifyRevealAudio-61-text', $text);
     //writeLog('modifyRevealAudio-61-p', $p);'
-    if ($p['destination'] == 'nojs'){
-        $listen_phrase ='';
-       $local_template = '';
+    if ($p['destination'] == 'nojs') {
+        $listen_phrase = '';
+        $local_template = '';
     }
-    if ($p['destination'] == 'nojs'){
+    if ($p['destination'] == 'nojs') {
         $listen_phrase = $bookmark['language']->listen_offline;
-       $local_template = '<div> <a href src="[url]">[title_phrase]</a></div>
+        $local_template = '<div> <a href src="[url]">[title_phrase]</a></div>
         <audio width="100%"  controls src="[url]">
         </audio>';
-    }
-    elseif ($p['destination'] == 'sdcard' || $p['destination'] == 'apk'){
+    } elseif ($p['destination'] == 'apk') {
         $listen_phrase = $bookmark['language']->listen_offline;
-        $local_template= '
+        $local_template = '
         <button id="AudioButton[id]" type="button" class="collapsible external-audio ">[title_phrase]</button>
         <div class="collapsed" style="display:none;">
             <audio id="plyr-audio[id]" controls>
@@ -83,18 +83,23 @@ function modifyRevealAudio($text, $bookmark, $p){
             <p>[audio_text]</p>
         </div>
         ';
-
-    }
-    else{
+    } elseif ($p['destination'] == 'sdcard') {
+        $listen_phrase = $bookmark['language']->listen_offline;
+        $local_template = '
+        <button id="[url]" type="button" class="external-audio">
+           [title_phrase]</button>
+          <div class="collapsed"></div>
+        ';
+    } else {
         $listen_phrase = $bookmark['language']->listen;
-        $local_template= '
+        $local_template = '
         <button id="AudioButton[id]" type="button" class="collapsible external-audio ">[title_phrase]</button>
         <div class="collapsed" style="display:none;">
             <audio controls src="[url]">Sorry, Your browser does not support our audio playback.  Try Chrome. </audio>
             <p>[audio_text]</p>
         </div>
         ';
-        $spotify_template= '
+        $spotify_template = '
         <button id="AudioButton[id]" type="button" class="collapsible external-audio ">[title_phrase]</button>
         <div class="collapsed" style="display:none;">
             <iframe src="[url]" width="100%" height="80" frameBorder="0" allowtransparency="true" allow="encrypted-media">
@@ -109,45 +114,43 @@ function modifyRevealAudio($text, $bookmark, $p){
             </iframe>
             <p>[audio_text]</p>
         </div>';
-        $youtube_template= '<p></p><a href="[url]" target="_blank">[title_phrase]</a></p>';
-        $vimeo_template ='<button id="VimeoButton[id]" type="button" class="external-movie ">[title_phrase]</button>
+        $youtube_template = '<p></p><a href="[url]" target="_blank">[title_phrase]</a></p>';
+        $vimeo_template = '<button id="VimeoButton[id]" type="button" class="external-movie ">[title_phrase]</button>
             <div class="collapsed">[vimeo][url]</div>';
     }
 
     // [ChangeLanguage] is changed in local.js
     $find = '<div class="reveal audio">';
     $count = substr_count($text, $find);
-    for ($i = 0; $i < $count; $i++){
+    for ($i = 0; $i < $count; $i++) {
         // get old division
-        $pos_start = strpos($text,$find);
+        $pos_start = strpos($text, $find);
         $pos_end = strpos($text, '</div>', $pos_start);
         $length = $pos_end - $pos_start + 6;  // add 6 because last item is 6 long
         $old = substr($text, $pos_start, $length);
         // find title_phrase
-        $title = '&nbsp;"'. modifyRevealAudioFindText($old, 2) . '"&nbsp;';
+        $title = '&nbsp;"' . modifyRevealAudioFindText($old, 2) . '"&nbsp;';
         $title_phrase =  $word = str_replace('%', $title, $listen_phrase);
         //find url
         $url = modifyRevealAudioFindText($old, 4);
         $debug .=  "url is | $url |\n";
         $audio_text = modifyRevealAudioFindText($old, 6);
         $debug .=  "audio_text is | $audio_text |\n";
-        if ($p['destination'] == 'sdcard' || $p['destination'] == 'nojs'||  $p['destination'] == 'apk'){
+        if ($p['destination'] == 'sdcard' || $p['destination'] == 'nojs' ||  $p['destination'] == 'apk') {
             $new = $local_template;
             $url = modifyRevealAudioSDCardUrl($url);
+        } else {
+            if (strpos($url, 'open.spotify.com') !== false) {
+                $new = $spotify_template;
+            } else if (strpos($url, 'api.soundcloud.com') !== false) {
+                $new = $soundcloud_template;
+            } else if (strpos($url, 'music.youtube') !== false) {
+                $new = $youtube_template;
+            } else if (strpos($url, 'vimeo.com') !== false) {
+                $new = $vimeo_template;
+                $url = str_ireplace('https://vimeo.com/', '', $url);
+            }
         }
-        else{if (strpos ($url, 'open.spotify.com') !== false){
-            $new = $spotify_template;
-        }
-        else if (strpos ($url, 'api.soundcloud.com') !== false){
-            $new = $soundcloud_template;
-        }
-        else if (strpos ($url, 'music.youtube') !== false){
-            $new = $youtube_template;
-        }
-        else if (strpos ($url, 'vimeo.com') !== false){
-            $new = $vimeo_template;
-            $url= str_ireplace('https://vimeo.com/', '', $url);
-        }}
 
 
         // make replacements
@@ -157,7 +160,7 @@ function modifyRevealAudio($text, $bookmark, $p){
         $new = str_replace('[audio_text]', $audio_text, $new);
         $debug .=  "new is | $new |\n";
         // replace old
-         // from https://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match
+        // from https://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match
         $length = $pos_end - $pos_start + 6;  // add 6 because last item is 6 long
         $text = substr_replace($text, $new, $pos_start, $length);
     }
@@ -165,30 +168,31 @@ function modifyRevealAudio($text, $bookmark, $p){
     return $text;
 }
 // return the text from the td_segment
-function modifyRevealAudioFindText($old, $td_number){
+function modifyRevealAudioFindText($old, $td_number)
+{
     $pos_td = 0;
-    for ($i = 1; $i<= $td_number; $i++){
+    for ($i = 1; $i <= $td_number; $i++) {
         $pos_td = strpos($old, '<td', $pos_td + 1);
     }
-    $pos_start = strpos($old, '>', $pos_td) +1;
+    $pos_start = strpos($old, '>', $pos_td) + 1;
     $pos_end = strpos($old, '</', $pos_td);
     $length = $pos_end - $pos_start;
     $text = substr($old, $pos_start, $length);
     $text = strip_tags($text);
     return $text;
 }
-function modifyRevealAudioSDCardUrl($url){
+function modifyRevealAudioSDCardUrl($url)
+{
 
     $url = trim($url);
     $link = audioReference();
-    if (isset($link[$url])){
+    if (isset($link[$url])) {
 
-       return $link[$url];
-    }
-    else{
-        if (strpos($url, 'https%3A')){
+        return $link[$url];
+    } else {
+        if (strpos($url, 'https%3A')) {
             $url = str_ireplace('https%3A', 'https:', $url);
-            if (isset($link[$url])){
+            if (isset($link[$url])) {
                 return $link[$url];
             }
         }
