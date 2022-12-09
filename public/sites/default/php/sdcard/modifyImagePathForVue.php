@@ -1,21 +1,44 @@
 <?php
 
+/*
+string(38) "@/assets/images/standard/look-back.png"
+string(38) "@/assets/images/standard/look-back.png"
+string(38) "@/assets/images/standard/look-back.png"
+string(38) "@/assets/images/standard/look-back.png"
+string(36) "@/assets/images/standard/look-up.png"
+string(41) "@/assets/images/standard/look-forward.png"
+string(53) "@/assets/images/eng/standard/TransferableConcepts.png"
+string(50) "@/assets/eng/tc/transferable-concepts-image-11.png"
+string(51) "@/assets/eng/tc//transferable-concepts-image-12.jpg"
+string(51) "@/assets/eng/tc//transferable-concepts-image-13.jpg"
+string(50) "@/assets/eng/tc/transferable-concepts-image-22.png"
+string(69) "@/assets/images/eng/custom/Web-satisfied-trust-facts-not-feelings.jpg"
+
+*/
+
 function modifyImagePathForVue($text, $p)
 {
-    $image_types = array('.png', '.jpg', '.svg');
     $find = '<img';
     $count = substr_count($text, $find);
     $pos_start = 0;
     for ($i = 0; $i < $count; $i++) {
         $pos_image_start = strpos($text, $find, $pos_start);
-        $pos_image_end = strpos($text, '>', $pos_start);
+        $pos_image_end = strpos($text, '>', $pos_image_start);
         $image_length = $pos_image_end - $pos_image_start;
         $img_link = substr($text, $pos_image_start, $image_length);
         $pos_src_start = strpos($img_link, 'src="') + 5;
         $pos_src_end = strpos($img_link, '"',  $pos_src_start);
         $src_length =  $pos_src_end - $pos_src_start;
         $src = substr($img_link, $pos_src_start, $src_length);
-        writeLogAppend('modifyImagePath-18', $src);
+        if (strpos($src, '@/assets/images') === false) {
+            if (strpos($src, '@/assets/') !== false) {
+                $new = str_replace('@/assets/', '@/assets/images/', $src);
+                $text = str_replace($src, $new, $text);
+                $pos_image_end = $pos_image_end + 8;
+            } else {
+                writeLogAppend('ERROR--modifyImagePathForVue-38', $src);
+            }
+        }
         $pos_start = $pos_image_end;
     }
     return $text;

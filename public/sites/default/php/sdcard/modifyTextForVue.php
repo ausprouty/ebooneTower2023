@@ -5,7 +5,6 @@ myRequireOnce('modifyImagePathForVue.php', 'sdcard');
 
 function modifyTextForVue($text, $bookmark)
 {
-    writeLogAppend('modifyTextForVue-5', $text);
     $bad = array(
         '<form class = "auto_submit_item">',
         '<form>',
@@ -16,7 +15,6 @@ function modifyTextForVue($text, $bookmark)
     $text = modifyTextForVuePopUp($text);
     $text = modifyTextForVueReadMore($text, $bookmark);
     $text = modifyImagePathForVue($text, $bookmark);
-    writeLogAppend('modifyTextForVue-16', $text);
     return $text;
 }
 function modifyTextForImages($text, $bookmark)

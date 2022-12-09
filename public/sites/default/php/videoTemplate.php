@@ -1,7 +1,7 @@
 <?php
 
 
-function videoTemplateOnline($old, $title_phrase, $url, $bookmark)
+function videoTemplateOnline($old, $title_phrase, $url, $bookmark, $i)
 {
     $new = videoTemplateLink($bookmark, $url);
     // find start and end times

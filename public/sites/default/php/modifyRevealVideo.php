@@ -1,5 +1,5 @@
 <?php
-myRequireOnce ('writeLog.php');
+myRequireOnce('writeLog.php');
 
 /*
 Input is:
@@ -44,39 +44,38 @@ Data structure:
 For Output see appropriate VideoTemplate.php in 
 
 */
-function modifyRevealVideo($text, $bookmark, $p){
-    myRequireOnce ('videoTemplate.php', $p['destination']);
-    myRequireOnce ('videoFollows.php', 'apk');
+function modifyRevealVideo($text, $bookmark, $p)
+{
+    myRequireOnce('videoTemplate.php', $p['destination']);
+    myRequireOnce('videoFollows.php', 'apk');
     $debug = '';
-    $previous_title_phrase= '';
-    $watch_phrase=videoTemplateWatchPhrase($bookmark);
+    $previous_title_phrase = '';
+    $watch_phrase = videoTemplateWatchPhrase($bookmark);
     $previous_url = '';
     $find = '<div class="reveal film">';
     $count = substr_count($text, $find);
     $offline_video_count = 0;
-    for ($i = 0; $i < $count; $i++){        // get old division
-        $pos_start = strpos($text,$find);
+    for ($i = 0; $i < $count; $i++) {        // get old division
+        $pos_start = strpos($text, $find);
         $pos_end = strpos($text, '</div>', $pos_start);
         $length = $pos_end - $pos_start + 6;  // add 6 because last item is 6 long
         $old = substr($text, $pos_start, $length);
         // find title_phrase
         $title = modifyVideoRevealFindText($old, 2);
-        $title = '&nbsp;"'. $title . '"&nbsp;';
+        $title = '&nbsp;"' . $title . '"&nbsp;';
         $title_phrase =  $word = str_replace('%', $title, $watch_phrase);
         //find url
         $url = modifyVideoRevealFindText($old, 4);
-        if ($p['destination'] == 'website' || $p['destination'] == 'staging'){
-            $new = videoTemplateOnline($old, $title_phrase, $url, $bookmark);
-        }
-        elseif ($p['destination'] == 'sdcard' || $p['destination'] == 'nojs' || $p['destination']== 'apk'){
+        if ($p['destination'] == 'website' || $p['destination'] == 'staging') {
+            $new = videoTemplateOnline($old, $title_phrase, $url, $bookmark, $i);
+        } elseif ($p['destination'] == 'sdcard' || $p['destination'] == 'nojs' || $p['destination'] == 'apk') {
             // in these destinations we concantinate sequential videos (Acts#1 and Acts #2)
             $follows = videoFollows($previous_url, $url);
             $previous_url = $url;
-            if ($follows){
+            if ($follows) {
                 $new = '';
-                $text=videoFollowsChangeVideoTitle($previous_title_phrase, $text, $bookmark);
-            }
-            else{
+                $text = videoFollowsChangeVideoTitle($previous_title_phrase, $text, $bookmark);
+            } else {
                 $new = videoTemplateOffline($title_phrase, $p, $offline_video_count, $bookmark);
                 $offline_video_count++;
             }
@@ -92,29 +91,35 @@ function modifyRevealVideo($text, $bookmark, $p){
     return $text;
 }
 // return the text from the td_segment
-function modifyVideoRevealFindText($old, $td_number){
+function modifyVideoRevealFindText($old, $td_number)
+{
     $pos_td = 0;
-    for ($i = 1; $i<= $td_number; $i++){
+    for ($i = 1; $i <= $td_number; $i++) {
         $pos_td = strpos($old, '<td', $pos_td + 1);
     }
-    $pos_start = strpos($old, '>', $pos_td) +1;
+    $pos_start = strpos($old, '>', $pos_td) + 1;
     $pos_end = strpos($old, '</', $pos_td);
     $length = $pos_end - $pos_start;
     $text = substr($old, $pos_start, $length);
     $text = strip_tags($text);
     return $text;
 }
-function modifyVideoRevealFindTime ($old,$td_number){
+function modifyVideoRevealFindTime($old, $td_number)
+{
     $text = modifyVideoRevealFindText($old, $td_number);
-    if ($text == 'start'){$time = 0; }
-    else if ($text == 'end'){$time = null; }
-    else{ $time = timeToSeconds($text);}
+    if ($text == 'start') {
+        $time = 0;
+    } else if ($text == 'end') {
+        $time = null;
+    } else {
+        $time = timeToSeconds($text);
+    }
     return $time;
 }
 //function timeToSeconds(string $time): int
 function timeToSeconds($time)
 {
-    if (strpos($time, ':') == FALSE){
+    if (strpos($time, ':') == FALSE) {
         return intval($time);
     }
     $arr = explode(':', $time);
