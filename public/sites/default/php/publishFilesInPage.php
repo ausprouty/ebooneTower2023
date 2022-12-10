@@ -58,11 +58,15 @@ function publishFilesInPageFind($find_begin, $text, $p)
                 $files_in_page[] = '/' . $clean_filename;
                 // I think I want to include html
                 if (!is_dir($from) && strpos($from, '.html') === false) {
-                    $to = $destination . $filename;
-                    createDirectory($to);
-                    copy($from, $to);
-                    $message =  "$filename copied from $from to  $to\n";
-                    writeLogAppend('publishFilesInPageFind-65', $message);
+                    if ($p['destination'] == 'sdcard') {
+                        publishFilesInSDCardPage($filename, $p, $destination);
+                    } else {
+                        $to = $destination . $filename;
+                        createDirectory($to);
+                        copy($from, $to);
+                        $message =  "$filename copied from $from to  $to\n";
+                        writeLogAppend('publishFilesInPageFind-65', $message);
+                    }
                 }
             } else { // we do not need to copy html files; they may not have been rendered yet.
                 if (strpos($filename, '.html') == false) {
@@ -87,25 +91,20 @@ function publishFilesInPageFind($find_begin, $text, $p)
     return $files_in_page;
 }
 
-/*
-if this file is not found:
-/assets/images/eng/tc/transferable-concepts-image-22.png 
 
-look here:
-
-/sites/mc2/content/M2/eng/tc/transferable-concepts-image-22.png
-
-and copy to 
-
-ROOT_SDCARD . assets/images/eng/tc/transferable-concepts-image-22.png 
-
-
-*/
 
 function publishFilesInSDCardPage($filename, $p, $destination)
 {
     writeLogDebug('publishFilesInSDCardPage-101', $p);
     if (strpos($filename, '/assets/images') !== false) {
+        /*
+            if this file is not found:
+            /assets/images/eng/tc/transferable-concepts-image-22.png 
+            look here:
+            /sites/mc2/content/M2/eng/tc/transferable-concepts-image-22.png
+            and copy to 
+            ROOT_SDCARD . assets/images/eng/tc/transferable-concepts-image-22.png 
+        */
         $old_dir = '/assets/images';
         $new_dir = '/sites/' . SITE_CODE . '/content/' . $p['country_code']; // mc2/content/M2
         $from =  ROOT_EDIT  . str_replace($old_dir, $new_dir, $filename);
@@ -119,6 +118,23 @@ function publishFilesInSDCardPage($filename, $p, $destination)
             $message = "$from -- not found\n$filename -- original file\n\n";
             writeLogAppend('ERRORS-publishFilesInSDCardPage-118', $message);
         }
+    } elseif (strpos($filename, 'sites/') !== false) {
+        /*
+        sites/mc2/content/M2/eng/tc/transferable-concepts-image-11.png 
+        we know this file exists
+        /home/globa544/edit.mc2.online/sites/mc2/content/M2/eng/tc/transferable-concepts-image-11.png 
+        but we do not want to copy it to
+        /home/globa544/sdcard.mc2/sites/mc2/content/M2/eng/tc/transferable-concepts-image-11.png
+        instead copy to 
+        /home/globa544/sdcard.mc2/assets/images/eng/tc/transferable-concepts-image-11.png
+        */
+        $new_dir = '/assets/images';
+        $old_dir = '/sites/' . SITE_CODE . '/content/' . $p['country_code']; // mc2/content/M2
+        $to = $destination . str_replace($old_dir, $new_dir, $filename);
+        createDirectory($to);
+        copy($filename, $to);
+        $message = "$filename \n  $to \n\n";
+        writeLogAppend('publishFilesInSDCardPage-145', $message);
     } else {
         writeLogAppend('ERRORS-publishFilesInSDCardPage-122', "$filename -- original file");
     }
