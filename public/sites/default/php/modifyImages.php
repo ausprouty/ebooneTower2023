@@ -14,19 +14,16 @@ and copy files to prototype or publish directory
 */
 function  modifyImages($text, $p)
 {
-    //writeLog('modifyImages-17-text', $text);
-    //writeLog('modifyImages-18-p', $p);
     $text = modifyContentImages($text, $p);
-    //writeLog('modifyImages-20-text', $text);
     copySiteImages($text, $p);
-    $out = $text;
-    return  $out;
+    return  $text;
 }
 
 function modifyContentImages($text, $p)
 {
     //define("ROOT_EDIT", '/home/globa544/edit.mc2.online/');
     $destination_dir = publishDestination($p);
+    writeLogDebug(' modifyContentImages-30', $text);
     $debug = 'In modifyContentImages' . "\n";
     $debug .= $p['destination'] . "\n";
     $debug .= $text . "\n\n ============ End of Text ==============\n";
@@ -92,6 +89,7 @@ function copySiteImages($text, $p)
                 if (!is_dir($from) && strpos($to, '.html') === false) {
                     copy($from, $to);
                     $message = ' copySiteImages copied ' . $filename . ' from' . $from . ' to ' . $to . "\n";
+                    writeLogAppend('modifyContentImages-96', $message);
                 }
             } else {
                 writeLogAppend('ERROR- copySiteImages', $from);

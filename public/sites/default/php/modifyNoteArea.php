@@ -20,8 +20,8 @@ SEE https://css-tricks.com/auto-growing-inputs-textareas/
 function modifyNoteArea($text,  $bookmark, $p)
 {
     $template = myGetPrototypeFile('note.html', $p['destination']);
-    writeLogDebug('modifyNoteArea-14', $p['destination']);
-    writeLogDebug('modifyNoteArea-15', $template);
+    //writeLogDebug('modifyNoteArea-14', $p['destination']);
+    //writeLogDebug('modifyNoteArea-15', $template);
     if ($p['destination'] == 'nojs') {
         $template = '<div class="note-removed">';
     }

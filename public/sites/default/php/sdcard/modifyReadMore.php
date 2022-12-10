@@ -28,7 +28,5 @@ function modifyReadMore($text, $bookmark)
             $pos_start = $pos_end;
         }
     }
-
-    writeLog('modifyReadMore-21-text', $text);
     return $text;
 }

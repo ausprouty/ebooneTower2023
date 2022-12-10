@@ -61,7 +61,8 @@ function publishFilesInPageFind($find_begin, $text, $p)
                     $to = $destination . $filename;
                     createDirectory($to);
                     copy($from, $to);
-                    $debug .= "copied from $from to  $to\n";
+                    $message =  "$filename copied from $from to  $to\n";
+                    writeLogAppend('publishFilesInPageFind-65', $message);
                 }
             } else { // we do not need to copy html files; they may not have been rendered yet.
                 if (strpos($filename, '.html') == false) {

@@ -29,9 +29,8 @@ function modifyTextForImages($text, $bookmark)
         'src="@/assets/'
     );
     $text = str_replace($bad, $good, $text);
-    writeLogDebug('modifyTextForImages-31', $bookmark);
+    //writeLogDebug('modifyTextForImages-31', $bookmark);
     $language_iso = $bookmark['language']->iso;
-    writeLogDebug('modifyTextForImages-33', $language_iso);
     $bad = array(
         '/@/assets',
         '/' . $language_iso . '/images/',
@@ -90,15 +89,12 @@ function modifyTextForVuePopUp($text)
 
 function modifyTextForVueReadMore($text, $bookmark)
 {
-    //writeLog('modifyReadMore-6-text', $text);
     $debug = '';
     $find = array();
     $find[] = '<a class="readmore"';
     $find[] = '<a class="bible-readmore"';
     $read_more = $bookmark['language']->read_more;
     $read_more_online = $bookmark['language']->read_more_online;
-    //writeLog('modifyReadMore-12-bookmark',  $bookmark);
-    //writeLog('modifyReadMore-13-readmore', $read_more . '|'. $read_more_online);
     $new = '';
     foreach ($find as $find_now) {
         $count = substr_count($text, $find_now);
@@ -116,7 +112,5 @@ function modifyTextForVueReadMore($text, $bookmark)
             $pos_start = $pos_end;
         }
     }
-
-    writeLog('modifyReadMore-21-text', $text);
     return $text;
 }
