@@ -101,22 +101,26 @@ function publishFilesInSDCardPage($filename, $p, $destination)
             if this file is not found:
             /assets/images/eng/tc/transferable-concepts-image-22.png 
             look here:
-            /sites/mc2/content/M2/eng/images/tc/transferable-concepts-image-22.png
+            /sites/mc2/content/M2/eng/tc/transferable-concepts-image-22.png (images stored in series folders)
             and copy to 
             ROOT_SDCARD . assets/images/eng/tc/transferable-concepts-image-22.png 
         */
         $old_dir = '/assets/images/' . $p['language_iso'];
-        $new_dir = 'sites/' . SITE_CODE . '/content/' . $p['country_code'] . '/' . $p['language_iso']; // mc2/content/M2/eng
+        $new_dir = 'sites/' . SITE_CODE . '/content/' . $p['country_code'] . '/' . $p['language_iso']; // mc2/content/M2/eng/images
         $from =  ROOT_EDIT  . str_replace($old_dir, $new_dir, $filename);
         if (file_exists($from)) {
             $to = $destination . substr($filename, 1); // getting rid of intital '/'
             createDirectory($to);
             copy($from, $to);
             $message = "$from \n  $to \n\n";
-            writeLogAppend('publishFilesInSDCardPage-115', $message);
+            writeLogAppend('publishFilesInSDCardPage-116', $message);
         } else {
+            /*  This area is for files in standard and custom directory
+            "/home/globa544/edit.mc2.online/sites/mc2/content/M2/eng/standard/TransferableConcepts.png -- not found  ($from)
+            /assets/images/eng/standard/TransferableConcepts.png -- original file ($filename)
+            */
             $message = "$from -- not found\n$filename -- original file\n\n";
-            writeLogAppend('ERRORS-publishFilesInSDCardPage-118', $message);
+            writeLogAppend('ERRORS-publishFilesInSDCardPage-119', $message);
         }
     } elseif (strpos($filename, 'sites/') !== false) {
         /*
@@ -146,9 +150,9 @@ function publishFilesInSDCardPage($filename, $p, $destination)
         }
         if (!file_exists($from)) {
             $message = "$filename -- original file\n$from -- not found";
-            writeLogAppend('ERRORS-publishFilesInSDCardPage-148', $message);
+            writeLogAppend('ERRORS-publishFilesInSDCardPage-149', $message);
         }
     } else {
-        writeLogAppend('ERRORS-publishFilesInSDCardPage-146', "$filename -- original file");
+        writeLogAppend('ERRORS-publishFilesInSDCardPage-152', "$filename -- original file");
     }
 }
