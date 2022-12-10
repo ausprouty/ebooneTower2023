@@ -101,12 +101,12 @@ function publishFilesInSDCardPage($filename, $p, $destination)
             if this file is not found:
             /assets/images/eng/tc/transferable-concepts-image-22.png 
             look here:
-            /sites/mc2/content/M2/eng/tc/transferable-concepts-image-22.png
+            /sites/mc2/content/M2/eng/images/tc/transferable-concepts-image-22.png
             and copy to 
             ROOT_SDCARD . assets/images/eng/tc/transferable-concepts-image-22.png 
         */
-        $old_dir = '/assets/images';
-        $new_dir = '/sites/' . SITE_CODE . '/content/' . $p['country_code']; // mc2/content/M2
+        $old_dir = '/assets/images/' . $p['language_iso'];
+        $new_dir = 'sites/' . SITE_CODE . '/content/' . $p['country_code'] . '/' . $p['language_iso']; // mc2/content/M2/eng
         $from =  ROOT_EDIT  . str_replace($old_dir, $new_dir, $filename);
         if (file_exists($from)) {
             $to = $destination . substr($filename, 1); // getting rid of intital '/'
@@ -121,7 +121,7 @@ function publishFilesInSDCardPage($filename, $p, $destination)
     } elseif (strpos($filename, 'sites/') !== false) {
         /*
         sites/mc2/content/M2/eng/tc/transferable-concepts-image-11.png 
-        we know this file exists
+        we know a file exists but it may be missing 'images' after 'eng'
         /home/globa544/edit.mc2.online/sites/mc2/content/M2/eng/tc/transferable-concepts-image-11.png 
         but we do not want to copy it to
         /home/globa544/sdcard.mc2/sites/mc2/content/M2/eng/tc/transferable-concepts-image-11.png
@@ -133,10 +133,22 @@ function publishFilesInSDCardPage($filename, $p, $destination)
         writeLogAppend('publishFilesInSDCardPage-133', "$filename\n$old_dir\n\n");
         $to = $destination . str_replace($old_dir, $new_dir, $filename);
         createDirectory($to);
-        copy($filename, $to);
-        $message = "$filename \n  $to \n\n";
-        writeLogAppend('publishFilesInSDCardPage-145', $message);
+        $from =  ROOT_EDIT  . $filename;
+        $necessary = '/' . $p['language_iso'] . '/images/';
+        if (strpos($from, $necessary === FALSE)) {
+            $old = '/' . $p['language_iso'] . '/';
+            $from = str_replace($old, $necessary, $from);
+        }
+        if (file_exists($from)) {
+            copy($from, $to);
+            $message = "$filename \n  $to \n\n";
+            writeLogAppend('publishFilesInSDCardPage-145', $message);
+        }
+        if (!file_exists($from)) {
+            $message = "$filename -- original file\n$from -- not found";
+            writeLogAppend('ERRORS-publishFilesInSDCardPage-148', $message);
+        }
     } else {
-        writeLogAppend('ERRORS-publishFilesInSDCardPage-122', "$filename -- original file");
+        writeLogAppend('ERRORS-publishFilesInSDCardPage-146', "$filename -- original file");
     }
 }
