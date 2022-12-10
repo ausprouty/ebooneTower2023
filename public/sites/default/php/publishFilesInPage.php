@@ -52,6 +52,7 @@ function publishFilesInPageFind($find_begin, $text, $p)
             $from = str_replace('//', '/', $from);
             $debug .= "from is $from\n";
             if (file_exists($from)) {
+                // creating list of files to include in download for pwa
                 $bad = 'sites/' . SITE_CODE . '/content/';
                 $clean_filename = str_replace($bad, 'content/', $filename);
                 $files_in_page[] = '/' . $clean_filename;
@@ -95,7 +96,7 @@ look here:
 
 and copy to 
 
-ROOT_SDCARD . /assets/images/eng/tc/transferable-concepts-image-22.png 
+ROOT_SDCARD . assets/images/eng/tc/transferable-concepts-image-22.png 
 
 
 */
@@ -103,16 +104,21 @@ ROOT_SDCARD . /assets/images/eng/tc/transferable-concepts-image-22.png
 function publishFilesInSDCardPage($filename, $p, $destination)
 {
     writeLogDebug('publishFilesInSDCardPage-101', $p);
-    if (strpos($filename, '/assets/images') != false) {
+    if (strpos($filename, '/assets/images') !== false) {
         $old_dir = '/assets/images';
-        $new_dir = SITE_CODE . '/content/' . $p['country_code']; // mc2/content/M2
+        $new_dir = '/sites/' . SITE_CODE . '/content/' . $p['country_code']; // mc2/content/M2
         $from =  ROOT_EDIT  . str_replace($old_dir, $new_dir, $filename);
         if (file_exists($from)) {
-            $to = $destination . $filename;
+            $to = $destination . substr($filename, 1); // getting rid of intital '/'
             createDirectory($to);
             copy($from, $to);
+            $message = "$from \n  $to \n\n";
+            writeLogAppend('publishFilesInSDCardPage-115', $message);
+        } else {
+            $message = "$from -- not found\n$filename -- original file\n\n";
+            writeLogAppend('ERRORS-publishFilesInSDCardPage-118', $message);
         }
-        $message = "$from not found";
-        writeLogAppend('ERRORS-publishFilesInSDCardPage-116', $message);
+    } else {
+        writeLogAppend('ERRORS-publishFilesInSDCardPage-122', "$filename -- original file");
     }
 }
