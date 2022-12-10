@@ -5,25 +5,26 @@ input may be  "/home/globa544/apk.mc2/cmn.m1/folder/sites/mc2/images/icons/favic
 */
 myRequireOnce('writeLog.php');
 
-function createDirectory($dir){
-    if (strpos($dir, './') !== FALSE){
-       writeLogAppend('ERROR-createDirectory', $dir);
-       return;
+function createDirectory($dir)
+{
+    if (strpos($dir, './') !== FALSE) {
+        writeLogAppend('ERROR-createDirectory', $dir);
+        return;
     }
     $out = null;
     $parts = explode('/', $dir);
     $length = count($parts);
     $count = 0;
     $path = null;
-    foreach ($parts as $part){
+    foreach ($parts as $part) {
         $count++;
-        if ($count < $length){
-            $path .= $part .'/';
+        if ($count < $length) {
+            $path .= $part . '/';
+        } elseif ($count == $length && strpos($part, '.') === FALSE) {
+            $path .= $part . '/';
         }
-        elseif ($count == $length && strpos($part, '.' ) === FALSE){
-             $path .= $part .'/';
-        }
-        if (!file_exists($path)){
+        $path = str_replace('//', '/', $path);
+        if (!file_exists($path)) {
             writeLogAppend('createDirectory-27', $path);
             mkdir($path);
         }

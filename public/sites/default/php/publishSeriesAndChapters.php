@@ -86,6 +86,9 @@ function publishSeriesAndChapters($p)
 
 function publishSeriesAndChaptersMakeJsonIndex($files_json, $files_in_pages, $p)
 {
+    if ($p['destination'] == 'sdcard') {
+        return;
+    }
     //
     // Create files.json with list of files to download of offline use.
     //list of html files is created in createSeries near line 125
