@@ -129,7 +129,8 @@ function publishFilesInSDCardPage($filename, $p, $destination)
         /home/globa544/sdcard.mc2/assets/images/eng/tc/transferable-concepts-image-11.png
         */
         $new_dir = '/assets/images';
-        $old_dir = '/sites/' . SITE_CODE . '/content/' . $p['country_code']; // mc2/content/M2
+        $old_dir = 'sites/' . SITE_CODE . '/content/' . $p['country_code']; // mc2/content/M2
+        writeLogAppend('publishFilesInSDCardPage-133', "$filename\n$old_dir\n\n");
         $to = $destination . str_replace($old_dir, $new_dir, $filename);
         createDirectory($to);
         copy($filename, $to);
