@@ -23,7 +23,6 @@ function publishSeriesAndChapters($p)
     $files_in_pages = [];
     // find the list of chapters that are ready to publish
     $series = contentArrayFromRecnum($p['recnum']);
-    $series_dir = dirCreate('series', $p['destination'],  $p, $folders = null); // make sure folder exists
     $text = json_decode($series['text']);
     $chapters = $text->chapters;
     foreach ($chapters as $chapter) {
@@ -57,6 +56,7 @@ function publishSeriesAndChapters($p)
                 }
             } else {
                 // find file and add to database
+                $series_dir = dirCreate('series', $p['destination'],  $p, $folders = null); // make sure folder exists
                 $file =   $series_dir .  $chapter->filename . '.html';
                 if (file_exists($file)) {
                     $p['text'] = file_get_contents($file);

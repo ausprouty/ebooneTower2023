@@ -107,20 +107,33 @@ function publishFilesInSDCardPage($filename, $p, $destination)
         */
         $old_dir = '/assets/images/' . $p['language_iso'];
         $new_dir = 'sites/' . SITE_CODE . '/content/' . $p['country_code'] . '/' . $p['language_iso']; // mc2/content/M2/eng/images
+        $to = $destination . substr($filename, 1); // getting rid of intital '/'
         $from =  ROOT_EDIT  . str_replace($old_dir, $new_dir, $filename);
         if (file_exists($from)) {
-            $to = $destination . substr($filename, 1); // getting rid of intital '/'
             createDirectory($to);
             copy($from, $to);
             $message = "$from \n  $to \n\n";
-            writeLogAppend('publishFilesInSDCardPage-116', $message);
+            //  writeLogAppend('publishFilesInSDCardPage-116', $message);
         } else {
             /*  This area is for files in standard and custom directory
-            "/home/globa544/edit.mc2.online/sites/mc2/content/M2/eng/standard/TransferableConcepts.png -- not found  ($from)
-            /assets/images/eng/standard/TransferableConcepts.png -- original file ($filename)
+                "/home/globa544/edit.mc2.online/sites/mc2/content/M2/eng/standard/TransferableConcepts.png -- not found  ($from)
+                "/home/globa544/edit.mc2.online/sites/mc2/content/M2/eng/images/standard/TransferableConcepts.png -- desired
+                /assets/images/eng/standard/TransferableConcepts.png -- original file ($filename)
             */
-            $message = "$from -- not found\n$filename -- original file\n\n";
-            writeLogAppend('ERRORS-publishFilesInSDCardPage-119', $message);
+            if (strpos($from, '/standard/') !== FALSE) {
+                $from = str_replace('/standard/', '/images/standard/', $from);
+            }
+            if (strpos($from, '/custom/') !== FALSE) {
+                $from = str_replace('/custom/', '/images/custom/', $from);
+            }
+            if (file_exists($from)) {
+                createDirectory($to);
+                copy($from, $to);
+            }
+            if (!file_exists($from)) {
+                $message = "$from -- not found\n$filename -- original file\n\n";
+                writeLogAppend('ERRORS-publishFilesInSDCardPage-135', $message);
+            }
         }
     } elseif (strpos($filename, 'sites/') !== false) {
         /*
@@ -134,7 +147,7 @@ function publishFilesInSDCardPage($filename, $p, $destination)
         */
         $new_dir = '/assets/images';
         $old_dir = 'sites/' . SITE_CODE . '/content/' . $p['country_code']; // mc2/content/M2
-        writeLogAppend('publishFilesInSDCardPage-133', "$filename\n$old_dir\n\n");
+        //writeLogAppend('publishFilesInSDCardPage-133', "$filename\n$old_dir\n\n");
         $to = $destination . str_replace($old_dir, $new_dir, $filename);
         createDirectory($to);
         $from =  ROOT_EDIT  . $filename;
@@ -146,7 +159,7 @@ function publishFilesInSDCardPage($filename, $p, $destination)
         if (file_exists($from)) {
             copy($from, $to);
             $message = "$filename \n  $to \n\n";
-            writeLogAppend('publishFilesInSDCardPage-145', $message);
+            // writeLogAppend('publishFilesInSDCardPage-145', $message);
         }
         if (!file_exists($from)) {
             $message = "$filename -- original file\n$from -- not found";

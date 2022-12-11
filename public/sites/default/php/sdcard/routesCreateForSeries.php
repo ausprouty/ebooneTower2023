@@ -5,8 +5,6 @@ myRequireOnce('fileWrite.php');
 function routesCreateForSeries($data, $p)
 {
     $series = json_decode($data['text']);
-    writeLogDebug('PublishRoutes-6', $data);
-    writeLogDebug('PublishRoutes-7', $series);
     $template = '
     {
         path: "[path]",
@@ -36,7 +34,6 @@ function routesCreateForSeries($data, $p)
     $item = str_replace($old, $new, $template);
     $text .= $item . "\n";
     foreach ($series->chapters as $chapter) {
-        writeLogDebug('PublishRoutes-26', $chapter);
         $path =     '/' . $data['country_code'] . '/' . $data['language_iso']  . '/' . $data['folder_name'] . '/' . $chapter->filename;
         $name = $data['language_iso'] . '-' . $chapter->filename;
         $vue =  $data['country_code'] . '/' . $data['language_iso']  . '/' . $data['folder_name'] . '/' . ucfirst($data['language_iso']) . ucfirst($chapter->filename);

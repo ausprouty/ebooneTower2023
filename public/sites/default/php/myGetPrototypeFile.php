@@ -10,7 +10,7 @@ function myGetPrototypeFile($filename, $subdirectory = null, $language_iso = nul
         'subdirectory' => $subdirectory,
         'language_iso' => $language_iso
     );
-    writeLogAppend('myGetPrototypeFile-12', $message);
+    // writeLogAppend('myGetPrototypeFile-12', $message);
     $filename = _cleanMyGetPrototypeFile($filename);
     if ($language_iso) {
         $language_iso = _cleanMyGetPrototypeSubdirectory($language_iso);
