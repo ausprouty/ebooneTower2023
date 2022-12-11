@@ -20,12 +20,12 @@ export default {
         path: goto,
       })
     },
-    pageGoBack(){
+    pageGoBack(returnto){
       if (localStorage.getItem("returnpage")) {
         returnto = localStorage.getItem("returnpage");
-        localStorage.removeItem("returnpage");
-        vuePush(returnto)
+        localStorage.removeItem("returnpage")
       }
+      vuePush(returnto)
     },
     popUp(verse){
       usePopUp(verse)
@@ -49,6 +49,6 @@ export default {
 }
 </script>
 <template>
-  <div>[html]</div>
+  [html]
   <Footer/>
 </template>

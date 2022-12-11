@@ -11,8 +11,9 @@ export default {
 </script>
 <template>
   <!-- sdcard template from mc2 -->
-  [[nav]]
+
 <div class="page_content" dir="{{ language.rldir }}">
+  [[nav]]
   <div  class="app-series-header">
     <img src="{{ book.image }}" class="app-series-header" />
   </div>

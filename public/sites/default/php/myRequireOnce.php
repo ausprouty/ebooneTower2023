@@ -1,7 +1,7 @@
 <?php
 function myRequireOnce($filename, $subdirectory = null)
 {
-    //_appendMyRequireOnce('myRequireOnce', "\n\n$subdirectory/$filename\n");
+    _appendMyRequireOnce('myRequireOnce', "\n\n$subdirectory/$filename\n");
     $new_name = null;
     $filename = _cleanMyRequireOnceFile($filename);
     if ($subdirectory) {
@@ -12,11 +12,11 @@ function myRequireOnce($filename, $subdirectory = null)
         $new_name = myRequireOnceDirectories($filename);
     }
     if ($new_name) {
-        //_appendMyRequireOnce('myRequireOnce', "$new_name\n");
+        _appendMyRequireOnce('myRequireOnce', "$new_name\n");
         require_once($new_name);
     } else {
-        //_appendMyRequireOnce('ERROR-myRequireOnce', "\n\n$subdirectory/$filename\n");
-        //_appendMyRequireOnce('ERROR-myRequireOnce', "NOT FOUND\n");
+        _appendMyRequireOnce('ERROR-myRequireOnce', "\n\n$subdirectory/$filename\n");
+        _appendMyRequireOnce('ERROR-myRequireOnce', "NOT FOUND\n");
     }
     return;
 }
@@ -26,10 +26,10 @@ function myRequireOnceDirectories($filename)
     $new_name = null;
     if (file_exists(UNIQUE_API_FILE_DIRECTORY . $filename)) {
         $new_name = UNIQUE_API_FILE_DIRECTORY . $filename;
-        //_appendMyRequireOnce('myRequireOnce', "$new_name\n");
+        _appendMyRequireOnce('myRequireOnce', "$new_name\n");
     } else if (file_exists(STANDARD_API_FILE_DIRECTORY . $filename)) {
         $new_name = STANDARD_API_FILE_DIRECTORY . $filename;
-        //_appendMyRequireOnce('myRequireOnce', "$new_name\n");
+        _appendMyRequireOnce('myRequireOnce', "$new_name\n");
     }
     if (isset($_SESSION['user'])) {
         if (file_exists(TESTING_API_FILE_DIRECTORY . $filename) && $_SESSION['user'] ==  DEVELOPER) {

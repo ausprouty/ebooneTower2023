@@ -16,6 +16,7 @@ function createPage($p, $content)
         $b = $p;
     }
     $bookmark  = bookmark($b);
+    writeLogDebug('createPage-19', $bookmark);
 
     $p['selected_css'] = isset($bookmark['book']->style) ? $bookmark['book']->style : STANDARD_CSS;
     if (!isset($bookmark['book']->format)) {
@@ -23,27 +24,17 @@ function createPage($p, $content)
         $debug .= json_encode($out, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         writeLogError('createPage-20', $debug);
     }
-
     if ($bookmark['book']->format == 'series') {
         $this_template = myGetPrototypeFile('pageInSeries.html', $p['destination']);
         // insert nav bar and set ribbon value and link value
         $nav = myGetPrototypeFile('navRibbon.html', $p['destination']);
         $this_template = str_replace('[[nav]]', $nav, $this_template);
         $ribbon = isset($bookmark['library']->format->back_button) ? $bookmark['library']->format->back_button->image : DEFAULT_BACK_RIBBON;
-
-        // this is always going back to the index; and we don't want that with Transferable Concepts
-        // TODO: allow going back to previous study
-
-        // if($p['destination'] !== 'nojs'){
-        //  writeLogError('createPage-38-bookmark'. random_int(0,99999), $bookmark);
-        //     $navlink =   $bookmark['language']->folder . '/'. $content['folder_name'].'/index.html';
-        //}
-        // else{
         $navlink = 'index.html';
-    }
-    //}
-
-    //writeLog('createPage-72-debug', $debug);
+        if($p['destination'] == 'sdcard'){
+         $navlink =   $bookmark['language']->iso . '-'. $bookmark['series']->code .'-index';
+        }
+    }   
     // values for page that is not part of a series
     if ($bookmark['book']->format == 'page') {
         $this_template = myGetPrototypeFile('page.html', $p['destination']);
@@ -54,14 +45,14 @@ function createPage($p, $content)
         // this will work if there is no special library index.
         $index = 'index.html';
         if ($p['library_code'] != 'library') {
+            
             $index = $p['library_code'] . '.html';
         }
-        //if ($p['destination'] !== 'nojs'){
-        //     $navlink =  '/content/'. $bookmark['language']->folder .  '/'.$index;
-        // }
-        // else{
         $navlink = '../' . $index;
-        //}
+        if ($p['destination'] == 'sdcard'){
+             $navlink =   $bookmark['language']->iso .  '-'  $p['library_code'] . '-index';
+         }
+        
         $page_text_value = $content['text'];
     }
     //writeLog('createPage-103-debug', $debug);

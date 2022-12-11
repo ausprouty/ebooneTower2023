@@ -1,4 +1,5 @@
 <?php
+
 function publishFilesInSDCardPage($filename, $p, $destination)
 {
     writeLogDebug('publishFilesInSDCardPage-101', $p);
@@ -62,23 +63,23 @@ function publishFilesInSDCardPage($filename, $p, $destination)
         $old_dir = 'sites/' . SITE_CODE . '/content/' . $p['country_code']; // mc2/content/M2
         //writeLogAppend('publishFilesInSDCardPage-133', "$filename\n$old_dir\n\n");
         $to = $destination . str_replace($old_dir, $new_dir, $filename);
-        createDirectory($to);
+        writeLogAppend('WARNING- publishFilesInSDCardPage-66', $to);
         $from =  ROOT_EDIT  . $filename;
         $necessary = '/' . $p['language_iso'] . '/images/';
-        if (strpos($from, $necessary === FALSE)) {
+        if (strpos(chr($from), $necessary === FALSE)) {
             $old = '/' . $p['language_iso'] . '/';
             $from = str_replace($old, $necessary, $from);
         }
         if (file_exists($from)) {
             copy($from, $to);
             $message = "$filename \n  $to \n\n";
-            // writeLogAppend('publishFilesInSDCardPage-145', $message);
+            writeLogAppend('publishFilesInSDCardPage-76', $message);
         }
         if (!file_exists($from)) {
             $message = "$filename -- original file\n$from -- not found";
-            writeLogAppend('ERRORS-publishFilesInSDCardPage-149', $message);
+            writeLogAppend('ERRORS-publishFilesInSDCardPage-80', $message);
         }
     } else {
-        writeLogAppend('ERRORS-publishFilesInSDCardPage-152', "$filename -- original file");
+        writeLogAppend('ERRORS-publishFilesInSDCardPage-82', "$filename -- original file");
     }
 }
