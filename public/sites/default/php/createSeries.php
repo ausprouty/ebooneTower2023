@@ -8,12 +8,6 @@ myRequireOnce('createSeriesNavlink.php');
 
 function createSeries($p, $data)
 {
-
-    //
-    //
-    writeLogDebug('You returned early', 'createSeries');
-    return;
-    //
     $text = json_decode($data['text']);
     // get language footer in prototypeOEpublish.php
     $footer = publishLanguageFooter($p); // returns $footer
@@ -66,9 +60,6 @@ function createSeries($p, $data)
     $description = isset($text->description) ? $text->description : NULL;
     $ribbon = isset($bookmark['library']->format->back_button) ? $bookmark['library']->format->back_button->image : DEFAULT_BACK_RIBBON;
     $language_dir = '/content/' . $data['country_code'] . '/' . $data['language_iso'] . '/' . $data['folder_name'] . '/';
-    $json_series_dir = dirCreate('json_series', $p['destination'],  $p, $folders = null);
-    $json = $json_series_dir . 'files.json';
-
     $p['files_json'] = '[{"url":"' .  $language_dir . 'files.json"},' . "\n"; // rest to be filled in with chapters
     // dealing with legacy data
     if (isset($bookmark['book']->image->image)) {
@@ -116,7 +107,6 @@ function createSeries($p, $data)
     //
     // replace for each chapter
     //
-
     $chapters_text = '';
     if (isset($text->chapters)) {
         foreach ($text->chapters as $chapter) {
