@@ -8,6 +8,12 @@ myRequireOnce('createSeriesNavlink.php');
 
 function createSeries($p, $data)
 {
+
+    //
+    //
+    writeLogDebug('You returned early', 'createSeries');
+    return;
+    //
     $text = json_decode($data['text']);
     // get language footer in prototypeOEpublish.php
     $footer = publishLanguageFooter($p); // returns $footer
@@ -115,12 +121,12 @@ function createSeries($p, $data)
     if (isset($text->chapters)) {
         foreach ($text->chapters as $chapter) {
             $status = false;
-            if ($p['destination'] == 'website') {
-                $status = $chapter->publish;
-            } else {
+            if ($p['destination'] == 'prototype') {
                 if (isset($chapter->prototype)) {
                     $status = $chapter->prototype;
                 }
+            } else {
+                $status = $chapter->publish;
             }
             //_write_series_log($p, $chapter);
             if ($status  == true) { // we only want to process those with this as true
