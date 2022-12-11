@@ -56,7 +56,7 @@ function publishSeriesAndChapters($p)
                 }
             } else {
                 // find file and add to database
-                $series_dir = dirCreate('series', $p['destination'],  $p, $folders = null); // make sure folder exists
+                $series_dir = dirCreate('series', $p['destination'],  $p, $folders = null, $create = false);
                 $file =   $series_dir .  $chapter->filename . '.html';
                 if (file_exists($file)) {
                     $p['text'] = file_get_contents($file);
@@ -78,9 +78,6 @@ function publishSeriesAndChapters($p)
     if ($p['destination'] == 'website' || $p['destination'] == 'staging') {
         publishSeriesAndChaptersMakeJsonIndex($files_json, $files_in_pages, $p);
     }
-
-
-
     return true;
 }
 
@@ -110,6 +107,6 @@ function publishSeriesAndChaptersMakeJsonIndex($files_json, $files_in_pages, $p)
     $json_series_dir = dirCreate('json_series', $p['destination'],  $p, $folders = null);
     //writeLogDebug('publishSeriesAndChapters-94', $p);
     $filename =  $json_series_dir . 'files.json';
-    //writeLogDebug('publishSeriesAndChapters-96', $filename);
+    writeLogDebug('publishSeriesAndChapters-96', $filename);
     fileWrite($filename, $files_json, $p);
 }

@@ -10,7 +10,6 @@ myRequireOnce('publishFiles.php');
 function publishSeries($p)
 {
     // when coming in with only book information the folder_name is not yet set
-
     if (!isset($p['folder_name'])) {
         if (isset($p['code'])) {
             $p['folder_name'] = $p['code'];
@@ -57,11 +56,13 @@ function publishSeries($p)
             }
             $bookmark  = bookmark($b);
             $selected_css = isset($bookmark['book']->style) ? $bookmark['book']->style : STANDARD_CSS;
-            $dir = dirCreate('series', $p['destination'],  $p, $folders = null);
+
             if ($p['destination'] != 'sdcard') {
+                $dir = dirCreate('series', $p['destination'],  $p, $folders = null, $create = true);
                 $fname = $dir . 'index.html';
             }
             if ($p['destination'] == 'sdcard') {
+                $dir = dirCreate('series', $p['destination'],  $p, $folders = null, $create = false);
                 $fname = $dir . ucfirst($p['language_iso']) . ucfirst($p['folder_name']) . 'Index.vue';
                 $fname = str_replace('sdcard.mc2/M2/', 'sdcard.mc2/views/M2/', $fname);
                 myRequireOnce('modifyTextForVue.php', 'sdcard');
@@ -70,7 +71,6 @@ function publishSeries($p)
                 myRequireOnce('routesCreateForSeries.php', 'sdcard');
                 routesCreateForSeries($data, $p);
             }
-
 
             $result['text'] .= '<!--- Created by publishSeries-->' . "\n";
             publishFiles($p['destination'], $p, $fname, $result['text'],  STANDARD_CSS, $selected_css);
