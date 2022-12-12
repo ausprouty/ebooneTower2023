@@ -31,10 +31,10 @@ function createPage($p, $content)
         $this_template = str_replace('[[nav]]', $nav, $this_template);
         $ribbon = isset($bookmark['library']->format->back_button) ? $bookmark['library']->format->back_button->image : DEFAULT_BACK_RIBBON;
         $navlink = 'index.html';
-        if($p['destination'] == 'sdcard'){
-         $navlink =   $bookmark['language']->iso . '-'. $bookmark['series']->code .'-index';
+        if ($p['destination'] == 'sdcard') {
+            $navlink =   $bookmark['language']->iso . '-' . $bookmark['series']->code . '-index';
         }
-    }   
+    }
     // values for page that is not part of a series
     if ($bookmark['book']->format == 'page') {
         $this_template = myGetPrototypeFile('page.html', $p['destination']);
@@ -45,14 +45,14 @@ function createPage($p, $content)
         // this will work if there is no special library index.
         $index = 'index.html';
         if ($p['library_code'] != 'library') {
-            
+
             $index = $p['library_code'] . '.html';
         }
         $navlink = '../' . $index;
-        if ($p['destination'] == 'sdcard'){
-             $navlink =   $bookmark['language']->iso .  '-'  $p['library_code'] . '-index';
-         }
-        
+        if ($p['destination'] == 'sdcard') {
+            $navlink =   $bookmark['language']->iso .  '-' . $p['library_code'] . '-index';
+        }
+
         $page_text_value = $content['text'];
     }
     //writeLog('createPage-103-debug', $debug);

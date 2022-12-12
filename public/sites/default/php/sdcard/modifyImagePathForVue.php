@@ -20,26 +20,36 @@ function modifyImagePathForVue($text, $p)
 {
     $find = '<img';
     $count = substr_count($text, $find);
+    if ($count == 0) {
+        return $text;
+    }
     $pos_start = 0;
     for ($i = 0; $i < $count; $i++) {
         $pos_image_start = strpos($text, $find, $pos_start);
         $pos_image_end = strpos($text, '>', $pos_image_start);
-        $image_length = $pos_image_end - $pos_image_start;
-        $img_link = substr($text, $pos_image_start, $image_length);
-        $pos_src_start = strpos($img_link, 'src="') + 5;
-        $pos_src_end = strpos($img_link, '"',  $pos_src_start);
-        $src_length =  $pos_src_end - $pos_src_start;
-        $src = substr($img_link, $pos_src_start, $src_length);
-        if (strpos($src, '@/assets/images') === false) {
-            if (strpos($src, '@/assets/') !== false) {
-                $new = str_replace('@/assets/', '@/assets/images/', $src);
-                $text = str_replace($src, $new, $text);
-                $pos_image_end = $pos_image_end + 8;
-            } else {
-                writeLogAppend('ERROR--modifyImagePathForVue-38', $src);
+        if ($pos_image_start !== false) {
+            $image_length = $pos_image_end - $pos_image_start;
+            $img_link = substr($text, $pos_image_start, $image_length);
+            $pos_src_start = strpos($img_link, 'src="') + 5;
+            $pos_src_end = strpos($img_link, '"',  $pos_src_start);
+            $src_length =  $pos_src_end - $pos_src_start;
+            $src = substr($img_link, $pos_src_start, $src_length);
+            if (strpos($src, '@/assets/images') === false) {
+                if (strpos($src, '@/assets/') !== false) {
+                    $new = str_replace('@/assets/', '@/assets/images/', $src);
+                    $text = str_replace($src, $new, $text);
+                }
+                //  /sites/mc2/images/ribbons/back-ribbon-mc2.png
+                elseif (strpos($src, '/sites/') !== false) {
+                    $old = '/sites/' . SITE_CODE;
+                    $new = str_replace($old, '@/assets', $src);
+                    $text = str_replace($src, $new, $text);
+                } else {
+                    writeLogAppend('ERROR--modifyImagePathForVue-48', $src);
+                }
             }
         }
-        $pos_start = $pos_image_end;
+        $pos_start = $pos_image_end + 8;
     }
     return $text;
 }

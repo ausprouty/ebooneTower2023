@@ -2,7 +2,7 @@
 
 function publishFilesInSDCardPage($filename, $p, $destination)
 {
-    writeLogDebug('publishFilesInSDCardPage-101', $p);
+    writeLogDebug('publishFilesInSDCardPage-5', $p);
     if (strpos($filename, '/assets/images') !== false) {
         /*
             if this file is not found:
@@ -15,11 +15,14 @@ function publishFilesInSDCardPage($filename, $p, $destination)
         $old_dir = '/assets/images/' . $p['language_iso'];
         $new_dir = 'sites/' . SITE_CODE . '/content/' . $p['country_code'] . '/' . $p['language_iso']; // mc2/content/M2/eng/images
         $to = $destination . substr($filename, 1); // getting rid of intital '/'
+        writeLogDebug('publishFilesInSDCardPage-18', ROOT_EDIT);
         $from =  ROOT_EDIT  . str_replace($old_dir, $new_dir, $filename);
+        $from = str_replace('//', '/', $from);
+        writeLogAppend('publishFilesInSDCardPage-20', $from);
         if (file_exists($from)) {
             createDirectory($to);
             copy($from, $to);
-            $message = "$from \n  $to \n\n";
+            //$message = "$from \n  $to \n\n";
             //  writeLogAppend('publishFilesInSDCardPage-116', $message);
         } else {
 
@@ -39,14 +42,19 @@ function publishFilesInSDCardPage($filename, $p, $destination)
                 $from = str_replace('/standard/', '/images/standard/', $from);
             } elseif (strpos($from, '/custom/') !== FALSE) {
                 $from = str_replace('/custom/', '/images/custom/', $from);
+            } elseif (strpos($from, '/ribbons/') !== FALSE) {
+                ///home/globa544/edit.mc2.online/assets/images/ribbons/back-ribbon-mc2.png
+                $new = '/sites/' . SITE_CODE . '/';
+                $from = str_replace('/assets/', $new, $from);
+                // /home/globa544/edit.mc2.online/sites/mc2/images/ribbons/back-ribbon-mc2.png
             }
             if (file_exists($from)) {
                 createDirectory($to);
                 copy($from, $to);
             }
             if (!file_exists($from)) {
-                $message = "$from -- not found\n$filename -- original file\n\n";
-                writeLogAppend('ERRORS-publishFilesInSDCardPage-135', $message);
+                $message = "$from -- modified not found\n$filename -- original file\n\n";
+                writeLogAppend('ERRORS-publishFilesInSDCardPage-51', $message);
             }
         }
     } elseif (strpos($filename, 'sites/') !== false) {
@@ -63,23 +71,24 @@ function publishFilesInSDCardPage($filename, $p, $destination)
         $old_dir = 'sites/' . SITE_CODE . '/content/' . $p['country_code']; // mc2/content/M2
         //writeLogAppend('publishFilesInSDCardPage-133', "$filename\n$old_dir\n\n");
         $to = $destination . str_replace($old_dir, $new_dir, $filename);
-        writeLogAppend('WARNING- publishFilesInSDCardPage-66', $to);
-        $from =  ROOT_EDIT  . $filename;
+        //writeLogAppend('WARNING- publishFilesInSDCardPage-66', $to);
+        $from = $filename;
         $necessary = '/' . $p['language_iso'] . '/images/';
-        if (strpos(chr($from), $necessary === FALSE)) {
+        if (strpos($from, $necessary === FALSE)) {
             $old = '/' . $p['language_iso'] . '/';
             $from = str_replace($old, $necessary, $from);
         }
+        $from =  ROOT_EDIT  . $from;
         if (file_exists($from)) {
+            $message = "$from \n  $to \n\n";
+            // writeLogAppend('publishFilesInSDCardPage-78', $message);
             copy($from, $to);
-            $message = "$filename \n  $to \n\n";
-            writeLogAppend('publishFilesInSDCardPage-76', $message);
         }
         if (!file_exists($from)) {
             $message = "$filename -- original file\n$from -- not found";
-            writeLogAppend('ERRORS-publishFilesInSDCardPage-80', $message);
+            writeLogAppend('ERRORS-publishFilesInSDCardPage-83', $message);
         }
     } else {
-        writeLogAppend('ERRORS-publishFilesInSDCardPage-82', "$filename -- original file");
+        writeLogAppend('ERRORS-publishFilesInSDCardPage-86', "$filename -- original file");
     }
 }
