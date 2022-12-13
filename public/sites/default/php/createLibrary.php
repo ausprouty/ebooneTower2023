@@ -153,6 +153,14 @@ function createLibrary($p, $text)
                     } else {
                         $book_image =   $country_index .  $bookmark['language']->image_dir . '/' . $book->image;
                     }
+                    if ($p['destination'] == 'sdcard') {
+                        //change content/M2/eng/images/standard
+                        // to    assets/images/eng/standard
+                        $old = 'sites/' . SITE_CODE . '/content/' . $p['country_code'] . '/' . $p['language_iso'] . '/images';
+                        $new = '@/assets/images/' . $p['language_iso'];
+                        $book_image = str_replace($old, $new, $book_image);
+                    }
+                    writeLogAppend('createLibrary-163', $book_image);
                     $replace = array(
                         $this_link,
                         $book_image,

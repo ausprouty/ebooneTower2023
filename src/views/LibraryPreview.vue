@@ -79,6 +79,7 @@ import NavBar from '@/components/NavBarAdmin.vue'
 import LogService from '@/services/LogService.js'
 import PrototypeService from '@/services/PrototypeService.js'
 import PublishService from '@/services/PublishService.js'
+import SDCardService from '@/services/SDCardService.js'
 
 import { mapState } from 'vuex'
 
@@ -102,6 +103,7 @@ export default {
       sdcard: false,
       prototype_text: 'Prototype Library and Books',
       publish_text: 'Publish Library and Books',
+      sdcard_text: 'Publish Library and Books for SDCard',
       prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
       site_directory: process.env.VUE_APP_SITE_DIR,
       back: 'country',
@@ -167,23 +169,33 @@ export default {
       if (location == 'website') {
         this.publish_text = 'Publishing'
         response = await PublishService.publish('libraryAndBooks', params)
-        this.prototype_text = 'Finished Publishing'
+        this.publish_text = 'Finished Publishing'
       }
-      if (response['error']) {
-        this.error = response['message']
-        this.loaded = false
-        if (location == 'website') {
-          this.publish_text = 'Error Publishing'
-        } else if (location == 'prototype') {
-          this.prototype_text = 'Error Prototyping'
-        }
-      } else {
+      if (location == 'sdcard') {
+        this.sdcard_text = 'Publishing SDCard'
+        response = await SDCardService.publish('libraryAndBooks', params)
+        this.sdcard_text = 'Finished Publishing'
+      }
+      if (!response['error']) {
         //  this.UnsetBookmarks()
         this.recnum = null
         this.loaded = false
         this.loading = true
         this.publish = false
         await this.loadView()
+      }
+      if (response['error']) {
+        this.error = response['message']
+        this.loaded = false
+        if (location == 'website') {
+          this.publish_text = 'Error Publishing'
+        }
+        if (location == 'prototype') {
+          this.prototype_text = 'Error Prototyping'
+        }
+        if (location == 'sdcard') {
+          this.sdcard_text = 'Error Publishing for SDCard'
+        }
       }
     },
     async localBookmark(recnum) {
@@ -244,6 +256,7 @@ export default {
           }
           if (this.prototype_date) {
             this.publish = this.mayPublishLibrary()
+            this.sdcard = this.publish
             if (this.publish) {
               if (this.publish_date) {
                 this.publish_text = 'Publish Library and Books Again'
