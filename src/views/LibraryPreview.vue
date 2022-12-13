@@ -101,9 +101,9 @@ export default {
       write: false,
       publish: false,
       sdcard: false,
-      prototype_text: 'Prototype Library and Books',
-      publish_text: 'Publish Library and Books',
-      sdcard_text: 'Publish Library and Books for SDCard',
+      prototype_text: 'Prototype Library',
+      publish_text: 'Publish Library',
+      sdcard_text: 'Publish Library for SDCard',
       prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
       site_directory: process.env.VUE_APP_SITE_DIR,
       back: 'country',
@@ -249,9 +249,9 @@ export default {
           this.prototype = this.mayPrototypeLibrary()
           if (this.prototype) {
             if (!this.prototype_date) {
-              this.prototype_text = 'Prototype Library and Books'
+              this.prototype_text = 'Prototype Library'
             } else {
-              this.prototype_text = 'Prototype Library and Books Again'
+              this.prototype_text = 'Prototype Library Again'
             }
           }
           if (this.prototype_date) {
@@ -259,9 +259,9 @@ export default {
             this.sdcard = this.publish
             if (this.publish) {
               if (this.publish_date) {
-                this.publish_text = 'Publish Library and Books Again'
+                this.publish_text = 'Publish Library Again'
               } else {
-                this.publish_text = 'Publish Library and Books'
+                this.publish_text = 'Publish Library'
               }
             }
           }

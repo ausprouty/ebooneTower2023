@@ -3,11 +3,13 @@ myRequireOnce('bookmark.php');
 myRequireOnce('publishFiles.php');
 myRequireOnce('writeLog.php');
 myRequireOnce('myGetPrototypeFile.php');
-myRequireOnce('createSeriesNavlink.php');
+
 
 
 function createSeries($p, $data)
 {
+    myRequireOnce('createSeriesNavlink.php', $p['destination']);
+
     $text = json_decode($data['text']);
     // get language footer in prototypeOEpublish.php
     $footer = publishLanguageFooter($p); // returns $footer

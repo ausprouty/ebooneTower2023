@@ -6,6 +6,15 @@ export default {
     Footer
   },
   methods:{
+    pageGoBack(returnto){
+      if (localStorage.getItem("returnpage")) {
+        returnto = localStorage.getItem("returnpage");
+        localStorage.removeItem("returnpage")
+      }
+      this.$router.push({
+        name: returnto,
+      })
+    },
     vuePush(id){
       this.$router.push({
         name: id,
