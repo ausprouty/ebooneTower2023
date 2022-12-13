@@ -32,7 +32,7 @@ function createPage($p, $content)
         $ribbon = isset($bookmark['library']->format->back_button) ? $bookmark['library']->format->back_button->image : DEFAULT_BACK_RIBBON;
         $navlink = 'index.html';
         if ($p['destination'] == 'sdcard') {
-            $navlink =   $bookmark['language']->iso . '-' . $bookmark['series']->code . '-index';
+            $navlink =   $bookmark['language']->iso . '-' . $bookmark['book']->code . '-index';
         }
     }
     // values for page that is not part of a series

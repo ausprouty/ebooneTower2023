@@ -25,7 +25,9 @@ export default {
         returnto = localStorage.getItem("returnpage");
         localStorage.removeItem("returnpage")
       }
-      vuePush(returnto)
+      this.$router.push({
+        name: returnto,
+      })
     },
     popUp(verse){
       usePopUp(verse)

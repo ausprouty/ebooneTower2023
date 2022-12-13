@@ -1,30 +1,30 @@
 <?php
-myRequireOnce ('writeLog.php');
-myRequireOnce ('dirCreate.php');
+myRequireOnce('writeLog.php');
+myRequireOnce('dirCreate.php');
 
 
-function createLibrary($p, $text) {
+function createLibrary($p, $text)
+{
 
     myRequireOnce('decidePublishBook.php', $p['destination']);
     myRequireOnce('getLibraryImage.php', $p['destination']);
-    myRequireOnce('getPrototypeFileLibrary.php',$p['destination']);
-     /* Return a container for the books in this library.
+    myRequireOnce('getPrototypeFileLibrary.php', $p['destination']);
+    /* Return a container for the books in this library.
     This will be used to prototype these books by prototypeLibraryandBooks.
 
     */
 
-    $out=[];
-    $out['books'] = [];// used by publishLibraryAndBooks
+    $out = [];
+    $out['books'] = []; // used by publishLibraryAndBooks
     $debug = "createLibrary\n";
     $filename =  $p['library_code'];
-     //
+    //
     // get bookmark
     //
-    if (isset($p['recnum'])){
+    if (isset($p['recnum'])) {
         $b['recnum'] = $p['recnum'];
-        $b['library_code'] =isset($p['library_code'])?$p['library_code']:'library';
-    }
-    else{
+        $b['library_code'] = isset($p['library_code']) ? $p['library_code'] : 'library';
+    } else {
         $b = $p;
     }
     $bookmark  = bookmark($b);
@@ -37,25 +37,24 @@ function createLibrary($p, $text) {
     //  Format Navigation area;
     //
 
-    $no_ribbon = isset($text->format->no_ribbon)? isset($text->format->no_ribbon) :false;
-    if ($no_ribbon){
-        $debug .= 'prototypeLibrary was asked not to set ribbon at top '. "\n";
+    $no_ribbon = isset($text->format->no_ribbon) ? isset($text->format->no_ribbon) : false;
+    if ($no_ribbon) {
+        $debug .= 'prototypeLibrary was asked not to set ribbon at top ' . "\n";
         $nav = '';
         $ribbon = '';
-    }
-    else{
-        $debug .= 'Ribbon In prototypeLibrary '. "\n";
+    } else {
+        $debug .= 'Ribbon In prototypeLibrary ' . "\n";
         $nav = myGetPrototypeFile('navRibbon.html', $p['destination']);
-        $ribbon = isset($text->format->back_button)?$text->format->back_button->image : DEFAULT_BACK_RIBBON ;
+        $ribbon = isset($text->format->back_button) ? $text->format->back_button->image : DEFAULT_BACK_RIBBON;
     }
-    $body = str_replace('[[nav]]',$nav, $body);
+    $body = str_replace('[[nav]]', $nav, $body);
     //
     //  Replace other variables for Library
     //
     $library_image =  getLibraryImage($p, $text);
     $body = str_replace('{{ library.image }}', $library_image, $body);
 
-    $library_text= isset($text->text)? $text->text : null;
+    $library_text = isset($text->text) ? $text->text : null;
     // check to see if image above has text;
     $body = str_replace('{{ library.text }}', $library_text, $body);
 
@@ -82,7 +81,7 @@ function createLibrary($p, $text) {
         $navlink,
         $ribbon,
         $p['version'],
-        $footer ,
+        $footer,
         $bookmark['language']->rldir,
         $p['country_code'],
         $language_iso
@@ -92,9 +91,9 @@ function createLibrary($p, $text) {
     // select appropriate book template
     //
     $temp = 'bookTitled.html';
-    if ($bookmark['language']->titles){
+    if ($bookmark['language']->titles) {
         $temp = 'bookImage.html';
-        $debug .= 'Using template for bookImage '. "\n";
+        $debug .= 'Using template for bookImage ' . "\n";
     }
     $book_template = myGetPrototypeFile('' . $temp, $p['destination']);
     //
@@ -108,17 +107,18 @@ function createLibrary($p, $text) {
         '{{ language.rldir }}'
     );
     // you do not add book cards if this is a custom libary
-    if (isset($text->books) && !$text->format->custom){
-        foreach ($text->books as $book){
-            if (decidePublishBook($p, $book)  == true ){
-                if (!isset($book->hide)){$book->hide = false;}
-                if (!$book->hide){
+    if (isset($text->books) && !$text->format->custom) {
+        foreach ($text->books as $book) {
+            if (decidePublishBook($p, $book)  == true) {
+                if (!isset($book->hide)) {
+                    $book->hide = false;
+                }
+                if (!$book->hide) {
                     // deal with legacy data
                     $code = '';
-                    if (isset($book->code)){
+                    if (isset($book->code)) {
                         $code = $book->code;
-                    }
-                    else if (isset($book->name)){
+                    } else if (isset($book->name)) {
                         $code = $book->name;
                         $book->code = $code;
                     }
@@ -127,21 +127,31 @@ function createLibrary($p, $text) {
                     // deal with any duplicates
                     $out['books'][$code] = $book;
                     // create link for series, library or page
-                    if ($book->format == 'series'){
-                        $this_link =  $code . '/index.html';
+                    if ($p['destination'] !== 'sdcard') {
+                        if ($book->format == 'series') {
+                            $this_link =  $code . '/index.html';
+                        } elseif ($book->format == 'library') {
+                            $this_link =  $code . '.html';
+                        } else {
+                            $this_link = 'pages/' . $code . '.html';
+                        }
                     }
-                    elseif($book->format == 'library'){
-                        $this_link =  $code . '.html';
+                    if ($p['destination'] === 'sdcard') {
+                        if ($book->format == 'series') {
+                            $this_link = $p['language_iso'] . '-' .  $code . '-index';
+                        } elseif ($book->format == 'library') {
+                            $this_link = $p['language_iso'] . '-' .  $code . '-index';
+                        } else {
+                            // todo: fix this next line
+                            $this_link = $p['language_iso'] . '-' .  $code;
+                        }
                     }
-                    else{
-                        $this_link = 'pages/'. $code . '.html';
-                    }
+
                     // dealing with legacy data
-                    if (isset($book->image->image)){
+                    if (isset($book->image->image)) {
                         $book_image =  $book->image->image;
-                    }
-                    else{
-                        $book_image =   $country_index .  $bookmark['language']->image_dir .'/' . $book->image ;
+                    } else {
+                        $book_image =   $country_index .  $bookmark['language']->image_dir . '/' . $book->image;
                     }
                     $replace = array(
                         $this_link,
@@ -155,7 +165,7 @@ function createLibrary($p, $text) {
         }
     }
 
-    $out['body'] = str_replace('[[books]]',$books, $body);
+    $out['body'] = str_replace('[[books]]', $books, $body);
     //writeLog('createLibrary', $debug);
     return $out;
 }

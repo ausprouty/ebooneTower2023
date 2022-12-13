@@ -1,5 +1,10 @@
 <script>
+import Footer from '@/components/FooterGlobal.vue'
+
 export default {
+  components: {
+    Footer
+  },
   methods:{
     vuePush(id){
       this.$router.push({
@@ -26,7 +31,7 @@ export default {
     [[chapters]]
    <!-- end chapters -->
   <div>
-    {{ footer }}
+    <Footer/>>
   </div>
 </div>
 </template>
