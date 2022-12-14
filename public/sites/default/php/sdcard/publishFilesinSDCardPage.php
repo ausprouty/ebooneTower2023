@@ -27,13 +27,19 @@ function publishFilesInSDCardPage($filename, $p, $destination)
         } else {
 
             /*
-                    /assets/images/standard/look-back.png -- not found
+             @/assets/images/standard/Stories-of-the-Prophets.png        
+            /assets/images/standard/look-back.png -- not found
                     /sites/mc2/images/standard/look-back.png -- desired file
                 */
             if (strpos($from, '/assets/images/standard/') !== FALSE) {
                 $new_dir = '/sites/' . SITE_CODE . '/';
                 $from = str_replace('/assets/', $new_dir, $from);
+                $from = str_replace('@/', '', $from);
             }
+            /*
+             
+            */
+
             /*  This area is for files in standard and custom directory
                 "/home/globa544/edit.mc2.online/sites/mc2/content/M2/eng/standard/TransferableConcepts.png -- not found  ($from)
                 "/home/globa544/edit.mc2.online/sites/mc2/content/M2/eng/images/standard/TransferableConcepts.png -- desired
@@ -47,17 +53,32 @@ function publishFilesInSDCardPage($filename, $p, $destination)
                 $new = '/sites/' . SITE_CODE . '/';
                 $from = str_replace('/assets/', $new, $from);
                 // /home/globa544/edit.mc2.online/sites/mc2/images/ribbons/back-ribbon-mc2.png
+                // @/assets/images/standard/Stories-of-Hope.png
             }
             if (file_exists($from)) {
                 createDirectory($to);
                 copy($from, $to);
             }
             if (!file_exists($from)) {
-                $message = "$from -- modified not found\n$filename -- original file\n\n";
-                writeLogAppend('ERRORS-publishFilesInSDCardPage-51', $message);
+                /* check country directory
+                @/assets/images/standard/Stories-of-Hope.png to 
+                 /sites/mc2/content/M2/images/standard/Stories-of-Hope.png
+                */
+                $old = 'sites/' . SITE_CODE;
+                $new = $old . '/content/' . $p['country_code'];
+                $from = str_ireplace($old, $new, $from);
+                if (file_exists($from)) {
+                    createDirectory($to);
+                    copy($from, $to);
+                } else {
+                    $message = "$from -- modified not found\n$filename -- original file\n\n";
+                    writeLogAppend('ERRORS-publishFilesInSDCardPage-72', $message);
+                }
             }
         }
-    } elseif (strpos($filename, 'sites/') !== false) {
+        return;
+    }
+    if (strpos($filename, 'sites/') !== false) {
         /*
         sites/mc2/content/M2/eng/tc/transferable-concepts-image-11.png 
         we know a file exists but it may be missing 'images' after 'eng'

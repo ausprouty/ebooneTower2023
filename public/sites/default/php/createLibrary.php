@@ -57,10 +57,7 @@ function createLibrary($p, $text)
     $library_text = isset($text->text) ? $text->text : null;
     // check to see if image above has text;
     $body = str_replace('{{ library.text }}', $library_text, $body);
-
-    $country_index =  dirCreate('country', $p['destination'], $p);
     $root_index = '/content/index.html';
-
     $navlink = '../index.html';
 
 
@@ -151,13 +148,22 @@ function createLibrary($p, $text)
                     if (isset($book->image->image)) {
                         $book_image =  $book->image->image;
                     } else {
+                        $country_index =  dirCreate('country', $p['destination'], $p);
                         $book_image =   $country_index .  $bookmark['language']->image_dir . '/' . $book->image;
                     }
                     if ($p['destination'] == 'sdcard') {
-                        //change content/M2/eng/images/standard
-                        // to    assets/images/eng/standard
+                        /* change 
+                          /sites/mc2/content/M2/eng/images
+                          /sites/mc2/content/M2/images/
+                           to    
+                           @/assets/images/eng
+                           @/assets/images/
+                        */
                         $old = 'sites/' . SITE_CODE . '/content/' . $p['country_code'] . '/' . $p['language_iso'] . '/images';
                         $new = '@/assets/images/' . $p['language_iso'];
+                        $book_image = str_replace($old, $new, $book_image);
+                        $old = 'sites/' . SITE_CODE . '/content/' . $p['country_code'] . '/images';
+                        $new = '@/assets/images/';
                         $book_image = str_replace($old, $new, $book_image);
                     }
                     writeLogAppend('createLibrary-163', $book_image);

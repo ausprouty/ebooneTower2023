@@ -37,7 +37,7 @@ function publishLibrary($p)
     // write file
     // if filename == 'library', switch to 'index' because it means there is no
     // LibraryIndex file
-    //\   
+    //   
     if ($filename == 'library') {
         $filename = 'index';
     }
