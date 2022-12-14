@@ -208,7 +208,8 @@ export default {
             '/preview/library/' +
             this.$route.params.country_code +
             '/' +
-            this.$route.params.language_iso
+            this.$route.params.language_iso +
+            '/library'
         }
         if (typeof this.bookmark.library.format.image !== 'undefined') {
           this.back_image = this.bookmark.library.format.image.image
