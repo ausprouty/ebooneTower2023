@@ -106,7 +106,8 @@ function videoFollowsChangeVideoTitle($previous_title_phrase, $text, $bookmark)
         'new_title_phrase' => $new_title_phrase
     );
     //writeLogDebug('videoFollowsChangeVideoTitle-101', $debug);
-    $text = str_replace($previous_title_phrase, $new_title_phrase, $text);
+    //$text = str_replace($previous_title_phrase, $new_title_phrase, $text);
     //writeLogDebug('videoFollowsChangeVideoTitle-110', $text);
-    return $text;
+    //return $text;
+    return  $new_title_phrase;
 }

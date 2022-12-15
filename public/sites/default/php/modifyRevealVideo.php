@@ -60,6 +60,7 @@ function modifyRevealVideo($text, $bookmark, $p)
         $pos_end = strpos($text, '</div>', $pos_start);
         $length = $pos_end - $pos_start + 6;  // add 6 because last item is 6 long
         $old = substr($text, $pos_start, $length);
+        $new_title_phrase = null;
         // find title_phrase
         $title = modifyVideoRevealFindText($old, 2);
         $title = '&nbsp;"' . $title . '"&nbsp;';
@@ -72,9 +73,10 @@ function modifyRevealVideo($text, $bookmark, $p)
             // in these destinations we concantinate sequential videos (Acts#1 and Acts #2)
             $follows = videoFollows($previous_url, $url);
             $previous_url = $url;
+            $old_title_phrase = $previous_title_phrase;
             if ($follows) {
                 $new = '';
-                $text = videoFollowsChangeVideoTitle($previous_title_phrase, $text, $bookmark);
+                $new_title_phrase = videoFollowsChangeVideoTitle($previous_title_phrase, $text, $bookmark);
             } else {
                 $new = videoTemplateOffline($title_phrase, $p, $offline_video_count, $bookmark);
                 $offline_video_count++;
@@ -86,6 +88,11 @@ function modifyRevealVideo($text, $bookmark, $p)
         // replace old  from https://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match
         $length = $pos_end - $pos_start + 6;  // add 6 because last item is 6 long
         $text = substr_replace($text, $new, $pos_start, $length);
+        if ($new_title_phrase) {
+            $text = str_replace($old_title_phrase, $new_title_phrase, $text);
+        }
+
+        writeLogDebug('WARNING- modifyRevealVideo-89-' . $i, $text);
     }
     //writeLog('modifyVideoReveal', $debug);
     return $text;
