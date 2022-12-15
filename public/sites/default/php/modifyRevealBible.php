@@ -12,31 +12,34 @@
 </div>
 <hr /></div>
 */
-function modifyRevealBible($text, $bookmark, $p){
+function modifyRevealBible($text, $bookmark, $p)
+{
     $read_phrase = trim($bookmark['language']->read);
     $template = '<button id="Button[id]" type="button" class="collapsible bible">[Show]</button>';
     $template .= '<div class="collapsed" id ="Text[id]">';
-    if($p['destination'] == 'nojs' || $p['destination'] == 'pdf'){
+    if ($p['destination'] == 'nojs' || $p['destination'] == 'pdf') {
         $template = '<h3>[Reference]</h3>';
         $template .= '<div>';
     }
-    $count = substr_count($text,'<div class="reveal bible">' );
-    for ($i = 0; $i < $count; $i++){
-        $pos_start = mb_strpos($text,'<div class="reveal bible"');
+    $count = substr_count($text, '<div class="reveal bible">');
+    for ($i = 0; $i < $count; $i++) {
+        $pos_start = mb_strpos($text, '<div class="reveal bible"');
         $pos_end = mb_strpos($text, '</p>', $pos_start);
         $length = $pos_end - $pos_start + 4;
         $old = mb_substr($text, $pos_start, $length);
         $word = trim(strip_tags($old));
+        // writeLogAppend('modifyRevealBible-30', $word);
         $word = str_replace('&nbsp;', '', $word);
-        $word = str_replace("\n", '', $word);
+        $word = trim($word);
+        //writeLogAppend('modifyRevealBible-33', $word);
         $reference = str_replace('  ', ' ', $word);
         $show = str_replace('%', $reference, $read_phrase);
         $new = str_replace('[id]', $i, $template);
         $new = str_replace('[Show]', $show, $new);
         $new = str_replace('[Reference]', $reference, $new);
-         // from https://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match
-         // recalculate because not using multibyte function
-        $pos_start = strpos($text,'<div class="reveal bible"');
+        // from https://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match
+        // recalculate because not using multibyte function
+        $pos_start = strpos($text, '<div class="reveal bible"');
         $pos_end = strpos($text, '</p>', $pos_start);
         $length = $pos_end - $pos_start + 4;
         $text = substr_replace($text, $new, $pos_start, $length);

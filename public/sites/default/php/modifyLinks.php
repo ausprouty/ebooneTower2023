@@ -133,8 +133,8 @@ function  modifyLinksExternal($text, $find, $p)
     } elseif (!isset($p['sdcard_settings'])) {
         $text = str_ireplace('href="http', ' target = "_blank" href="http', $text);
         return $text;
-    } elseif (isset($p['sdcard_settings']->remove_external_links)) {
-        if ($p['sdcard_settings']->remove_external_links == FALSE) {
+    } elseif (isset($p['sdcard_settings']->external_links)) {
+        if ($p['sdcard_settings']->external_links == TRUE) {
             $text = str_ireplace('href="http', ' target = "_blank" href="http', $text);
             return $text;
         }
@@ -147,17 +147,28 @@ function  modifyLinksExternal($text, $find, $p)
     for ($i = 1; $i <= $count; $i++) {
         $pos_http_start = strpos($text, $find);
         $pos_link_end = strpos($text, '>', $pos_http_start);
+        // now look in reverse for the opening of this link
         $truncated = substr($text, 0, $pos_http_start);
         $pos_link_start = strrpos($truncated, '<');
         $length = $pos_link_end -  $pos_link_start + 1;
-        $substr = substr($text, $pos_link_start, $length);
+        $substr_link = substr($text, $pos_link_start, $length);
+        //<a href="https://vimeo.com/channels/movementbuilding">
+        $pos_closing_tag_begin = strpos($text, '</a>', $pos_link_start);
+        $length_words = $pos_closing_tag_begin - $pos_link_end - 1;
+        $substr_words = substr($text, $pos_link_end + 1, $length_words);
+        $pos_closing_tag_end = $pos_closing_tag_begin + 4;
+        $length_total = $pos_closing_tag_end - $pos_link_start;
+        $old = substr($text, $pos_link_start, $length_total);
         $values = array(
-            'substr' => $substr,
-            'length' => $length,
+            'substr_link' => $substr_link,
+            'substr_words' => $substr_words,
+            'pos_link_start' => $pos_link_start,
+            'old' => $old,
+            'new' => $substr_words,
             'text' => $text
         );
-        //writeLogDebug(' modifyLinksExternal-180-' . $i, $values);
-        $text = str_replace($substr, '', $text);
+        // writeLogDebug('modifyLinksExternal-161-' . $i, $values);
+        $text = str_replace($old, $substr_words, $text);
     }
     return $text;
 }
