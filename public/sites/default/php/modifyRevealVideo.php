@@ -91,8 +91,6 @@ function modifyRevealVideo($text, $bookmark, $p)
         if ($new_title_phrase) {
             $text = str_replace($old_title_phrase, $new_title_phrase, $text);
         }
-
-        writeLogDebug('WARNING- modifyRevealVideo-89-' . $i, $text);
     }
     //writeLog('modifyVideoReveal', $debug);
     return $text;

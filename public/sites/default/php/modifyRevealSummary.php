@@ -12,7 +12,7 @@ myRequireOnce('myGetPrototypeFile.php');
 */
 function modifyRevealSummary($text, $p)
 {
-    //writeLog('modifyRevealSummary-12-text', $text);
+    writeLog('modifyRevealSummary-15-text', $text);
     $debug = '';
     $template = myGetPrototypeFile('revealSummary.html');
     if ($p['destination'] == 'nojs' || $p['destination'] == 'pdf') {
@@ -131,9 +131,10 @@ function modifyRevealSummary($text, $p)
         $length = $pos_end - $pos_start + strlen($tag_close) + 1;
         $text = substr_replace($text, $new, $pos_start, $length);
         $pos_start = $pos_end;
-        //writeLogDebug('modifyRevealSummary-133-' . $i, $text);
+        writeLogDebug('modifyRevealSummary-133-' . $i, $new);
+        writeLogDebug('modifyRevealSummary-136-' . $i, $text);
     }
     //writeLog('modifyRevealSummary-135-debug', $debug);
-    //writeLogDebug('modifyRevealSummary-136-text', $text);
+
     return $text;
 }

@@ -4,10 +4,14 @@ myRequireOnce('writeLog.php');
 myRequireOnce('modifyPrototypeAndFinalLinks.php');
 myRequireOnce('modifyLinksMakeRelative.php');
 myRequireOnce('modifyLinksReadmoreBible.php');
+myRequireOnce('modifyLinksInternal.php');
 
 function modifyLinks($text, $p)
 {
-    myRequireOnce('modifyLinksInternal.php', $p['destination']);
+
+    if ($p['destination'] == 'sdcard') {
+        $text = _removeZoomLinks($text);
+    }
 
     // take these out so we can put in proper links later.  The editors like the URL so they can follow links in the editor.
     $text = str_ireplace('target="_self"', '', $text);
@@ -139,8 +143,7 @@ function  modifyLinksExternal($text, $find, $p)
             return $text;
         }
     }
-    // now you want to get rid of external links
-    // look for http  find< before and> after;
+    // remove external links
     $find = 'http';
     $length_find = strlen($find);
     $count = substr_count($text, $find);
@@ -167,7 +170,7 @@ function  modifyLinksExternal($text, $find, $p)
             'new' => $substr_words,
             'text' => $text
         );
-        // writeLogDebug('modifyLinksExternal-161-' . $i, $values);
+        writeLogDebug('modifyLinksExternal-161-' . $i, $values);
         $text = str_replace($old, $substr_words, $text);
     }
     return $text;
@@ -189,5 +192,38 @@ function _removeReadmoreLinks($text)
         $pos_start = $pos_end;
     }
     //writeLogError('_removeReadmoreLinks-185', $text);
+    return $text;
+}
+/*
+<span class="zoom"><a href="https://staging.mc2.online/content/M2/eng/multiply2/Period1.png" 
+     target="a_blank"><img alt="Stage of Ministry" class="lesson_image" 
+     src="/sites/mc2/content/M2/eng/multiply2/Period1.png" /></a>
+</span>
+*/
+function _removeZoomLinks($text)
+{
+    //writeLogDebug('removeZoomLinks-203', $text);
+    $find_begin = '<span class="zoom"';
+    $find_end = '</span>';
+    $length_find_end = strlen($find_end);
+    $count = substr_count($text, $find_begin);
+    $pos_start = 1;
+    for ($i = 1; $i <= $count; $i++) {
+        // find span
+        $pos_start = strpos($text, $find_begin, $pos_start);
+        $pos_end = strpos($text, $find_end, $pos_start);
+        $length = $pos_end - $pos_start + $length_find_end;
+        $span = substr($text, $pos_start, $length);
+        //writeLogDebug('removeZoomLinks-218', $span);
+        //find image
+        $pos_image_start = strpos($span, '<img');
+        $pos_image_end = strpos($span, '>', $pos_image_start);
+        $length_image = $pos_image_end - $pos_image_start + 1;
+        $image = substr($span, $pos_image_start, $length_image);
+        $text = str_replace($span, $image, $text);
+
+        $pos_start = $pos_end;
+    }
+    //writeLogDebug('removeZoomLinks-225', $text);
     return $text;
 }

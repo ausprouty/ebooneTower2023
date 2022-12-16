@@ -32,6 +32,17 @@ function modifyPage($text, $p, $data, $bookmark)
             $text = modifyTextForVue($text, $bookmark);
         }
     }
+    //writeLogDebug('modifyPage-35', $text);
+    /* you must modify reveal video and audio before modifying external links
+       reveal_big is used by site generations
+    */
+    if (strpos($text, '<div class="reveal film') !== FALSE || strpos($text, '<div class="reveal_big film') !== FALSE) {
+        $text =  modifyRevealVideo($text, $bookmark, $p);
+    }
+
+    if (strpos($text, '<div class="reveal audio">') !== FALSE) {
+        $text = modifyRevealAudio($text, $bookmark, $p);
+    }
     ////writeLogDebug('modifyPages-43-version2text', $text);
     //
     // modify note fields
@@ -84,15 +95,7 @@ function modifyPage($text, $p, $data, $bookmark)
     if (strpos($text, '<div class="reveal bible">') !== FALSE) {
         $text = modifyRevealBible($text, $bookmark, $p);
     }
-    //writeLogDebug('modifyPage-92', $text);
-    // reveal_big is used by generations
-    if (strpos($text, '<div class="reveal film') !== FALSE || strpos($text, '<div class="reveal_big film') !== FALSE) {
-        $text =  modifyRevealVideo($text, $bookmark, $p);
-    }
 
-    if (strpos($text, '<div class="reveal audio">') !== FALSE) {
-        $text = modifyRevealAudio($text, $bookmark, $p);
-    }
     //writeLogDebug('modifyPage-109', $text);
     if (strpos($text, 'class="zoom"') !== FALSE) {
         if ($p['destination'] != 'sdcard') {
