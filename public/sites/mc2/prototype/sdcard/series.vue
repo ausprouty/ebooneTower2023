@@ -19,8 +19,11 @@ export default {
       this.$router.push({
         name: id,
       })
-    },
+    }
   },
+  mounted() {
+    localStorage.setItem("returnpage", this.$route.path)
+  }
 }
 </script>
 <template>

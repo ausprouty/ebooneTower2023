@@ -88,11 +88,14 @@ function modifyRevealVideo($text, $bookmark, $p)
         // replace old  from https://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match
         $length = $pos_end - $pos_start + 6;  // add 6 because last item is 6 long
         $text = substr_replace($text, $new, $pos_start, $length);
+        writeLog('modifyRevealvideo-91-' . $i, $text);
+        writeLog('modifyRevealvideo-92-' . $i, $new_title_phrase);
         if ($new_title_phrase) {
             $text = str_replace($old_title_phrase, $new_title_phrase, $text);
+            writeLog('modifyRevealvideo-94-' . $i, $text);
         }
     }
-    //writeLog('modifyVideoReveal', $debug);
+    writeLog('modifyRevealvideo-97', $text);
     return $text;
 }
 // return the text from the td_segment

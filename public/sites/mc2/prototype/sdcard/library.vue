@@ -12,6 +12,9 @@ export default {
       })
     },
   },
+  mounted() {
+    localStorage.setItem("returnpage", this.$route.path)
+  }
 }
 </script>
 <template>

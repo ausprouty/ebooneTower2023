@@ -42,9 +42,9 @@ export default {
     useFindSummaries()
     useFindCollapsible()
     let route_path = this.$route.path
+    localStorage.setItem("returnpage", route_path)
     let last = route_path.lastIndexOf('/')
     let series_path = route_path.substr(0, last)
-    console.log (series_path)
     useRevealMedia(series_path)
     useShowNotes(this.$route.name)
   },

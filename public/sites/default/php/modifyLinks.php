@@ -170,7 +170,7 @@ function  modifyLinksExternal($text, $find, $p)
             'new' => $substr_words,
             'text' => $text
         );
-        writeLogDebug('modifyLinksExternal-161-' . $i, $values);
+        //writeLogDebug('modifyLinksExternal-161-' . $i, $values);
         $text = str_replace($old, $substr_words, $text);
     }
     return $text;
