@@ -1,16 +1,11 @@
 <script>
 import { useAddNote, useShowNotes} from "@/assets/javascript/notes.js"
 import { useFindSummaries, useFindCollapsible, usePopUp} from "@/assets/javascript/revealText.js"
-import { useGoToPageAndSetReturn, usePageGoBack } from "@/assets/javascript/travel.js"
 import { useRevealMedia } from "@/assets/javascript/revealMedia.js"
-import Footer from '@/components/FooterGlobal.vue'
+
 
 export default {
-  components: {
-    Footer
-  },
-
-  methods:{
+   methods:{
     addNote(){
       useAddNote(this.$route.name)
     },

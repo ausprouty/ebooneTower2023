@@ -1,10 +1,7 @@
 <script>
-import Footer from '@/components/FooterGlobal.vue'
+
 
 export default {
-  components: {
-    Footer
-  },
   methods:{
     pageGoBack(returnto){
       if (localStorage.getItem("returnpage")) {
