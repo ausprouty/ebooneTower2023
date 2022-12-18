@@ -2,6 +2,7 @@
 import { useAddNote, useShowNotes} from "@/assets/javascript/notes.js"
 import { useFindSummaries, useFindCollapsible, usePopUp} from "@/assets/javascript/revealText.js"
 import { useRevealMedia } from "@/assets/javascript/revealMedia.js"
+import { useShareLesson} from "@/assets/javascript/share.js"
 
 
 export default {
@@ -26,6 +27,9 @@ export default {
     },
     popUp(verse){
       usePopUp(verse)
+    },
+    shareLesson(title, url){
+      useShareLesson(title, url)
     },
     vuePush(id){
       this.$router.push({

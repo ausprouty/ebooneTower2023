@@ -1,5 +1,5 @@
 <script>
-
+import { useShareLesson} from "@/assets/javascript/share.js"
 
 export default {
   
@@ -9,6 +9,9 @@ export default {
         name: id,
       })
     },
+    shareLesson(title, url){
+      useShareLesson(title, url)
+    }
   },
   mounted() {
     localStorage.setItem("returnpage", this.$route.path)

@@ -1,5 +1,5 @@
 <script>
-
+import { useShareLesson} from "@/assets/javascript/share.js"
 
 export default {
   methods:{
@@ -11,6 +11,9 @@ export default {
       this.$router.push({
         name: returnto,
       })
+    },
+    shareLesson(title, url){
+      useShareLesson(title, url)
     },
     vuePush(id){
       this.$router.push({

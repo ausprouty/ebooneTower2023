@@ -63,7 +63,7 @@ function modifyRevealVideo($text, $bookmark, $p)
         $new_title_phrase = null;
         // find title_phrase
         $title = modifyVideoRevealFindText($old, 2);
-        $title = '&nbsp;"' . $title . '"&nbsp;';
+        $title = '&nbsp;' . $title . '&nbsp;';
         $title_phrase =  $word = str_replace('%', $title, $watch_phrase);
         //find url
         $url = modifyVideoRevealFindText($old, 4);
