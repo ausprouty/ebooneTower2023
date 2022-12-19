@@ -28,7 +28,7 @@ export default {
     <div>
       [[books]]
     </div>
-    [[footer]]
+    {{ footer }}
 </div>
 <!-- end default library -->
 </template>

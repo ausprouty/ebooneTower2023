@@ -17,7 +17,20 @@ function createLanguageFooter($p)
     }
     $bookmark  = bookmark($b);
     $country_url = isset($bookmark['country']->url) ?  $bookmark['country']->url : null;
-    $page_url = '/content/' . $p['country_code'] . '/' . $p['language_iso'] . '/' . $p['folder_name'] . '/' . $p['filename'] . '.html';
+    $page_url = '/content/' . $p['country_code'] . '/' . $p['language_iso'] . '/';
+    if (isset($bookmark['page']->filename)) {
+        $page_url  .=  $p['folder_name'] . '/' . $bookmark['page']->filename . '.html';
+    } else {
+        if (isset($p['folder_name'])) {
+            $page_url  .=  $p['folder_name'] . '/index.html';
+        } else {
+            if ($b['library_code'] == 'library') {
+                $page_url  .= 'index.html';
+            } else {
+                $page_url  .=  $b['library_code'] . '.html';
+            }
+        }
+    }
     $website = isset($bookmark['country']->website) ? $bookmark['country']->website : null;
     if (!isset($debug)) {
         $debug = '';

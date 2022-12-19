@@ -43,7 +43,7 @@ export default {
     [[chapters]]
    <!-- end chapters -->
   <div>
-   [[footer]]
+    {{ footer }}
   </div>
 </div>
 </template>

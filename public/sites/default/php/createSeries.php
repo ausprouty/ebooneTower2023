@@ -91,6 +91,7 @@ function createSeries($p, $data)
         $p['version'],
         $footer
     );
+    writeLogDebug('createSeries-94', $this_template);
     $this_template = str_replace($placeholders, $replace, $this_template);
 
     //
