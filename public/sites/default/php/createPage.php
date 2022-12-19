@@ -70,6 +70,7 @@ function createPage($p, $content)
     $page_text_value = $content['text'];
     $version_value = $p['version'];
     $footer = publishLanguageFooter($p); // returns  $footer
+    writeLogDebug('createPage-73', $footer);
 
     $placeholders = array(
         '{{ dir }}',
@@ -96,7 +97,7 @@ function createPage($p, $content)
 
     $text = str_replace($placeholders, $replace, $this_template);
     $text = str_replace('{{ dir }}',  $dir_value, $text); // because dir is inside of page_title_and_image_valu
-
+    writeLogDebug('createPage-100', $text);
     return $text;
 }
 

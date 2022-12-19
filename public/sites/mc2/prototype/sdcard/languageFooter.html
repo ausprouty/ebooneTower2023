@@ -4,18 +4,14 @@
 <table class="social">
 	<tbody>
 		<tr>
-			<td class="social">
-				<a href="https://app.mc2.online/content/index.html">
+			<td class="social" @click="share('languages', '', '')>
 				  <img class="social" src="@/assets/images/standard/languages.png" />
-				</a>
 			  </td>
-			<td class="social">
-				<a href="https://app.mc2.online/content/M2/{{ language_iso }}/pages/apk.html">
-					<img  class="social" src="@/assets/images/standard/android.png" />
-				</a>
+			<td class="social"  @click="share('android', '{{ language_iso }}', '')">
+				<img  class="social" src="@/assets/images/standard/android.png" />
 			</td>
-			<td class="social" @click="shareLesson('{{ page_title }}', '{{ url }}')">
-				<img class="social" src="@/assets/images/standard//Share.png" />
+			<td class="social" @click="share('lesson', '{{ page_title }}', '{{ url }}')">
+				<img class="social" src="@/assets/images/standard/Share.png" />
 			</td>
 		</tr>
 	</tbody>

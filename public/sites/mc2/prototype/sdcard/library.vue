@@ -1,5 +1,5 @@
 <script>
-import { useShareLesson} from "@/assets/javascript/share.js"
+import {useShare} from "@/assets/javascript/share.js"
 
 export default {
   
@@ -9,8 +9,8 @@ export default {
         name: id,
       })
     },
-    shareLesson(title, url){
-      useShareLesson(title, url)
+    share(what, v1, v2){
+      useShare(what, v1, v2)
     }
   },
   mounted() {
@@ -28,7 +28,6 @@ export default {
     <div>
       [[books]]
     </div>
-    <Footer/>
 </div>
 <!-- end default library -->
 </template>

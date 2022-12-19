@@ -1,5 +1,5 @@
 <script>
-import { useShareLesson} from "@/assets/javascript/share.js"
+import { useShare} from "@/assets/javascript/share.js"
 
 export default {
   methods:{
@@ -12,8 +12,8 @@ export default {
         name: returnto,
       })
     },
-    shareLesson(title, url){
-      useShareLesson(title, url)
+    share(what, v1, v2){
+      useShare(what, v1, v2)
     },
     vuePush(id){
       this.$router.push({
@@ -43,7 +43,7 @@ export default {
     [[chapters]]
    <!-- end chapters -->
   <div>
-    <Footer/>>
+
   </div>
 </div>
 </template>
