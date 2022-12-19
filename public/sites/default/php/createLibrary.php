@@ -62,7 +62,7 @@ function createLibrary($p, $text)
 
 
     // get language footer in prototypeOEpublish.php
-    $footer = publishLanguageFooter($p);
+    $footer = createLanguageFooter($p);
     $language_iso = isset($p['language_iso']) ? $p['language_iso'] : DEFAULT_LANGUAGE_ISO;
     $placeholders = array(
         '{{ navlink }}',

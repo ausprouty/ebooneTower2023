@@ -14,7 +14,7 @@ myRequireOnce('modifyImages.php');
 myRequireOnce('modifyVersion.php');
 //myRequireOnce ('publishCopyImagesAndStyles.php');
 myRequireOnce('publishFilesInPage.php');
-myRequireOnce('publishLanguageFooter.php');
+myRequireOnce('createLanguageFooter.php');
 myRequireOnce('publishCSS.php');
 myRequireOnce('writeLog.php');
 myRequireOnce('myGetPrototypeFile.php');

@@ -28,6 +28,7 @@ export default {
     <div>
       [[books]]
     </div>
+    [[footer]]
 </div>
 <!-- end default library -->
 </template>

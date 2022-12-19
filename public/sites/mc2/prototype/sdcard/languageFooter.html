@@ -4,13 +4,15 @@
 <table class="social">
 	<tbody>
 		<tr>
-			<td class="social" @click="share('languages', '', '')>
+			<td class="social" @click="share('languages', '', '')">
 				  <img class="social" src="@/assets/images/standard/languages.png" />
 			  </td>
+			  
 			<td class="social"  @click="share('android', '{{ language_iso }}', '')">
 				<img  class="social" src="@/assets/images/standard/android.png" />
 			</td>
-			<td class="social" @click="share('lesson', '{{ page_title }}', '{{ url }}')">
+
+			<td class="social" @click="share('lesson', '{{ page_title }}', '{{ page_url }}')">
 				<img class="social" src="@/assets/images/standard/Share.png" />
 			</td>
 		</tr>

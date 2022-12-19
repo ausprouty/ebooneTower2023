@@ -69,7 +69,7 @@ function createPage($p, $content)
     $page_title_and_image_value = createPageTitle($bookmark, $p);
     $page_text_value = $content['text'];
     $version_value = $p['version'];
-    $footer = publishLanguageFooter($p); // returns  $footer
+    $footer = createLanguageFooter($p); // returns  $footer
     writeLogDebug('createPage-73', $footer);
 
     $placeholders = array(

@@ -12,7 +12,7 @@ function createSeries($p, $data)
 
     $text = json_decode($data['text']);
     // get language footer in prototypeOEpublish.php
-    $footer = publishLanguageFooter($p); // returns $footer
+    $footer = createLanguageFooter($p); // returns $footer
     if (isset($p['recnum'])) {
         $b['recnum'] = $p['recnum'];
         $b['library_code'] = $p['library_code'];
@@ -74,7 +74,7 @@ function createSeries($p, $data)
         $book_title = $bookmark['book']->title;
     }
     // get language footer in prototypeOEpublish.php
-    $footer = publishLanguageFooter($p); // returns  $footer
+    $footer = createLanguageFooter($p); // returns  $footer
     //
     //writeLog('createSeries-71-navlink', $navlink);
     $replace = array(
