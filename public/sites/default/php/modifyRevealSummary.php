@@ -12,18 +12,18 @@ myRequireOnce('myGetPrototypeFile.php');
 */
 function modifyRevealSummary($text, $p)
 {
-    //writeLog('modifyRevealSummary-15-text', $text);
-    $debug = '';
+    // writeLog('modifyRevealSummary-15-text', $text);
+
     $template = myGetPrototypeFile('revealSummary.html');
     if ($p['destination'] == 'nojs' || $p['destination'] == 'pdf') {
         $template = '<div class="summary">[TagOpen] [Word][TagClose]</div>' . "\n";
         $template .= '<div>' . "\n";
     }
     $count = substr_count($text, '<div class="reveal">');
-    $debug .= "I have  $count segments \n";
+
     $pos_start = 0;
     for ($i = 0; $i < $count; $i++) {
-        $debug .= "\n\n\nCount: $i \n\n";
+        $debug = "\n\n\nCount: $i \n\n";
         $pos_start = strpos($text, '<div class="reveal">', $pos_start);
         $debug .= "\n\nPos Start: $pos_start \n";
         $debug .= substr($text, $pos_start) . "\n";
@@ -90,15 +90,10 @@ function modifyRevealSummary($text, $p)
             $end_first_indent_pos = 0;;
             for ($j = 0; $j < $tag_indent; $j++) {
                 $end_first_indent_pos = strpos($word, '>', $end_first_indent_pos + 1);
-                $debug .= "end_first_indent_pos:   $end_first_indent_pos \n";
+                $debug .= "end_opening_indent_pos:   $end_first_indent_pos \n";
             }
-            $begin_second_indent_pos = 0;
-            for ($j = 0; $j < $tag_indent; $j++) {
-                $begin_second_indent_pos = strpos($word, '<', $begin_second_indent_pos + 1);
-                $debug .= "begin_second_indent_pos:   $begin_second_indent_pos \n";
-            }
-
-
+            $begin_second_indent_pos = strpos($word, '</');
+            $debug .= "begin_closing_indent_pos:   $begin_second_indent_pos \n";
             $real_word_length =  $begin_second_indent_pos - $end_first_indent_pos - 1;
             $real_word = substr($word, $end_first_indent_pos + 1, $real_word_length);
             $debug .= 'Real Word: ' . $real_word . "\n";
@@ -131,10 +126,10 @@ function modifyRevealSummary($text, $p)
         $length = $pos_end - $pos_start + strlen($tag_close) + 1;
         $text = substr_replace($text, $new, $pos_start, $length);
         $pos_start = $pos_end;
-        //writeLogDebug('modifyRevealSummary-133-' . $i, $new);
-        //writeLogDebug('modifyRevealSummary-136-' . $i, $text);
+        writeLogDebug('modifyRevealSummary-133-' . $i, $new);
+        writeLogDebug('modifyRevealSummary-136-' . $i, $debug);
     }
-    ////writeLog('modifyRevealSummary-135-debug', $debug);
+    //writeLogDebug('modifyRevealSummary-135-debug', $debug);
 
     return $text;
 }
