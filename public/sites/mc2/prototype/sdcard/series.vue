@@ -22,7 +22,7 @@ export default {
     }
   },
   mounted() {
-    localStorage.setItem("returnpage", this.$route.path)
+    localStorage.setItem("returnpage", this.$route.name)
   }
 }
 </script>

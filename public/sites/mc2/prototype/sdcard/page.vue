@@ -1,5 +1,5 @@
 <script>
-import { useAddNote, useShowNotes} from "@/assets/javascript/notes.js"
+import SQLiteService from '@/services/SQLiteService.js'
 import { useFindSummaries, useFindCollapsible, usePopUp} from "@/assets/javascript/revealText.js"
 import { useRevealMedia } from "@/assets/javascript/revealMedia.js"
 import { useShare} from "@/assets/javascript/share.js"
@@ -7,13 +7,15 @@ import { useShare} from "@/assets/javascript/share.js"
 
 export default {
    methods:{
-    addNote(){
-      useAddNote(this.$route.name)
+    async addNote(noteid){
+       var noteText = document.getElementById(noteid).value
+       var noteHeight = await SQLiteService.addNote(noteid, this.$route.name, noteText)
+       document.getElementById(noteid).style.height = noteHeight
     },
-    goToPageAndSetReturn(goto){
+    goToPageAndSetReturn(gotoPath){
       localStorage.setItem("returnpage", this.$route.name);
       this.$router.push({
-        path: goto,
+        path: gotoPath,
       })
     },
     pageGoBack(returnto){
@@ -37,15 +39,15 @@ export default {
       })
     },
   },
-  mounted() {
+  async mounted() {
     useFindSummaries()
     useFindCollapsible()
-    let route_path = this.$route.path
-    localStorage.setItem("returnpage", route_path)
-    let last = route_path.lastIndexOf('/')
-    let series_path = route_path.substr(0, last)
-    useRevealMedia(series_path)
-    useShowNotes(this.$route.name)
+    useRevealMedia()
+    let notes = await SQLiteService.notes(this.$route.name)
+    for (var i = 0; i< notes.length; i++){
+      var noteid = notes[i].noteid
+      document.getElementById(noteid).value =notes[i].note
+    }
   },
 }
 </script>

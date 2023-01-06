@@ -24,8 +24,9 @@ myRequireOnce('writeLog.php');
 
 function modifyPage($text, $p, $data, $bookmark)
 {
-    //writeLogDebug('modifyPage-27', $text);
+    writeLogDebug('modifyPage-27', $text);
     $text = version2Text($text);
+    writeLogDebug('modifyPage-29', $text);
     if (isset($p['destination'])) {
         if ($p['destination'] == 'sdcard') {
             myRequireOnce('modifyTextForVue.php', 'sdcard');
@@ -47,7 +48,8 @@ function modifyPage($text, $p, $data, $bookmark)
     //
     // modify note fields
     //
-    if (strpos($text, '"note-area"')  !== false) {
+    if (strpos($text, '"
+    "')  !== false) {
         $text =  modifyNoteArea($text, $bookmark, $p);
         if ($p['destination'] !== 'sdcard') {
             //add markers used by javascript
