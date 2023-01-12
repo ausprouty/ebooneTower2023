@@ -1,14 +1,14 @@
 :root {
   --color-black-cojourners: black;
-  --color-blue-cojourners: #007BC6;
+  --color-grey-cojourners: #717073;
   --color-light-blue-cojourners: #00C7E2;
   --color-yellow-cojourners: #FF9700;
   --color-note: #FF9700;
   --color-light-yellow-cojourners: #FFCF07;
   --color-background-cojourners: #EBECEC;
-  --color-version-cojourners: #007bc6;
+  --color-version-cojourners: #717073;
   --color-person1-cojourners:#FF9700;
-  --color-person2-cojourners: #00C7E2;
+  --color-person2-cojourners: #717073;
   --color-facilitator-cojourners: black;
 
   --color-back-cojourners: #383f43;
@@ -20,7 +20,7 @@
 
   --color-bible-link-cojourners: purple;
   --color-bible-link-error-cojourners: green;
-  --color-timing-guide-cojourners:#00c7e2;
+  --color-timing-guide-cojourners:#717073;
 }
 
 #offline-ready {
@@ -78,7 +78,7 @@ div.chapter_title{
   color: green;
 }
 .dbs-instruction {
-  color: var(--color-blue-cojourners);
+  color: var(--color-grey-cojourners);
   font-style: italic;
 }
 #pdf-version{
@@ -115,7 +115,7 @@ div.Xnote-div {
   color: #fff;
 }
 .cache-series {
-  background-color: var(--color-blue-cojourners);
+  background-color: var(--color-grey-cojourners);
 }
 .for-enrichment {
   background-color: #e6ecf2;
@@ -134,14 +134,14 @@ h6 {
   display: flex;
   margin-left: 10px;
   margin-right: 10px;
-  color: var(--color-blue-cojourners);
+  color: var(--color-grey-cojourners);
   align-items: center;
   font-family: 'Source San Pro', Arial, Helvetica, sans-serif;
 }
 h1 {
   font-size: 30px;
   font-weight: 700;
-  color: var(--color-blue-cojourners);
+  color: var(--color-grey-cojourners);
   display: inline;
 }
  .chapter_number h1{
@@ -183,7 +183,7 @@ small {
   font-size: 80%;
 }
 .error {
-  border: 1px solid var(--color-blue-cojourners);
+  border: 1px solid var(--color-grey-cojourners);
 }
 .errorMessage {
   color: var(--color-yellow-cojourners);
@@ -254,7 +254,7 @@ button:-moz-focusring,
 }
 button {
   margin-bottom: 20px;
-  background-color: var(--color-blue-cojourners);
+  background-color: var(--color-grey-cojourners);
   color: white;
   font-weight: bold;
   border-radius: 6px;
@@ -262,7 +262,7 @@ button {
   padding: 0 40px;
 }
 .button.red {
-  background-color: var(--color-blue-cojourners);
+  background-color: var(--color-grey-cojourners);
   height: 48px;
 }
 .button.grey {
@@ -457,7 +457,7 @@ p.bible {
   font-weight: 600;
 }b
 .lesson-introduction {
-  color:var(--color-blue-cojourners);
+  color:var(--color-grey-cojourners);
 }
 .triangle {
   text-align: left;
@@ -468,7 +468,7 @@ p.bible {
 }
 a {
   background: transparent;
-  color: var(--color-blue-cojourners);
+  color: var(--color-grey-cojourners);
 }
 a:.summary-shown,
 a:active,
@@ -476,8 +476,8 @@ a:hover {
   outline: 0;
 }
 a.bible-readmore {
-  background-color: var(--color-blue-cojourners);
-  border-color: var(--color-blue-cojourners);
+  background-color: var(--color-grey-cojourners);
+  border-color: var(--color-grey-cojourners);
   border: 1px;
   color: #fff;
   height: auto;
@@ -489,7 +489,7 @@ a.bible-readmore {
 
 sup,
 .versenum {
-  color: var(--color-blue-cojourners);
+  color: var(--color-grey-cojourners);
   font-size: 75%;
   line-height: 0;
   padding-right: 2px;
@@ -559,14 +559,14 @@ img.lesson-rtl-icon {
   width: 30px;
 }
 li.ltr {
-  color: var(--color-blue-cojourners);
+  color: var(--color-grey-cojourners);
 }
 p {
   text-align: left;
 }
 p.reference {
   padding-top: 20px;
-  color: var(--color-blue-cojourners);
+  color: var(--color-grey-cojourners);
   font-size: 20px;
   padding-bottom: 20px;
 }
@@ -684,7 +684,7 @@ li.nobreak {
   margin-top: 12px;
 }
 .popup {
-  color: var(--color-blue-cojourners);
+  color: var(--color-grey-cojourners);
   font-style: italic;
 }
 .action,
@@ -702,27 +702,27 @@ li.nobreak {
   text-align: left;
   outline: none;
   font-size: 15px;
-  background: var(--color-blue-cojourners) url('../images/css/reveal.png');
+  background: var(--color-grey-cojourners) url('../images/css/reveal.png');
   background-position: 8px 8px;
   background-repeat: no-repeat;
 }
 .action {
-  background: var(--color-blue-cojourners) url'../images/css/action.png');
+  background: var(--color-grey-cojourners) url'../images/css/action.png');
   background-position: 8px 8px;
   background-repeat: no-repeat;
 }
 .collapsible.bible {
-  background: var(--color-blue-cojourners) url('../images/css/bible.png');
+  background: var(--color-grey-cojourners) url('../images/css/bible.png');
   background-position: 8px 8px;
   background-repeat: no-repeat;
 }
 .external-movie {
-  background: var(--color-blue-cojourners) url('../images/css/video.png');
+  background: var(--color-grey-cojourners) url('../images/css/video.png');
   background-position: 8px 15px;
   background-repeat: no-repeat;
 }
 .external-audio {
-  background: var(--color-blue-cojourners) url('../images/css/audio.png');
+  background: var(--color-grey-cojourners) url('../images/css/audio.png');
   background-position: 8px 15px;
   background-repeat: no-repeat;
 }
@@ -984,7 +984,7 @@ div.pinch-zoom div.description p {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
-  background-color:var(--color-blue-cojourners);
+  background-color:var(--color-grey-cojourners);
   color: white;
 }
 /* added by Keith Seabourn */
@@ -1012,7 +1012,7 @@ div.pinch-zoom div.description p {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
-  background-color: var(--color-blue-cojourners);
+  background-color: var(--color-grey-cojourners);
   color: white;
 }
 .alert {
@@ -1027,5 +1027,5 @@ div.pinch-zoom div.description p {
 /* added for editing site */
 
 .menu-card {
-  background-color: var(--color-blue-cojourners);
+  background-color: var(--color-grey-cojourners);
 }

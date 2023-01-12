@@ -24,9 +24,9 @@ myRequireOnce('writeLog.php');
 
 function modifyPage($text, $p, $data, $bookmark)
 {
-    writeLogDebug('modifyPage-27', $text);
+    //writeLogDebug('modifyPage-27', $text);
     $text = version2Text($text);
-    writeLogDebug('modifyPage-29', $text);
+    //writeLogDebug('modifyPage-29', $text);
     if (isset($p['destination'])) {
         if ($p['destination'] == 'sdcard') {
             myRequireOnce('modifyTextForVue.php', 'sdcard');
@@ -44,12 +44,11 @@ function modifyPage($text, $p, $data, $bookmark)
     if (strpos($text, '<div class="reveal audio">') !== FALSE) {
         $text = modifyRevealAudio($text, $bookmark, $p);
     }
-    ////writeLogDebug('modifyPages-43-version2text', $text);
+    //writeLogDebug('modifyPages-43-version2text', $text);
     //
     // modify note fields
     //
-    if (strpos($text, '"
-    "')  !== false) {
+    if (strpos($text, '"note-area"')  !== false) {
         $text =  modifyNoteArea($text, $bookmark, $p);
         if ($p['destination'] !== 'sdcard') {
             //add markers used by javascript
@@ -75,7 +74,7 @@ function modifyPage($text, $p, $data, $bookmark)
     $text = str_replace('<a  ', '<a ', $text);
     //$text = str_replace('href="http' ,' target="_blank" href="http', $text);
     //
-    //writeLog('modify-page-65', $text);
+    //writeLogDebug('modify-page-65', $text);
     //  change internal links for easy return:
     // for SDCard we may need to remove all external references; esp those to Bible sites
     if (strpos($text, '<a href=') !== FALSE || strpos($text, '<a class="readmore"') !== FALSE) {
@@ -89,11 +88,11 @@ function modifyPage($text, $p, $data, $bookmark)
     if (strpos($text, '<span class="bible-link">') !== FALSE) {
         $text = modifyBibleLinks($text, $p);
     }
-    //writeLogDebug('modifyPage-81', $text);
+    writeLogDebug('modifyPage-81', $text);
     if (strpos($text, '<div class="reveal">') !== FALSE ||  strpos($text, '<div class="reveal_big">') !== FALSE) {
         $text = modifyRevealSummary($text, $p);
     }
-    //writeLogDebug('modifyPage-85', $text);
+    writeLogDebug('modifyPage-85', $text);
     if (strpos($text, '<div class="reveal bible">') !== FALSE) {
         $text = modifyRevealBible($text, $bookmark, $p);
     }

@@ -22,6 +22,9 @@ export default {
   <!-- sdcard template from mc2 -->
   [[nav]]
   <div class="page_content" dir="{{ language.rldir }}">
+    <div  class="app-series-header">
+    <img src="@/assets/images/standard/header-front.png" class="app-series-header" />
+  </div>
     <div>
       {{ library.text }}
     </div>
