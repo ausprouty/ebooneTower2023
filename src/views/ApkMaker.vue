@@ -102,8 +102,8 @@
           <li>Correct errors in html and republish</li>
           <li>Download any missing files</li>
           <li>Update Reference File</li>
-          <li>
-            Download, move to M:MC2/sdcard/
+          <li>Download from sites/{{ this.site }}/apk/{{ this.$route.params.country_code }}/language_iso</li>
+            <li></li>move to M:MC2/sdcard/
             {{ this.$route.params.country_code }}, unzip and run the bat files -
             (They take too much processing time to run remotely.)
           </li>
@@ -113,14 +113,6 @@
           </li>
           <li>Check to see that all audio files are in the audio directory</li>
         </ul>
-
-        <div class="row">
-          <div class="column">
-            <button class="button" @click="zipMediaBatFiles()">
-              {{ this.bat_text }}
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   </div>

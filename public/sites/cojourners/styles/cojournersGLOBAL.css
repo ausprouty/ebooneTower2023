@@ -16,7 +16,7 @@
   --color-forward-cojourners: #383f43;
 
   --color-trainer-cojourners: #ffdb8e;
-  --color-reveal-cojourners: #9c9fa1;
+  --color-reveal-cojourners: #f1f1f1;
 
   --color-bible-link-cojourners: purple;
   --color-bible-link-error-cojourners: green;
@@ -172,7 +172,7 @@ h6 {
   font-weight: 700;
 }
 h1,h2,h3,h4,h5{
-color: var(--color-version-cojourners);
+color: var(--color-yellow-cojourners);
 }
 
 b,
@@ -468,7 +468,7 @@ p.bible {
 }
 a {
   background: transparent;
-  color: var(--color-grey-cojourners);
+  color: var(--color-yellow-cojourners);
 }
 a:.summary-shown,
 a:active,
@@ -831,9 +831,7 @@ td.social{
   border: 0px;
 }
 
-#oikos-table tr:nth-child(even),
-tr:nth-child(even)
- {
+#oikos-table tr:nth-child(even){
   background-color: #f2f2f2;
 }
 
@@ -850,11 +848,46 @@ th {
   color: white;
 }
 
-#oikos-table .flex {
+#oikos-table .flex , #analysis-table .flex{
   width: 98%;
   margin-left: 3px;
   margin-right: 3px;
 }
+#analysis-table td,
+#analysis-table th{
+  border: 1px solid #ddd;
+  text-align: left;
+  padding: 8px;
+}
+.analysis-section{
+  background-color: var(--color-grey-cojourners);
+  color: var(--color-yellow-cojourners);
+}
+.col1{
+  background-color:#ec2d13 ;
+}
+.col2{
+  background-color:#f88200 ;
+}
+.col3{
+  background-color:#fbc12d ;
+}
+.col4{
+  background-color:#fafa6e ;
+}
+.col5{
+  background-color:#aae479 ;
+}
+.col6{
+  background-color:#64c987 ;
+}
+.col7{
+  background-color:#00889a ;
+}
+.vertical{
+  writing-mode: vertical-rl;
+}
+
 #addToHomeScreen,
 #addToHomeScreenButton,
 .close{
