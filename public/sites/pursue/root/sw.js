@@ -10,9 +10,9 @@ importScripts(
 workbox.precaching.precacheAndRoute([
   '/',
   '/not-found.html',
-  '/js/fetch.js',
-  '/js/promise.js',
-  '/js/analytics-helper.js',
+  '/sites/default/js/fetch.js',
+  '/sites/default/js/promise.js',
+
 ])
 
 workbox.routing.registerRoute(

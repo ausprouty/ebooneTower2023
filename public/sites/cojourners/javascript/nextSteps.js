@@ -1,105 +1,57 @@
-document.addEventListener('DOMContentLoaded', () => {
-  var past_action = document.getElementById('previous-step')
-  if (past_action !== null) {
-    let id = document.getElementById('previous-step').value
-    showStepWritten(id)
-  }
-  var present_action = document.getElementById('next-step')
-  if (present_action !== null) {
-    let id = document.getElementById('next-step').value
-    showStepWritten(id)
-  }
-})
-
-function showStepWritten(id) {
-  let step = getStepWritten(id)
-  if (step) {
-    var complete = 0
-    if (step.complete) {
-      complete = 1
-    }
-    if (step.text) {
-      document.getElementById('next-step-text' + id).innerHTML = step.text
-      document.getElementById('next-step-complete' + id).checked = complete
-    }
-  }
-}
-
-function savePartner() {
-  let partner = {
-    name: document.getElementById('partner-name').value,
-    email: document.getElementById('partner-email').value,
-    phone: document.getElementById('partner-phone').value,
-  }
-  localStorage.setItem('cojournersPartner', JSON.stringify(partner))
-}
-function getPartner() {
-  var partner = null
-  let stored = localStorage.getItem('cojournersPartner', null)
-  if (stored) {
-    partner = JSON.parse(stored)
-  }
-  return partner
-}
-function showPartner() {
-  let stored = localStorage.getItem('cojournersPartner', null)
-  if (stored) {
-    let partner = JSON.parse(stored)
-    document.getElementById('partner-name').value = partner.name
-    document.getElementById('partner-email').value = partner.email
-    document.getElementById('partner-phone').value = partner.phone
-  }
-}
 
 function generateNextSteps() {
   const div = document.getElementById('next-steps-area')
+  var content = showStepsPending()
+  content += considerShowNewStep()
+  div.innerHTML = content
+  document.getElementById('next-steps-completed').innerHTML = showStepsCompleted()
+  return
+}
+
+function showStepsPending() {
   var content = ''
-  var titles = seriesTitles()
-  var answer = null
   var written = getStepsWritten()
-  var unwritten = 0
-  var complete = false
-  var length = titles.length
+  if (written == null){
+    return content
+  }
+  var length = written.length
   for (var i = 0; i < length; i++) {
-    answer = null
-    complete = false
-    if (written) {
-      if (typeof written[i] !== 'undefined') {
-        answer = written[i]
-        if (written[i].text == '') {
-          unwritten++
-        }
-        if (written[i].complete == true) {
-          complete = true
-        }
-      } else {
-        unwritten++
-      }
-    }
-    if (unwritten < 2 && complete != true) {
-      content += stepTemplate(titles[i], answer)
+    if (written[i].complete !== true) {
+      content += stepTemplate(written[i])
     }
   }
-  div.innerHTML = content
+  return content
 }
-function getSeriesTitle(id) {
-  let titles = seriesTitles()
-  let length = titles.length
+function showStepsCompleted() {
+  var content = '<hr><h3>Steps Completed</h3><ul>'
+  var written = getStepsWritten()
+  if (written == null){
+    return content
+  }
+  var length = written.length
   for (var i = 0; i < length; i++) {
-    if (titles[i].id == id) {
-      return titles[i]
+    if (written[i].complete == true) {
+      content += '<li>' + written[i].text + '</li>'
     }
+  }
+  content += '</ul>'
+  return content
+}
+
+function showStepNew() {
+  document.getElementById('add-new-step-button').classList = 'hidden'
+  return stepTemplate(null)
+}
+function showNewStepButton() {
+  document.getElementById('add-new-step-button').classList.remove('hidden')
+}
+
+function getStepsWritten() {
+  var stored = localStorage.getItem('cojournersStepsWritten')
+  if (stored != null){
+    return JSON.parse(stored)
   }
   return null
-}
-function getStepsWritten() {
-  var empty = []
-  var stored = localStorage.getItem('cojournersStepsWritten', empty)
-  var parsed = JSON.parse(stored)
-  if (parsed == null) {
-    return empty
-  }
-  return parsed
 }
 
 function getStepWritten(id) {
@@ -119,6 +71,7 @@ function getStepWritten(id) {
 }
 function saveStepWritten(id) {
   nextStepsChangeHeight(id)
+  considerShowNewStepButton()
   let typed = {
     id: id,
     text: document.getElementById('next-step-text' + id).value,
@@ -127,21 +80,66 @@ function saveStepWritten(id) {
   let found = false
   let storing = []
   let stored = getStepsWritten()
-
-  for (var i = 0; i < stored.length; i++) {
-    if (stored[i].id == id) {
-      storing[i] = typed
-      found = true
-    } else {
-      storing[i] = stored[i]
+  if (stored !== null){
+    for (var i = 0; i < stored.length; i++) {
+      if (stored[i].id == id) {
+        storing[i] = typed
+        found = true
+      } else {
+        storing[i] = stored[i]
+      }
     }
   }
-
   if (found == false) {
     storing.push(typed)
   }
   localStorage.setItem('cojournersStepsWritten', JSON.stringify(storing))
-  console.log('storeStepWritten')
+}
+function deleteStepWritten(id) {
+  let stored = getStepsWritten()
+  if (stored !== null){
+    for (var i = 0; i < stored.length; i++) {
+      if (stored[i].id == id) {
+        stored.splice(i,1)
+      } 
+    }
+  }
+  localStorage.setItem('cojournersStepsWritten', JSON.stringify(stored))
+  generateNextSteps()
+}
+
+function considerShowNewStepButton() {
+  var ShowNewStepButton = true
+  var col = document.getElementsByClassName('next-steps')
+  for (var i = 0; i < col.length; i++) {
+    var step = col[i].value
+    if (step.length < 1){
+      ShowNewStepButton = false
+    }
+  }
+  if (ShowNewStepButton){
+    showNewStepButton()
+  }
+  return
+}
+function considerShowNewStep() {
+  var ShowNewStep = true
+  var col = document.getElementsByClassName('next-steps')
+  console.log(col)
+  console.log(col.length)
+  for (var i = 0; i < col.length; i++) {
+    console.log(col[i])
+    console.log(col[i].value)
+    var step = col[i].value
+    console.log ('length' + step.length)
+    if (step.length < 1){
+      ShowNewStep = false
+    }
+  }
+  if (ShowNewStep){
+     return showStepNew()
+  }
+  return null
 }
 
 // Dealing with Textarea Height
@@ -162,16 +160,28 @@ function nextStepsChangeHeight(id) {
   }
   // min-height + lines x line-height + padding + border
   let newHeight = 20 + (numberOfLineBreaks + longLines) * 20 + 12 + 2
-  console.log(newHeight)
+  //console.log(newHeight)
   document.getElementById('next-step-text' + id).style.height = newHeight
 }
+function showStepWritten(id) {
+  let step = getStepWritten(id)
+  if (step) {
+    var complete = 0
+    if (step.complete) {
+      complete = 1
+    }
+    if (step.text) {
+      document.getElementById('next-step-title' + id).innerHTML = step.title
+      document.getElementById('next-step-text' + id).innerHTML = step.text
+      document.getElementById('next-step-complete' + id).checked = complete
+    }
+  }
+}
 
-function stepTemplate(title, written) {
+function stepTemplate(written) {
   console.log(written)
   let template = ` <div class="next-step-area" id="step#">
-	<h3>#. {title}</h3>
-
-	<form id="next-step#">
+  <form id="next-step#">
 		<textarea id="next-step-text#"
                  class="next-steps"
                  placeholder="I will ___ by ____(when)"
@@ -180,18 +190,18 @@ function stepTemplate(title, written) {
 
 	<div class="action-progress">
 	<div><input id="next-step-complete#" type="checkbox" {checked} onclick="saveStepWritten(#)" /> <label> Finished</label></div>
+  <div><input id="next-step-delete#" type="checkbox" {checked} onclick="deleteStepWritten(#)" /> <label> Delete</label></div>
 
 	<div><button onclick="shareStep(#)">Share</button></div>
 
 	</div>
 	</form>
 	</div>`
-  let temp = template.replace(/#/g, title.id)
-  let temp2 = temp.replace('{title}', title.title)
+  var id = 0
   var text = ''
-  var checked = ''
+  var checked = 'unchecked'
   if (written !== null) {
-    console.log(written.complete)
+    id = written.id
     if (typeof written.text !== 'undefined') {
       text = written.text
     }
@@ -199,13 +209,31 @@ function stepTemplate(title, written) {
       checked = 'checked'
     }
   }
-  temp = temp2.replace('{written}', text)
-  template = temp.replace('{checked}', checked)
-
+  if (written == null) {
+    id = nextStepsNextId()
+  }
+  let temp = template.replace(/#/g, id )
+  var temp2 = temp.replace('{written}', text)
+  template = temp2.replace('{checked}', checked)
   return template
 }
+function nextStepsNextId(){
+  var id = 0
+  var stored = localStorage.getItem('cojournersStepsWritten')
+  if (stored == null){
+    return id
+  }
+  var written = JSON.parse(stored)
+  for (var i = 0; i < written.length; i++) {
+    if (written[i].id > id) {
+      id = written[i].id
+    }
+  }
+  id++
+  console.log('next id is ' + id)
+  return id
+}
 function shareStep(id) {
-  let step = getSeriesTitle(id)
   let action = getStepWritten(id)
   console.log(action)
   let myText = 'My next step is: ' + action.text
@@ -214,70 +242,37 @@ function shareStep(id) {
   }
   if ('share' in navigator) {
     navigator.share({
-      title: 'Next Step for ' + step.title,
+      title: 'Next Step for ' + action.title,
       text: myText,
-      url: step.url,
     })
   } else {
     console.log('share is not in navigator')
-    //var body = message + ': ' + url
-    // Here we use the WhatsApp API as fallback; remember to encode your text for URI
-    //location.href = getMailtoUrl('', subject, body)
   }
 }
 
-function seriesTitles() {
-  let titles = [
-    {
-      id: '1',
-      title: 'The Mission of Jesus',
-      url: 'https://cojourners.sent67.com/content/U1/eng/cojourners/cojourners01.html',
-    },
-    {
-      id: '2',
-      title: 'Keeping in Step with the Spirit',
-      url: 'https://cojourners.sent67.com/content/U1/eng/cojourners/cojourners02.html',
-    },
-    {
-      id: '3',
-      title: 'Becoming a CoJourner',
-      url: 'https://cojourners.sent67.com/content/U1/eng/cojourners/cojourners03.html',
-    },
-    {
-      id: '4',
-      title: 'God-Prepared People',
-      url: 'https://cojourners.sent67.com/content/U1/eng/cojourners/cojourners04.html',
-    },
-    {
-      id: '5',
-      title: 'Sharing Your Personal Story',
-      url: 'https://cojourners.sent67.com/content/U1/eng/cojourners/cojourners05.html',
-    },
-    {
-      id: '6',
-      title: 'Sharing the Gospel Personally',
-      url: 'https://cojourners.sent67.com/content/U1/eng/cojourners/cojourners06.html',
-    },
-    {
-      id: '7',
-      title: 'Building Bridges',
-      url: 'https://cojourners.sent67.com/content/U1/eng/cojourners/cojourners07.html',
-    },
-    {
-      id: '8',
-      title: 'The Disciple-Making Pathway',
-      url: 'https://cojourners.sent67.com/content/U1/eng/cojourners/cojourners08.html',
-    },
-    {
-      id: '9',
-      title: 'The Art of Neighboring',
-      url: 'https://cojourners.sent67.com/content/U1/eng/cojourners/cojourners09.html',
-    },
-    {
-      id: '10',
-      title: 'Celebration & Commissioning',
-      url: 'https://cojourners.sent67.com/content/U1/eng/cojourners/cojourners10.html',
-    },
-  ]
-  return titles
+
+function getPartner() {
+  var partner = null
+  let stored = localStorage.getItem('cojournersPartner', null)
+  if (stored) {
+    partner = JSON.parse(stored)
+  }
+  return partner
+}
+function showPartner() {
+  let stored = localStorage.getItem('cojournersPartner', null)
+  if (stored) {
+    let partner = JSON.parse(stored)
+    document.getElementById('partner-name').value = partner.name
+    document.getElementById('partner-email').value = partner.email
+    document.getElementById('partner-phone').value = partner.phone
+  }
+}
+function savePartner() {
+  let partner = {
+    name: document.getElementById('partner-name').value,
+    email: document.getElementById('partner-email').value,
+    phone: document.getElementById('partner-phone').value,
+  }
+  localStorage.setItem('cojournersPartner', JSON.stringify(partner))
 }

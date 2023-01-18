@@ -1,7 +1,7 @@
 :root {
   --color-black-cojourners: black;
   --color-grey-cojourners: #717073;
-  --color-light-blue-cojourners: #00C7E2;
+  --color-light-grey-cojourners: #dedede;
   --color-yellow-cojourners: #FF9700;
   --color-note: #FF9700;
   --color-light-yellow-cojourners: #FFCF07;
@@ -599,7 +599,7 @@ div.previous-step-area
   border: 1px solid #ccc !important;
   margin: 10px;
   padding:10px;
-  background: var(--color-light-blue-cojourners);
+  background: var(--color-light-grey-cojourners);
 
 }
 
