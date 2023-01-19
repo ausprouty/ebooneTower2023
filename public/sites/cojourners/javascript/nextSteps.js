@@ -1,14 +1,30 @@
 
 function generateNextSteps() {
   const div = document.getElementById('next-steps-area')
-  var content = showStepsPending()
-  content += considerShowNewStep()
+  var content = showStepsPendingAndNew()
   div.innerHTML = content
   document.getElementById('next-steps-completed').innerHTML = showStepsCompleted()
   return
 }
+function addNewStep() {
+  const div = document.getElementById('next-steps-area')
+  var content = showStepsPendingAndNew()
+  div.innerHTML = content
+  hideNewStepButton()
+  return
 
-function showStepsPending() {
+}
+function addNewStepX() {
+  let content = document.getElementById('next-steps-area').innerHTML
+  content += stepTemplate(null)
+  document.getElementById('next-steps-area').innerHTML = content
+  hideNewStepButton()
+  return
+
+}
+
+function showStepsPendingAndNew() {
+  var unwrittenPending = false
   var content = ''
   var written = getStepsWritten()
   if (written == null){
@@ -19,6 +35,12 @@ function showStepsPending() {
     if (written[i].complete !== true) {
       content += stepTemplate(written[i])
     }
+    if (written[i].text.length < 2){
+      unwrittenPending = true
+    }
+  }
+  if (unwrittenPending == false){
+    content += stepTemplate(null)
   }
   return content
 }
@@ -38,12 +60,11 @@ function showStepsCompleted() {
   return content
 }
 
-function showStepNew() {
-  document.getElementById('add-new-step-button').classList = 'hidden'
-  return stepTemplate(null)
-}
 function showNewStepButton() {
   document.getElementById('add-new-step-button').classList.remove('hidden')
+}
+function hideNewStepButton() {
+  document.getElementById('add-new-step-button').classList.add('hidden')
 }
 
 function getStepsWritten() {
@@ -55,9 +76,7 @@ function getStepsWritten() {
 }
 
 function getStepWritten(id) {
-  var empty = []
-  var stored = localStorage.getItem('cojournersStepsWritten', empty)
-  var written = JSON.parse(stored)
+  var written = getStepsWritten()
   if (written) {
     var length = written.length
     for (var i = 0; i < length; i++) {
@@ -121,25 +140,6 @@ function considerShowNewStepButton() {
     showNewStepButton()
   }
   return
-}
-function considerShowNewStep() {
-  var ShowNewStep = true
-  var col = document.getElementsByClassName('next-steps')
-  console.log(col)
-  console.log(col.length)
-  for (var i = 0; i < col.length; i++) {
-    console.log(col[i])
-    console.log(col[i].value)
-    var step = col[i].value
-    console.log ('length' + step.length)
-    if (step.length < 1){
-      ShowNewStep = false
-    }
-  }
-  if (ShowNewStep){
-     return showStepNew()
-  }
-  return null
 }
 
 // Dealing with Textarea Height
