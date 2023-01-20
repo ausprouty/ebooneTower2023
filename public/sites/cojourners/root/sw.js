@@ -6,8 +6,8 @@ importScripts(
 workbox.precaching.precacheAndRoute([
   '/',
   '/not-found.html',
-  '/sites/default/js/fetch.js',
-  '/sites/default/js/promise.js',
+  '/sites/default/javascript/fetch.js',
+  '/sites/default/javascript/promise.js',
 ])
 
 workbox.routing.registerRoute(

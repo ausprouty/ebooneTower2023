@@ -3,6 +3,7 @@
 myRequireOnce('createPage.php');
 myRequireOnce('getTitle.php');
 myRequireOnce('modifyBibleLinks.php');
+myRequireOnce('modifyExternalJavascript.php');
 myRequireOnce('modifyHeaders.php');
 myRequireOnce('modifyJavascript.php');
 myRequireOnce('modifyLinks.php');
@@ -105,6 +106,9 @@ function modifyPage($text, $p, $data, $bookmark)
     }
     if (strpos($text, '<div class="javascript') !== false) {
         $text  = modifyJavascript($text);
+    }
+    if (strpos($text, '<div class="external-javascript') !== false) {
+        $text  = modifyExternalJavascript($text);
     }
     /* if (strpos($text, '<div class="header') !== false){
 This needs to come later in the process

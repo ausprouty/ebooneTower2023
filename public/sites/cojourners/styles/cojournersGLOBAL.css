@@ -134,7 +134,7 @@ h6 {
   display: flex;
   margin-left: 10px;
   margin-right: 10px;
-  color: var(--color-grey-cojourners);
+  color: var(--color-yellow-cojourners);
   align-items: center;
   font-family: 'Source San Pro', Arial, Helvetica, sans-serif;
 }
@@ -152,12 +152,14 @@ h1 {
 h2 {
   font-size: 18px;
   font-weight: 700;
+  color: var(--color-yellow-cojourners);
   margin-bottom: 0px;
 }
 
 h3 {
   font-size: 16px;
   font-weight: 700;
+  color: var(--color-black-cojourners);
 }
 h4 {
   font-size: 14px;
@@ -166,14 +168,14 @@ h4 {
 h5 {
   font-size: 12px;
   font-weight: 700;
+  color: var(--color-black-cojourners);
 }
 h6 {
   font-size: 10px;
   font-weight: 700;
+  color: var(--color-black-cojourners);
 }
-h1,h2,h3,h4,h5{
-color: var(--color-yellow-cojourners);
-}
+
 
 b,
 strong {
@@ -650,12 +652,17 @@ div.trainer-hide {
   background-position: 8px 2px;
   background-repeat: no-repeat;
 }
-.javascript {
+.javascript, .external-javascript {
   color: black;
   background: lightyellow url('../images/css/javascript.png');
   background-position: 8px 2px;
   background-repeat: no-repeat;
 }
+.external-javascript{
+  color: black;
+  background: lightgreen url('../images/css/javascript.png');
+}
+
 .reveal.video {
   background: var(--color-reveal-cojourners) url('../images/css/video.png');
   background-position: 8px 2px;
