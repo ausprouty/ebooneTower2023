@@ -77,16 +77,13 @@ function modifyRevealVideoIntro($text, $bookmark, $p)
         if ($p['destination'] == 'website' || $p['destination'] == 'staging') {
             $new = videoTemplateOnline($old, $title_phrase, $url, $bookmark, $i);
         } elseif ($p['destination'] == 'sdcard' || $p['destination'] == 'nojs' || $p['destination'] == 'apk') {
-            // in these destinations we do NOT cantinate
+            // in these destinations we do NOT cantinate, but we do use high numbers so as not to conflict with Bible
             $new = videoTemplateOffline($title_phrase, $p, $offline_video_count, $bookmark);
             $offline_video_count++;
         }
         // replace old  from https://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match
         $length = $pos_end - $pos_start + 6;  // add 6 because last item is 6 long
         $text = substr_replace($text, $new, $pos_start, $length);
-        if ($new_title_phrase) {
-            $text = str_replace($old_title_phrase, $new_title_phrase, $text);
-        }
     }
     return $text;
 }
