@@ -1,10 +1,15 @@
 <?php
 myRequireOnce('writeLog.php');
+myRequireOnce('modifyRevealVideo.php');
 
 
 /*
+
+This is for introductory videos which are NOT cantinated (unlike the Bible videos)
+when making a APK file (mobile phone application)
+
 Input is:
-    <div class="reveal film">&nbsp;
+    <div class="reveal film intro">&nbsp;
         <hr />
         <table class="video" border="1">
             <tbody  class="video">
@@ -45,7 +50,7 @@ Data structure:
 For Output see appropriate VideoTemplate.php in 
 
 */
-function modifyRevealVideo($text, $bookmark, $p)
+function modifyRevealVideoIntro($text, $bookmark, $p)
 {
     myRequireOnce('videoTemplate.php', $p['destination']);
     myRequireOnce('videoFollows.php', 'apk');
@@ -53,9 +58,10 @@ function modifyRevealVideo($text, $bookmark, $p)
     $previous_title_phrase = '';
     $watch_phrase = videoTemplateWatchPhrase($bookmark);
     $previous_url = '';
-    $find = '<div class="reveal film">';
+    $find = '<div class="reveal film intro">';
     $count = substr_count($text, $find);
-    $offline_video_count = 0;
+    // we start the count at 100 because NO lesson has content this high
+    $offline_video_count = 100;
     for ($i = 0; $i < $count; $i++) {        // get old division
         $pos_start = strpos($text, $find);
         $pos_end = strpos($text, '</div>', $pos_start);
@@ -71,20 +77,9 @@ function modifyRevealVideo($text, $bookmark, $p)
         if ($p['destination'] == 'website' || $p['destination'] == 'staging') {
             $new = videoTemplateOnline($old, $title_phrase, $url, $bookmark, $i);
         } elseif ($p['destination'] == 'sdcard' || $p['destination'] == 'nojs' || $p['destination'] == 'apk') {
-            // in these destinations we concantinate sequential videos (Acts#1 and Acts #2)
-            $follows = videoFollows($previous_url, $url);
-            $previous_url = $url;
-            $old_title_phrase = $previous_title_phrase;
-            if ($follows) {
-                $new = '';
-                $new_title_phrase = videoFollowsChangeVideoTitle($previous_title_phrase, $text, $bookmark);
-            } else {
-                $new = videoTemplateOffline($title_phrase, $p, $offline_video_count, $bookmark);
-                $offline_video_count++;
-            }
-            $previous_title_phrase = $title_phrase;
-            $start_time = 0;
-            $duration = 0;
+            // in these destinations we do NOT cantinate
+            $new = videoTemplateOffline($title_phrase, $p, $offline_video_count, $bookmark);
+            $offline_video_count++;
         }
         // replace old  from https://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match
         $length = $pos_end - $pos_start + 6;  // add 6 because last item is 6 long
@@ -94,43 +89,4 @@ function modifyRevealVideo($text, $bookmark, $p)
         }
     }
     return $text;
-}
-// return the text from the td_segment
-function modifyVideoRevealFindText($old, $td_number)
-{
-    $pos_td = 0;
-    for ($i = 1; $i <= $td_number; $i++) {
-        $pos_td = strpos($old, '<td', $pos_td + 1);
-    }
-    $pos_start = strpos($old, '>', $pos_td) + 1;
-    $pos_end = strpos($old, '</', $pos_td);
-    $length = $pos_end - $pos_start;
-    $text = substr($old, $pos_start, $length);
-    $text = strip_tags($text);
-    return $text;
-}
-function modifyVideoRevealFindTime($old, $td_number)
-{
-    $text = modifyVideoRevealFindText($old, $td_number);
-    if ($text == 'start') {
-        $time = 0;
-    } else if ($text == 'end') {
-        $time = null;
-    } else {
-        $time = timeToSeconds($text);
-    }
-    return $time;
-}
-//function timeToSeconds(string $time): int
-function timeToSeconds($time)
-{
-    if (strpos($time, ':') == FALSE) {
-        return intval($time);
-    }
-    $arr = explode(':', $time);
-    if (count($arr) == 3) {
-        return $arr[0] * 3600 + $arr[1] * 60 + $arr[2];
-    } else {
-        return $arr[0] * 60 + $arr[1];
-    }
 }

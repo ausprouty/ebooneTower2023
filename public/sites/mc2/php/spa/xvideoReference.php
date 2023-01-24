@@ -3,7 +3,8 @@
 // allows us to convert the URL listen in the content text file
 // to the name of the file downloaded from the JESUS Project website.
 
-function videoReference(){
+function videoReference()
+{
     $link['Acts7302-0-0'] = 'JesusTakenUpIntoHeaven';
     $link['Acts7303-0-0'] = 'MatthiasChosentoReplaceJudas';
     $link['Acts7304-0-0'] = 'TheHolySpiritComesatPentecost';

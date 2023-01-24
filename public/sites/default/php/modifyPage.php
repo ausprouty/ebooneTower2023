@@ -16,6 +16,7 @@ myRequireOnce('modifyRevealBible.php');
 myRequireOnce('modifyRevealSummary.php');
 myRequireOnce('modifyRevealTrainer.php');
 myRequireOnce('modifyRevealVideo.php');
+myRequireOnce('modifyRevealVideoIntro.php');
 myRequireOnce('modifySendAction.php');
 myRequireOnce('modifyZoomImage.php');
 myRequireOnce('version2Text.php');
@@ -38,8 +39,12 @@ function modifyPage($text, $p, $data, $bookmark)
     /* you must modify reveal video and audio before modifying external links
        reveal_big is used by site generations
     */
-    if (strpos($text, '<div class="reveal film') !== FALSE || strpos($text, '<div class="reveal_big film') !== FALSE) {
+    if (strpos($text, '<div class="reveal film">') !== FALSE || strpos($text, '<div class="reveal_big film') !== FALSE) {
         $text =  modifyRevealVideo($text, $bookmark, $p);
+    }
+    // used by Spanish MC2
+    if (strpos($text, '<div class="reveal film intro">') !== FALSE) {
+        $text =  modifyRevealVideoIntro($text, $bookmark, $p);
     }
 
     if (strpos($text, '<div class="reveal audio">') !== FALSE) {

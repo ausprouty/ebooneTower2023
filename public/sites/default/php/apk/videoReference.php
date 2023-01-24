@@ -3,7 +3,8 @@
 // allows us to convert the URL listen in the content text file
 // to the name of the file downloaded from the JESUS Project website.
 
-function videoReference(){
+function videoReference()
+{
     $link['Acts7302-0-0'] = 'acts/JesusTakenUpIntoHeaven.mp4';
     $link['Acts7303-0-0'] = 'acts/MatthiasChosentoReplaceJudas.mp4';
     $link['Acts7304-0-0'] = 'acts/TheHolySpiritComesatPentecost.mp4';
@@ -109,7 +110,7 @@ function videoReference(){
     $link['GOLuke2619'] = 'lumo/LUMOLuke19144.mp4';
     $link['GOLuke2620'] = 'lumo/LUMOLuke19452047.mp4';
     $link['GOLuke2622'] = 'lumo/LUMOLuke21372238.mp4';
-    $link['GOLuke2623']=  'lumo/LUMOLuke22392325.mp4';
+    $link['GOLuke2623'] =  'lumo/LUMOLuke22392325.mp4';
     $link['GOLuke2625'] = 'lumo/LUMOLuke24153.mp4';
     $link['GOMark1501'] = 'lumo/LUMOMark1145.mp4';
     $link['GOMark1503'] = 'lumo/LUMOMark320441.mp4';
@@ -130,7 +131,13 @@ function videoReference(){
     $link['https://vimeo.com/162977296'] = 'vimeo/TheAmazingQuestionEnglish-162977296.mp4';
     $link['https://vimeo.com/162982206'] = 'vimeo/MyStoryEnglish-162982206.mp4';
     $link['https://www.youtube.com/watch?v=biTh0SIiHWQ'] = 'youtube/biTh0SIiHWQ.mp4';
-    $link['https://www.youtube.com/watch?v=MpsnJAExC0g']= 'youtube/MpsnJAExC0g.mp4';
-    $link['https://www.youtube.com/watch?v=zxBiv7jk4Zs']= 'youtube/zxBiv7jk4Zs.mp4';
+    $link['https://www.youtube.com/watch?v=MpsnJAExC0g'] = 'youtube/MpsnJAExC0g.mp4';
+    $link['https://www.youtube.com/watch?v=zxBiv7jk4Zs'] = 'youtube/zxBiv7jk4Zs.mp4';
+    $link['https://www.youtube.com/watch?v=n4EnWVOcWpU'] = 'youtube/n4EnWVOcWpU.mp4';
+    $link['https://www.youtube.com/watch?v=gOmiN_Lnqzk'] = 'youtube/gOmiN_Lnqzk.mp4';
+    $link['https://www.youtube.com/watch?v=3doLFxX49ZQ'] = 'youtube/3doLFxX49ZQ.mp4';
+    $link['https://www.youtube.com/watch?v=f91qmWKSsjo'] = 'youtube/f91qmWKSsjo.mp4';
+    $link['https://www.youtube.com/watch?v=Yy2AECMIp38'] = 'youtube/Yy2AECMIp38.mp4';
+    $link['https://www.youtube.com/watch?v=xItcassfEaY'] = 'youtube/xItcassfEaY.mp4';
     return $link;
 }

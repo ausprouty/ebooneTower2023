@@ -566,6 +566,11 @@ div.trainer-hide {
   background-position: 8px 2px;
   background-repeat: no-repeat;
 }
+.reveal.film.intro {
+  background: orange url(../images/css/video.png);
+  background-position: 8px 2px;
+  background-repeat: no-repeat;
+}
 
 hr.reveal {
   border-top: 1px dashed red;

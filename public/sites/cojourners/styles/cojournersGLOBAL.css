@@ -660,7 +660,7 @@ div.trainer-hide {
 }
 .external-javascript{
   color: black;
-  background: lightgreen url('../images/css/javascript.png');
+  background: lightgreen;
 }
 
 .reveal.video {
@@ -860,12 +860,32 @@ th {
   margin-left: 3px;
   margin-right: 3px;
 }
+#pdfTable {
+  width: 98%;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
 #analysis-table td,
-#analysis-table th{
+#pdfTable td,
+#analysis-table th
+#pdfTable th{
   border: 1px solid #ddd;
   text-align: left;
   padding: 8px;
 }
+
+#pdfTable td,
+#pdfTable th{
+  border: 1px solid #ddd;
+  text-align: left;
+  padding: 3px;
+  font-size:10px;
+}
+
+
 .analysis-section{
   background-color: var(--color-grey-cojourners);
   color: var(--color-yellow-cojourners);
@@ -992,6 +1012,19 @@ div.pinch-zoom div.description p {
   li.nobreak-final,
   li.nobreak-final-final {
     margin-left: -15px;
+  }
+  #analysis-table td,
+  #pdfTable td,
+  #analysis-table th
+  #pdfTable th{
+    border: 1px solid #ddd;
+    text-align: left;
+    padding: 3px;
+    font-size: 10px;
+  }
+  #pdfTable {
+    width: 100%;
+    margin:auto;
   }
 }
 
