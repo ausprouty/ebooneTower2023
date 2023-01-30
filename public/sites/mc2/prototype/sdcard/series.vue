@@ -1,5 +1,6 @@
 <script>
 import { useShare} from "@/assets/javascript/share.js"
+import { useRevealMedia } from "@/assets/javascript/revealMedia.js"
 
 export default {
   methods:{
@@ -22,6 +23,7 @@ export default {
     }
   },
   mounted() {
+    useRevealMedia()
     localStorage.setItem("returnpage", this.$route.name)
   }
 }
