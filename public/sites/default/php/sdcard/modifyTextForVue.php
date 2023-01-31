@@ -59,16 +59,20 @@ function modifyTextForVuePopUp($text)
     $count = substr_count($text, '<a href="javascript:popUp');
     $pos_start = 0;
     for ($i = 1; $i <= $count; $i++) {
-        $pos_href_start = strpos($text, '<a href="javascript:popUp');
+        $needle_href = '<a href="javascript:popUp';
+        $pos_href_start = strpos($text, $needle_href);
         // get id
-        $pos_id_begin = strpos($text, "'",  $pos_href_start) + 1;
-        $pos_id_end = strpos($text,  "'", $pos_id_begin);
+        $needle_semiquote = "'";
+        $pos_id_begin = strpos($text, $needle_semiquote,  $pos_href_start) + 1;
+        $pos_id_end = strpos($text,  $needle_semiquote, $pos_id_begin);
         $length = $pos_id_end - $pos_id_begin;
         $popup_id = substr($text,  $pos_id_begin, $length);
 
         // get reference
-        $pos_label_begin = strpos($text, '>', $pos_href_start) + 1;
-        $pos_label_end = strpos($text, '<', $pos_label_begin);
+        $needle_gt = '>';
+        $pos_label_begin = strpos($text, $needle_gt, $pos_href_start) + 1;
+        $needle_lt = '>';
+        $pos_label_end = strpos($text, $needle_lt, $pos_label_begin);
         $length = $pos_label_end - $pos_label_begin;
         $reference = substr($text,  $pos_label_begin, $length);
 
@@ -103,7 +107,8 @@ function modifyTextForVueReadMore($text, $bookmark)
             $debug .= "\n\n\nCount: $i \n\n";
             $pos_start = strpos($text, $find_now, $pos_start);
             $debug .= "\n\nPos Start: $pos_start \n";
-            $pos_end =  strpos($text, '</a>', $pos_start);
+            $needle_a = '</a>';
+            $pos_end =  strpos($text, $needle_a, $pos_start);
             $length = $pos_end - $pos_start + 4;
             $old = substr($text, $pos_start, $length);
             writeLog('modifyReadMore-24-old',  $old);

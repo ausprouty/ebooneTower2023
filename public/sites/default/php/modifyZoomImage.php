@@ -24,7 +24,7 @@ output;
 */
 myRequireOnce('modifyZoomImageGet.php');
 
-function modifyZoomImage($text)
+function modifyZoomImage($text, $p)
 {
     $template_top = '
         <script src="/sites/default/javascript/pinch-zoom.js"></script>
@@ -48,8 +48,9 @@ function modifyZoomImage($text)
     for ($i = 0; $i < $count; $i++) {
         $pos_start = strpos($text, $find_start);
         $pos_end = strpos($text, $find_end, $pos_start);
-        $length = $pos_end - $pos_start + strlen($find_end);
-        $old = substr($text, $pos_start, $length);
+        $length_words = $pos_end - $pos_start;
+        $length_span = $pos_end - $pos_start + strlen($find_end);
+        $old = substr($text, $pos_start, $length_words);
         $new = '';
         if ($i == 0) {
             $new = $template_top;
@@ -58,7 +59,7 @@ function modifyZoomImage($text)
         $new = str_replace('[id]',  $i, $new);
         $new = str_replace('[alt]',  modifyZoomImageGetAlt($old), $new);
         $new = str_replace('[image]',  modifyZoomImageGetImage($old), $new);
-        $text = substr_replace($text, $new, $pos_start, $length);
+        $text = substr_replace($text, $new, $pos_start, $length_span);
     }
     return $text;
 }

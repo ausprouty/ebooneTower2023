@@ -16,7 +16,7 @@ function createPage($p, $content)
         $b = $p;
     }
     $bookmark  = bookmark($b);
-    writeLogDebug('createPage-19', $bookmark);
+    //writeLogDebug('createPage-19', $bookmark);
 
     $p['selected_css'] = isset($bookmark['book']->style) ? $bookmark['book']->style : STANDARD_CSS;
     if (!isset($bookmark['book']->format)) {
@@ -70,7 +70,7 @@ function createPage($p, $content)
     $page_text_value = $content['text'];
     $version_value = $p['version'];
     $footer = createLanguageFooter($p); // returns  $footer
-    writeLogDebug('createPage-73', $footer);
+    //writeLogDebug('createPage-73', $footer);
 
     $placeholders = array(
         '{{ dir }}',
@@ -97,7 +97,7 @@ function createPage($p, $content)
 
     $text = str_replace($placeholders, $replace, $this_template);
     $text = str_replace('{{ dir }}',  $dir_value, $text); // because dir is inside of page_title_and_image_valu
-    writeLogDebug('createPage-100', $text);
+    //writeLogDebug('createPage-100', $text);
     return $text;
 }
 

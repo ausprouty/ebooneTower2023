@@ -18,7 +18,8 @@ function modifyReadMore($text, $bookmark)
             $debug .= "\n\n\nCount: $i \n\n";
             $pos_start = strpos($text, $find_now, $pos_start);
             $debug .= "\n\nPos Start: $pos_start \n";
-            $pos_end =  strpos($text, '</a>', $pos_start);
+            $needle_a =  '</a>';
+            $pos_end =  strpos($text, $needle_a, $pos_start);
             $length = $pos_end - $pos_start + 4;
             $old = substr($text, $pos_start, $length);
             //writeLog('modifyReadMore-24-old',  $old);

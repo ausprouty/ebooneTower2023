@@ -26,21 +26,27 @@ function modifyImagePathForVue($text, $p)
     $pos_start = 0;
     for ($i = 0; $i < $count; $i++) {
         $pos_image_start = strpos($text, $find, $pos_start);
-        $pos_image_end = strpos($text, '>', $pos_image_start);
+        $needle = '>';
+        $pos_image_end = strpos($text, $needle, $pos_image_start);
         if ($pos_image_start !== false) {
             $image_length = $pos_image_end - $pos_image_start;
             $img_link = substr($text, $pos_image_start, $image_length);
-            $pos_src_start = strpos($img_link, 'src="') + 5;
-            $pos_src_end = strpos($img_link, '"',  $pos_src_start);
+            $needle = 'src="';
+            $pos_src_start = strpos($img_link, $needle) + 5;
+            $needle = '"';
+            $pos_src_end = strpos($img_link, $needle,  $pos_src_start);
             $src_length =  $pos_src_end - $pos_src_start;
             $src = substr($img_link, $pos_src_start, $src_length);
-            if (strpos($src, '@/assets/images') === false) {
-                if (strpos($src, '@/assets/') !== false) {
+            $needle = '@/assets/images';
+            if (strpos($src, $needle) === false) {
+                $needle = '@/assets/';
+                $needle_sites = '/sites/';
+                if (strpos($src, $needle) !== false) {
                     $new = str_replace('@/assets/', '@/assets/images/', $src);
                     $text = str_replace($src, $new, $text);
                 }
                 //  /sites/mc2/images/ribbons/back-ribbon-mc2.png
-                elseif (strpos($src, '/sites/') !== false) {
+                elseif (strpos($src, $needle_sites) !== false) {
                     $old = '/sites/' . SITE_CODE;
                     $new = str_replace($old, '@/assets', $src);
                     $text = str_replace($src, $new, $text);

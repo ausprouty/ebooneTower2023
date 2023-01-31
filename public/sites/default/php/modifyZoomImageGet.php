@@ -28,5 +28,8 @@ function modifyZoomImageGetImage($text)
     $pos_end = strpos($text, $find_end, $pos_start);
     $length = $pos_end - $pos_start;
     $image = substr($text, $pos_start, $length);
+    $message = "text is: " . $text . "\n And PosStart is: " . $pos_start . "\n And PosEng is: " . $pos_end .
+        "length is: " . $length . "\n And imaget is: " . $image;
+    writeLogDebug('modifyZoomImageGetImage-31', $message);
     return $image;
 }

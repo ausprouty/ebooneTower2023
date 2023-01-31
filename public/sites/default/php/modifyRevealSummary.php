@@ -126,8 +126,8 @@ function modifyRevealSummary($text, $p)
         $length = $pos_end - $pos_start + strlen($tag_close) + 1;
         $text = substr_replace($text, $new, $pos_start, $length);
         $pos_start = $pos_end;
-        writeLogDebug('modifyRevealSummary-133-' . $i, $new);
-        writeLogDebug('modifyRevealSummary-136-' . $i, $debug);
+        //writeLogDebug('modifyRevealSummary-133-' . $i, $new);
+        //writeLogDebug('modifyRevealSummary-136-' . $i, $debug);
     }
     //writeLogDebug('modifyRevealSummary-135-debug', $debug);
 

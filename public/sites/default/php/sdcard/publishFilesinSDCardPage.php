@@ -3,7 +3,7 @@
 function publishFilesInSDCardPage($filename, $p, $destination)
 {
     writeLogDebug('publishFilesInSDCardPage-5', $p);
-    if (strpos($filename, '/assets/images') !== false) {
+    if (strpos($filename,  myString('/assets/images')) !== false) {
         /*
             if this file is not found:
             /assets/images/eng/tc/transferable-concepts-image-22.png 
@@ -20,10 +20,7 @@ function publishFilesInSDCardPage($filename, $p, $destination)
         $from = str_replace('//', '/', $from);
         writeLogAppend('publishFilesInSDCardPage-20', $from);
         if (file_exists($from)) {
-            createDirectory($to);
-            copy($from, $to);
-            //$message = "$from \n  $to \n\n";
-            //  writeLogAppend('publishFilesInSDCardPage-116', $message);
+            publishFilesInSDCardPageCopy($from, $to, 23);
         } else {
 
             /*
@@ -31,24 +28,20 @@ function publishFilesInSDCardPage($filename, $p, $destination)
             /assets/images/standard/look-back.png -- not found
                     /sites/mc2/images/standard/look-back.png -- desired file
                 */
-            if (strpos($from, '/assets/images/standard/') !== FALSE) {
+            if (strpos($from, myString('/assets/images/standard/')) !== FALSE) {
                 $new_dir = '/sites/' . SITE_CODE . '/';
                 $from = str_replace('/assets/', $new_dir, $from);
                 $from = str_replace('@/', '', $from);
             }
-            /*
-             
-            */
-
             /*  This area is for files in standard and custom directory
                 "/home/globa544/edit.mc2.online/sites/mc2/content/M2/eng/standard/TransferableConcepts.png -- not found  ($from)
                 "/home/globa544/edit.mc2.online/sites/mc2/content/M2/eng/images/standard/TransferableConcepts.png -- desired
                 /assets/images/eng/standard/TransferableConcepts.png -- original file ($filename)
-            */ elseif (strpos($from, '/standard/') !== FALSE) {
+            */ elseif (strpos($from, myString('/standard/')) !== FALSE) {
                 $from = str_replace('/standard/', '/images/standard/', $from);
-            } elseif (strpos($from, '/custom/') !== FALSE) {
+            } elseif (strpos($from, myString('/custom/')) !== FALSE) {
                 $from = str_replace('/custom/', '/images/custom/', $from);
-            } elseif (strpos($from, '/ribbons/') !== FALSE) {
+            } elseif (strpos($from, myString('/ribbons/')) !== FALSE) {
                 ///home/globa544/edit.mc2.online/assets/images/ribbons/back-ribbon-mc2.png
                 $new = '/sites/' . SITE_CODE . '/';
                 $from = str_replace('/assets/', $new, $from);
@@ -56,8 +49,7 @@ function publishFilesInSDCardPage($filename, $p, $destination)
                 // @/assets/images/standard/Stories-of-Hope.png
             }
             if (file_exists($from)) {
-                createDirectory($to);
-                copy($from, $to);
+                publishFilesInSDCardPageCopy($from, $to, 52);
             }
             if (!file_exists($from)) {
                 /* check country directory
@@ -65,11 +57,15 @@ function publishFilesInSDCardPage($filename, $p, $destination)
                  /sites/mc2/content/M2/images/standard/Stories-of-Hope.png
                 */
                 $old = 'sites/' . SITE_CODE;
-                $new = $old . '/content/' . $p['country_code'];
+                $cc = '/content/' . $p['country_code'];
+                $new = $old . $cc;
                 $from = str_ireplace($old, $new, $from);
+                $from = str_ireplace('@', '', $from);
+                //de-duplicate
+                $from = str_ireplace($cc . $cc, $cc, $from);
+                $from = str_ireplace('//', '/', $from);
                 if (file_exists($from)) {
-                    createDirectory($to);
-                    copy($from, $to);
+                    publishFilesInSDCardPageCopy($from, $to, 69);
                 } else {
                     $message = "$from -- modified not found\n$filename -- original file\n\n";
                     writeLogAppend('ERRORS-publishFilesInSDCardPage-72', $message);
@@ -78,7 +74,7 @@ function publishFilesInSDCardPage($filename, $p, $destination)
         }
         return;
     }
-    if (strpos($filename, 'sites/') !== false) {
+    if (strpos($filename, myString('sites/')) !== false) {
         /*
         sites/mc2/content/M2/eng/tc/transferable-concepts-image-11.png 
         we know a file exists but it may be missing 'images' after 'eng'
@@ -92,18 +88,17 @@ function publishFilesInSDCardPage($filename, $p, $destination)
         $old_dir = 'sites/' . SITE_CODE . '/content/' . $p['country_code']; // mc2/content/M2
         //writeLogAppend('publishFilesInSDCardPage-133', "$filename\n$old_dir\n\n");
         $to = $destination . str_replace($old_dir, $new_dir, $filename);
+        $to = str_replace('//', '/', $to);
         //writeLogAppend('WARNING- publishFilesInSDCardPage-66', $to);
         $from = $filename;
-        $necessary = '/' . $p['language_iso'] . '/images/';
-        if (strpos($from, $necessary === FALSE)) {
+        $necessary =  '/' . $p['language_iso'] . '/images/';
+        if (strpos($from, $necessary) === FALSE) {
             $old = '/' . $p['language_iso'] . '/';
             $from = str_replace($old, $necessary, $from);
         }
         $from =  ROOT_EDIT  . $from;
         if (file_exists($from)) {
-            $message = "$from \n  $to \n\n";
-            // writeLogAppend('publishFilesInSDCardPage-78', $message);
-            copy($from, $to);
+            publishFilesInSDCardPageCopy($from, $to, 107);
         }
         if (!file_exists($from)) {
             $message = "$filename -- original file\n$from -- not found";
@@ -112,4 +107,16 @@ function publishFilesInSDCardPage($filename, $p, $destination)
     } else {
         writeLogAppend('ERRORS-publishFilesInSDCardPage-86', "$filename -- original file");
     }
+}
+
+function publishFilesInSDCardPageCopy($from, $to, $line)
+{
+    $message = "$to\n$from\n$line\n\n";
+    writeLogAppend('publishFilesInSDCardPageCopy', $message);
+    //createDirectory($to);
+    //copy ($from, $to)
+}
+function myString($string)
+{
+    return strval($string);
 }

@@ -22,7 +22,7 @@ function createSeries($p, $data)
     $bookmark  = bookmark($b);
     //writeLogDebug('createSeries21', $bookmark);
     $selected_css = isset($bookmark['book']->style) ? $bookmark['book']->style : STANDARD_CSS;
-    writeLogDebug('createSeries-23',  $p['destination']);
+    //writeLogDebug('createSeries-23',  $p['destination']);
     // replace placeholders in template
     // Note: Current  is unique in that only has one book in the series.
     if ($data['folder_name'] == 'current' || $data['folder_name'] == 'youth-basics') {
@@ -33,7 +33,7 @@ function createSeries($p, $data)
         }
         if ($p['destination'] == 'sdcard') {
             $this_template = myGetPrototypeFile('series.vue', $p['destination']);
-            writeLogDebug('createSeries-33',  $this_template);
+            // writeLogDebug('createSeries-33',  $this_template);
         }
         // insert nav bar
         $nav = myGetPrototypeFile('navRibbon.html', $p['destination']);
@@ -91,7 +91,7 @@ function createSeries($p, $data)
         $p['version'],
         $footer
     );
-    writeLogDebug('createSeries-94', $this_template);
+    // writeLogDebug('createSeries-94', $this_template);
     $this_template = str_replace($placeholders, $replace, $this_template);
 
     //

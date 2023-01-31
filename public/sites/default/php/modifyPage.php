@@ -18,7 +18,6 @@ myRequireOnce('modifyRevealTrainer.php');
 myRequireOnce('modifyRevealVideo.php');
 myRequireOnce('modifyRevealVideoIntro.php');
 myRequireOnce('modifySendAction.php');
-myRequireOnce('modifyZoomImage.php');
 myRequireOnce('version2Text.php');
 
 myRequireOnce('writeLog.php');
@@ -102,12 +101,10 @@ function modifyPage($text, $p, $data, $bookmark)
     if (strpos($text, '<div class="reveal bible">') !== FALSE) {
         $text = modifyRevealBible($text, $bookmark, $p);
     }
-
     //writeLogDebug('modifyPage-109', $text);
     if (strpos($text, 'class="zoom"') !== FALSE) {
-        if ($p['destination'] != 'sdcard') {
-            $text = modifyZoomImage($text);
-        }
+        myRequireOnce('modifyZoomImage.php', $p['destination']);
+        $text = modifyZoomImage($text, $p);
     }
     if (strpos($text, '<div class="javascript') !== false) {
         $text  = modifyJavascript($text);

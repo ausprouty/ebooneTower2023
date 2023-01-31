@@ -44,7 +44,7 @@ function modifyLinks($text, $p)
         $text = str_ireplace('" >', '">', $text);
         $text  =  modifyLinksInternal($text, $find, $p);
     }
-    writeLogDebug('modifyLinks-40', $text);
+    //writeLogDebug('modifyLinks-47', $text);
     $find1 = '<a class="readmore"';
     $find2 = '<a class="bible-readmore"';
     if (strpos($text, $find1) !== false || strpos($text, $find2) !== false) {

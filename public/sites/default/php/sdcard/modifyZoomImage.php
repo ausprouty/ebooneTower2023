@@ -19,10 +19,12 @@ Output:
 */
 
 myRequireOnce('modifyZoomImageGet.php');
+myRequireOnce('writeLog.php');
 
 
-function modifyZoomImage($text)
+function modifyZoomImage($text, $p)
 {
+    writeLogDebug('modifyZoomImage-sd-27', $text);
     $template = '   
     <vue-image-zoomer
     regular="[regular_image]" 
@@ -36,18 +38,20 @@ function modifyZoomImage($text)
     for ($i = 0; $i < $count; $i++) {
         $pos_start = strpos($text, $find_start);
         $pos_end = strpos($text, $find_end, $pos_start);
-        $length = $pos_end - $pos_start + strlen($find_end);
-        $old = substr($text, $pos_start, $length);
+        $length_span = $pos_end - $pos_start + strlen($find_end);
+        $length_words = $pos_end - $pos_start;
+        $old = substr($text, $pos_start, $length_words);
+        writeLogAppend('modifyZoomImage-sd-43', $old);
         $alt =  modifyZoomImageGetAlt($old);
         $source_image = modifyZoomImageGetImage($old);
-        $regular_image = modifyZoomImageGetImageRegular($old);
-        $zoom_image = modifyZoomImageGetImageZoom($old);
+        $regular_image = modifyZoomImageGetImageRegular($source_image, $p);
+        $zoom_image = modifyZoomImageGetImageZoom($source_image);
 
         // replace placeholders with values
         $placeholders = array('[regular_image]', '[zoom_image]', '[alt]', '[source_image]');
         $values = array($regular_image, $zoom_image, $alt, $source_image);
         $new = str_replace($placeholders, $values, $template);
-        $text = substr_replace($text, $new, $pos_start, $length);
+        $text = substr_replace($text, $new, $pos_start, $length_span);
     }
     return $text;
 }
@@ -59,13 +63,14 @@ function modifyZoomImage($text)
       also copy this to 
 */
 
-function  modifyZoomImageGetImageRegular($image)
+function  modifyZoomImageGetImageRegular($image, $p)
 {
     $find = '/images/';
     $pos_start = strpos($image, $find) + strlen($find);
     $raw = substr($image, $pos_start);
     $output = '/images/zoom/' . $raw;
-    return $output
+    modifyZoomImageCopyImage($image, $output, $p);
+    return $output;
 }
 function   modifyZoomImageGetImageZoom($image)
 {
@@ -73,5 +78,19 @@ function   modifyZoomImageGetImageZoom($image)
     $pos_start = strpos($image, $find) + strlen($find);
     $raw = substr($image, $pos_start);
     $output = '/images/zoom/' . $raw;
-    return $output
+    return $output;
+}
+//root edit is sites/' . SITE_CODE . '/content/'
+function  modifyZoomImageCopyImage($image_source, $image_destination, $p)
+{
+    $destination = ROOT_SDCARD . 'public' . $image_destination;
+    $bad = "@/assets/images/";
+    $good = ROOT_EDIT_CONTENT . $p['country_code'] . "/";
+    $find_image = str_replace($bad, $good, $image_source);
+    if (file_exists($find_image)) {
+        writeLogAppend('modifyZoomImageCopyImage-91', $image_source . "\n" .  $find_image . "\n"  . $destination . "\n\n");
+        copy($find_image, $destination);
+    } else {
+        writeLogAppend('modifyZoomImageCopyImage-94-ERROR', $image_source . "\n" .  $find_image . "\n"  . $destination . "\n\n");
+    }
 }
