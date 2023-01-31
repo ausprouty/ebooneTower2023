@@ -1,4 +1,5 @@
 <?php
+myRequireOnce('copyFilesForSDApp.php', 'sdcard');
 
 function publishFilesInSDCardPage($filename, $p, $destination)
 {
@@ -20,7 +21,7 @@ function publishFilesInSDCardPage($filename, $p, $destination)
         $from = str_replace('//', '/', $from);
         writeLogAppend('publishFilesInSDCardPage-20', $from);
         if (file_exists($from)) {
-            publishFilesInSDCardPageCopy($from, $to, 23);
+            copyFilesForSDApp($from, $to, 23);
         } else {
 
             /*
@@ -49,7 +50,7 @@ function publishFilesInSDCardPage($filename, $p, $destination)
                 // @/assets/images/standard/Stories-of-Hope.png
             }
             if (file_exists($from)) {
-                publishFilesInSDCardPageCopy($from, $to, 52);
+                copyFilesForSDApp($from, $to, 52);
             }
             if (!file_exists($from)) {
                 /* check country directory
@@ -65,7 +66,7 @@ function publishFilesInSDCardPage($filename, $p, $destination)
                 $from = str_ireplace($cc . $cc, $cc, $from);
                 $from = str_ireplace('//', '/', $from);
                 if (file_exists($from)) {
-                    publishFilesInSDCardPageCopy($from, $to, 69);
+                    copyFilesForSDApp($from, $to, 69);
                 } else {
                     $message = "$from -- modified not found\n$filename -- original file\n\n";
                     writeLogAppend('ERRORS-publishFilesInSDCardPage-72', $message);
@@ -98,7 +99,7 @@ function publishFilesInSDCardPage($filename, $p, $destination)
         }
         $from =  ROOT_EDIT  . $from;
         if (file_exists($from)) {
-            publishFilesInSDCardPageCopy($from, $to, 107);
+            copyFilesForSDApp($from, $to, 107);
         }
         if (!file_exists($from)) {
             $message = "$filename -- original file\n$from -- not found";
@@ -109,13 +110,7 @@ function publishFilesInSDCardPage($filename, $p, $destination)
     }
 }
 
-function publishFilesInSDCardPageCopy($from, $to, $line)
-{
-    $message = "$to\n$from\n$line\n\n";
-    writeLogAppend('publishFilesInSDCardPageCopy', $message);
-    //createDirectory($to);
-    //copy ($from, $to)
-}
+
 function myString($string)
 {
     return strval($string);

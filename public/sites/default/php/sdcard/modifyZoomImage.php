@@ -19,6 +19,7 @@ Output:
 */
 
 myRequireOnce('modifyZoomImageGet.php');
+myRequireOnce('copyFilesForSDApp.php', 'sdcard');
 myRequireOnce('writeLog.php');
 
 
@@ -89,7 +90,7 @@ function  modifyZoomImageCopyImage($image_source, $image_destination, $p)
     $find_image = str_replace($bad, $good, $image_source);
     if (file_exists($find_image)) {
         writeLogAppend('modifyZoomImageCopyImage-91', $image_source . "\n" .  $find_image . "\n"  . $destination . "\n\n");
-        copy($find_image, $destination);
+        copyFilesForSDApp($find_image, $destination, 'zoom');
     } else {
         writeLogAppend('modifyZoomImageCopyImage-94-ERROR', $image_source . "\n" .  $find_image . "\n"  . $destination . "\n\n");
     }
