@@ -92,6 +92,19 @@ function  modifyZoomImageCopyImage($image_source, $image_destination, $p)
         writeLogAppend('modifyZoomImageCopyImage-91', $image_source . "\n" .  $find_image . "\n"  . $destination . "\n\n");
         copyFilesForSDApp($find_image, $destination, 'zoom');
     } else {
-        writeLogAppend('modifyZoomImageCopyImage-94-ERROR', $image_source . "\n" .  $find_image . "\n"  . $destination . "\n\n");
+        /*
+        string(183) "@/assets/images/spa/custom/Period2.png
+        /home/globa544/edit.mc2.online/sites/mc2/content/M2/spa/custom/Period2.png
+        /home/globa544/sdcard.mc2/public/images/zoom/spa/custom/Period2.png
+        */
+        $bad = $p['country_code'] . '/';
+        $good = $bad . 'images/';
+        $find_image = str_replace($bad, $good, $find_image);
+        if (file_exists($find_image)) {
+            writeLogAppend('modifyZoomImageCopyImage-104', $image_source . "\n" .  $find_image . "\n"  . $destination . "\n\n");
+            copyFilesForSDApp($find_image, $destination, 'zoom');
+        } else {
+            writeLogAppend('ERROR- modifyZoomImageCopyImage-108', $image_source . "\n" .  $find_image . "- does not exist\n"  . $destination . "\n\n");
+        }
     }
 }

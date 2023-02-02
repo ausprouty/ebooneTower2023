@@ -90,7 +90,7 @@ function publishFilesInSDCardPage($filename, $p, $destination)
         //writeLogAppend('publishFilesInSDCardPage-133', "$filename\n$old_dir\n\n");
         $to = $destination . str_replace($old_dir, $new_dir, $filename);
         $to = str_replace('//', '/', $to);
-        //writeLogAppend('WARNING- publishFilesInSDCardPage-66', $to);
+        //writeLogAppend('WARNING- publishFilesInSDCardPage-93', $to);
         $from = $filename;
         $necessary =  '/' . $p['language_iso'] . '/images/';
         if (strpos($from, $necessary) === FALSE) {
@@ -102,8 +102,17 @@ function publishFilesInSDCardPage($filename, $p, $destination)
             copyFilesForSDApp($from, $to, 107);
         }
         if (!file_exists($from)) {
-            $message = "$filename -- original file\n$from -- not found";
-            writeLogAppend('ERRORS-publishFilesInSDCardPage-83', $message);
+            /*
+            string(161) "sites/mc2/content/M2/eng/multiply2/Period1.png -- original file
+            /home/globa544/edit.mc2.online/sites/mc2/content/M2/eng/images/multiply2/Period1.png -- not found"
+            */
+            $try = str_replace('images/', '', $from);
+            if (file_exists($try)) {
+                copyFilesForSDApp($try, $to, 111);
+            } else {
+                $message = "$filename -- original file\n$from -- not found\n$try -- not found\n\n";
+                writeLogAppend('ERRORS-publishFilesInSDCardPage-115', $message);
+            }
         }
     } else {
         writeLogAppend('ERRORS-publishFilesInSDCardPage-86', "$filename -- original file");
