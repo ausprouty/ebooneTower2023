@@ -8,10 +8,11 @@ myRequireOnce('modifyLinksInternal.php');
 
 function modifyLinks($text, $p)
 {
-
+    /* We are no longer removing Zoom links
     if ($p['destination'] == 'sdcard') {
         $text = _removeZoomLinks($text);
     }
+    */
 
     // take these out so we can put in proper links later.  The editors like the URL so they can follow links in the editor.
     $text = str_ireplace('target="_self"', '', $text);
@@ -195,6 +196,7 @@ function _removeReadmoreLinks($text)
     return $text;
 }
 /*
+This is old code and is no longer supported
 <span class="zoom"><a href="https://staging.mc2.online/content/M2/eng/multiply2/Period1.png" 
      target="a_blank"><img alt="Stage of Ministry" class="lesson_image" 
      src="/sites/mc2/content/M2/eng/multiply2/Period1.png" /></a>
@@ -202,7 +204,7 @@ function _removeReadmoreLinks($text)
 */
 function _removeZoomLinks($text)
 {
-    //writeLogDebug('removeZoomLinks-203', $text);
+    writeLogDebug('removeZoomLinks-203', $text);
     $find_begin = '<span class="zoom"';
     $find_end = '</span>';
     $length_find_end = strlen($find_end);
@@ -224,6 +226,6 @@ function _removeZoomLinks($text)
 
         $pos_start = $pos_end;
     }
-    //writeLogDebug('removeZoomLinks-225', $text);
+    writeLogDebug('removeZoomLinks-225', $text);
     return $text;
 }

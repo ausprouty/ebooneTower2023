@@ -90,7 +90,7 @@ function  modifyZoomImageCopyImage($image_source, $image_destination, $p)
     $find_image = str_replace($bad, $good, $image_source);
     if (file_exists($find_image)) {
         writeLogAppend('modifyZoomImageCopyImage-91', $image_source . "\n" .  $find_image . "\n"  . $destination . "\n\n");
-        copyFilesForSDApp($find_image, $destination, 'zoom');
+        copyFilesForZoom($find_image, $destination);
     } else {
         /*
         string(183) "@/assets/images/spa/custom/Period2.png
@@ -101,10 +101,30 @@ function  modifyZoomImageCopyImage($image_source, $image_destination, $p)
         $good = $bad . 'images/';
         $find_image = str_replace($bad, $good, $find_image);
         if (file_exists($find_image)) {
-            writeLogAppend('modifyZoomImageCopyImage-104', $image_source . "\n" .  $find_image . "\n"  . $destination . "\n\n");
-            copyFilesForSDApp($find_image, $destination, 'zoom');
+            copyFilesForZoom($find_image, $destination);
         } else {
-            writeLogAppend('ERROR- modifyZoomImageCopyImage-108', $image_source . "\n" .  $find_image . "- does not exist\n"  . $destination . "\n\n");
+            /*
+            string(209) "@/assets/images/cmn/custom/image(1).png
+            /home/globa544/edit.mc2.online/sites/mc2/content/M2/images/cmn/custom/image(1).png- does not exist
+            /home/globa544/sdcard.mc2/public/images/zoom/cmn/custom/image(1).png
+            */
+            $bad = 'M2/images/cmn/';
+            if (strpos($find_image, $bad) !== false) {
+                $good = 'M2/cmn/images/';
+                $find_image = str_replace($bad, $good, $find_image);
+                if (file_exists($find_image)) {
+                    copyFilesForZoom($find_image, $destination);
+                } else {
+                    writeLogAppend('ERROR- modifyZoomImageCopyImage-113', $image_source . "\n" .  $find_image . "- does not exist\n"  . $destination . "\n\n");
+                }
+            }
+            writeLogAppend('ERROR- modifyZoomImageCopyImage-116', $image_source . "\n" .  $find_image . "- does not exist\n"  . $destination . "\n\n");
         }
     }
+}
+function copyFilesForZoom($from, $to)
+{
+    $message = "$from > $to\n";
+    writeLogAppend('WATCH-copyFilesForZoom-126', $message);
+    copyFilesForSDApp($from, $to, 'zoom');
 }

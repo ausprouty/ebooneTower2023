@@ -15,6 +15,14 @@ function copyFilesForSDApp($from, $to, $line)
         createDirectory($to);
         copy($from, $to);
     } else {
-        writeLogError('copyFilesForSDApp-19', $to);
+        $bad = '/sites/mc2/images/';
+        if (strpos($to, $bad) !== false) {
+            $good = '/assets/images/';
+            $to = str_replace($bad, $good, $to);
+            createDirectory($to);
+            copy($from, $to);
+        } else {
+            writeLogError('copyFilesForSDApp-19', $from . '->' . $to);
+        }
     }
 }
