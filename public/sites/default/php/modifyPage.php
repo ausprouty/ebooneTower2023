@@ -70,7 +70,7 @@ function modifyPage($text, $p, $data, $bookmark)
     if (strpos($text, '{text=&quot;')  !== false) {
         $text = modifyReference($text);
     }
-    writeLogDebug('modifyPage-73-ZOOM', $text);
+    //writeLogDebug('modifyPage-73-ZOOM', $text);
     //
     // strip out open new tab so that modifyLinks is called
     //
@@ -82,11 +82,11 @@ function modifyPage($text, $p, $data, $bookmark)
     //writeLogDebug('modify-page-65', $text);
     //  change internal links for easy return:
     // for SDCard we may need to remove all external references; esp those to Bible sites
-    writeLogDebug('modifyPage-85-ZOOM', $text);
+    //writeLogDebug('modifyPage-85-ZOOM', $text);
     if (strpos($text, '<a href=') !== FALSE || strpos($text, '<a class="readmore"') !== FALSE) {
         $text = modifyLinks($text, $p);
     }
-    writeLogDebug('modifyPage-88-ZOOM', $text);
+    //writeLogDebug('modifyPage-88-ZOOM', $text);
 
     // popup text needs to be visible to editor but hidden in prototype and production
     if (strpos($text, 'class="popup"') !== FALSE) {
@@ -95,15 +95,15 @@ function modifyPage($text, $p, $data, $bookmark)
     if (strpos($text, '<span class="bible-link">') !== FALSE) {
         $text = modifyBibleLinks($text, $p);
     }
-    writeLogDebug('modifyPage-96', $text);
+    //writeLogDebug('modifyPage-96', $text);
     if (strpos($text, '<div class="reveal">') !== FALSE ||  strpos($text, '<div class="reveal_big">') !== FALSE) {
         $text = modifyRevealSummary($text, $p);
     }
-    writeLogDebug('modifyPage-100', $text);
+    //writeLogDebug('modifyPage-100', $text);
     if (strpos($text, '<div class="reveal bible">') !== FALSE) {
         $text = modifyRevealBible($text, $bookmark, $p);
     }
-    writeLogDebug('modifyPage-104-ZOOM', $text);
+    //writeLogDebug('modifyPage-104-ZOOM', $text);
     if (strpos($text, 'class="zoom"') !== FALSE) {
         writeLogAppend('modifyPage-106-Zoom', $p['filename']);
         myRequireOnce('modifyZoomImage.php', $p['destination']);

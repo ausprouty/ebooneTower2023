@@ -69,10 +69,12 @@ function videoFollows($previous_url, $url)
 // you need to change the previous title phrase to include the entire passage this video shows
 function videoFollowsChangeVideoTitle($previous_title_phrase, $text, $bookmark)
 {
-    writeLogDebug('videoFollowsChangeVideoTitle-72', $text);
+    //writeLogDebug('videoFollowsChangeVideoTitle-72', $text);
+    // writeLogDebug('videoFollowsChangeVideoTitle-73', $previous_title_phrase);
     $pos_title_phrase = strpos($text, $previous_title_phrase);
     if ($pos_title_phrase === FALSE) {
-        writeLogAppend('ERROR- videoFollowsChangeVideoTitle-75', $previous_title_phrase);
+        // this will fail when you have more than two videos in a row. Don't worry about it.  It should be fine.
+        writeLogAppend('WATCH- videoFollowsChangeVideoTitle-75', $previous_title_phrase . ': May be third video');
         return $text;
     }
     $minus_title_phrase = 0 - $pos_title_phrase;
@@ -90,14 +92,15 @@ function videoFollowsChangeVideoTitle($previous_title_phrase, $text, $bookmark)
     $reference = substr($text, $pos_read_start, $length);
     $reference = str_replace('&nbsp;', '', $reference);
     $reference = trim(strip_tags($reference));
-    writeLogAppend('videoFollowsChangeVideoTitle-87', $reference);
+    //writeLogAppend('videoFollowsChangeVideoTitle-87', $reference);
     // from https://stackoverflow.com/questions/10066647/multibyte-trim-in-php
     // did not work
     //$reference = preg_replace('~^\s+|\s+$~us', '', $reference);
-    writeLogDebug('videoFollowsChangeVideoTitle-95', $reference);
+    // writeLogDebug('videoFollowsChangeVideoTitle-95', $reference);
     $watch_phrase = $bookmark['language']->watch_offline;
     $new_title_phrase = str_replace('%', $reference, $watch_phrase);
-    $debug = array(
+
+    /*$debug = array(
         'previous_title_phrase' => $previous_title_phrase,
         'pos_title_phrase' => $pos_title_phrase,
         'pos_read_start' => $pos_read_start,
@@ -105,9 +108,10 @@ function videoFollowsChangeVideoTitle($previous_title_phrase, $text, $bookmark)
         'reference' => $reference,
         'new_title_phrase' => $new_title_phrase
     );
-    writeLogDebug('videoFollowsChangeVideoTitle-108', $debug);
+    */
+    //writeLogDebug('videoFollowsChangeVideoTitle-108', $debug);
     //$text = str_replace($previous_title_phrase, $new_title_phrase, $text);
-    writeLogDebug('videoFollowsChangeVideoTitle-110', $new_title_phrase);
+    // writeLogDebug('videoFollowsChangeVideoTitle-110', $new_title_phrase);
     //return $text;
     return  $new_title_phrase;
 }

@@ -10,13 +10,16 @@ input:
 */
 function modifyZoomImageGetAlt($text)
 {
-    $find_start = '<img alt="';
+    $find_start = 'alt="';
+    if (strpos($text, $find_start) === false) {
+        return null;
+    }
     $find_end = '"';
     $pos_start = strpos($text, $find_start) + strlen($find_start);
     $pos_end = strpos($text, $find_end, $pos_start);
     $length = $pos_end - $pos_start;
     $alt = substr($text, $pos_start, $length);
-    writeLogAppend('modifyZoomImageGetAlt', $alt);
+    writeLogAppend('modifyZoomImageGetAlt',  $text . " > " . $alt);
     return $alt;
 }
 

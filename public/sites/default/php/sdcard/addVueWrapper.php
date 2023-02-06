@@ -4,7 +4,7 @@ myRequireOnce('myGetPrototypeFile.php');
 
 function addVueWrapperPage($html)
 {
-    $needle = '<span class="zoom">';
+    $needle = '<vue-image-zoomer';
     if (strpos($html, $needle) === false) {
         $template = myGetPrototypeFile('page.vue', $subdirectory = 'sdcard');
     } else {

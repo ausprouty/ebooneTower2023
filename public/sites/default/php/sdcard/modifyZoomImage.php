@@ -25,12 +25,12 @@ myRequireOnce('writeLog.php');
 
 function modifyZoomImage($text, $p)
 {
-    writeLogDebug('modifyZoomImage-sd-27', $text);
+    //writeLogDebug('modifyZoomImage-sd-27', $text);
     $template = '   
     <vue-image-zoomer
     regular="[regular_image]" 
     zoom="[zoom_image]" :zoom-amount="3" img-class="img-fluid" alt="[alt]">
-    <img src=[source_image]" img-class="img-fluid" />
+    <img src="[source_image]" img-class="img-fluid" />
     </vue-image-zoomer>';
 
     $find_start = '<span class="zoom">';
@@ -42,7 +42,7 @@ function modifyZoomImage($text, $p)
         $length_span = $pos_end - $pos_start + strlen($find_end);
         $length_words = $pos_end - $pos_start;
         $old = substr($text, $pos_start, $length_words);
-        writeLogAppend('modifyZoomImage-sd-43', $old);
+        //writeLogAppend('modifyZoomImage-sd-43', $old);
         $alt =  modifyZoomImageGetAlt($old);
         $source_image = modifyZoomImageGetImage($old);
         $regular_image = modifyZoomImageGetImageRegular($source_image, $p);
@@ -54,6 +54,7 @@ function modifyZoomImage($text, $p)
         $new = str_replace($placeholders, $values, $template);
         $text = substr_replace($text, $new, $pos_start, $length_span);
     }
+    writeLogDebug('modifyZoomImage-sd-57', $text);
     return $text;
 }
 
@@ -66,11 +67,13 @@ function modifyZoomImage($text, $p)
 
 function  modifyZoomImageGetImageRegular($image, $p)
 {
+    writeLogDebug('modifyZoomImageGetImageRegular-69', $image);
     $find = '/images/';
     $pos_start = strpos($image, $find) + strlen($find);
     $raw = substr($image, $pos_start);
     $output = '/images/zoom/' . $raw;
     modifyZoomImageCopyImage($image, $output, $p);
+    writeLogDebug('modifyZoomImageGetImageRegular-69', $output);
     return $output;
 }
 function   modifyZoomImageGetImageZoom($image)
@@ -89,7 +92,7 @@ function  modifyZoomImageCopyImage($image_source, $image_destination, $p)
     $good = ROOT_EDIT_CONTENT . $p['country_code'] . "/";
     $find_image = str_replace($bad, $good, $image_source);
     if (file_exists($find_image)) {
-        writeLogAppend('modifyZoomImageCopyImage-91', $image_source . "\n" .  $find_image . "\n"  . $destination . "\n\n");
+        //writeLogAppend('modifyZoomImageCopyImage-91', $image_source . "\n" .  $find_image . "\n"  . $destination . "\n\n");
         copyFilesForZoom($find_image, $destination);
     } else {
         /*
@@ -117,8 +120,9 @@ function  modifyZoomImageCopyImage($image_source, $image_destination, $p)
                 } else {
                     writeLogAppend('ERROR- modifyZoomImageCopyImage-113', $image_source . "\n" .  $find_image . "- does not exist\n"  . $destination . "\n\n");
                 }
+            } else {
+                writeLogAppend('ERROR- modifyZoomImageCopyImage-116', $image_source . "\n" .  $find_image . "- does not exist\n"  . $destination . "\n\n");
             }
-            writeLogAppend('ERROR- modifyZoomImageCopyImage-116', $image_source . "\n" .  $find_image . "- does not exist\n"  . $destination . "\n\n");
         }
     }
 }
