@@ -103,10 +103,10 @@ function publishFiles($destination, $p, $fname, $text, $standard_css, $selected_
     publishFilesInPage($output, $p);
     // do not make relative for websites (debugging  download serirs)
     if ($destination != 'staging' && $destination != 'website') {
+        //writeLogDebug('publishFile-106-ZOOM',  $output);
         $output = makePathsRelative($output, $fname);
     }
-    $output = modifyVersion($output, $fname);
-    writeLogDebug('publishFile-100-Append',  $fname);
+    writeLogDebug('publishFile-109-ZOOM',  $output);
     fileWrite($fname, $output, $p);
     return $output;
 }

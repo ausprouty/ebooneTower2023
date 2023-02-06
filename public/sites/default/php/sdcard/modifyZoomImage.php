@@ -27,11 +27,13 @@ function modifyZoomImage($text, $p)
 {
     //writeLogDebug('modifyZoomImage-sd-27', $text);
     $template = '   
+    <div class="zoom-image">
     <vue-image-zoomer
     regular="[regular_image]" 
     zoom="[zoom_image]" :zoom-amount="3" img-class="img-fluid" alt="[alt]">
     <img src="[source_image]" img-class="img-fluid" />
-    </vue-image-zoomer>';
+    </vue-image-zoomer>
+    </div>';
 
     $find_start = '<span class="zoom">';
     $find_end = '</span>';
@@ -54,7 +56,7 @@ function modifyZoomImage($text, $p)
         $new = str_replace($placeholders, $values, $template);
         $text = substr_replace($text, $new, $pos_start, $length_span);
     }
-    writeLogDebug('modifyZoomImage-sd-57', $text);
+    //writeLogDebug('modifyZoomImage-sd-57', $text);
     return $text;
 }
 
@@ -67,13 +69,13 @@ function modifyZoomImage($text, $p)
 
 function  modifyZoomImageGetImageRegular($image, $p)
 {
-    writeLogDebug('modifyZoomImageGetImageRegular-69', $image);
+    //writeLogDebug('modifyZoomImageGetImageRegular-69', $image);
     $find = '/images/';
     $pos_start = strpos($image, $find) + strlen($find);
     $raw = substr($image, $pos_start);
     $output = '/images/zoom/' . $raw;
     modifyZoomImageCopyImage($image, $output, $p);
-    writeLogDebug('modifyZoomImageGetImageRegular-69', $output);
+    //writeLogDebug('modifyZoomImageGetImageRegular-69', $output);
     return $output;
 }
 function   modifyZoomImageGetImageZoom($image)

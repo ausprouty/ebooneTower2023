@@ -51,7 +51,7 @@ function publishPage($p)
     //
     $text = modifyPage($text, $p, $data, $bookmark);
     $text .= '<!--- Created by publishPage-->' . "\n";
-    //writeLogDebug('publishPage-54', $p['destination'] );
+    writeLogDebug('publishPage-ZOOM-54', $text);
     if ($p['destination'] == 'sdcard') {
         myRequireOnce('addVueWrapper.php', 'sdcard');
         $text = addVueWrapperPage($text);
@@ -76,9 +76,9 @@ function publishPage($p)
         $fname = $series_dir .  ucfirst($data['language_iso'])  . ucfirst($data['filename']) . '.vue';
     }
 
-
+    writeLogDebug('publishPage-ZOOM-79', $text);
     // go to publishFiles
-    // writeLogAppend('publishPage-70', $p['destination'] . '    '. $fname);
+    // writeLogAppend('publishPage-81', $p['destination'] . '    '. $fname);
     publishFiles($p['destination'], $p, $fname, $text,  STANDARD_CSS, $selected_css);
 
     //writeLog ('publishPage-72-debug', $debug);//

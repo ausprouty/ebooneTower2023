@@ -105,7 +105,7 @@ function modifyPage($text, $p, $data, $bookmark)
     }
     //writeLogDebug('modifyPage-104-ZOOM', $text);
     if (strpos($text, 'class="zoom"') !== FALSE) {
-        writeLogAppend('modifyPage-106-Zoom', $p['filename']);
+        //writeLogAppend('modifyPage-106-Zoom', $p['filename']);
         myRequireOnce('modifyZoomImage.php', $p['destination']);
         $text = modifyZoomImage($text, $p);
     }
@@ -115,6 +115,7 @@ function modifyPage($text, $p, $data, $bookmark)
     if (strpos($text, '<div class="external-javascript') !== false) {
         $text  = modifyExternalJavascript($text);
     }
+    //writeLogDebug('modifyPage-118-ZOOM', $text);
     /* if (strpos($text, '<div class="header') !== false){
 This needs to come later in the process
     }
@@ -134,6 +135,6 @@ This needs to come later in the process
     $text = str_replace('<hr />', '', $text);
     $text = str_replace('<li>&nbsp;', '<li>', $text);
     $text = str_replace('</a> )', '</a>)', $text);
-    //writeLogDebug('modifyPage-120', $text);
+    writeLogDebug('modifyPage-120', $text);
     return $text;
 }

@@ -246,6 +246,12 @@ div.block-quote {
   font-weight: 900;
   padding: 20px;
 }
+div.zoom-image{
+  border: 2px;
+  color:var(--color-blue-mc2);
+  padding:3px;
+  border-style: solid;
+}
 
 img {
   border-style: none;
