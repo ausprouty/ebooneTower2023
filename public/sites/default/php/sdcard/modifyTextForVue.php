@@ -71,7 +71,7 @@ function modifyTextForVuePopUp($text)
         // get reference
         $needle_gt = '>';
         $pos_label_begin = strpos($text, $needle_gt, $pos_href_start) + 1;
-        $needle_lt = '>';
+        $needle_lt = '<';
         $pos_label_end = strpos($text, $needle_lt, $pos_label_begin);
         $length = $pos_label_end - $pos_label_begin;
         $reference = substr($text,  $pos_label_begin, $length);

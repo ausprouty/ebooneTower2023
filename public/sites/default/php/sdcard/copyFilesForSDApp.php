@@ -2,6 +2,7 @@
 
 function copyFilesForSDApp($from, $to, $line)
 {
+    $to = str_replace('//', '/', $to);
     $message = "$to\n$from\n$line\n\n";
     $route_guard = ['assets', 'public', 'router', 'views'];
     $remove = ROOT_SDCARD;

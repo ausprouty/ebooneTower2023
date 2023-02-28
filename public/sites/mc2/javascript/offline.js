@@ -56,13 +56,13 @@ function offlineSeriesCheck(series) {
     if ('serviceWorker' in navigator && swWorking == 'TRUE') {
       console.log('I have a service worker')
       inLocalStorage('offline', series).then(function (result) {
-        console.log(result + ' is value')
         var link = ''
         if (result == '') {
-          console.log(series + ' not offline')
+          console.log(series + ' not available offline')
           link = document.getElementById('offline-request')
           link.style.visibility = 'visible'
         } else {
+          console.log(series + ' available offline')
           link = document.getElementById('offline-ready')
           link.style.visibility = 'visible'
         }
@@ -195,6 +195,7 @@ if (el) {
       event.preventDefault()
       console.log('button pressed')
       var id = this.dataset.json
+      console.log(id)
       var ajaxPromise = fetch(id)
         .then(function (response) {
           //get-series-urls returns a JSON-encoded array of

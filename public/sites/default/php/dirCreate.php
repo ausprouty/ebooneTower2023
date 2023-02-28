@@ -55,7 +55,9 @@ function dirCreate($scope, $destination,  $p, $folders = null, $create = true)
             $dir .= $p['country_code']  . '/' . $p['language_iso'] . '/' . $p['folder_name'] . '/';
             break;
         case 'json_series':
-            $dir .= $p['country_code']  . '/' . $p['language_iso'] . '/' . $p['folder_name'] . '/';
+            $good = '/sites/' . SITE_CODE . '/content/' . $p['country_code']  . '/' . $p['language_iso'] . '/' . $p['folder_name'] . '/';
+            $bad = '/content/';
+            $dir = str_replace($bad, $good, $dir);
             break;
         case 'default':
     }

@@ -86,7 +86,7 @@ function createSeries($p, $data)
         $download_ready,
         $book_title,
         $description,
-        $language_dir . 'files.json',
+        $language_dir . 'files.json',  // but his will be morphed to /sites/mc2/content
         $download_now,
         $p['version'],
         $footer

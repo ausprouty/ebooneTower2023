@@ -113,9 +113,9 @@ function  modifyZoomImageCopyImage($image_source, $image_destination, $p)
             /home/globa544/edit.mc2.online/sites/mc2/content/M2/images/cmn/custom/image(1).png- does not exist
             /home/globa544/sdcard.mc2/public/images/zoom/cmn/custom/image(1).png
             */
-            $bad = 'M2/images/cmn/';
+            $bad = 'M2/images/' . $p['language_iso'] . '/';
             if (strpos($find_image, $bad) !== false) {
-                $good = 'M2/cmn/images/';
+                $good = 'M2/' . $p['language_iso'] . '/images/';
                 $find_image = str_replace($bad, $good, $find_image);
                 if (file_exists($find_image)) {
                     copyFilesForZoom($find_image, $destination);
