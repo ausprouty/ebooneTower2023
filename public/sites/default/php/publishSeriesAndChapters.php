@@ -6,6 +6,7 @@ myRequireOnce('publishFiles.php');
 myRequireOnce('publishSeries.php');
 myRequireOnce('publishPage.php');
 myRequireOnce('writeLog.php');
+myRequireOnce('publicationCache.php');
 
 
 function publishSeriesAndChapters($p)
@@ -24,8 +25,18 @@ function publishSeriesAndChapters($p)
     // find the list of chapters that are ready to publish
     $series = contentArrayFromRecnum($p['recnum']);
     $text = json_decode($series['text']);
+    // restore cache from previous publication attempt
+    $cache = getCache($p);
+    writeLog('publishSeriesAndChapters-30', $cache);
+    $files_in_pages =  $cache['files_included'];
     $chapters = $text->chapters;
     foreach ($chapters as $chapter) {
+        // skip if in cache 
+        if (is_array($cache['sessions_published'])) {
+            if (in_array($chapter, $cache['sessions_published'])) {
+                continue;
+            }
+        }
         $sql = NULL;
         if ($p['destination'] == 'staging' && $chapter->prototype) {
             $sql = "SELECT recnum FROM  content
@@ -67,6 +78,8 @@ function publishSeriesAndChapters($p)
                     $result =  publishPage($p);
                     if (is_array($result['files_in_page'])) {
                         $files_in_pages = array_merge($files_in_pages, $result['files_in_page']);
+                        writeLogAppend('publishSeriesAndChapters-80', $result['files_in_page']);
+                        writeLogAppend('publishSeriesAndChapters-81', $files_in_pages);
                     }
                 } else {
                     $message = 'NO RESULT for ' . $file . "\n";
@@ -74,10 +87,15 @@ function publishSeriesAndChapters($p)
                 }
             }
         }
+
+        $cache['sessions_published'][] = $chapter->filename;
+        $cache['files_included'][] = $files_in_pages;
+        updateCache($cache);
     }
     if ($p['destination'] == 'website' || $p['destination'] == 'staging') {
         publishSeriesAndChaptersMakeJsonIndex($files_json, $files_in_pages, $p);
     }
+    //clearCache($cache);
     return true;
 }
 

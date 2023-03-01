@@ -3,6 +3,7 @@
 myRequireOnce('createSeries.php');
 myRequireOnce('dirCreate.php');
 myRequireOnce('publishFiles.php');
+myRequireOnce('publicationCache.php');
 
 
 
