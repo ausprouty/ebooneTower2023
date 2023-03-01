@@ -15,7 +15,7 @@ function getCache()
     $data =  sqlArray($sql);
     $key = 'test';
     writeLogAppend('testCache', $data['sessions_published']);
-    $test = json_decode($data['sessions_published']);
+    $test = json_decode($data);
     writeLogAppend('testCache', $test);
     return $test;
 }

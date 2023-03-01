@@ -33,7 +33,8 @@ function publishSeriesAndChapters($p)
     foreach ($chapters as $chapter) {
         // skip if in cache 
         if (is_array($cache['sessions_published'])) {
-            if (in_array($chapter, $cache['sessions_published'])) {
+            if (in_array($chapter->filename, $cache['sessions_published'])) {
+                writeLogAppend('publishSeriesAndChapters-37', $chapter->filename);
                 continue;
             }
         }
@@ -62,7 +63,7 @@ function publishSeriesAndChapters($p)
                 $result =  publishPage($p);
                 if (is_array($result)) {
                     if (isset($result['files_in_page'])) {
-                        $files_in_pages = array_merge($files_in_pages, $result['files_in_page']);
+                        $files_in_pages = publishSeriesAndChaptersCombineArrays($files_in_pages, $result['files_in_page']);
                     }
                 }
             } else {
@@ -77,9 +78,7 @@ function publishSeriesAndChapters($p)
                     $p['recnum'] = $data['recnum'];
                     $result =  publishPage($p);
                     if (is_array($result['files_in_page'])) {
-                        $files_in_pages = array_merge($files_in_pages, $result['files_in_page']);
-                        writeLogAppend('publishSeriesAndChapters-80', $result['files_in_page']);
-                        writeLogAppend('publishSeriesAndChapters-81', $files_in_pages);
+                        $files_in_pages = publishSeriesAndChaptersCombineArrays($files_in_pages, $result['files_in_page']);
                     }
                 } else {
                     $message = 'NO RESULT for ' . $file . "\n";
@@ -89,14 +88,27 @@ function publishSeriesAndChapters($p)
         }
 
         $cache['sessions_published'][] = $chapter->filename;
-        $cache['files_included'][] = $files_in_pages;
-        updateCache($cache);
+        $cache['files_included'] = $files_in_pages;
+        updateCache($cache, $p['destination']);
     }
     if ($p['destination'] == 'website' || $p['destination'] == 'staging') {
         publishSeriesAndChaptersMakeJsonIndex($files_json, $files_in_pages, $p);
     }
-    //clearCache($cache);
+    clearCache($cache, $p['destination']);
     return true;
+}
+function publishSeriesAndChaptersCombineArrays($files_in_pages, $new_files)
+{
+    writeLogDebug('publishSeriesAndChaptersCombineArrays-101', $files_in_pages);
+    writeLogDebug('publishSeriesAndChaptersCombineArrays-102', $new_files);
+    foreach ($new_files as $new) {
+        writeLogAppend('ppublishSeriesAndChaptersCombineArrays-104', $new);
+        if (!in_array($new, $files_in_pages)) {
+            array_push($files_in_pages, $new);
+        }
+    }
+    writeLogAppend('publishSeriesAndChaptersCombineArrays-109', $files_in_pages);
+    return $files_in_pages;
 }
 
 function publishSeriesAndChaptersMakeJsonIndex($files_json, $files_in_pages, $p)

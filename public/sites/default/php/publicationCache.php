@@ -10,11 +10,8 @@ function getCache($p)
 {
     $key =  keyCache($p);
     $sql = 'SELECT * FROM cache WHERE series ="' . $key . '" LIMIT 1';
-    writeLogAppend('getCache-13', $sql);
     $data =  sqlArray($sql);
-    writeLogAppend('getCache-15', $data);
     if ($data) {
-        writeLogAppend('getCache-15', $data);
         $cache = array(
             'key' => $key,
             'sessions_published' => json_decode($data['sessions_published']),
@@ -27,32 +24,38 @@ function getCache($p)
             'files_included' => []
         );
     }
-    writeLogAppend('getCache-28', $cache);
     return $cache;
 }
 
-function updateCache($cache)
+function updateCache($cache, $destination)
 
 {
-    $published = htmlspecialchars(json_encode($cache['sessions_published']), ENT_QUOTES);
-    $included = htmlspecialchars(json_encode($cache['files_included']), ENT_QUOTES);
-    writeLogAppend('updateCache-37', $cache);
+    $published = json_encode($cache['sessions_published']);
+    $included = json_encode($cache['files_included']);
     $sql = 'SELECT * FROM cache WHERE series ="' . $cache['key'] . '" LIMIT 1';
     $data =  sqlArray($sql);
     if ($data) {
-        $sql = 'UPDATE cache SET sessions_published = "' . $published . '", 
-        files_included = "' . $included . '" WHERE series = "' . $cache['key'] . '"';
-        writeLogAppend('updateCache-43', $sql);
+        $sql = "UPDATE cache SET sessions_published = '" . $published . "', 
+        files_included = '" . $included . "' WHERE series = '" . $cache['key'] . "'";
         sqlArray($sql, 'update');
     } else {
-        $sql = 'INSERT INTO cache (series, sessions_published,files_included)
-           VALUES ("' . $cache['key'] . '","' . $published . '", "' . $included . '")';
-        writeLogAppend('updateCache-48', $sql);
+        $sql = "INSERT INTO cache (series, sessions_published,files_included)
+           VALUES ('" . $cache['key'] . "','" . $published . "', '" . $included . "')";
         sqlInsert($sql);
     }
 }
-function clearCache($cache)
+function clearCache($cache, $destination)
 {
     $sql = 'DELETE  FROM cache WHERE series ="' . $cache['key'] . '" LIMIT 1';
     sqlDelete($sql);
+}
+function checkCache($p)
+{
+    $output = '';
+    $key = keyCache($p);
+    $sql = 'SELECT * FROM cache WHERE series ="' . $key . '" LIMIT 1';
+    $data =  sqlArray($sql);
+    if ($data) {
+        $output = $data['source'];
+    }
 }

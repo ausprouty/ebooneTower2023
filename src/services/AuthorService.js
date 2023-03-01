@@ -183,19 +183,20 @@ export default {
     params.page = 'bookmark'
     params.action = 'bookmark'
     var content = await this.aReturnContent(params)
-    //console.log(params)
-    //console.log('bookmark Meturned after above paramters:')
-    //console.log(content)
     if (content) {
       store.dispatch('updateAllBookmarks', content)
     } else {
-      //console.log('No bookmark found')
       store.dispatch('newBookmark', null)
     }
     return content
   },
   bookmarkClear() {
     store.dispatch('newBookmark', null)
+  },
+  async checkCache(params) {
+    params.page = 'publicationCache'
+    params.action = 'checkCache'
+    return await this.aReturnResponse(params)
   },
 
   clearActionAndPage() {

@@ -105,6 +105,7 @@ import Chapter from '@/components/ChapterPreview.vue'
 import LogService from '@/services/LogService.js'
 import PrototypeService from '@/services/PrototypeService.js'
 import PublishService from '@/services/PublishService.js'
+import AuthorService from '@/services/AuthorService.js'
 import SDCardService from '@/services/SDCardService.js'
 import NavBar from '@/components/NavBarAdmin.vue'
 
@@ -246,16 +247,22 @@ export default {
         this.write = this.authorize('write', this.$route.params)
 
         // authorize for prototype and publish
+        var cache = await AuthorService.checkCache('checkCache', this.$route.params)
         this.prototype = false
         this.publish = false
         this.pdf = false
         if (this.recnum) {
           this.prototype = this.mayPrototypeSeries()
           if (this.prototype) {
-            if (!this.prototype_date) {
-              this.prototype_text = 'Prototype Series and Chapters'
+            if (this.prototype_date) {
+              if (cache == 'staging'){
+                this.publish_text = 'Resume Publishing Series and Chapters'
+              }
+              else{
+                this.prototype_text = 'Prototype Series and Chapters Again'
+              }
             } else {
-              this.prototype_text = 'Prototype Series and Chapters Again'
+              this.prototype_text = 'Prototype Series and Chapters'
             }
           }
           LogService.consoleLogMessage(
@@ -266,7 +273,12 @@ export default {
             if (this.publish) {
               this.sdcard = true;
               if (this.publish_date) {
-                this.publish_text = 'Publish Series and Chapters Again'
+                if (cache == 'website'){
+                  this.publish_text = 'Resume Publishing Series and Chapters'
+                }
+                else{
+                  this.publish_text = 'Publish Series and Chapters Again'
+                }
               } else {
                 this.publish_text = 'Publish Series and Chapters'
               }
