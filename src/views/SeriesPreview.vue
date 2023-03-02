@@ -229,14 +229,52 @@ export default {
       LogService.consoleLogMessage('localBookmark')
       LogService.consoleLogMessage(bm)
     },
+    async checkPublish(){
+      if (this.prototype_date) {
+        this.publish = this.mayPublishSeries()
+        if (this.publish) {
+          this.sdcard = true;
+          if (this.publish_date) {
+            this.publish_text = 'Publish Series and Chapters Again'
+          } else {
+            this.publish_text = 'Publish Series and Chapters'
+          }
+          this.sdcard_text = 'Publish Series and Chapters for SDCard'
+          this.videolist_text = 'Publish VideoList'
+          this.pdf_text = 'Publish PDF'
+        }
+      }
+      var params = {}
+      params.route = JSON.stringify(this.$route.params)
+      params.destination = 'website'
+      var cache = await AuthorService.checkCache(params)
+      console.log(cache)
+      if (cache == 'website') {
+        this.publish_text = 'Resume Publishing Series and Chapters'
+      }
+    },
+    async checkPrototype() {
+      this.prototype = this.mayPrototypeSeries()
+      if (this.prototype) {
+        if (this.prototype_date) {
+          this.prototype_text = 'Prototype Series and Chapters Again'
+        } else {
+          this.prototype_text = 'Prototype Series and Chapters'
+        }
+        var params = {}
+        params.route = JSON.stringify(this.$route.params)
+        params.destination = 'staging'
+        var cache = await AuthorService.checkCache(params)
+        console.log(cache)
+        if (cache == 'staging'){
+          this.prototype_text = 'Resume Prototyping Series and Chapters'
+        }
+      }
+    },
     async loadView() {
       try {
         LogService.consoleLogMessage(this.$route.params)
         await this.getSeries(this.$route.params)
-        //if (this.recnum) {
-        //  this.localBookmark(this.recnum)
-        //}
-
         this.series_image_dir =
           this.$route.params.country_code +
           '/' +
@@ -245,51 +283,13 @@ export default {
           this.$route.params.folder_name
         this.readonly = this.authorize('readonly', this.$route.params)
         this.write = this.authorize('write', this.$route.params)
-
-        // authorize for prototype and publish
-        var cache = await AuthorService.checkCache('checkCache', this.$route.params)
         this.prototype = false
         this.publish = false
         this.pdf = false
         if (this.recnum) {
-          this.prototype = this.mayPrototypeSeries()
-          if (this.prototype) {
-            if (this.prototype_date) {
-              if (cache == 'staging'){
-                this.publish_text = 'Resume Publishing Series and Chapters'
-              }
-              else{
-                this.prototype_text = 'Prototype Series and Chapters Again'
-              }
-            } else {
-              this.prototype_text = 'Prototype Series and Chapters'
-            }
-          }
-          LogService.consoleLogMessage(
-            'this prototype date is ' + this.prototype_date
-          )
-          if (this.prototype_date) {
-            this.publish = this.mayPublishSeries()
-            if (this.publish) {
-              this.sdcard = true;
-              if (this.publish_date) {
-                if (cache == 'website'){
-                  this.publish_text = 'Resume Publishing Series and Chapters'
-                }
-                else{
-                  this.publish_text = 'Publish Series and Chapters Again'
-                }
-              } else {
-                this.publish_text = 'Publish Series and Chapters'
-              }
-              this.sdcard_text = 'Publish Series and Chapters for SDCard'
-              this.videolist_text = 'Publish VideoList'
-              this.pdf_text = 'Publish PDF'
-            }
-          }
+          this.checkPrototype()
+          this.checkPublish()
         }
-        // end of Prototype and Publish
-
         this.loaded = true
         this.loading = false
       } catch (error) {
