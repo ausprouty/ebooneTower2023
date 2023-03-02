@@ -196,7 +196,7 @@ export default {
   async checkCache(params) {
     params.page = 'publicationCache'
     params.action = 'checkCache'
-    return await this.aReturnResponse(params)
+    return await this.aReturnData(params)
   },
 
   clearActionAndPage() {

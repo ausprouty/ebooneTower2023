@@ -6,7 +6,7 @@
 //define("ROOT_EDIT", '/home/globa544/edit.mc2.online/');
 myRequireOnce('publishDestination.php');
 myRequireOnce('publishFilesInSDCardPage.php', 'sdcard');
-myRequireOnce('writeLog.php');
+myRequireOnce('//writeLog.php');
 myRequireOnce('version2Text.php');
 
 
@@ -66,7 +66,7 @@ function publishFilesInPageFind($find_begin, $text, $p)
                         createDirectory($to);
                         copy($from, $to);
                         $message =  "$filename copied from $from to  $to\n";
-                        writeLogAppend('publishFilesInPageFind-65', $message);
+                        //writeLogAppend('publishFilesInPageFind-65', $message);
                     }
                 }
             } else { // we do not need to copy html files; they may not have been rendered yet.
@@ -79,7 +79,7 @@ function publishFilesInPageFind($find_begin, $text, $p)
                                     publishFilesInSDCardPage($filename, $p, $destination);
                                 } else {
                                     $message = "$from not found";
-                                    writeLogAppend('ERRORS-PublishFilesInPage-72', $message);
+                                    //writeLogAppend('ERRORS-PublishFilesInPage-72', $message);
                                 }
                             }
                         }

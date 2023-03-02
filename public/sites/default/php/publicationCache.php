@@ -8,8 +8,10 @@ function keyCache($p)
 }
 function getCache($p)
 {
+    // writeLogAppend('getCache-11', $p);
     $key =  keyCache($p);
-    $sql = 'SELECT * FROM cache WHERE series ="' . $key . '" LIMIT 1';
+    $destination = $p['destination'];
+    $sql = 'SELECT * FROM cache WHERE series ="' . $key . '" AND source = "' . $destination . '" LIMIT 1';
     $data =  sqlArray($sql);
     if ($data) {
         $cache = array(
@@ -32,7 +34,7 @@ function updateCache($cache, $destination)
 {
     $published = json_encode($cache['sessions_published']);
     $included = json_encode($cache['files_included']);
-    $sql = 'SELECT * FROM cache WHERE series ="' . $cache['key'] . '" AND source = "' . $destination . '"LIMIT 1';
+    $sql = 'SELECT * FROM cache WHERE series ="' . $cache['key'] . '" AND source = "' . $destination . '" LIMIT 1';
     $data =  sqlArray($sql);
     if ($data) {
         $sql = "UPDATE cache SET sessions_published = '" . $published . "', 
@@ -46,18 +48,17 @@ function updateCache($cache, $destination)
 }
 function clearCache($cache, $destination)
 {
-    $sql = 'DELETE  FROM cache WHERE series ="' . $cache['key'] . '" AND source = "' . $destination . '"LIMIT 1';
+    $sql = 'DELETE  FROM cache WHERE series ="' . $cache['key'] . '" AND source = "' . $destination . '" LIMIT 1';
     sqlDelete($sql);
 }
 function checkCache($p)
 {
     $output = '';
     $key = keyCache($p);
-    writeLog('checkCache-56', $p);
-    $sql = 'SELECT * FROM cache WHERE series ="' . $key . '" AND source = "' . $p['destination'] . '"LIMIT 1';
-    writeLog('checkCache-58', $sql);
+    $sql = 'SELECT * FROM cache WHERE series ="' . $key . '" AND source = "' . $p['destination'] . '" LIMIT 1';
     $data =  sqlArray($sql);
     if ($data) {
         $output = $data['source'];
     }
+    return $output;
 }

@@ -5,13 +5,21 @@
     <div class="error" v-if="error">There was an error...{{ this.error }}</div>
     <div class="content" v-if="loaded">
       <div v-if="this.publish">
-        <button class="button" @click="localPublish('website')">
+        <button
+          class="button"
+          :class="{ warning: publishIncomplete}"
+          @click="localPublish('website')"
+        >
           {{ this.publish_text }}
         </button>
       </div>
       <div v-if="this.prototype">
         <div>
-          <button class="button" @click="localPublish('prototype')">
+          <button
+            class="button"
+            :class="{ warning: prototypeIncomplete}"
+          @click="localPublish('prototype')"
+          >
             {{ this.prototype_text }}
           </button>
         </div>
@@ -135,6 +143,8 @@ export default {
       download_now: '',
       description: '',
       style: '',
+      prototypeIncomplete: false,
+      publishIncomplete: false
     }
   },
 
@@ -193,19 +203,21 @@ export default {
       params.route = JSON.stringify(this.$route.params)
       if (location == 'prototype') {
         this.prototype_text = 'Prototyping'
+        params.resume = this.prototypeIncomplete
         response = await PrototypeService.publish('seriesAndChapters', params)
         this.prototype_text = 'Prototyped'
       }
       if (location == 'website') {
         this.publish_text = 'Publishing'
+        params.resume = this.prototypeIncomplete
         response = await PublishService.publish('seriesAndChapters', params)
         this.publish_text = 'Published'
       }
       if (location == 'sdcard') {
-        console.log ('location is sdcard')
+        console.log('location is sdcard')
         this.sdcard_text = 'Publishing'
         response = await SDCardService.publish('seriesAndChapters', params)
-        console.log ('finsihed publishing to  sdcard')
+        console.log('finsihed publishing to  sdcard')
         this.sdcard_text = 'Published to SD Card'
       }
 
@@ -227,7 +239,7 @@ export default {
       param.library_code = this.$route.params.library_code
       var bm = await PrototypeService.publish('bookmark', param)
       LogService.consoleLogMessage('localBookmark')
-      LogService.consoleLogMessage(bm)
+      LogService.consoleLogMessage (bm)
     },
     async checkPublish(){
       if (this.prototype_date) {
@@ -250,6 +262,7 @@ export default {
       var cache = await AuthorService.checkCache(params)
       console.log(cache)
       if (cache == 'website') {
+        this.publishIncomplete = true
         this.publish_text = 'Resume Publishing Series and Chapters'
       }
     },
@@ -267,6 +280,7 @@ export default {
         var cache = await AuthorService.checkCache(params)
         console.log(cache)
         if (cache == 'staging'){
+          this.prototypeIncomplete = true
           this.prototype_text = 'Resume Prototyping Series and Chapters'
         }
       }
@@ -308,3 +322,8 @@ export default {
   },
 }
 </script>
+<style scoped>
+.warning{
+    background-color: red;
+  }
+</style>

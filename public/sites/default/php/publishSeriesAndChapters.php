@@ -27,16 +27,21 @@ function publishSeriesAndChapters($p)
     $text = json_decode($series['text']);
     // restore cache from previous publication attempt
     $cache = getCache($p);
-    writeLog('publishSeriesAndChapters-30', $cache);
+    //writeLogAppend('publishSeriesAndChapters-30', $cache);
     $files_in_pages =  $cache['files_included'];
     $chapters = $text->chapters;
     foreach ($chapters as $chapter) {
         // skip if in cache 
         if (is_array($cache['sessions_published'])) {
             if (in_array($chapter->filename, $cache['sessions_published'])) {
-                writeLogAppend('publishSeriesAndChapters-37', $chapter->filename);
                 continue;
             }
+        }
+        // it is possible that the server has finished the previous task and has
+        // deleted the cache.  You do not want to do everything over again.
+        if (!is_array($cache['sessions_published']) && $p['resume']) {
+            writeLogAppend('publishSeriesAndChapters-37', $chapter->filename);
+            continue;
         }
         $sql = NULL;
         if ($p['destination'] == 'staging' && $chapter->prototype) {
@@ -94,27 +99,27 @@ function publishSeriesAndChapters($p)
     if ($p['destination'] == 'website' || $p['destination'] == 'staging') {
         publishSeriesAndChaptersMakeJsonIndex($files_json, $files_in_pages, $p);
     }
-    //clearCache($cache, $p['destination']);
+    clearCache($cache, $p['destination']);
     return true;
 }
 function publishSeriesAndChaptersCombineArrays($files_in_pages, $new_files)
 {
-    writeLogDebug('publishSeriesAndChaptersCombineArrays-101', $files_in_pages);
-    writeLogDebug('publishSeriesAndChaptersCombineArrays-102', $new_files);
+    //writeLogDebug('publishSeriesAndChaptersCombineArrays-101', $files_in_pages);
+    //writeLogDebug('publishSeriesAndChaptersCombineArrays-102', $new_files);
     foreach ($new_files as $new) {
         writeLogAppend('ppublishSeriesAndChaptersCombineArrays-104', $new);
         if (!in_array($new, $files_in_pages)) {
             array_push($files_in_pages, $new);
         }
     }
-    writeLogAppend('publishSeriesAndChaptersCombineArrays-109', $files_in_pages);
+    //writeLogAppend('publishSeriesAndChaptersCombineArrays-109', $files_in_pages);
     return $files_in_pages;
 }
 
 function publishSeriesAndChaptersMakeJsonIndex($files_json, $files_in_pages, $p)
 {
     if ($p['destination'] == 'sdcard') {
-        writeLogDebug('publishSeriesAndChaptersMakeJsonIndex90', $p['destination']);
+        //writeLogDebug('publishSeriesAndChaptersMakeJsonIndex90', $p['destination']);
         return;
     }
 
@@ -137,6 +142,6 @@ function publishSeriesAndChaptersMakeJsonIndex($files_json, $files_in_pages, $p)
     $json_series_dir = dirCreate('json_series', $p['destination'],  $p, $folders = null);
     //writeLogDebug('publishSeriesAndChapters-94', $p);
     $filename =  $json_series_dir . 'files.json';
-    writeLogDebug('publishSeriesAndChapters-96', $filename);
+    //writeLogDebug('publishSeriesAndChapters-96', $filename);
     fileWrite($filename, $files_json, $p);
 }
