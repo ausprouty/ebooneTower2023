@@ -30,20 +30,21 @@ function publishSeriesAndChapters($p)
     //writeLogAppend('publishSeriesAndChapters-30', $cache);
     $files_in_pages =  $cache['files_included'];
     $chapters = $text->chapters;
+    writeLogDebug('publishSeriesAndChapters-33', $p);
     foreach ($chapters as $chapter) {
-        // skip if in cache 
-        if (is_array($cache['sessions_published'])) {
-            if (in_array($chapter->filename, $cache['sessions_published'])) {
-                continue;
-            }
-        }
         // it is possible that the server has finished the previous task and has
         // deleted the cache.  You do not want to do everything over again.
-        if (!is_array($cache['sessions_published']) && $p['resume']) {
-            writeLogAppend('publishSeriesAndChapters-37', $chapter->filename);
+        if (count($cache['sessions_published']) < 1 && $p['resume'] !== 'false') {
+            // writeLogAppend('publishSeriesAndChapters-39', $chapter->filename);
+            continue;
+        }
+        // skip if in cache 
+        if (in_array($chapter->filename, $cache['sessions_published'])) {
+            //writeLogAppend('publishSeriesAndChapters-45', $chapter->filename);
             continue;
         }
         $sql = NULL;
+        // writeLogAppend('publishSeriesAndChapters-49', $chapter->filename);
         if ($p['destination'] == 'staging' && $chapter->prototype) {
             $sql = "SELECT recnum FROM  content
                 WHERE  country_code = '" . $series['country_code'] . "'
