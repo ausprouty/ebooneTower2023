@@ -94,7 +94,7 @@ function publishSeriesAndChapters($p)
     if ($p['destination'] == 'website' || $p['destination'] == 'staging') {
         publishSeriesAndChaptersMakeJsonIndex($files_json, $files_in_pages, $p);
     }
-    clearCache($cache, $p['destination']);
+    //clearCache($cache, $p['destination']);
     return true;
 }
 function publishSeriesAndChaptersCombineArrays($files_in_pages, $new_files)
