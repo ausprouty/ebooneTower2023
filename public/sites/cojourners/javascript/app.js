@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   // restore revealed areas
   appRevealedRestore()
   findCollapsible()
+  appRevealDivCalled()
 })
 
 function findCollapsible() {
@@ -56,20 +57,38 @@ function findCollapsible() {
     })
   }
 }
-
-function appRevealSummary(id) {
+function appRevealDivCalled() {
+  var windowLocation = window.location.href
+  if (windowLocation.includes('#')) {
+    var divCalled = windowLocation.split('#')[1]
+    if (divCalled.includes('Return')) {
+      return
+    }
+    var div = null
+    var divs = document.getElementsByClassName('summary')
+    for (var i = 0; i < divs.length; i++) {
+      if (divs[i].innerHTML.indexOf(divCalled) != -1) {
+        div = divs[i].id
+      }
+    }
+    if (div) {
+      appRevealDiv(div)
+    }
+  }
+}
+function appRevealDiv(divId) {
   var windowLocation = appRevealWindowLocation()
-  var button = document.getElementById('Summary' + id)
+  var button = document.getElementById(divId)
   var content = button.nextElementSibling
   if (content.style.display === 'block') {
     // we save this in case we need to goToPageAndSetReturn;
-    appRevealSummaryDelete(windowLocation, id)
+    appRevealSummaryDelete(windowLocation, divId)
     content.style.display = 'none'
     button.classList.remove('summary-shown')
     button.classList.add('summary-hidden')
   } else {
     // we save this in case we need to goToPageAndSetReturn;
-    appRevealSummaryAdd(windowLocation, id)
+    appRevealSummaryAdd(windowLocation, divId)
     content.style.display = 'block'
     button.classList.remove('summary-hidden')
     button.classList.add('summary-shown')
@@ -81,19 +100,23 @@ function appRevealSummary(id) {
     button.innerHTML = text.replace('-', '+')
   }
 }
-function appRevealSummaryAdd(windowLocation, id) {
+
+function appRevealSummary(id) {
+  appRevealDiv('Summary' + id)
+}
+function appRevealSummaryAdd(windowLocation, divId) {
   var current = appRevealSummaryRetreive(windowLocation)
   if (current) {
     appRevealSummaryClose(windowLocation, current)
   }
-  current = id
+  current = divId
   appRevealSummarySave(windowLocation, current)
 }
-function appRevealSummaryClose(windowLocation, id) {
-  if (!document.getElementById('Summary' + id)) {
+function appRevealSummaryClose(windowLocation, divId) {
+  if (!document.getElementById(divId)) {
     return
   }
-  var button = document.getElementById('Summary' + id)
+  var button = document.getElementById(divId)
   //button.classList.toggle("active");
   var text = button.innerHTML
   if (text.includes('-')) {
@@ -108,7 +131,7 @@ function appRevealSummaryClose(windowLocation, id) {
   }
 }
 
-function appRevealSummaryDelete(windowLocation, id) {
+function appRevealSummaryDelete(windowLocation, divId) {
   //var current = appRevealSummaryRetreive(windowLocation);
   //for( var i = 0; i < current.length; i++){
   //    if ( current[i] === id) {
