@@ -105,8 +105,8 @@ function createLibrary($p, $text)
     );
     // you do not add book cards if this is a custom libary
     $custom_library = false;
-    if (isset($text->format->custom)){
-        $custom_library  = $text->format->custom
+    if (isset($text->format->custom)) {
+        $custom_library  = $text->format->custom;
     }
     if (isset($text->books) && !$custom_library) {
         foreach ($text->books as $book) {

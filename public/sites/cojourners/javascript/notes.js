@@ -1,19 +1,3 @@
-document.addEventListener('DOMContentLoaded', () => {
-  var notes_page = document.getElementById('notes_page')
-  if (notes_page !== null) {
-    var notes = notes_page.value
-    showNotes(notes)
-    // from https://css-tricks.com/auto-growing-inputs-textareas/
-    var coll = document.getElementsByClassName('resize-ta')
-    var i
-    for (i = 0; i < coll.length; i++) {
-      coll[i].addEventListener('keyup', function () {
-        this.style.height = calcHeight(this.value) + 'px'
-      })
-    }
-  }
-})
-
 // Dealing with Textarea Height
 function calcHeight(value) {
   let numberOfLineBreaks = (value.match(/\n/g) || []).length
@@ -35,6 +19,7 @@ function calcHeight(value) {
 }
 
 function showNotes(page) {
+  console.log('showNotes for ' + page)
   var response = localStorage.getItem(page)
   if (!response) {
     return
@@ -79,4 +64,5 @@ function addNote(noteId) {
   }
 
   localStorage.setItem(notesPage, JSON.stringify(notes)) //put the object back
+  console.log('save notes for ' + notesPagee)
 }

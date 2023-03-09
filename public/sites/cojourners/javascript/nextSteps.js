@@ -1,9 +1,9 @@
-
 function generateNextSteps() {
   const div = document.getElementById('next-steps-area')
   var content = showStepsPendingAndNew()
   div.innerHTML = content
-  document.getElementById('next-steps-completed').innerHTML = showStepsCompleted()
+  document.getElementById('next-steps-completed').innerHTML =
+    showStepsCompleted()
   return
 }
 function addNewStep() {
@@ -12,22 +12,14 @@ function addNewStep() {
   div.innerHTML = content
   hideNewStepButton()
   return
-
-}
-function addNewStepX() {
-  let content = document.getElementById('next-steps-area').innerHTML
-  content += stepTemplate(null)
-  document.getElementById('next-steps-area').innerHTML = content
-  hideNewStepButton()
-  return
-
 }
 
 function showStepsPendingAndNew() {
   var unwrittenPending = false
   var content = ''
   var written = getStepsWritten()
-  if (written == null){
+  if (written == null) {
+    content += stepTemplate(null)
     return content
   }
   var length = written.length
@@ -35,11 +27,11 @@ function showStepsPendingAndNew() {
     if (written[i].complete !== true) {
       content += stepTemplate(written[i])
     }
-    if (written[i].text.length < 2){
+    if (written[i].text.length < 2) {
       unwrittenPending = true
     }
   }
-  if (unwrittenPending == false){
+  if (unwrittenPending == false) {
     content += stepTemplate(null)
   }
   return content
@@ -47,7 +39,7 @@ function showStepsPendingAndNew() {
 function showStepsCompleted() {
   var content = '<hr><h3>Steps Completed</h3><ul>'
   var written = getStepsWritten()
-  if (written == null){
+  if (written == null) {
     return content
   }
   var length = written.length
@@ -69,7 +61,7 @@ function hideNewStepButton() {
 
 function getStepsWritten() {
   var stored = localStorage.getItem('cojournersStepsWritten')
-  if (stored != null){
+  if (stored != null) {
     return JSON.parse(stored)
   }
   return null
@@ -99,7 +91,7 @@ function saveStepWritten(id) {
   let found = false
   let storing = []
   let stored = getStepsWritten()
-  if (stored !== null){
+  if (stored !== null) {
     for (var i = 0; i < stored.length; i++) {
       if (stored[i].id == id) {
         storing[i] = typed
@@ -116,11 +108,11 @@ function saveStepWritten(id) {
 }
 function deleteStepWritten(id) {
   let stored = getStepsWritten()
-  if (stored !== null){
+  if (stored !== null) {
     for (var i = 0; i < stored.length; i++) {
       if (stored[i].id == id) {
-        stored.splice(i,1)
-      } 
+        stored.splice(i, 1)
+      }
     }
   }
   localStorage.setItem('cojournersStepsWritten', JSON.stringify(stored))
@@ -132,11 +124,11 @@ function considerShowNewStepButton() {
   var col = document.getElementsByClassName('next-steps')
   for (var i = 0; i < col.length; i++) {
     var step = col[i].value
-    if (step.length < 1){
+    if (step.length < 1) {
       ShowNewStepButton = false
     }
   }
-  if (ShowNewStepButton){
+  if (ShowNewStepButton) {
     showNewStepButton()
   }
   return
@@ -212,15 +204,15 @@ function stepTemplate(written) {
   if (written == null) {
     id = nextStepsNextId()
   }
-  let temp = template.replace(/#/g, id )
+  let temp = template.replace(/#/g, id)
   var temp2 = temp.replace('{written}', text)
   template = temp2.replace('{checked}', checked)
   return template
 }
-function nextStepsNextId(){
+function nextStepsNextId() {
   var id = 0
   var stored = localStorage.getItem('cojournersStepsWritten')
-  if (stored == null){
+  if (stored == null) {
     return id
   }
   var written = JSON.parse(stored)
@@ -249,7 +241,6 @@ function shareStep(id) {
     console.log('share is not in navigator')
   }
 }
-
 
 function getPartner() {
   var partner = null

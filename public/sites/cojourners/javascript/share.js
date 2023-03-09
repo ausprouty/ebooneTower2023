@@ -101,5 +101,7 @@ function shareTestimony(version) {
     } else {
       location.href = getMailtoUrl('', subject, message)
     }
+  } else {
+    alert('Please write a testimony to share in the previous box')
   }
 }

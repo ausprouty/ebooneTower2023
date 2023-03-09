@@ -30,7 +30,11 @@
             </button>
           </div>
           <div>
-            <button class="button" @click="localPublish('sdcard')">
+            <button 
+              class="button" 
+              :class="{ warning: sdcardIncomplete}"
+              @click="localPublish('sdcard')"
+            >
               {{ this.sdcard_text }}
             </button>
           </div>
@@ -144,7 +148,8 @@ export default {
       description: '',
       style: '',
       prototypeIncomplete: false,
-      publishIncomplete: false
+      publishIncomplete: false,
+      sdcardIncomplete: false,
     }
   },
 
@@ -216,11 +221,11 @@ export default {
       if (location == 'sdcard') {
         console.log('location is sdcard')
         this.sdcard_text = 'Publishing'
+        params.resume = this.sdcardIncomplete
         response = await SDCardService.publish('seriesAndChapters', params)
         console.log('finsihed publishing to  sdcard')
         this.sdcard_text = 'Published to SD Card'
       }
-
       if (response['error']) {
         this.error = response['message']
         this.loaded = false
@@ -241,7 +246,7 @@ export default {
       LogService.consoleLogMessage('localBookmark')
       LogService.consoleLogMessage (bm)
     },
-    async checkPublish(){
+    async checkPublish() {
       if (this.prototype_date) {
         this.publish = this.mayPublishSeries()
         if (this.publish) {
@@ -251,19 +256,16 @@ export default {
           } else {
             this.publish_text = 'Publish Series and Chapters'
           }
-          this.sdcard_text = 'Publish Series and Chapters for SDCard'
-          this.videolist_text = 'Publish VideoList'
-          this.pdf_text = 'Publish PDF'
+          var params = {}
+          params.route = JSON.stringify(this.$route.params)
+          params.destination = 'website'
+          var cache = await AuthorService.checkCache(params)
+          console.log(cache)
+          if (cache == 'website') {
+            this.publishIncomplete = true
+            this.publish_text = 'Resume Publishing Series and Chapters'
+          }
         }
-      }
-      var params = {}
-      params.route = JSON.stringify(this.$route.params)
-      params.destination = 'website'
-      var cache = await AuthorService.checkCache(params)
-      console.log(cache)
-      if (cache == 'website') {
-        this.publishIncomplete = true
-        this.publish_text = 'Resume Publishing Series and Chapters'
       }
     },
     async checkPrototype() {
@@ -282,6 +284,28 @@ export default {
         if (cache == 'staging'){
           this.prototypeIncomplete = true
           this.prototype_text = 'Resume Prototyping Series and Chapters'
+        }
+      }
+    },
+    async checkSDCard() {
+      if (this.prototype_date) {
+        this.publish = this.mayPublishSeries()
+        if (this.publish) {
+          if (this.publish_date) {
+            this.sdcard = true;
+            this.sdcard_text = 'Publish to SDCard'
+            var params = {}
+            params.route = JSON.stringify(this.$route.params)
+            params.destination = 'sdcard'
+            var cache = await AuthorService.checkCache(params)
+            console.log(cache)
+            if (cache == 'sdcard') {
+              this.sdcardIncomplete = true
+              this.sdcard_text = 'Resume Publishing to SD Card'
+            }
+            this.videolist_text = 'Publish VideoList'
+            this.pdf_text = 'Publish PDF'
+          }
         }
       }
     },
@@ -323,7 +347,7 @@ export default {
 }
 </script>
 <style scoped>
-.warning{
-    background-color: red;
-  }
+.warning {
+  background-color: red;
+}
 </style>
