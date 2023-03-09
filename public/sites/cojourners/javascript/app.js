@@ -61,9 +61,6 @@ function appRevealDivCalled() {
   var windowLocation = window.location.href
   if (windowLocation.includes('#')) {
     var divCalled = windowLocation.split('#')[1]
-    if (divCalled.includes('Return')) {
-      return
-    }
     var div = null
     var divs = document.getElementsByClassName('summary')
     for (var i = 0; i < divs.length; i++) {
@@ -72,11 +69,13 @@ function appRevealDivCalled() {
       }
     }
     if (div) {
+      console.log('app-72-' + div)
       appRevealDiv(div)
     }
   }
 }
 function appRevealDiv(divId) {
+  console.log(divId)
   var windowLocation = appRevealWindowLocation()
   var button = document.getElementById(divId)
   var content = button.nextElementSibling

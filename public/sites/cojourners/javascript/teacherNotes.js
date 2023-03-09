@@ -103,7 +103,7 @@ function expandCollapsible() {
   }
   /* unhide all items which are collapsed for students
   SUMMARIES
-  <div onclick = "appRevealSummary('0');" id="Summary0" class="summary">
+  <div onclick = "appRevealSummary('Summary0');" id="Summary0" class="summary">
    <h2>+ Summary</h2></div>
   <div class="collapsed" id ="Text0">
      <p>The Explorer asks good questions,.</p>
@@ -111,7 +111,7 @@ function expandCollapsible() {
 
   to
 
-  <div onclick = "appRevealSummary('0');" id="Summary0" class="summary summary-shown">
+  <div onclick = "appRevealSummary('Summary0');" id="Summary0" class="summary summary-shown">
    <h2>- Summary</h2></div>
   <div class="collapsed" id ="Text0" style= "display:block">
      <p>The Explorer asks good questions,.</p>
