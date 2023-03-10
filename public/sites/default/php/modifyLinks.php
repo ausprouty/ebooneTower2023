@@ -120,7 +120,7 @@ function  modifyLinksContent($text, $find)
 
 /*  <a href="/sites/mc2/content/M2/eng/tc/tc01.html">
        to
-    <a  href="#" onclick="goToPageAndSetReturn('../tc/tc01.html');">
+    <a  href="Return#" onclick="goToPageAndSetReturn('../tc/tc01.html');">
     This must be a relative path
 
     $find = '<a href="/content'

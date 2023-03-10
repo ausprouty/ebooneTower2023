@@ -72,12 +72,15 @@ function appRevealDivCalled() {
       console.log('app-72-' + div)
       appRevealDiv(div)
     }
+  } else {
+    console.log('no hash in url')
   }
 }
 function appRevealDiv(divId) {
   console.log(divId)
   var windowLocation = appRevealWindowLocation()
   var button = document.getElementById(divId)
+  console.log(button)
   var content = button.nextElementSibling
   if (content.style.display === 'block') {
     // we save this in case we need to goToPageAndSetReturn;
@@ -100,8 +103,8 @@ function appRevealDiv(divId) {
   }
 }
 
-function appRevealSummary(id) {
-  appRevealDiv('Summary' + id)
+function appRevealSummary(divId) {
+  appRevealDiv(divId)
 }
 function appRevealSummaryAdd(windowLocation, divId) {
   var current = appRevealSummaryRetreive(windowLocation)
@@ -112,6 +115,7 @@ function appRevealSummaryAdd(windowLocation, divId) {
   appRevealSummarySave(windowLocation, current)
 }
 function appRevealSummaryClose(windowLocation, divId) {
+  console.log(divId)
   if (!document.getElementById(divId)) {
     return
   }
