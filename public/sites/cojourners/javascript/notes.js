@@ -59,7 +59,7 @@ function addNote(noteId) {
     var entry = new Object()
     entry.key = ids[i]
     entry.value = note.value
-    console.log(entry)
+    //console.log(entry)
     notes[i] = entry
   }
 
