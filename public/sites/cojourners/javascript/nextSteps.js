@@ -14,10 +14,10 @@ function addNewStep() {
   return
 }
 
-function showStepsPendingAndNew() {
+async function showStepsPendingAndNew() {
   var unwrittenPending = false
   var content = ''
-  var written = getStepsWritten()
+  var written = await getStepsWritten()
   if (written == null) {
     content += stepTemplate(null)
     return content
@@ -36,9 +36,9 @@ function showStepsPendingAndNew() {
   }
   return content
 }
-function showStepsCompleted() {
+async function showStepsCompleted() {
   var content = '<hr><h3>Steps Completed</h3><ul>'
-  var written = getStepsWritten()
+  var written = await getStepsWritten()
   if (written == null) {
     return content
   }
@@ -59,66 +59,49 @@ function hideNewStepButton() {
   document.getElementById('add-new-step-button').classList.add('hidden')
 }
 
-function getStepsWritten() {
-  var stored = localStorage.getItem('cojournersStepsWritten')
-  if (stored != null) {
-    return JSON.parse(stored)
-  }
-  return null
+async function getStepsWritten() {
+    let db = new Localbase('db')
+    await db.collection('nextsteps')
+      .get()
+      .then((result) => {
+       if (result){
+        return JSON.parse(result)
+       }
+       else{
+        return null
+       }
+      })
+}
+async function getStepWritten(id) {
+  let db = new Localbase('db')
+  await  db.collection('nextsteps')
+    .doc(id)
+    .get()
+    .then((result) => {
+      if (result){
+        return JSON.parse(result)
+      }
+      else{
+        return null
+       }
+    })
 }
 
-function getStepWritten(id) {
-  var written = getStepsWritten()
-  if (written) {
-    var length = written.length
-    for (var i = 0; i < length; i++) {
-      if (written[i].id == id) {
-        console.log(written[i])
-        return written[i]
-      }
-    }
-  }
-  return empty
-}
 function saveStepWritten(id) {
   nextStepsChangeHeight(id)
   considerShowNewStepButton()
-  let typed = {
+    
+  let db = new Localbase('db')
+  db.collection('nextstep').doc(key).set({
     id: id,
     text: document.getElementById('next-step-text' + id).value,
     complete: document.getElementById('next-step-complete' + id).checked,
   }
-  let found = false
-  let storing = []
-  let stored = getStepsWritten()
-  if (stored !== null) {
-    for (var i = 0; i < stored.length; i++) {
-      if (stored[i].id == id) {
-        storing[i] = typed
-        found = true
-      } else {
-        storing[i] = stored[i]
-      }
-    }
-  }
-  if (found == false) {
-    storing.push(typed)
-  }
-  localStorage.setItem('cojournersStepsWritten', JSON.stringify(storing))
 }
 function deleteStepWritten(id) {
-  let stored = getStepsWritten()
-  if (stored !== null) {
-    for (var i = 0; i < stored.length; i++) {
-      if (stored[i].id == id) {
-        stored.splice(i, 1)
-      }
-    }
-  }
-  localStorage.setItem('cojournersStepsWritten', JSON.stringify(stored))
+  db.collection('nextstep').doc(id).delete()
   generateNextSteps()
 }
-
 function considerShowNewStepButton() {
   var ShowNewStepButton = true
   var col = document.getElementsByClassName('next-steps')
@@ -155,8 +138,8 @@ function nextStepsChangeHeight(id) {
   //console.log(newHeight)
   document.getElementById('next-step-text' + id).style.height = newHeight
 }
-function showStepWritten(id) {
-  let step = getStepWritten(id)
+async function showStepWritten(id) {
+  let step = await getStepWritten(id)
   if (step) {
     var complete = 0
     if (step.complete) {
@@ -170,7 +153,7 @@ function showStepWritten(id) {
   }
 }
 
-function stepTemplate(written) {
+async function stepTemplate(written) {
   console.log(written)
   let template = ` <div class="next-step-area" id="step#">
   <form id="next-step#">
@@ -202,31 +185,31 @@ function stepTemplate(written) {
     }
   }
   if (written == null) {
-    id = nextStepsNextId()
+    id = await nextStepsNextId()
   }
   let temp = template.replace(/#/g, id)
   var temp2 = temp.replace('{written}', text)
   template = temp2.replace('{checked}', checked)
   return template
 }
-function nextStepsNextId() {
+async function nextStepsNextId() {
   var id = 0
-  var stored = localStorage.getItem('cojournersStepsWritten')
-  if (stored == null) {
-    return id
-  }
-  var written = JSON.parse(stored)
-  for (var i = 0; i < written.length; i++) {
-    if (written[i].id > id) {
-      id = written[i].id
-    }
-  }
-  id++
-  console.log('next id is ' + id)
-  return id
+  let db = new Localbase('db')
+  await db.collection('settings')
+    .get('nextStepsNextId')
+    .then((result) => {
+      let nextValue = 0
+      if (result){
+       nextValue = result.value + 1
+      }
+      db.collection('settings').doc({ id: 'nextStepsNextId' }).update({
+       value: nextValue
+      })
+      return nextValue
+    })
 }
-function shareStep(id) {
-  let action = getStepWritten(id)
+async function shareStep(id) {
+  let action = await getStepWritten(id)
   console.log(action)
   let myText = 'My next step is: ' + action.text
   if (action.complete == true) {
@@ -242,28 +225,26 @@ function shareStep(id) {
   }
 }
 
-function getPartner() {
-  var partner = null
-  let stored = localStorage.getItem('cojournersPartner', null)
-  if (stored) {
-    partner = JSON.parse(stored)
-  }
-  return partner
+async function getPartner() {
+  let db = new Localbase('db')
+  await db.collection('settings').doc('partner').then(result => {
+    return result
+  })
+  
 }
-function showPartner() {
-  let stored = localStorage.getItem('cojournersPartner', null)
-  if (stored) {
-    let partner = JSON.parse(stored)
+async function showPartner() {
+  let partner = await getPartner()
+  if (partner) {
     document.getElementById('partner-name').value = partner.name
     document.getElementById('partner-email').value = partner.email
     document.getElementById('partner-phone').value = partner.phone
   }
 }
-function savePartner() {
-  let partner = {
+async function savePartner() {
+  let db = new Localbase('db')
+  db.collection('settings').doc('partner').set({
     name: document.getElementById('partner-name').value,
     email: document.getElementById('partner-email').value,
     phone: document.getElementById('partner-phone').value,
   }
-  localStorage.setItem('cojournersPartner', JSON.stringify(partner))
 }

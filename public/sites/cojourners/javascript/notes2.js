@@ -27,36 +27,27 @@ async function saveNote(key, value) {
     notes: value,
   })
 }
-async function getNote(key) {
+async function showNotes(page) {
   let db = new Localbase('db')
   db.collection('notes')
-    .doc(key)
+    .doc(page)
     .get()
-    .then((document) => {
-      console.log(document.notes)
-      return document.notes
+    .then((result) => {
+      var notes = JSON.parse(result.notes)
+      console.log(notes)
+      var len = notes.length
+      var notePlace = null
+      for (var i = 0; i < len; i++) {
+        // sometimes people change the number of notes on a page after we publish
+        notePlace = document.getElementById(notes[i].key)
+        if (notePlace) {
+          document.getElementById(notes[i].key).value = notes[i].value
+          document.getElementById(notes[i].key).style.height =
+            calcHeight(notes[i].value) + 'px'
+        }
+      }
+      return
     })
-}
-async function showNotes(page) {
-  console.log('showNotes for ' + page)
-  var response = await getNote(page)
-  console.log(response)
-  if (!response) {
-    return
-  }
-  var notes = JSON.parse(response)
-  var len = notes.length
-  var notePlace = null
-  for (var i = 0; i < len; i++) {
-    // sometimes people change the number of notes on a page after we publish
-    notePlace = document.getElementById(notes[i].key)
-    if (notePlace) {
-      document.getElementById(notes[i].key).value = notes[i].value
-      document.getElementById(notes[i].key).style.height =
-        calcHeight(notes[i].value) + 'px'
-    }
-  }
-  return
 }
 
 // Dealing with Textarea Height
