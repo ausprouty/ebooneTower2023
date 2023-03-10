@@ -15,12 +15,12 @@ function dirMake($filename)
 		strpos($filename, ROOT_EDIT) === FALSE &&
 		strpos($filename, ROOT_STAGING) === FALSE &&
 		strpos($filename, ROOT_APK) === FALSE &&
-
 		strpos($filename, ROOT_SDCARD) === FALSE &&
 		strpos($filename, ROOT_WEBSITE) === FALSE
 	) {
 		$filename = ROOT_EDIT .  $filename;
 	}
+	writeLogAppend('dirMake-23', $filename);
 	$file_types = array('.bat', '.html', '.js', '.json', '.mp3', '.mp4', '.wav', '.vue');
 	$parts = explode('/', $filename);
 	foreach ($parts as $part) {

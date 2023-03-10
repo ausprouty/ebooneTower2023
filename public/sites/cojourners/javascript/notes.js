@@ -64,5 +64,5 @@ function addNote(noteId) {
   }
 
   localStorage.setItem(notesPage, JSON.stringify(notes)) //put the object back
-  console.log('save notes for ' + notesPagee)
+  console.log('save notes for ' + notesPage)
 }

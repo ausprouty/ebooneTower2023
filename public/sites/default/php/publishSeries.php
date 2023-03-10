@@ -45,7 +45,9 @@ function publishSeries($p)
 
     if ($text) {
         // create Series
+        writeLogDebug('publishSeries-48', 'I am going to createSeries');
         $result = createSeries($p, $data);
+        writeLogDebug('publishSeries-50', 'I returned from  createSeries');
         $p = $result['p']; // this gives us $p['files_json']
         if ($result['text']) {
             // find css
