@@ -1,14 +1,15 @@
-function generateNextSteps() {
+async function generateNextSteps() {
+  //I start here
   const div = document.getElementById('next-steps-area')
-  var content = showStepsPendingAndNew()
+  var content = await showStepsPendingAndNew()
   div.innerHTML = content
-  document.getElementById('next-steps-completed').innerHTML =
-    showStepsCompleted()
+  content = await showStepsCompleted()
+  document.getElementById('next-steps-completed').innerHTML = content
   return
 }
-function addNewStep() {
+async function addNewStep() {
   const div = document.getElementById('next-steps-area')
-  var content = showStepsPendingAndNew()
+  var content = await showStepsPendingAndNew()
   div.innerHTML = content
   hideNewStepButton()
   return
@@ -18,21 +19,22 @@ async function showStepsPendingAndNew() {
   var unwrittenPending = false
   var content = ''
   var written = await getStepsWritten()
-  if (written == null) {
-    content += stepTemplate(null)
+  console.log(written)
+  if (typeof written === 'undefined') {
+    content += await stepTemplate(null)
     return content
   }
   var length = written.length
   for (var i = 0; i < length; i++) {
     if (written[i].complete !== true) {
-      content += stepTemplate(written[i])
+      content += await stepTemplate(written[i])
     }
     if (written[i].text.length < 2) {
       unwrittenPending = true
     }
   }
   if (unwrittenPending == false) {
-    content += stepTemplate(null)
+    content += await stepTemplate(null)
   }
   return content
 }
@@ -40,8 +42,10 @@ async function showStepsCompleted() {
   var content = '<hr><h3>Steps Completed</h3><ul>'
   var written = await getStepsWritten()
   if (written == null) {
+    console.log('no steps completed')
     return content
   }
+  console.log('steps completed')
   var length = written.length
   for (var i = 0; i < length; i++) {
     if (written[i].complete == true) {
@@ -60,47 +64,48 @@ function hideNewStepButton() {
 }
 
 async function getStepsWritten() {
-    let db = new Localbase('db')
-    await db.collection('nextsteps')
-      .get()
-      .then((result) => {
-       if (result){
-        return JSON.parse(result)
-       }
-       else{
-        return null
-       }
-      })
-}
-async function getStepWritten(id) {
   let db = new Localbase('db')
-  await  db.collection('nextsteps')
-    .doc(id)
+  let steps = await db.collection('nextsteps').get()
+  console.log(steps)
+  return steps
+}
+async function getStepWritten(stepId) {
+  var written = null
+  console.log('get step written for ' + stepId)
+  let db = new Localbase('db')
+  await db
+    .collection('nextsteps')
     .get()
-    .then((result) => {
-      if (result){
-        return JSON.parse(result)
+    .then((response) => {
+      for (var i = 0; i < response.length; i++) {
+        console.log(response[i].id)
+        if (response[i].id == stepId) {
+          written = response
+        }
       }
-      else{
-        return null
-       }
     })
+  console.log(written.id)
+  console.log(written.text)
+  return written
 }
 
-function saveStepWritten(id) {
+async function saveStepWritten(id) {
   nextStepsChangeHeight(id)
   considerShowNewStepButton()
-    
   let db = new Localbase('db')
-  db.collection('nextstep').doc(key).set({
-    id: id,
-    text: document.getElementById('next-step-text' + id).value,
-    complete: document.getElementById('next-step-complete' + id).checked,
-  }
+  db.collection('nextsteps')
+    .doc(id)
+    .set({
+      id: id,
+      text: document.getElementById('next-step-text' + id).value,
+      complete: document.getElementById('next-step-complete' + id).checked,
+    })
 }
 function deleteStepWritten(id) {
-  db.collection('nextstep').doc(id).delete()
-  generateNextSteps()
+  let db = new Localbase('db')
+  db.collection('nextsteps').doc(id).delete()
+  var element = document.getElementById('step' + id)
+  element.parentNode.removeChild(element)
 }
 function considerShowNewStepButton() {
   var ShowNewStepButton = true
@@ -154,18 +159,17 @@ async function showStepWritten(id) {
 }
 
 async function stepTemplate(written) {
-  console.log(written)
   let template = ` <div class="next-step-area" id="step#">
   <form id="next-step#">
 		<textarea id="next-step-text#"
                  class="next-steps"
                  placeholder="I will ___ by ____(when)"
                  rows="3"
-                 onkeyup="saveStepWritten(#)">{written}</textarea>
+                 onkeyup="saveStepWritten('#')">{written}</textarea>
 
 	<div class="action-progress">
-	<div><input id="next-step-complete#" type="checkbox" {checked} onclick="saveStepWritten(#)" /> <label> Finished</label></div>
-  <div><input id="next-step-delete#" type="checkbox" {checked} onclick="deleteStepWritten(#)" /> <label> Delete</label></div>
+	<div><input id="next-step-complete#" type="checkbox" {checked} onclick="saveStepWritten('#')" /> <label> Finished</label></div>
+  <div><input id="next-step-delete#" type="checkbox" {checked} onclick="deleteStepWritten('#')" /> <label> Delete</label></div>
 
 	<div><button onclick="shareStep(#)">Share</button></div>
 
@@ -175,7 +179,9 @@ async function stepTemplate(written) {
   var id = 0
   var text = ''
   var checked = 'unchecked'
+  console.log(written)
   if (written !== null) {
+    console.log('I am assigning next step id')
     id = written.id
     if (typeof written.text !== 'undefined') {
       text = written.text
@@ -185,30 +191,36 @@ async function stepTemplate(written) {
     }
   }
   if (written == null) {
-    id = await nextStepsNextId()
+    console.log('I am going to get next step id')
+    id = await getNextStepNextId()
+    console.log(id)
   }
+  console.log('I have finished with step ID of ' + id)
   let temp = template.replace(/#/g, id)
   var temp2 = temp.replace('{written}', text)
   template = temp2.replace('{checked}', checked)
   return template
 }
-async function nextStepsNextId() {
-  var id = 0
+async function getNextStepNextId() {
+  var nextId = 1
   let db = new Localbase('db')
-  await db.collection('settings')
-    .get('nextStepsNextId')
-    .then((result) => {
-      let nextValue = 0
-      if (result){
-       nextValue = result.value + 1
-      }
-      db.collection('settings').doc({ id: 'nextStepsNextId' }).update({
-       value: nextValue
-      })
-      return nextValue
-    })
+  var lastStep = await db
+    .collection('nextsteps')
+    .orderBy('id', 'desc')
+    .limit(1)
+    .get()
+  console.log('Here is LastStep')
+  console.log(lastStep[0])
+  if (typeof lastStep[0].id !== 'undefined') {
+    console.log(lastStep[0].id)
+    nextId = Number(lastStep[0].id) + 1
+  }
+  console.log('I finished getNextStepNextId with ' + nextId)
+  return nextId
 }
+
 async function shareStep(id) {
+  console.log('share Step ' + id)
   let action = await getStepWritten(id)
   console.log(action)
   let myText = 'My next step is: ' + action.text
@@ -225,26 +237,36 @@ async function shareStep(id) {
   }
 }
 
-async function getPartner() {
-  let db = new Localbase('db')
-  await db.collection('settings').doc('partner').then(result => {
-    return result
-  })
-  
-}
 async function showPartner() {
-  let partner = await getPartner()
-  if (partner) {
-    document.getElementById('partner-name').value = partner.name
-    document.getElementById('partner-email').value = partner.email
-    document.getElementById('partner-phone').value = partner.phone
+  let db = new Localbase('db')
+  await db
+    .collection('settings')
+    .doc('partner')
+    .get()
+    .then((partner) => {
+      if (partner != null) {
+        document.getElementById('partner-name').value = partner.name
+        document.getElementById('partner-email').value = partner.email
+        document.getElementById('partner-phone').value = partner.phone
+      }
+    })
+  partnerListenForChange()
+}
+
+function partnerListenForChange() {
+  var partnerDetails = document.getElementsByClassName('partner')
+  for (var i = 0; i < partnerDetails.length; i++) {
+    partnerDetails[i].addEventListener('keyup', updatePartner)
   }
 }
-async function savePartner() {
+
+async function updatePartner() {
   let db = new Localbase('db')
-  db.collection('settings').doc('partner').set({
-    name: document.getElementById('partner-name').value,
-    email: document.getElementById('partner-email').value,
-    phone: document.getElementById('partner-phone').value,
-  }
+  db.collection('settings')
+    .doc('partner')
+    .set({
+      name: document.getElementById('partner-name').value,
+      email: document.getElementById('partner-email').value,
+      phone: document.getElementById('partner-phone').value,
+    })
 }

@@ -69,11 +69,8 @@ function appRevealDivCalled() {
       }
     }
     if (div) {
-      console.log('app-72-' + div)
       appRevealDiv(div)
     }
-  } else {
-    console.log('no hash in url')
   }
 }
 function appRevealDiv(divId) {
