@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NavBar called_by="SDCardMaker" />
+    <NavBar called_by="CapacitorMaker" />
     <div v-if="!this.authorized">
       <p>
         You have stumbled into a restricted page. Sorry I can not show it to you
@@ -11,12 +11,12 @@
       <div>
         <h1>Capacitor for {{ this.country_name }}</h1>
         <p>
-          This page allows you to create an Capacitor <Applet></Applet> which will have all the
+          This page allows you to create an Capacitor App which will have all the
           content and videos.
         </p>
         <p>For sensitive countries be sure to click "Remove External Links"</p>
         <p>
-          You will find all content in {{ this.sdroot
+          You will find all content in {{ this.capacitor_root
           }}{{ this.capacitor.subDirectory }}
         </p>
       </div>
@@ -118,7 +118,7 @@
 import Multiselect from 'vue-multiselect'
 
 import SDCardBooks from '@/components/SDCardBooks.vue'
-import SDCardService from '@/services/SDCardService.js'
+import CapacitorService from '@/services/CapacitorService.js'
 import AuthorService from '@/services/AuthorService.js'
 import NavBar from '@/components/NavBarAdmin.vue'
 import axios from 'axios'
@@ -135,7 +135,7 @@ export default {
   data() {
     return {
       prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
-      sdroot: process.env.VUE_APP_ROOT_SDCARD,
+      capacitor_root: process.env.VUE_APP_ROOT_CAPACITOR,
       authorized: false,
       videolist_text: 'Create Media List for SD Card',
       common_text: 'Check Common Files',
@@ -182,7 +182,7 @@ export default {
     async verifyLanguageIndex() {
       this.language_text = 'Verifying'
       var params = this.$route.params
-      var response = await SDCardService.verifyLanguageIndex(params)
+      var response = await CapacitorService.verifyLanguageIndex(params)
       //console.log(response)
       this.language_text = 'Verified'
     },
@@ -190,33 +190,18 @@ export default {
     async verifyCommonFiles() {
       this.common_text = 'Verifying'
       var params = this.$route.params
-      var response = await SDCardService.verifyCommonFiles(params)
-      //console.log(response)
+      var response = await CapacitorService.verifyCommonFiles(params)
+      console.log(response)
       this.common_text = 'Verified'
     },
     async zipMediaBatFiles() {
       this.bat_text = 'Downloading'
       var params = this.$route.params
-      var response = await SDCardService.zipMediaBatFiles(params)
-      //console.log(response)
+      var response = await CapacitorService.zipMediaBatFiles(params)
+      console.log(response)
       var filename = response
       this.bat_text = 'Finished'
       this.downloadMediaBatFiles(filename)
-    },
-    async downloadMediaBatFiles(filename) {
-      var download_name = 'MediaBatFiles' + this.capacitor.subDirectory + '.zip'
-      axios({
-        url: process.env.VUE_APP_URL + filename,
-        method: 'GET',
-        responseType: 'blob',
-      }).then((response) => {
-        var fileURL = window.URL.createObjectURL(new Blob([response.data]))
-        var fileLink = document.createElement('a')
-        fileLink.href = fileURL
-        fileLink.setAttribute('download', download_name)
-        document.body.appendChild(fileLink)
-        fileLink.click()
-      })
     },
 
     sdSubDir() {
@@ -237,13 +222,13 @@ export default {
     if (this.authorized) {
       await AuthorService.bookmark(this.$route.params)
       this.country_name = this.bookmark.country.name
-      this.language_data = await SDCardService.getLanguages(this.$route.params)
+      this.language_data = await CapacitorService.getLanguages(this.$route.params)
       this.$store.dispatch('setLanguages', [this.language_data])
       var len = this.language_data.length
       for (var i = 0; i < len; i++) {
         this.languages[i + 1] = this.language_data[i].language_name
       }
-      this.footers = await SDCardService.getFooters(this.$route.params)
+      this.footers = await CapacitorService.getFooters(this.$route.params)
     }
   },
 }

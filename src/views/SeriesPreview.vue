@@ -25,17 +25,17 @@
         </div>
         <div v-if="this.sdcard">
           <div>
-            <button class="button" @click="sdCard('video_list')">
-              {{ this.videolist_text }}
-            </button>
-          </div>
-          <div>
             <button 
               class="button" 
               :class="{ warning: sdcardIncomplete}"
               @click="localPublish('sdcard')"
             >
               {{ this.sdcard_text }}
+            </button>
+          </div>
+          <div >
+            <button class="button" @click="localPublish('video_list')">
+              {{ this.videolist_text }}
             </button>
           </div>
         </div>
@@ -142,6 +142,7 @@ export default {
       publish_text: 'Publish Series and Chapters',
       sdcard_text: 'Publish Series and Chapters to SD Card',
       pdf_text: 'Publish Series and Chapters to PDF',
+      videolist_text: null,
       prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
       download_ready: '',
       download_now: '',
@@ -226,6 +227,12 @@ export default {
         console.log('finsihed publishing to  sdcard')
         this.sdcard_text = 'Published to SD Card'
       }
+      if (location == 'video_list') {
+        this.videolist_text = 'Publishing'
+        params.resume = this.prototypeIncomplete
+        response = await PublishService.publish('seriesAndChapters', params)
+        this.publish_text = 'Published'
+      }
       if (response['error']) {
         this.error = response['message']
         this.loaded = false
@@ -302,6 +309,7 @@ export default {
             if (cache == 'sdcard') {
               this.sdcardIncomplete = true
               this.sdcard_text = 'Resume Publishing to SD Card'
+              this.videolist_text = null
             }
             this.videolist_text = 'Publish VideoList'
             this.pdf_text = 'Publish PDF'

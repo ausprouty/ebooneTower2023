@@ -1,4 +1,5 @@
 function addNote(noteId) {
+  console.log(' I am adding note ' + noteId)
   // resize note
   var noteIdText = document.getElementById(noteId).value
   document.getElementById(noteId).style.height = calcHeight(noteIdText) + 'px'
@@ -22,12 +23,14 @@ function addNote(noteId) {
   saveNote(notesPage, JSON.stringify(notes)) //put the object back
 }
 async function saveNote(key, value) {
+  console.log('I am saving note ' + key)
   let db = new Localbase('db')
   db.collection('notes').doc(key).set({
     notes: value,
   })
 }
 async function showNotes(page) {
+  console.log('I am showing notes')
   let db = new Localbase('db')
   db.collection('notes')
     .doc(page)

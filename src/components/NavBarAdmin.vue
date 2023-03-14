@@ -93,7 +93,7 @@ export default {
         },
 
         {
-          value: 'SD Card',
+          value: 'SD Card ',
           link: 'sdcard',
           index: 8,
           show: false,
@@ -206,6 +206,14 @@ export default {
         case 'apkMaker':
           this.$router.push({
             name: 'apkMaker',
+            params: {
+              country_code: this.$route.params.country_code,
+            },
+          })
+          break
+          case 'capacitorMaker':
+          this.$router.push({
+            name: 'capacitorMaker',
             params: {
               country_code: this.$route.params.country_code,
             },

@@ -19,7 +19,7 @@ async function showStepsPendingAndNew() {
   var unwrittenPending = false
   var content = ''
   var written = await getStepsWritten()
-  console.log(written)
+  //console.log(written)
   if (typeof written === 'undefined') {
     content += await stepTemplate(null)
     return content
@@ -42,10 +42,10 @@ async function showStepsCompleted() {
   var content = '<hr><h3>Steps Completed</h3><ul>'
   var written = await getStepsWritten()
   if (written == null) {
-    console.log('no steps completed')
+    //console.log('no steps completed')
     return content
   }
-  console.log('steps completed')
+  //console.log('steps completed')
   var length = written.length
   for (var i = 0; i < length; i++) {
     if (written[i].complete == true) {
@@ -65,27 +65,22 @@ function hideNewStepButton() {
 
 async function getStepsWritten() {
   let db = new Localbase('db')
-  let steps = await db.collection('nextsteps').get()
-  console.log(steps)
+  let steps = await db.collection('nextsteps').orderBy('id').get()
   return steps
 }
 async function getStepWritten(stepId) {
   var written = null
-  console.log('get step written for ' + stepId)
   let db = new Localbase('db')
   await db
     .collection('nextsteps')
     .get()
     .then((response) => {
       for (var i = 0; i < response.length; i++) {
-        console.log(response[i].id)
         if (response[i].id == stepId) {
-          written = response
+          written = response[i]
         }
       }
     })
-  console.log(written.id)
-  console.log(written.text)
   return written
 }
 
@@ -179,9 +174,9 @@ async function stepTemplate(written) {
   var id = 0
   var text = ''
   var checked = 'unchecked'
-  console.log(written)
+  //console.log(written)
   if (written !== null) {
-    console.log('I am assigning next step id')
+    //console.log('I am assigning next step id')
     id = written.id
     if (typeof written.text !== 'undefined') {
       text = written.text
@@ -191,11 +186,11 @@ async function stepTemplate(written) {
     }
   }
   if (written == null) {
-    console.log('I am going to get next step id')
+    //console.log('I am going to get next step id')
     id = await getNextStepNextId()
-    console.log(id)
+    //console.log(id)
   }
-  console.log('I have finished with step ID of ' + id)
+  //console.log('I have finished with step ID of ' + id)
   let temp = template.replace(/#/g, id)
   var temp2 = temp.replace('{written}', text)
   template = temp2.replace('{checked}', checked)
@@ -209,31 +204,32 @@ async function getNextStepNextId() {
     .orderBy('id', 'desc')
     .limit(1)
     .get()
-  console.log('Here is LastStep')
-  console.log(lastStep[0])
-  if (typeof lastStep[0].id !== 'undefined') {
-    console.log(lastStep[0].id)
+  //console.log('Here is LastStep')
+  //console.log(lastStep[0])
+  if (typeof lastStep[0] !== 'undefined') {
+    //console.log(lastStep[0].id)
     nextId = Number(lastStep[0].id) + 1
   }
-  console.log('I finished getNextStepNextId with ' + nextId)
+  //console.log('I finished getNextStepNextId with ' + nextId)
   return nextId
 }
 
-async function shareStep(id) {
-  console.log('share Step ' + id)
-  let action = await getStepWritten(id)
-  console.log(action)
-  let myText = 'My next step is: ' + action.text
-  if (action.complete == true) {
-    myText = 'I have completed by next step: ' + action.text
+function shareStep(id) {
+  //console.log('share Step ' + id)
+  var action = document.getElementById('next-step-text' + id)
+  var complete = document.getElementById('next-step-complete' + id)
+  let myTitle = 'My Next Step'
+  let myText = 'My next step is: ' + action
+  if (complete == true) {
+    myText = 'I have completed by next step: ' + action
   }
   if ('share' in navigator) {
     navigator.share({
-      title: 'Next Step for ' + action.title,
+      title: myTitle,
       text: myText,
     })
   } else {
-    console.log('share is not in navigator')
+    //console.log('share is not in navigator')
   }
 }
 

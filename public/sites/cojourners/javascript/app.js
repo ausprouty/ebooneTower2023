@@ -4,7 +4,7 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker
     .register('/sw.js')
     .then(function () {
-      console.log('Service worker registered!')
+      //  console.log('Service worker registered!')
       localStorage.setItem('swWorking', 'TRUE')
     })
     .catch(function (err) {
@@ -74,10 +74,10 @@ function appRevealDivCalled() {
   }
 }
 function appRevealDiv(divId) {
-  console.log(divId)
+  //console.log(divId)
   var windowLocation = appRevealWindowLocation()
   var button = document.getElementById(divId)
-  console.log(button)
+  //console.log(button)
   var content = button.nextElementSibling
   if (content.style.display === 'block') {
     // we save this in case we need to goToPageAndSetReturn;
