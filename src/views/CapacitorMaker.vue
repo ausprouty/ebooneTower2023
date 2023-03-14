@@ -47,7 +47,7 @@
         :close-on-select="false"
         :clear-on-select="false"
         :preserve-search="true"
-        placeholder="Choose one or more"
+        placeholder="Choose one only"
         label="language_name"
         track-by="language_name"
         :preselect-first="false"
@@ -104,19 +104,11 @@
         <li>Check to see that all audio files are in the audio directory</li>
       </ul>
 
-      <div class="row">
-        <div class="column">
-          <button class="button" @click="zipMediaBatFiles()">
-            {{ this.bat_text }}
-          </button>
-        </div>
-      </div>
     </div>
   </div>
 </template>
 <script>
 import Multiselect from 'vue-multiselect'
-
 import SDCardBooks from '@/components/SDCardBooks.vue'
 import CapacitorService from '@/services/CapacitorService.js'
 import AuthorService from '@/services/AuthorService.js'
@@ -183,7 +175,7 @@ export default {
       this.language_text = 'Verifying'
       var params = this.$route.params
       var response = await CapacitorService.verifyLanguageIndex(params)
-      //console.log(response)
+      console.log(response)
       this.language_text = 'Verified'
     },
 
@@ -213,16 +205,19 @@ export default {
         sub = temp
       }
       this.capacitor.subDirectory = sub
-      this.$store.dispatch('setSDCardSettings', this.capacitor)
+      this.$store.dispatch('setCapacitorSettings', this.capacitor)
       return sub
     },
   },
   async created() {
     this.authorized = this.authorize('write', this.$route.params)
     if (this.authorized) {
+      console.log ('You are authorized')
+      console.log (this.$route.params)
       await AuthorService.bookmark(this.$route.params)
       this.country_name = this.bookmark.country.name
       this.language_data = await CapacitorService.getLanguages(this.$route.params)
+      console.log (this.language_data)
       this.$store.dispatch('setLanguages', [this.language_data])
       var len = this.language_data.length
       for (var i = 0; i < len; i++) {

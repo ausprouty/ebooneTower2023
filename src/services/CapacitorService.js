@@ -81,6 +81,7 @@ export default {
     params = this.initialize(params)
     params.page = 'getLanguagesAvailable'
     params.action = 'getLanguagesAvailable'
+    console.log(params)
     return await AuthorService.aReturnContent(params)
   },
   async publish(scope, params) {
