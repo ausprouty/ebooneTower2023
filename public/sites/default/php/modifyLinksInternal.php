@@ -26,7 +26,7 @@ function  modifyLinksInternal($text, $find, $p)
         $pos_link_end = strpos($text, '">', $pos_link_start + $length_find);
         $content_length = $pos_link_end - $pos_link_start -  $length_find;
         $link = substr($text, $pos_link_start + $length_find, $content_length);
-        if ($p['destination'] == 'sdcard') {
+        if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor') {
             $link = str_replace('.html', '', $link);
         }
         $relative_link = modifyLinksMakeRelative($link);

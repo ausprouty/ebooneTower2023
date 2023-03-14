@@ -119,7 +119,7 @@ function publishSeriesAndChaptersCombineArrays($files_in_pages, $new_files)
 
 function publishSeriesAndChaptersMakeJsonIndex($files_json, $files_in_pages, $p)
 {
-    if ($p['destination'] == 'sdcard') {
+    if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor') {
         //writeLogDebug('publishSeriesAndChaptersMakeJsonIndex90', $p['destination']);
         return;
     }

@@ -59,7 +59,7 @@ function publishFilesInPageFind($find_begin, $text, $p)
                 $files_in_page[] = '/' . $clean_filename;
                 // I think I want to include html
                 if (!is_dir($from) && strpos($from, '.html') === false) {
-                    if ($p['destination'] == 'sdcard') {
+                    if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor') {
                         publishFilesInSDCardPage($filename, $p, $destination);
                     } else {
                         $to = $destination . $filename;
@@ -75,7 +75,7 @@ function publishFilesInPageFind($find_begin, $text, $p)
                         if (strpos($filename, 'script:popUp') == false) { // no need to copy from popups
                             $find = 'localVideoOptions.js';
                             if (strpos($filename, $find)  == false) {
-                                if ($p['destination'] == 'sdcard') {
+                                if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor') {
                                     publishFilesInSDCardPage($filename, $p, $destination);
                                 } else {
                                     $message = "$from not found";

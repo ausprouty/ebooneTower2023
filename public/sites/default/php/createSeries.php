@@ -31,7 +31,7 @@ function createSeries($p, $data)
         if ($p['destination'] !== 'sdcard') {
             $this_template = myGetPrototypeFile('series.html', $p['destination']);
         }
-        if ($p['destination'] == 'sdcard') {
+        if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor') {
             $this_template = myGetPrototypeFile('series.vue', $p['destination']);
             // writeLogDebug('createSeries-33',  $this_template);
         }
@@ -152,7 +152,7 @@ function createSeries($p, $data)
                 }
                 if ($p['destination'] == 'website' || $p['destination'] == 'staging') {
                     $link =  $chapter->filename . '.html';
-                } elseif ($p['destination'] == 'sdcard') {
+                } elseif ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor') {
                     $link =  $p['language_iso'] . '-' . $chapter->filename;
                 }
 

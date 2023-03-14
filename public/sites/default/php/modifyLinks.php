@@ -9,7 +9,7 @@ myRequireOnce('modifyLinksInternal.php');
 function modifyLinks($text, $p)
 {
     /* We are no longer removing Zoom links
-    if ($p['destination'] == 'sdcard') {
+    if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor' ) {
         $text = _removeZoomLinks($text);
     }
     */

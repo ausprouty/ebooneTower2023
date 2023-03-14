@@ -29,7 +29,7 @@ function modifyPage($text, $p, $data, $bookmark)
     $text = version2Text($text);
     //writeLogDebug('modifyPage-29', $text);
     if (isset($p['destination'])) {
-        if ($p['destination'] == 'sdcard') {
+        if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor') {
             myRequireOnce('modifyTextForVue.php', 'sdcard');
             $text = modifyTextForVue($text, $bookmark);
         }

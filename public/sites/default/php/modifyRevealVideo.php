@@ -70,7 +70,7 @@ function modifyRevealVideo($text, $bookmark, $p)
         $url = modifyVideoRevealFindText($old, 4);
         if ($p['destination'] == 'website' || $p['destination'] == 'staging') {
             $new = videoTemplateOnline($old, $title_phrase, $url, $bookmark, $i);
-        } elseif ($p['destination'] == 'sdcard' || $p['destination'] == 'nojs' || $p['destination'] == 'apk') {
+        } elseif ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor'  || $p['destination'] == 'nojs' || $p['destination'] == 'apk') {
             // in these destinations we concantinate sequential videos (Acts#1 and Acts #2)
             $follows = videoFollows($previous_url, $url);
             $previous_url = $url;

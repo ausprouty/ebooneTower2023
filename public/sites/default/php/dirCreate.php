@@ -8,7 +8,7 @@ define("ROOT_EDIT_CONTENT", '/home/globa544/edit.mc2.online/sites/' . SITE_CODE 
 define("ROOT_LOG", '/home/globa544/edit.mc2.online/sites/logs/');
 define("ROOT_STAGING", '/home/globa544/test_staging.mc2.online/');
 define("ROOT_WEBSITE", '/home/globa544/test_publish.mc2.online/');
-define("ROOT_SDCARD", ROOT . 'sdcard.mc2');
+define("ROOT_SDCARD", ROOT . 'mc2.sdcard');
 */
 function dirCreate($scope, $destination,  $p, $folders = null, $create = true)
 {

@@ -16,6 +16,7 @@ function dirMake($filename)
 		strpos($filename, ROOT_STAGING) === FALSE &&
 		strpos($filename, ROOT_APK) === FALSE &&
 		strpos($filename, ROOT_SDCARD) === FALSE &&
+		strpos($filename, ROOT_CAPACITOR) === FALSE &&
 		strpos($filename, ROOT_WEBSITE) === FALSE
 	) {
 		$filename = ROOT_EDIT .  $filename;

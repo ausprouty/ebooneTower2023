@@ -41,11 +41,11 @@ function publishLibrary($p)
     if ($filename == 'library') {
         $filename = 'index';
     }
-    if ($p['destination'] != 'sdcard') {
+    if ($p['destination'] != 'sdcard' && $p['destination'] != 'capacitor') {
         $dir  = publishDestination($p) . 'content/' . $p['country_code'] . '/' . $p['language_iso'] . '/';
         $filetype = '.html';
     }
-    if ($p['destination'] == 'sdcard') {
+    if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor') {
         $dir  = publishDestination($p) . 'views/' . $p['country_code'] . '/' . $p['language_iso'] . '/';
         $filetype = '.vue';
     }

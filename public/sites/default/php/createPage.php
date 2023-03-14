@@ -31,7 +31,7 @@ function createPage($p, $content)
         $this_template = str_replace('[[nav]]', $nav, $this_template);
         $ribbon = isset($bookmark['library']->format->back_button) ? $bookmark['library']->format->back_button->image : DEFAULT_BACK_RIBBON;
         $navlink = 'index.html';
-        if ($p['destination'] == 'sdcard') {
+        if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor') {
             $navlink =   $bookmark['language']->iso . '-' . $bookmark['book']->code . '-index';
         }
     }
@@ -49,7 +49,7 @@ function createPage($p, $content)
             $index = $p['library_code'] . '.html';
         }
         $navlink = '../' . $index;
-        if ($p['destination'] == 'sdcard') {
+        if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor') {
             $navlink =   $bookmark['language']->iso .  '-' . $p['library_code'] . '-index';
         }
 

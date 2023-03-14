@@ -100,7 +100,7 @@ function  modifyZoomImageCopyImage($image_source, $image_destination, $p)
         /*
         string(183) "@/assets/images/spa/custom/Period2.png
         /home/globa544/edit.mc2.online/sites/mc2/content/M2/spa/custom/Period2.png
-        /home/globa544/sdcard.mc2/public/images/zoom/spa/custom/Period2.png
+        /home/globa544/mc2.sdcard/public/images/zoom/spa/custom/Period2.png
         */
         $bad = $p['country_code'] . '/';
         $good = $bad . 'images/';
@@ -111,7 +111,7 @@ function  modifyZoomImageCopyImage($image_source, $image_destination, $p)
             /*
             string(209) "@/assets/images/cmn/custom/image(1).png
             /home/globa544/edit.mc2.online/sites/mc2/content/M2/images/cmn/custom/image(1).png- does not exist
-            /home/globa544/sdcard.mc2/public/images/zoom/cmn/custom/image(1).png
+            /home/globa544/mc2.sdcard/public/images/zoom/cmn/custom/image(1).png
             */
             $bad = 'M2/images/' . $p['language_iso'] . '/';
             if (strpos($find_image, $bad) !== false) {

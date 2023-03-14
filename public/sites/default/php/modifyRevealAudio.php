@@ -83,7 +83,7 @@ function modifyRevealAudio($text, $bookmark, $p)
             <p>[audio_text]</p>
         </div>
         ';
-    } elseif ($p['destination'] == 'sdcard') {
+    } elseif ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor') {
         $listen_phrase = $bookmark['language']->listen_offline;
         $local_template = '
         <button id="[url]" type="button" class="external-audio">
@@ -136,7 +136,7 @@ function modifyRevealAudio($text, $bookmark, $p)
         $debug .=  "url is | $url |\n";
         $audio_text = modifyRevealAudioFindText($old, 6);
         $debug .=  "audio_text is | $audio_text |\n";
-        if ($p['destination'] == 'sdcard' || $p['destination'] == 'nojs' ||  $p['destination'] == 'apk') {
+        if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor'  || $p['destination'] == 'nojs' ||  $p['destination'] == 'apk') {
             $new = $local_template;
             $url = modifyRevealAudioSDCardUrl($url);
         } else {

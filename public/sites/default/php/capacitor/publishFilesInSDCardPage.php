@@ -81,9 +81,9 @@ function publishFilesInSDCardPage($filename, $p, $destination)
         we know a file exists but it may be missing 'images' after 'eng'
         /home/globa544/edit.mc2.online/sites/mc2/content/M2/eng/tc/transferable-concepts-image-11.png 
         but we do not want to copy it to
-        /home/globa544/sdcard.mc2/sites/mc2/content/M2/eng/tc/transferable-concepts-image-11.png
+        /home/globa544/mc2.sdcard/sites/mc2/content/M2/eng/tc/transferable-concepts-image-11.png
         instead copy to 
-        /home/globa544/sdcard.mc2/assets/images/eng/tc/transferable-concepts-image-11.png
+        /home/globa544/mc2.sdcard/assets/images/eng/tc/transferable-concepts-image-11.png
         */
         $new_dir = '/assets/images';
         $old_dir = 'sites/' . SITE_CODE . '/content/' . $p['country_code']; // mc2/content/M2

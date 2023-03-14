@@ -155,7 +155,7 @@ function createLibrary($p, $text)
                         $country_index =  dirCreate('country', $p['destination'], $p);
                         $book_image =   $country_index .  $bookmark['language']->image_dir . '/' . $book->image;
                     }
-                    if ($p['destination'] == 'sdcard') {
+                    if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor') {
                         /* change 
                           /sites/mc2/content/M2/eng/images
                           /sites/mc2/content/M2/images/

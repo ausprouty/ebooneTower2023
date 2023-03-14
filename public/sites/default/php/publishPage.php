@@ -52,7 +52,7 @@ function publishPage($p)
     $text = modifyPage($text, $p, $data, $bookmark);
     $text .= '<!--- Created by publishPage-->' . "\n";
     writeLogDebug('publishPage-ZOOM-54', $text);
-    if ($p['destination'] == 'sdcard') {
+    if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor') {
         myRequireOnce('addVueWrapper.php', 'sdcard');
         $text = addVueWrapperPage($text);
         //writeLogDebug('publishPage-58', $p['destination'] );
@@ -69,10 +69,10 @@ function publishPage($p)
     $d = $p['destination'];
     $series_dir = publishDestination($p) . $root_folder[$d] . $data['country_code'] . '/' .
         $data['language_iso'] . '/' . $data['folder_name'] . '/';
-    if ($p['destination'] != 'sdcard') {
+    if ($p['destination'] != 'sdcard' && $p['destination'] != 'capacitor') {
         $fname = $series_dir . $data['filename'] . '.html';
     }
-    if ($p['destination'] == 'sdcard') {
+    if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor') {
         $fname = $series_dir .  ucfirst($data['language_iso'])  . ucfirst($data['filename']) . '.vue';
     }
 

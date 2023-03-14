@@ -1,6 +1,6 @@
 <?php
-myRequireOnce ('writeLog.php');
-myRequireOnce ('videoFindForSDCardNewName.php', 'sdcard');
+myRequireOnce('writeLog.php');
+myRequireOnce('videoFindForSDCardNewName.php', 'sdcard');
 /*
 Input is:
     <div class="reveal film">&nbsp;
@@ -91,65 +91,64 @@ NO JS:
     <div> <a href src="[video]">Watch  Luke 18:35-43 </a></div>
 
 */
-function modifyRevealVideo($text, $bookmark, $p){
-    myRequireOnce ('videoTemplate.php', $p['destination']);
-    myRequireOnce ('videoFollows.php', 'apk');
+function modifyRevealVideo($text, $bookmark, $p)
+{
+    myRequireOnce('videoTemplate.php', $p['destination']);
+    myRequireOnce('videoFollows.php', 'apk');
     $debug = '';
-    $previous_title_phrase= '';
-    $watch_phrase=videoTemplateWatchPhrase($bookmark);
+    $previous_title_phrase = '';
+    $watch_phrase = videoTemplateWatchPhrase($bookmark);
     $template_options = '<div id="ShowOptionsFor[video]"></div>'; // [ChangeLanguage] is changed in local.js
     $previous_url = '';
     $find = '<div class="reveal film">';
     $count = substr_count($text, $find);
     $apk_video_count = 0;
-    for ($i = 0; $i < $count; $i++){        // get old division
-        $pos_start = strpos($text,$find);
+    for ($i = 0; $i < $count; $i++) {        // get old division
+        $pos_start = strpos($text, $find);
         $pos_end = strpos($text, '</div>', $pos_start);
         $length = $pos_end - $pos_start + 6;  // add 6 because last item is 6 long
         $old = substr($text, $pos_start, $length);
         // find title_phrase
         $title = modifyVideoRevealFindText($old, 2);
-        $title = '&nbsp;"'. $title . '"&nbsp;';
+        $title = '&nbsp;"' . $title . '"&nbsp;';
         $title_phrase =  $word = str_replace('%', $title, $watch_phrase);
         //find url
         $url = modifyVideoRevealFindText($old, 4);
         // in these destinations we concantinate sequential videos (Acts#1 and Acts #2)
-        if ($p['destination'] == 'sdcard' || $p['destination'] == 'nojs' || $p['destination']== 'apk'){
+        if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor'  || $p['destination'] == 'nojs' || $p['destination'] == 'apk') {
             $follows = videoFollows($previous_url, $url);
             $previous_url = $url;
-            if ($follows){
+            if ($follows) {
                 $new = '';
-                $text=videoFollowsChangeVideoTitle($previous_title_phrase, $text, $bookmark);
-            }
-            else{
+                $text = videoFollowsChangeVideoTitle($previous_title_phrase, $text, $bookmark);
+            } else {
                 $new = videoTemplateLink($bookmark, $url);
                 $filename = $bookmark['page']->filename;
-                $video = '/media/'. $p['country_code'] . '/'. $p['language_iso'] .'/video/'.  $p['folder_name'] .'/'. videoFindForSDCardNewName($filename) ;
-                if ($apk_video_count > 0){
-                    $video .= '-'. $apk_video_count;
+                $video = '/media/' . $p['country_code'] . '/' . $p['language_iso'] . '/video/' .  $p['folder_name'] . '/' . videoFindForSDCardNewName($filename);
+                if ($apk_video_count > 0) {
+                    $video .= '-' . $apk_video_count;
                 }
-                $video .='.mp4';
-                $video_type= 'file';
+                $video .= '.mp4';
+                $video_type = 'file';
                 $apk_video_count++;
             }
             $previous_title_phrase = $title_phrase;
-        }
-        else { //website or staging
+        } else { //website or staging
             $new = videoTemplateLink($bookmark, $url);
             // find start and end times
-            $start_time = modifyVideoRevealFindTime ($old, 7);
+            $start_time = modifyVideoRevealFindTime($old, 7);
 
-            $end_time = modifyVideoRevealFindTime ($old, 9);
-            $duration = ($end_time -$start_time) * 1000;
+            $end_time = modifyVideoRevealFindTime($old, 9);
+            $duration = ($end_time - $start_time) * 1000;
 
 
             // find type of video and trim url
-            if (strpos($url, 'api.arclight.org/videoPlayerUrl?') != FALSE){
+            if (strpos($url, 'api.arclight.org/videoPlayerUrl?') != FALSE) {
                 $new .=  $template_options; // JESUS project videos are available in many languages
                 //https://api.arclight.org/videoPlayerUrl?refId=6_529-GOMatt2512
                 $url = str_ireplace('https://api.arclight.org/videoPlayerUrl?refId=', '', $url); //6_529-GOMatt2512
                 $video_type_string = substr($url, 0, 1); //6
-                switch ($video_type_string){
+                switch ($video_type_string) {
                     case 1:
                         $video_type = 'jfilm';
                         break;
@@ -160,44 +159,39 @@ function modifyRevealVideo($text, $bookmark, $p){
                         $video_type = 'lumo';
                         break;
                     default:
-                    $video_type = $video_type_string;
+                        $video_type = $video_type_string;
                 }
-                if (strpos($url, '-') !== FALSE){
+                if (strpos($url, '-') !== FALSE) {
                     $dash = strpos($url, '-');
                     $url = substr($url, $dash);
                 }
-                if ($start_time || $end_time){
-                    $url .= '&start='. $start_time . '&end=' .$end_time;
+                if ($start_time || $end_time) {
+                    $url .= '&start=' . $start_time . '&end=' . $end_time;
                 }
-            }
-            elseif (strpos($url, 'https://vimeo.com/') !== FALSE){  //https://vimeo.com/162977296
+            } elseif (strpos($url, 'https://vimeo.com/') !== FALSE) {  //https://vimeo.com/162977296
                 $video_type = 'vimeo';
                 $url = str_ireplace('https://vimeo.com/', '', $url); //162977296
-            }
-            elseif (strpos($url, 'https://www.youtube.com/watch?v=') !== FALSE){  //https://www.youtube.com/watch?v=I7ks0udfjOw
+            } elseif (strpos($url, 'https://www.youtube.com/watch?v=') !== FALSE) {  //https://www.youtube.com/watch?v=I7ks0udfjOw
                 $video_type = 'youtube';
                 $url = str_ireplace('https://www.youtube.com/watch?v=', '', $url); //I7ks0udfjOw
-                if ($start_time || $end_time){
-                    $url .= '?start='. $start_time . '&end=' .$end_time;
+                if ($start_time || $end_time) {
+                    $url .= '?start=' . $start_time . '&end=' . $end_time;
                 }
-            }
-            elseif (strpos($url, 'https://youtu.be/') !== FALSE){  //https://youtu.be/I7ks0udfjOw?t=732
+            } elseif (strpos($url, 'https://youtu.be/') !== FALSE) {  //https://youtu.be/I7ks0udfjOw?t=732
                 $video_type = 'youtube';
                 $url = str_ireplace('https://youtu.be/', '', $url); //I7ks0udfjOwt=732
-                if ($start_time || $end_time){
-                    $url .= '?start='. $start_time . '&end=' .$end_time;
+                if ($start_time || $end_time) {
+                    $url .= '?start=' . $start_time . '&end=' . $end_time;
                 }
-            }
-            elseif (strpos($url, 'https://4.dbt.io') !== FALSE){  //https://youtu.be/I7ks0udfjOw?t=732
+            } elseif (strpos($url, 'https://4.dbt.io') !== FALSE) {  //https://youtu.be/I7ks0udfjOw?t=732
                 $video_type = 'dbt';
                 $url = str_ireplace('https://4.dbt.io/api/bible/filesets/', '', $url); //I7ks0udfjOwt=732
-                 writeLogDebug ('modifyRevealVideo-196', $url);
-            }
-            else{
+                writeLogDebug('modifyRevealVideo-196', $url);
+            } else {
                 $video_type = 'url';
             }
             // make replacements
-            $video = '['. $video_type . ']' . $url; //[lumo]-GOMatt2512
+            $video = '[' . $video_type . ']' . $url; //[lumo]-GOMatt2512
         }
         $new = str_replace('[video]', $video, $new);
         $new = str_replace('[video_type]', $video_type, $new);
@@ -207,7 +201,7 @@ function modifyRevealVideo($text, $bookmark, $p){
         $new = str_replace('[start_time]', $start_time, $new);
         $new = str_replace('[duration]', $duration, $new);
         // replace old
-         // from https://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match
+        // from https://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match
         $length = $pos_end - $pos_start + 6;  // add 6 because last item is 6 long
         $text = substr_replace($text, $new, $pos_start, $length);
     }
@@ -215,29 +209,35 @@ function modifyRevealVideo($text, $bookmark, $p){
     return $text;
 }
 // return the text from the td_segment
-function modifyVideoRevealFindText($old, $td_number){
+function modifyVideoRevealFindText($old, $td_number)
+{
     $pos_td = 0;
-    for ($i = 1; $i<= $td_number; $i++){
+    for ($i = 1; $i <= $td_number; $i++) {
         $pos_td = strpos($old, '<td', $pos_td + 1);
     }
-    $pos_start = strpos($old, '>', $pos_td) +1;
+    $pos_start = strpos($old, '>', $pos_td) + 1;
     $pos_end = strpos($old, '</', $pos_td);
     $length = $pos_end - $pos_start;
     $text = substr($old, $pos_start, $length);
     $text = strip_tags($text);
     return $text;
 }
-function modifyVideoRevealFindTime ($old,$td_number){
+function modifyVideoRevealFindTime($old, $td_number)
+{
     $text = modifyVideoRevealFindText($old, $td_number);
-    if ($text == 'start'){$time = 0; }
-    else if ($text == 'end'){$time = null; }
-    else{ $time = timeToSeconds($text);}
+    if ($text == 'start') {
+        $time = 0;
+    } else if ($text == 'end') {
+        $time = null;
+    } else {
+        $time = timeToSeconds($text);
+    }
     return $time;
 }
 //function timeToSeconds(string $time): int
 function timeToSeconds($time)
 {
-    if (strpos($time, ':') == FALSE){
+    if (strpos($time, ':') == FALSE) {
         return intval($time);
     }
     $arr = explode(':', $time);
