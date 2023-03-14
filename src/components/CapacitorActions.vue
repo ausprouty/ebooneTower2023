@@ -33,7 +33,7 @@
         v-bind:class="progress.cover"
         @click="localPublish('cover')"
       >
-        {{ cover_text }}
+        {{ router_text }}
       </button>
     </div>
   </div>
@@ -41,10 +41,12 @@
 
 <script>
 import CapacitorService from '@/services/CapacitorService.js'
+import { mapState } from 'vuex'
 export default {
   props: {
     book: Object,
   },
+  computed: mapState(['capacitorSettings']),
 
   /*
       {
@@ -67,18 +69,14 @@ export default {
   data() {
     return {
       content_text: 'Content',
-      nojs_text: 'No JS',
-      pdf_text: 'PDF',
       videolist_text: 'Media List',
       media_text: 'Media',
-      cover_text: 'Cover',
+      router_text: 'Router File',
       progress: {
-        sdcard: '',
-        nojs: '',
-        pdf: '',
-        videolist: '',
-        media: '',
-        cover: '',
+        content: 'undone',
+        videolist: 'undone',
+        media: 'undone',
+        router: 'undone',
       },
     }
   },
@@ -87,11 +85,11 @@ export default {
       var response = null
       var params = this.book
       //console.log(params)
-      if (location == 'cover') {
-        this.cover_text = 'Publishing'
-        await CapacitorService.publish('cover', params)
-        this.progress.cover = await CapacitorService.verifyBookCover(params)
-        this.cover_text = 'Media'
+      if (location == 'router') {
+        this.router_text = 'Publishing'
+        await CapacitorService.publish('router', params)
+        this.progress.router = await CapacitorService.verifyBookRouter(params)
+        this.router_text = 'Media'
       }
       if (location == 'media') {
         this.media_text = 'Publishing'
@@ -121,11 +119,11 @@ export default {
   },
   async created() {
     var params = this.book
-    params.sdSubDir = this.$store.state.sdSubDir
+    params.capacitor_settings = JSON.stringify(this.capacitorSettings)
     params.progress = JSON.stringify(this.progress)
-    //console.log(params)
+    console.log(params)
     this.progress = await CapacitorService.checkStatusBook(params)
-    //console.log(this.progress)
+    console.log(this.progress)
   },
 }
 </script>

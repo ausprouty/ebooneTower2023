@@ -41,7 +41,7 @@
       <h3>Languages</h3>
       <multiselect
         v-model="$v.capacitor.$model.languages"
-        @input="sdSubDir"
+        @input="capacitorSubDir"
         :options="language_data"
         :multiple="true"
         :close-on-select="false"
@@ -196,7 +196,7 @@ export default {
       this.downloadMediaBatFiles(filename)
     },
 
-    sdSubDir() {
+    capacitorSubDir() {
       var sub = ''
       var temp = ''
       var len = this.capacitor.languages.length

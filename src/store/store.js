@@ -83,6 +83,9 @@ export default new Vuex.Store({
     SET_SDCARD_SETTINGS(state, value) {
       state.sdCardSettings = value
     },
+    SET_CAPACITOR_SETTINGS(state, value) {
+      state.capacitorSettings = value
+    },
     LOGIN_USER(state, value) {
       state.user = value[0]
     },
@@ -220,6 +223,9 @@ export default new Vuex.Store({
     },
     setSDCardSettings({ commit }, value) {
       commit('SET_SDCARD_SETTINGS', value)
+    },
+    setCapacitorSettings({ commit }, value) {
+      commit('SET_CAPACITOR_SETTINGS', value)
     },
     setApk({ commit }, value) {
       commit('SET_APK', value)

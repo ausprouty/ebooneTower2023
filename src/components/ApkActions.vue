@@ -108,7 +108,7 @@ export default {
   async created() {
     var params = this.book
     params.progress = JSON.stringify(this.progress)
-    params.apk_settings = this.apk_settings
+    params.apk_settings = JSON.stringify(this.apk_settings)
     //console.log(params)
     this.progress = await ApkService.checkStatusBook(params)
     //console.log(this.progress)
