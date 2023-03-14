@@ -80,7 +80,7 @@
     <button class="button" @click="showProgress()">Show Progress</button>
 
     <div v-if="this.show_progress">
-      <SDCardBooks
+      <CapacitorBooks
         v-for="language in capacitor.languages"
         :key="language.language_iso"
         :language="language"
@@ -109,7 +109,7 @@
 </template>
 <script>
 import Multiselect from 'vue-multiselect'
-import SDCardBooks from '@/components/SDCardBooks.vue'
+import CapacitorBooks from '@/components/CapacitorBooks.vue'
 import CapacitorService from '@/services/CapacitorService.js'
 import AuthorService from '@/services/AuthorService.js'
 import NavBar from '@/components/NavBarAdmin.vue'
