@@ -1,26 +1,30 @@
-<!-- begin mc2 sdcard languageFooter -->
+<!-- This differs from standard in the social table and footer-->
+<div class="languages" id="languages"><img class="languages" src="/sites/mc2/images/standard/OtherLanguagesTop.png" /></div>
 
-<div class="languages" id="languages"><img class="languages" src="@/assets/images/standard//OtherLanguagesTop.png" /></div>
 <table class="social">
 	<tbody>
 		<tr>
-			<td class="social" @click="share('languages', '', '')">
-				  <img class="social" src="@/assets/images/standard/languages.png" />
+			<td class="social">
+				<a href="/content/languages.html">
+				  <img class="social" src="/sites/mc2/images/menu/languages.png" />
+				</a>
 			  </td>
-			  
-			<td class="social"  @click="share('android', '{{ language_iso }}', '')">
-				<img  class="social" src="@/assets/images/standard/android.png" />
+			<td class="social">
+				<a href="javascript:void(0);" onclick="sendAction('{{ note_id }}', '{{ page_title }}')">
+					<img id = "sendAction" class="social hidden" src="/sites/mc2/content/M2/images/standard/Notes.png" />
+				</a>
 			</td>
-
-			<td class="social" @click="share('lesson', '{{ page_title }}', '{{ page_url }}')">
-				<img class="social" src="@/assets/images/standard/Share.png" />
+			<td class="social">
+				<a href="javascript:void(0);" onclick="shareLesson('{{ page_title }}')">
+					<img class="social" src="/sites/mc2/images/standard/Share.png" />
+				</a>
 			</td>
 		</tr>
 	</tbody>
 </table>
+
 <div class="footer">
 <p class="footer">MC2</p>
-<p class="footer" @click="share('website', 'https://GlobalChurchMovements.org', '')"> GlobalChurchMovements.org</p>
-</div>
 
-<!-- end mc2 sdcard languageFooter -->
+<p class="footer"><a class="no_underline"  target="_blank" href="https://GlobalChurchMovements.org">GlobalChurchMovements.org</a></p>
+</div>

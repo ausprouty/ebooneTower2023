@@ -1,0 +1,26 @@
+<!-- begin mc2 sdcard languageFooter -->
+
+<div class="languages" id="languages"><img class="languages" src="@/assets/images/standard//OtherLanguagesTop.png" /></div>
+<table class="social">
+	<tbody>
+		<tr>
+			<td class="social" @click="share('languages', '', '')">
+				  <img class="social" src="@/assets/images/standard/languages.png" />
+			  </td>
+			  
+			<td class="social"  @click="share('android', '{{ language_iso }}', '')">
+				<img  class="social" src="@/assets/images/standard/android.png" />
+			</td>
+
+			<td class="social" @click="share('lesson', '{{ page_title }}', '{{ page_url }}')">
+				<img class="social" src="@/assets/images/standard/Share.png" />
+			</td>
+		</tr>
+	</tbody>
+</table>
+<div class="footer">
+<p class="footer">MC2</p>
+<p class="footer" @click="share('website', 'https://GlobalChurchMovements.org', '')"> GlobalChurchMovements.org</p>
+</div>
+
+<!-- end mc2 sdcard languageFooter -->
