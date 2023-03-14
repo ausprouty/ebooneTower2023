@@ -19,7 +19,7 @@ Output:
 */
 
 myRequireOnce('modifyZoomImageGet.php');
-myRequireOnce('copyFilesForSDApp.php', 'sdcard');
+myRequireOnce('copyFilesForSDApp.php', 'capacitor');
 myRequireOnce('writeLog.php');
 
 
@@ -89,7 +89,7 @@ function   modifyZoomImageGetImageZoom($image)
 //root edit is sites/' . SITE_CODE . '/content/'
 function  modifyZoomImageCopyImage($image_source, $image_destination, $p)
 {
-    $destination = ROOT_SDCARD . 'public' . $image_destination;
+    $destination = ROOT_CAPACITOR . 'public' . $image_destination;
     $bad = "@/assets/images/";
     $good = ROOT_EDIT_CONTENT . $p['country_code'] . "/";
     $find_image = str_replace($bad, $good, $image_source);
@@ -100,7 +100,7 @@ function  modifyZoomImageCopyImage($image_source, $image_destination, $p)
         /*
         string(183) "@/assets/images/spa/custom/Period2.png
         /home/globa544/edit.mc2.online/sites/mc2/content/M2/spa/custom/Period2.png
-        /home/globa544/mc2.sdcard/public/images/zoom/spa/custom/Period2.png
+        /home/globa544/mc2.capacitor/public/images/zoom/spa/custom/Period2.png
         */
         $bad = $p['country_code'] . '/';
         $good = $bad . 'images/';
@@ -111,7 +111,7 @@ function  modifyZoomImageCopyImage($image_source, $image_destination, $p)
             /*
             string(209) "@/assets/images/cmn/custom/image(1).png
             /home/globa544/edit.mc2.online/sites/mc2/content/M2/images/cmn/custom/image(1).png- does not exist
-            /home/globa544/mc2.sdcard/public/images/zoom/cmn/custom/image(1).png
+            /home/globa544/mc2.capacitor/public/images/zoom/cmn/custom/image(1).png
             */
             $bad = 'M2/images/' . $p['language_iso'] . '/';
             if (strpos($find_image, $bad) !== false) {

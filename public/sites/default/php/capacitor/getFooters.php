@@ -5,7 +5,7 @@ myRequireOnce('writeLog.php');
 function getFooters($p)
 {
 	$output = [];
-	$directory = ROOT_EDIT . '/sites/' . SITE_CODE . '/prototype/sdcard/';
+	$directory = ROOT_EDIT . '/sites/' . SITE_CODE . '/prototype/capacitor/';
 	if (file_exists($directory)) {
 		$handler = opendir($directory);
 		while ($mfile = readdir($handler)) {

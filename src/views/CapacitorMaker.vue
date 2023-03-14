@@ -121,7 +121,7 @@ export default {
   props: ['country_code'],
   components: {
     NavBar,
-    SDCardBooks,
+    CapacitorBooks,
     Multiselect,
   },
   data() {

@@ -5,7 +5,7 @@ function copyStandardFiles($p)
 {
     $dirStandard = 'sites/' . SITE_CODE . '/images/standard/';
     $dirSource =  ROOT_EDIT . $dirStandard;
-    $dirDestination = ROOT_SDCARD . $p['language_iso'] . '/folder/' . $dirStandard;
+    $dirDestination = ROOT_CAPACITOR . $p['language_iso'] . '/folder/' . $dirStandard;
     dirMake($dirDestination);
     $files = dirList($dirStandard);
     foreach ($files as $file) {

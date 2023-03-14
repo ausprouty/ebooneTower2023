@@ -1,9 +1,9 @@
 <?php
-myRequireOnce('copyFilesForSDApp.php', 'sdcard');
+myRequireOnce('copyFilesForSDApp.php', 'capacitor');
 
-function publishFilesInSDCardPage($filename, $p, $destination)
+function publishFilesInCapacitorPage($filename, $p, $destination)
 {
-    writeLogDebug('publishFilesInSDCardPage-5', $p);
+    writeLogDebug('publishFilesInCapacitorPage-5', $p);
     if (strpos($filename,  myString('/assets/images')) !== false) {
         /*
             if this file is not found:
@@ -11,15 +11,15 @@ function publishFilesInSDCardPage($filename, $p, $destination)
             look here:
             /sites/mc2/content/M2/eng/tc/transferable-concepts-image-22.png (images stored in series folders)
             and copy to 
-            ROOT_SDCARD . assets/images/eng/tc/transferable-concepts-image-22.png 
+            ROOT_CAPACITOR . assets/images/eng/tc/transferable-concepts-image-22.png 
         */
         $old_dir = '/assets/images/' . $p['language_iso'];
         $new_dir = 'sites/' . SITE_CODE . '/content/' . $p['country_code'] . '/' . $p['language_iso']; // mc2/content/M2/eng/images
         $to = $destination . substr($filename, 1); // getting rid of intital '/'
-        writeLogDebug('publishFilesInSDCardPage-18', ROOT_EDIT);
+        writeLogDebug('publishFilesInCapacitorPage-18', ROOT_EDIT);
         $from =  ROOT_EDIT  . str_replace($old_dir, $new_dir, $filename);
         $from = str_replace('//', '/', $from);
-        writeLogAppend('publishFilesInSDCardPage-20', $from);
+        writeLogAppend('publishFilesInCapacitorPage-20', $from);
         if (file_exists($from)) {
             copyFilesForSDApp($from, $to, 23);
         } else {
@@ -69,7 +69,7 @@ function publishFilesInSDCardPage($filename, $p, $destination)
                     copyFilesForSDApp($from, $to, 69);
                 } else {
                     $message = "$from -- modified not found\n$filename -- original file\n\n";
-                    writeLogAppend('ERRORS-publishFilesInSDCardPage-72', $message);
+                    writeLogAppend('ERRORS-publishFilesInCapacitorPage-72', $message);
                 }
             }
         }
@@ -81,16 +81,16 @@ function publishFilesInSDCardPage($filename, $p, $destination)
         we know a file exists but it may be missing 'images' after 'eng'
         /home/globa544/edit.mc2.online/sites/mc2/content/M2/eng/tc/transferable-concepts-image-11.png 
         but we do not want to copy it to
-        /home/globa544/mc2.sdcard/sites/mc2/content/M2/eng/tc/transferable-concepts-image-11.png
+        /home/globa544/mc2.capacitor/sites/mc2/content/M2/eng/tc/transferable-concepts-image-11.png
         instead copy to 
-        /home/globa544/mc2.sdcard/assets/images/eng/tc/transferable-concepts-image-11.png
+        /home/globa544/mc2.capacitor/assets/images/eng/tc/transferable-concepts-image-11.png
         */
         $new_dir = '/assets/images';
         $old_dir = 'sites/' . SITE_CODE . '/content/' . $p['country_code']; // mc2/content/M2
-        //writeLogAppend('publishFilesInSDCardPage-133', "$filename\n$old_dir\n\n");
+        //writeLogAppend('publishFilesInCapacitorPage-133', "$filename\n$old_dir\n\n");
         $to = $destination . str_replace($old_dir, $new_dir, $filename);
         $to = str_replace('//', '/', $to);
-        //writeLogAppend('WARNING- publishFilesInSDCardPage-93', $to);
+        //writeLogAppend('WARNING- publishFilesInCapacitorPage-93', $to);
         $from = $filename;
         $necessary =  '/' . $p['language_iso'] . '/images/';
         if (strpos($from, $necessary) === FALSE) {
@@ -111,11 +111,11 @@ function publishFilesInSDCardPage($filename, $p, $destination)
                 copyFilesForSDApp($try, $to, 111);
             } else {
                 $message = "$filename -- original file\n$from -- not found\n$try -- not found\n\n";
-                writeLogAppend('ERRORS-publishFilesInSDCardPage-115', $message);
+                writeLogAppend('ERRORS-publishFilesInCapacitorPage-115', $message);
             }
         }
     } else {
-        writeLogAppend('ERRORS-publishFilesInSDCardPage-86', "$filename -- original file");
+        writeLogAppend('ERRORS-publishFilesInCapacitorPage-86', "$filename -- original file");
     }
 }
 

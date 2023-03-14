@@ -6,7 +6,7 @@ function copyCSSFiles($p)
 {
     $dirCSS = 'sites/' . SITE_CODE . '/images/css/';
     $dirSource =  ROOT_EDIT . $dirCSS;
-    $dirDestination = ROOT_SDCARD . $p['language_iso'] . '/folder/' . $dirCSS;
+    $dirDestination = ROOT_CAPACITOR . $p['language_iso'] . '/folder/' . $dirCSS;
     dirMake($dirDestination);
     $files = dirList($dirCSS);
     foreach ($files as $file) {

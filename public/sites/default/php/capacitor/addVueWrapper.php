@@ -6,9 +6,9 @@ function addVueWrapperPage($html)
 {
     $needle = '<vue-image-zoomer';
     if (strpos($html, $needle) === false) {
-        $template = myGetPrototypeFile('page.vue', $subdirectory = 'sdcard');
+        $template = myGetPrototypeFile('page.vue', $subdirectory = 'capacitor');
     } else {
-        $template = myGetPrototypeFile('pageZoom.vue', $subdirectory = 'sdcard');
+        $template = myGetPrototypeFile('pageZoom.vue', $subdirectory = 'capacitor');
     }
     $old = '[html]';
     $new = $html;

@@ -1,8 +1,8 @@
 <?php
 function getLanguageFooter($p)
 {
-    if (isset($p['sdcard_settings']->footer)) {
-        $language_footer =  $p['sdcard_settings']->footer;
+    if (isset($p['capacitor_settings']->footer)) {
+        $language_footer =  $p['capacitor_settings']->footer;
     } else {
         $language_footer =  'languageFooter.html';
     }
