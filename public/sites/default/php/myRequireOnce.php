@@ -4,9 +4,13 @@ function myRequireOnce($filename, $subdirectory = null)
     //_appendmyRequireOnce ('myRequireOnce', "\n\n$subdirectory/$filename\n");
     $new_name = null;
     $filename = _cleanMyRequireOnceFile($filename);
+
     if ($subdirectory) {
         $subdirectory = _cleanMyRequireOnceSubdirectory($subdirectory);
         $new_name = myRequireOnceDirectories($subdirectory . '/' . $filename);
+    }
+    if (!$new_name && DESTINATION !== null) {
+        $new_name = myRequireOnceDirectories(DESTINATION . '/' . $filename);
     }
     if (!$new_name) {
         $new_name = myRequireOnceDirectories($filename);

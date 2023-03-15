@@ -10,16 +10,7 @@ myRequireOnce('getBuild.php', 'apk');
 
 function publishDestination($p)
 {
-
-  if (is_array($p)) {
-    if (!isset($p['destination'])) {
-      return NULL; // and templates do return null
-    }
-    $destination = $p['destination'];
-  } else {
-    $message = 'p must be array';
-    trigger_error($message, E_USER_ERROR);
-  }
+  $destination = DESTINATION;
   if ($destination == 'staging') {
     return ROOT_STAGING;
   } elseif ($destination == 'website') {

@@ -52,33 +52,34 @@ function publishPage($p)
     $text = modifyPage($text, $p, $data, $bookmark);
     $text .= '<!--- Created by publishPage-->' . "\n";
     writeLogDebug('publishPage-ZOOM-54', $text);
-    if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor') {
+    if (DESTINATION == 'sdcard' || DESTINATION == 'capacitor') {
         myRequireOnce('addVueWrapper.php', 'sdcard');
         $text = addVueWrapperPage($text);
-        //writeLogDebug('publishPage-58', $p['destination'] );
+        //writeLogDebug('publishPage-58', DESTINATION );
     }
     // write file
     $root_folder = array(
         'staging' => 'content/',
         'website' => 'content/',
         'apk' => 'content/',
-        'sdcard' => 'views/',
+        'sdcard' => 'content/',
+        'capacitor' => 'views/',
         'nojs' => 'nojs/',
         'pdf' => 'pdf/'
     );
-    $d = $p['destination'];
+    $d = DESTINATION;
     $series_dir = publishDestination($p) . $root_folder[$d] . $data['country_code'] . '/' .
         $data['language_iso'] . '/' . $data['folder_name'] . '/';
-    if ($p['destination'] != 'sdcard' && $p['destination'] != 'capacitor') {
+    if (DESTINATION != 'sdcard' && DESTINATION != 'capacitor') {
         $fname = $series_dir . $data['filename'] . '.html';
     }
-    if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor') {
+    if (DESTINATION == 'sdcard' || DESTINATION == 'capacitor') {
         $fname = $series_dir .  ucfirst($data['language_iso'])  . ucfirst($data['filename']) . '.vue';
     }
 
     writeLogDebug('publishPage-ZOOM-79', $text);
     // go to publishFiles
-    // writeLogAppend('publishPage-81', $p['destination'] . '    '. $fname);
+    // writeLogAppend('publishPage-81', DESTINATION . '    '. $fname);
     publishFiles($p, $fname, $text,  STANDARD_CSS, $selected_css);
 
     //writeLog ('publishPage-72-debug', $debug);//
@@ -86,7 +87,7 @@ function publishPage($p)
     //
     $time = time();
     $sql = null;
-    if ($p['destination'] == 'website') {
+    if (DESTINATION == 'website') {
         $sql = "UPDATE content
         SET publish_date = '$time', publish_uid = '" . $p['my_uid'] . "'
         WHERE  country_code = '" . $data['country_code'] . "' AND
@@ -95,7 +96,7 @@ function publishPage($p)
         AND filename = '" . $data['filename'] . "'
         AND publish_date IS NULL";
     }
-    if ($p['destination'] == 'staging') {
+    if (DESTINATION == 'staging') {
         $sql = "UPDATE content
         SET prototype_date = '$time', prototype_uid = '" . $p['my_uid'] . "'
         WHERE  country_code = '" . $data['country_code'] . "' AND

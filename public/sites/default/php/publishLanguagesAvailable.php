@@ -22,7 +22,7 @@ function publishLanguagesAvailable($p)
     $countries_array = json_decode($data['text']);
     // $footer = createLanguageFooter($p);
     // get main template
-    $main_template = $book_template = myGetPrototypeFile('languagesAvailable.html', $p['destination']);
+    $main_template = $book_template = myGetPrototypeFile('languagesAvailable.html', DESTINATION);
     //
     //find prototype countries data
     //
@@ -40,7 +40,7 @@ function publishLanguagesAvailable($p)
         $text = json_decode($data['text']);
         if (!isset($text->languages)) {
             $message = '$text->languages not published for ' . $country['country_code'];
-            writeLogError('publishLanguagesAvailable', $messages);
+            writeLogError('publishLanguagesAvailable', $message);
             return ($p);
         }
         // look for flag
@@ -72,7 +72,7 @@ function publishLanguagesAvailable($p)
         usort($available, '_sortByIso');
     }
     // get language template
-    $sub_template = myGetPrototypeFile('languageAvailable.html', $p['destination']);
+    $sub_template = myGetPrototypeFile('languageAvailable.html', DESTINATION);
     $placeholders = array(
         '{{ link }}',
         '{{ country.image }}',
@@ -92,7 +92,7 @@ function publishLanguagesAvailable($p)
     // write file
     //
     $fname =  '/content/' . SITE_CODE . '/' .  $p['country_code'] . '/' . 'languages.html';
-    $fname =  dirCreate('country', $p['destination'], $p) . 'languages.html';
+    $fname =  dirCreate('country', DESTINATION, $p) . 'languages.html';
 
     $debug .= "Copied Languages available to $fname \n";
     $body .= '<!--- Created by publishLanguagesAvailable-->' . "\n";

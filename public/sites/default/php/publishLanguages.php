@@ -37,14 +37,14 @@ function publishLanguages($p, $allowed = ['all'])
         //
         $time = time();
         $sql = null;
-        if ($p['destination'] == 'website') {
+        if (DESTINATION == 'website') {
             $sql = "UPDATE content
             SET publish_date = '$time', publish_uid = '" . $p['my_uid'] . "'
             WHERE country_code = '" . $p['country_code'] . "'
             AND filename = 'languages'
             AND publish_date IS NULL";
         }
-        if ($p['destination'] == 'staging') {
+        if (DESTINATION == 'staging') {
             $sql = "UPDATE content
             SET prototype_date = '$time', prototype_uid = '" . $p['my_uid'] . "'
             WHERE country_code = '" . $p['country_code'] . "'

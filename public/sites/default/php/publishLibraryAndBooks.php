@@ -9,7 +9,7 @@ function publishLibraryAndBooks($p)
     /* Puplish Library and receive an array of book objects
     */
     $p = publishLibrary($p);
-    if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor') {
+    if (DESTINATION == 'sdcard' || DESTINATION == 'capacitor') {
         return;
     }
 

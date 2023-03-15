@@ -34,7 +34,7 @@ function publishFiles($p, $fname, $text, $standard_css, $selected_css)
         $fname = str_replace('.html.html', '.html', $fname);
     }
     // start with header
-    $output = myGetPrototypeFile('header.html', $p['destination']);
+    $output = myGetPrototypeFile('header.html', DESTINATION);
     // add onload only if files are here
     $onload_note_js = '';
     if ($destination != 'nojs' && $destination != 'pdf' && $destination != 'sdcard') {
@@ -96,7 +96,7 @@ function publishFiles($p, $fname, $text, $standard_css, $selected_css)
 
     // append footer
     $footer = 'footer.html';
-    $output .= myGetPrototypeFile($footer, $p['destination'], $p['language_iso'],);
+    $output .= myGetPrototypeFile($footer, DESTINATION, $p['language_iso'],);
     // copy all images and styles to the publish directory
     //$response = publishCopyImagesAndStyles($output, $destination);
 

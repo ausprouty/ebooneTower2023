@@ -19,7 +19,7 @@ function publishSeries($p)
     //
     //find series data
     //
-    if ($p['destination'] == 'staging') {
+    if (DESTINATION == 'staging') {
         $sql = "SELECT * FROM content
             WHERE  country_code = '" . $p['country_code'] . "'
             AND  language_iso = '" . $p['language_iso'] . "'
@@ -60,19 +60,19 @@ function publishSeries($p)
             $bookmark  = bookmark($b);
             $selected_css = isset($bookmark['book']->style) ? $bookmark['book']->style : STANDARD_CSS;
 
-            if ($p['destination'] != 'sdcard' && $p['destination'] != 'capacitor') {
-                $dir = dirCreate('series', $p['destination'],  $p, $folders = null, $create = true);
+            if (DESTINATION != 'capacitor') {
+                $dir = dirCreate('series', DESTINATION,  $p, $folders = null, $create = true);
                 $fname = $dir . 'index.html';
             }
-            if ($p['destination'] == 'sdcard') {
-                $dir = dirCreate('series', $p['destination'],  $p, $folders = null, $create = false);
+            if (DESTINATION == 'capacitor') {
+                $dir = dirCreate('series', DESTINATION,  $p, $folders = null, $create = false);
                 $fname = $dir . ucfirst($p['language_iso']) . ucfirst($p['folder_name']) . 'Index.vue';
-                $fname = str_replace('mc2.sdcard/M2/', 'mc2.sdcard/views/M2/', $fname);
+                writeLogAppend('publishSeries-70', $fname);
             }
             $result['text'] .= '<!--- Created by publishSeries-->' . "\n";
             publishFiles($p, $fname, $result['text'],  STANDARD_CSS, $selected_css);
             $time = time();
-            if ($p['destination'] == 'staging') {
+            if (DESTINATION == 'staging') {
                 $sql = "UPDATE content
                     SET prototype_date = '$time', prototype_uid = '" . $p['my_uid'] . "'
                     WHERE  country_code = '" . $p['country_code'] . "' AND
@@ -81,7 +81,7 @@ function publishSeries($p)
                     AND prototype_date IS NULL";
                 sqlArray($sql, 'update');
             }
-            if ($p['destination'] == 'website') {
+            if (DESTINATION == 'website') {
                 $sql = "UPDATE content
                     SET publish_date = '$time', publish_uid = '" . $p['my_uid'] . "'
                     WHERE  country_code = '" . $p['country_code'] . "' AND

@@ -48,7 +48,7 @@ function publishSeriesAndChapters($p)
         }
         $sql = NULL;
         // writeLogAppend('publishSeriesAndChapters-49', $chapter->filename);
-        if ($p['destination'] == 'staging' && $chapter->prototype) {
+        if (DESTINATION == 'staging' && $chapter->prototype) {
             $sql = "SELECT recnum FROM  content
                 WHERE  country_code = '" . $series['country_code'] . "'
                 AND language_iso = '" . $series['language_iso'] . "'
@@ -77,7 +77,7 @@ function publishSeriesAndChapters($p)
                 }
             } else {
                 // find file and add to database
-                $series_dir = dirCreate('series', $p['destination'],  $p, $folders = null, $create = false);
+                $series_dir = dirCreate('series', DESTINATION,  $p, $folders = null, $create = false);
                 $file =   $series_dir .  $chapter->filename . '.html';
                 if (file_exists($file)) {
                     $p['text'] = file_get_contents($file);
@@ -98,12 +98,12 @@ function publishSeriesAndChapters($p)
 
         $cache['sessions_published'][] = $chapter->filename;
         $cache['files_included'] = $files_in_pages;
-        updateCache($cache, $p['destination']);
+        updateCache($cache, DESTINATION);
     }
-    if ($p['destination'] == 'website' || $p['destination'] == 'staging') {
+    if (DESTINATION == 'website' || DESTINATION == 'staging') {
         publishSeriesAndChaptersMakeJsonIndex($files_json, $files_in_pages, $p);
     }
-    clearCache($cache, $p['destination']);
+    clearCache($cache, DESTINATION);
     return true;
 }
 function publishSeriesAndChaptersCombineArrays($files_in_pages, $new_files)
@@ -122,8 +122,8 @@ function publishSeriesAndChaptersCombineArrays($files_in_pages, $new_files)
 
 function publishSeriesAndChaptersMakeJsonIndex($files_json, $files_in_pages, $p)
 {
-    if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor') {
-        //writeLogDebug('publishSeriesAndChaptersMakeJsonIndex90', $p['destination']);
+    if (DESTINATION == 'sdcard' || DESTINATION == 'capacitor') {
+        //writeLogDebug('publishSeriesAndChaptersMakeJsonIndex90', DESTINATION);
         return;
     }
 
@@ -142,8 +142,8 @@ function publishSeriesAndChaptersMakeJsonIndex($files_json, $files_in_pages, $p)
     }
     $files_json = substr($files_json, 0, -2) . "\n" . ']' . "\n";
     // json file needs to be in sites/mc2/content/M2/eng/multiply1
-    //writeLogDebug('publishSeriesAndChapters-92', $p['destination']);
-    $json_series_dir = dirCreate('json_series', $p['destination'],  $p, $folders = null);
+    //writeLogDebug('publishSeriesAndChapters-92', DESTINATION);
+    $json_series_dir = dirCreate('json_series', DESTINATION,  $p, $folders = null);
     //writeLogDebug('publishSeriesAndChapters-94', $p);
     $filename =  $json_series_dir . 'files.json';
     //writeLogDebug('publishSeriesAndChapters-96', $filename);

@@ -36,6 +36,12 @@ function dirCreate($scope, $destination,  $p, $folders = null, $create = true)
                 $dir .= $p['sdcard_settings']->subDirectory . '/views/';
             }
             break;
+        case 'capacitor':
+            $dir = ROOT_CAPACITOR;
+            if (isset($p['capacitorsettings']->subDirectory)) {
+                $dir .= $p['capacitor_settings']->subDirectory . '/views/';
+            }
+            break;
         case 'root':
         case 'default':
             $dir = '/';

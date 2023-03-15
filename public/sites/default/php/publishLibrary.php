@@ -41,11 +41,11 @@ function publishLibrary($p)
     if ($filename == 'library') {
         $filename = 'index';
     }
-    if ($p['destination'] != 'sdcard' && $p['destination'] != 'capacitor') {
+    if (DESTINATION != 'sdcard' && DESTINATION != 'capacitor') {
         $dir  = publishDestination($p) . 'content/' . $p['country_code'] . '/' . $p['language_iso'] . '/';
         $filetype = '.html';
     }
-    if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor') {
+    if (DESTINATION == 'sdcard' || DESTINATION == 'capacitor') {
         $dir  = publishDestination($p) . 'views/' . $p['country_code'] . '/' . $p['language_iso'] . '/';
         $filetype = '.vue';
     }
@@ -58,7 +58,7 @@ function publishLibrary($p)
     // update records
     //
     $time = time();
-    if ($p['destination'] == 'staging') {
+    if (DESTINATION == 'staging') {
         $sql = "UPDATE content
             SET prototype_date = '$time', prototype_uid = '" . $p['my_uid'] . "'
             WHERE country_code = '" . $p['country_code'] . "'
@@ -68,7 +68,7 @@ function publishLibrary($p)
         $debug .= $sql . "\n";
         sqlArray($sql, 'update');
     }
-    if ($p['destination'] == 'website') {
+    if (DESTINATION == 'website') {
         $sql = "UPDATE content
             SET publish_date = '$time', publish_uid = '" . $p['my_uid'] . "'
             WHERE country_code = '" . $p['country_code'] . "'
