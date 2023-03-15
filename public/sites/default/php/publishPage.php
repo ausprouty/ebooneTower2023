@@ -79,7 +79,7 @@ function publishPage($p)
     writeLogDebug('publishPage-ZOOM-79', $text);
     // go to publishFiles
     // writeLogAppend('publishPage-81', $p['destination'] . '    '. $fname);
-    publishFiles($p['destination'], $p, $fname, $text,  STANDARD_CSS, $selected_css);
+    publishFiles($p, $fname, $text,  STANDARD_CSS, $selected_css);
 
     //writeLog ('publishPage-72-debug', $debug);//
     // update records

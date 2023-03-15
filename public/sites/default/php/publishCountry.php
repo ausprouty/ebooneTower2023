@@ -55,14 +55,15 @@ function publishCountry($p)
     $body .= '</div>' . "\n";
 
     //
-
+    $country_dir_destination = dirCreate('country', '',  $p, $folders = null, $create = true);
     $file = $country_dir_destination . '/index.html';
     $p['selected_css'] = 'AU/styles/AU-freeform.css';
     // write coutnry file
     $body .= '<!--- Created by prototypeCountry-->' . "\n";
-    $p = publishWrite($p, $file, $body,   $p['standard_css'],  $p['selected_css']);
+    $p = publishFiles($p, $file, $body,   $p['standard_css'],  $p['selected_css']);
+    $language_dir_destination = dirCreate('language', '',  $p, $folders = null, $create = true);
     $file = $language_dir_destination . '/index.html';
-    $p = publishWrite($p, $file, $body, $p['standard_css'], $p['selected_css']);
+    $p = publishFiles($p, $file, $body, $p['standard_css'], $p['selected_css']);
 
     //
     // update records

@@ -12,12 +12,14 @@ function revert($p)
     $debug = 'In Revert' . "\n";
     //writeLog('revert12-'. time(), $debug);
     if (!isset($p['scope'])) {
-        $debug .=  'No scope was set';
-        return $out;
+        $message =  'No scope was set in revert';
+        trigger_error($message, E_USER_ERROR);
+        return null;
     }
     if (!isset($p['recnum'])) {
-        $debug .=  'No recnum set';
-        return $out;
+        $message =  'No recnum set';
+        trigger_error($message, E_USER_ERROR);
+        return null;
     }
 
     switch ($p['scope']) {

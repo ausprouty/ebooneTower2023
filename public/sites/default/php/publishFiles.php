@@ -18,18 +18,20 @@ myRequireOnce('createLanguageFooter.php');
 myRequireOnce('publishCSS.php');
 myRequireOnce('writeLog.php');
 myRequireOnce('myGetPrototypeFile.php');
+myRequireOnce('languageSpecificJavascripts.php');
 
 // destination must be 'staging', 'website', 'pdf'  or 'sdcard'
-function publishFiles($destination, $p, $fname, $text, $standard_css, $selected_css)
+function publishFiles($p, $fname, $text, $standard_css, $selected_css)
 {
-    myRequireOnce('languageSpecificJavascripts.php', $p['destination']);
+
+    $destination = DESTINATION;
     $file_name_parts = explode('/', $fname);
     $fsname = array_pop($file_name_parts);
     $fsname = str_replace('.html', '', $fsname);
     //// //writeLogDebug('publishFile-24-'. $fsname, $text);
     // some libary indexes have a name of meet.html with then gets appended with another html
     if (strpos($fname, '.html.html') !== false) {
-        $fname = str_replace('.html.html', '.html', $filename);
+        $fname = str_replace('.html.html', '.html', $fname);
     }
     // start with header
     $output = myGetPrototypeFile('header.html', $p['destination']);

@@ -38,7 +38,7 @@ function publishLibraryIndex($p)
 
     // write  file
     $body .= '<!--- Created by publishLibrary-->' . "\n";
-    publishFiles($p['destination'], $p, $fname, $body,   STANDARD_CSS,  $selected_css);
+    publishFiles($p, $fname, $body,   STANDARD_CSS,  $selected_css);
     // update records
     //
     $time = time();

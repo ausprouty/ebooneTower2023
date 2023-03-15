@@ -70,7 +70,7 @@ function publishSeries($p)
                 $fname = str_replace('mc2.sdcard/M2/', 'mc2.sdcard/views/M2/', $fname);
             }
             $result['text'] .= '<!--- Created by publishSeries-->' . "\n";
-            publishFiles($p['destination'], $p, $fname, $result['text'],  STANDARD_CSS, $selected_css);
+            publishFiles($p, $fname, $result['text'],  STANDARD_CSS, $selected_css);
             $time = time();
             if ($p['destination'] == 'staging') {
                 $sql = "UPDATE content

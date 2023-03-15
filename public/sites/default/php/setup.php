@@ -9,8 +9,9 @@ function setupImageFolder($p)
 {
 	$debug = 'setupImageFolder' . "\n";
 	if (!isset($p['language_iso'])) {
-		$debug = 'language_iso not set' . "\n";
-		return $out;
+		$message = 'language_iso not set in setupImageFolder' . "\n";
+		trigger_error($message, E_USER_ERROR);
+		return null;
 	}
 	copyGlobal(
 		dirCreate('country', 'edit',  $p, $folders = 'images/standard/'),
@@ -28,8 +29,9 @@ function setupTemplatesLanguage($p)
 {
 	$count = 0;
 	if (!isset($p['language_iso'])) {
-		$debug = 'language_iso not set' . "\n";
-		return $out;
+		$message = 'language_iso not set' . "\n";
+		trigger_error($message, E_USER_ERROR);
+		return null;
 	}
 	$template_dir = dirCreate('country', 'edit',  $p, $folders = 'templates');
 	$p['folder_name'] = array();

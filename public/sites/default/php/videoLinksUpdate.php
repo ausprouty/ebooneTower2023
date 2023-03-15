@@ -36,7 +36,7 @@ function videoLinksFix($text, $find)
         $pos_end = strpos($text, '</div>', $pos_start);
         $length = $pos_end - $pos_start + 6;  // add 6 because last item is 6 long
         $old = substr($text, $pos_start, $length);
-        $debug .=  "old is | $old |\n";
+        //$debug .=  "old is | $old |\n";
         //find Video Title
         $word = trim(strip_tags($old));
         $word = trim(strip_tags($old));
@@ -50,8 +50,8 @@ function videoLinksFix($text, $find)
         $link_length = $link_end - $link_start;
         $link = substr($text, $link_start, $link_length);
         $new = str_replace('[Link]', $link, $new);
-        $debug .=  "word is | $word |\n";
-        $debug .=  "new is | $new |\n";
+        // $debug .=  "word is | $word |\n";
+        // $debug .=  "new is | $new |\n";
         // from https://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match
         $text = substr_replace($text, $new, $pos_start, $length);
     }

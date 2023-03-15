@@ -43,11 +43,11 @@ function publishLibraryIndex($p)
     $fname = $language_dir . '/index.html';
     // write  file
     $body .= '<!--- Created by publishLibrary-->' . "\n";
-    publishFiles($p['destination'], $p, $fname, $body,   STANDARD_CSS,  $selected_css);
+    publishFiles($p, $fname, $body,   STANDARD_CSS,  $selected_css);
     // Australia is the current owner of this site, so their file goes to root
     if ($fname  ==  publishDestination($p) . 'content/AU/eng/index.html') {
         $fname = publishDestination($p) . 'index.html'; // add as root directory index
-        publishFiles($p['destination'], $p, $fname, $body,   STANDARD_CSS,  $selected_css);
+        publishFiles($p, $fname, $body,   STANDARD_CSS,  $selected_css);
     }
     // update records
     //

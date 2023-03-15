@@ -53,7 +53,7 @@ function publishLibrary($p)
     writeLogDebug('publishLibrary-53', $fname);
     $body = publishLibraryAdjustText($body);
     $body .= '<!--- Created by publishLibrary-->' . "\n";
-    publishFiles($p['destination'], $p, $fname, $body, STANDARD_CARD_CSS, $selected_css);
+    publishFiles($p, $fname, $body, STANDARD_CARD_CSS, $selected_css);
     //
     // update records
     //

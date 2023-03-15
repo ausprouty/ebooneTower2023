@@ -54,7 +54,7 @@ function createBookContent($p)
             myRequireOnce('createBookRouter.php', 'capacitor');
             createBookRouter($data, $p);
             $result['text'] .= '<!--- Created by createBookContent-->' . "\n";
-            publishFiles($p['destination'], $p, $fname, $result['text'],  STANDARD_CSS, $selected_css);
+            publishFiles($p, $fname, $result['text'],  STANDARD_CSS, $selected_css);
             $time = time();
         }
     } else {

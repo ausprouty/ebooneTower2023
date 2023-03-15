@@ -46,5 +46,5 @@ function imageStore($p)
 		}
 	}
 	//writeLog('image-49', $debug);
-	return $out;
+	return null;
 }

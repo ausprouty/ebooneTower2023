@@ -56,7 +56,7 @@ function publishCountries($p)
     // write countries file
     $fname = publishDestination($p)  . 'index.html';
     $main_template .= '<!--- Created by prototypeCountries-->' . "\n";
-    publishFiles($p['destination'], $p, $fname, $main_template,   STANDARD_CSS,  $selected_css);
+    publishFiles($p, $fname, $main_template,   STANDARD_CSS,  $selected_css);
 
     //
     // update records
@@ -95,7 +95,7 @@ function publishCountryLink($country_code, $destination)
     $link = null;
     $count = 0;
     foreach ($languages->languages as $language) {
-        if (publishReady($language, $p['destination'])) {
+        if (publishReady($language, $destination)) {
             $link = $language->folder . '/index.html';
             $count++;
         }

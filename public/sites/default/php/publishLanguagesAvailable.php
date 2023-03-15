@@ -96,7 +96,7 @@ function publishLanguagesAvailable($p)
 
     $debug .= "Copied Languages available to $fname \n";
     $body .= '<!--- Created by publishLanguagesAvailable-->' . "\n";
-    publishFiles($p['destination'], $p, $fname, $body, STANDARD_CSS, $selected_css);
+    publishFiles($p, $fname, $body, STANDARD_CSS, $selected_css);
     return $p;
 }
 

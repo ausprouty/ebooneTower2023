@@ -31,7 +31,7 @@ function publishLanguages($p, $allowed = ['all'])
         // "/content/M2/languages.html"
         $fname =   $p['country_dir'] . 'languages.html';
         $text =  $text . $creator;
-        publishFiles($p['destination'], $p, $fname, $text, STANDARD_CSS, STANDARD_CARD_CSS);
+        publishFiles($p, $fname, $text, STANDARD_CSS, STANDARD_CARD_CSS);
         //
         // update records
         //
