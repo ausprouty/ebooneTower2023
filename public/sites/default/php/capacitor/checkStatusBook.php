@@ -4,7 +4,7 @@ myRequireOnce('dirMake.php');
 myRequireOnce('verifyBookContent.php', 'capacitor');
 myRequireOnce('verifyBookDir.php', 'capacitor');
 myRequireOnce('verifyBookMediaList.php', 'capacitor');
-myRequireOnce('verifyRouter.php', 'capacitor');
+myRequireOnce('verifyBookRouter.php', 'capacitor');
 
 function checkStatusBook($p)
 {
@@ -40,10 +40,12 @@ function checkStatusBook($p)
                 break;
             case "router":
                 if (file_exists($p['dir_capacitor'] . '/router/')) {
-                    $out->content = verifyRouter($p);
+                    $out->router = verifyBookRouter($p);
                 } else {
-                    $out->content = 'undone';
+                    $out->router = 'undone';
                 }
+                $message = $out->router . '  -' . $p['folder_name'];
+                writeLogAppend('checkStatusBook-47', $message);
                 break;
             default:
         }

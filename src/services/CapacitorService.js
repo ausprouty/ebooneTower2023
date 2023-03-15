@@ -141,16 +141,16 @@ export default {
     var response = await apiSECURE.post(complete_action, contentForm)
     return response
   },
-  async verifyBookApk(params) {
+  async verifyBookContent(params) {
     params = this.initialize(params)
-    params.page = 'verifyBook'
-    params.action = 'verifyBookApk'
+    params.page = 'verifyBookContent'
+    params.action = 'verifyBookContent'
     return await AuthorService.aReturnContent(params)
   },
-  async verifyBookCover(params) {
+  async verifyBookRouter(params) {
     params = this.initialize(params)
-    params.page = 'verifyBook'
-    params.action = 'verifyBookCover'
+    params.page = 'verifyBookRouter'
+    params.action = 'verifyBookRouter'
     return await AuthorService.aReturnContent(params)
   },
   async verifyBookMedia(params) {
@@ -159,10 +159,10 @@ export default {
     params.action = 'verifyBookMedia'
     return await AuthorService.aReturnContent(params)
   },
-  async verifyBookVideoList(params) {
+  async verifyBookMediaList(params) {
     params = this.initialize(params)
-    params.page = 'verifyBook'
-    params.action = 'verifyBookVideoList'
+    params.page = 'verifyBookMediaList'
+    params.action = 'verifyBookMediaList'
     return await AuthorService.aReturnContent(params)
   },
   async verifyCommonFiles(params) {
@@ -185,13 +185,6 @@ export default {
     var res = await AuthorService.aReturnContent(params)
     //console.log(res)
     return res
-  },
-  // see https://morioh.com/p/f4d331b62cda
-  async zipMediaBatFiles(params) {
-    params = this.initialize(params)
-    params.page = 'zipMediaBatFiles'
-    params.action = 'zipMediaBatFiles'
-    return await AuthorService.aReturnContent(params)
   },
 
   toFormData(obj) {

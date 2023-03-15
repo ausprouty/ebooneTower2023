@@ -30,8 +30,8 @@
     <div class="column">
       <button
         class="button"
-        v-bind:class="progress.cover"
-        @click="localPublish('cover')"
+        v-bind:class="progress.router"
+        @click="localPublish('router')"
       >
         {{ router_text }}
       </button>
@@ -85,31 +85,32 @@ export default {
       var response = null
       var params = this.book
       //console.log(params)
-      if (location == 'router') {
-        this.router_text = 'Publishing'
-        await CapacitorService.publish('router', params)
-        this.progress.router = await CapacitorService.verifyBookRouter(params)
-        this.router_text = 'Media'
-      }
-      if (location == 'media') {
-        this.media_text = 'Publishing'
-        await CapacitorService.publish('media', params)
-        this.progress.media = await CapacitorService.verifyBookMedia(params)
-        this.media_text = 'Media'
-      }
       if (location == 'content') {
         this.content_text = 'Publishing'
         await CapacitorService.publish('seriesAndChapters', params)
         this.progress.content = await CapacitorService.verifyBookCapacitor(params)
-        this.content_text = 'Content'
+        this.content_text = 'Content '
       }
+      if (location == 'router') {
+        this.router_text = 'Publishing'
+        await CapacitorService.publish('router', params)
+        this.progress.router = await CapacitorService.verifyBookRouter(params)
+        this.router_text = 'Router Published'
+      }
+      if (location == 'media') {
+        this.media_text = 'Checking'
+        await CapacitorService.publish('media', params)
+        this.progress.media = await CapacitorService.verifyBookMedia(params)
+        this.media_text = 'Media Checked'
+      }
+      
       if (location == 'videolist') {
         this.videolist_text = 'Publishing'
         await CapacitorService.publish('videoMakeBatFileForCapacitor', params)
         this.progress.videolist = await CapacitorService.verifyBookVideoList(
           params
         )
-        this.videolist_text = 'Media List'
+        this.videolist_text = 'Media List Published'
       }
       if (response == 'error') {
         alert('There was an error')

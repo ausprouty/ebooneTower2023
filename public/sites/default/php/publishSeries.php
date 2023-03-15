@@ -64,14 +64,19 @@ function publishSeries($p)
                 $dir = dirCreate('series', $p['destination'],  $p, $folders = null, $create = true);
                 $fname = $dir . 'index.html';
             }
-            if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor') {
+            if ($p['destination'] == 'sdcard') {
                 $dir = dirCreate('series', $p['destination'],  $p, $folders = null, $create = false);
                 $fname = $dir . ucfirst($p['language_iso']) . ucfirst($p['folder_name']) . 'Index.vue';
                 $fname = str_replace('mc2.sdcard/M2/', 'mc2.sdcard/views/M2/', $fname);
-                myRequireOnce('modifyTextForVue.php', 'sdcard');
+            }
+            if ($p['destination'] == 'capacitor') {
+                $dir = dirCreate('series', $p['destination'],  $p, $folders = null, $create = false);
+                $fname = $dir . ucfirst($p['language_iso']) . ucfirst($p['folder_name']) . 'Index.vue';
+                $fname = str_replace('mc2.capacitor/M2/', 'mc2.capacitor/views/M2/', $fname);
+                myRequireOnce('modifyTextForVue.php', 'capacitor');
                 $result['text'] = modifyTextForVue($result['text'], $bookmark);
-                writeLogDebug('publishSeries-75', $result['text']);
-                myRequireOnce('routesCreateForSeries.php', 'sdcard');
+                writeLogDebug('publishSeries-78', $result['text']);
+                myRequireOnce('routesCreateForSeries.php', 'capacitor');
                 routesCreateForSeries($data, $p);
             }
 

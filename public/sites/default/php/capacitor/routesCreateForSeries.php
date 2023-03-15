@@ -49,5 +49,6 @@ function routesCreateForSeries($data, $p)
     $text .= '];';
     $filename = '/router/routes' . ucfirst($data['language_iso'])  . ucfirst($data['folder_name'] . '.js');
     fileWrite($filename, $text, $p);
+    writeLogDebug('routesCreateForSeries-51', $filename);
     return;
 }
