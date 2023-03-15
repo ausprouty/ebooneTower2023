@@ -1,6 +1,6 @@
 <?php
 
-myRequireOnce('fileWrite.php');
+myRequireOnce(DESTINATION, 'fileWrite.php');
 
 function createBookRouter($data, $p)
 {

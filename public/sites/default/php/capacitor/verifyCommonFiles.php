@@ -5,8 +5,8 @@
 /sites/default/capacitor/Cx File Explorer.apk-> mc2.capacitor.something/Cx File Explorer.apk
 /langugage javascript folders
 */
-myRequireOnce('copyDirectory.php');
-myRequireOnce('verifyBookDir.php', 'capacitor');
+myRequireOnce(DESTINATION, 'copyDirectory.php');
+myRequireOnce(DESTINATION, 'verifyBookDir.php', 'capacitor');
 
 function verifyCommonFiles($p)
 {

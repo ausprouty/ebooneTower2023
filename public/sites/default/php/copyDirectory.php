@@ -4,8 +4,8 @@
 /    // copies all files in directory
     //  Overwrites existing files
 */
-myRequireOnce('writeLog.php');
-myRequireOnce('createDirectory.php');
+myRequireOnce(DESTINATION, 'writeLog.php');
+myRequireOnce(DESTINATION, 'createDirectory.php');
 
 function copyDirectory($source, $destination)
 {

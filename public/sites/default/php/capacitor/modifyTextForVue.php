@@ -1,6 +1,6 @@
 <?php
 
-myRequireOnce('modifyImagePathForVue.php', 'capacitor');
+myRequireOnce(DESTINATION, 'modifyImagePathForVue.php', 'capacitor');
 
 
 function modifyTextForVue($text, $bookmark)

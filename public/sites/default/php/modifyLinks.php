@@ -1,10 +1,10 @@
 <?php
 
-myRequireOnce('writeLog.php');
-myRequireOnce('modifyPrototypeAndFinalLinks.php');
-myRequireOnce('modifyLinksMakeRelative.php');
-myRequireOnce('modifyLinksReadmoreBible.php');
-myRequireOnce('modifyLinksInternal.php');
+myRequireOnce(DESTINATION, 'writeLog.php');
+myRequireOnce(DESTINATION, 'modifyPrototypeAndFinalLinks.php');
+myRequireOnce(DESTINATION, 'modifyLinksMakeRelative.php');
+myRequireOnce(DESTINATION, 'modifyLinksReadmoreBible.php');
+myRequireOnce(DESTINATION, 'modifyLinksInternal.php');
 
 function modifyLinks($text, $p)
 {
@@ -50,7 +50,7 @@ function modifyLinks($text, $p)
     $find2 = '<a class="bible-readmore"';
     if (strpos($text, $find1) !== false || strpos($text, $find2) !== false) {
         $text = modifyLinksReadmoreBible($text);
-        myRequireOnce('removeLinksExternal.php', $p['destination']);
+        myRequireOnce(DESTINATION, 'removeLinksExternal.php', $p['destination']);
         if (removeLinksExternal($p)) {
             $text = _removeReadmoreLinks($text, $p);
         }

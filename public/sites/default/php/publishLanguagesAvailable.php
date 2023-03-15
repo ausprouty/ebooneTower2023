@@ -1,8 +1,8 @@
 <?php
-myRequireOnce('dirCreate.php');
+myRequireOnce(DESTINATION, 'dirCreate.php');
 
-myRequireOnce('publishFiles.php');
-myRequireOnce('myGetPrototypeFile.php');
+myRequireOnce(DESTINATION, 'publishFiles.php');
+myRequireOnce(DESTINATION, 'myGetPrototypeFile.php');
 
 
 function publishLanguagesAvailable($p)

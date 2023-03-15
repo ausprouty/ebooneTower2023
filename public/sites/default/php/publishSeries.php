@@ -1,9 +1,9 @@
 <?php
 
-myRequireOnce('createSeries.php');
-myRequireOnce('dirCreate.php');
-myRequireOnce('publishFiles.php');
-myRequireOnce('publicationCache.php');
+myRequireOnce(DESTINATION, 'createSeries.php');
+myRequireOnce(DESTINATION, 'dirCreate.php');
+myRequireOnce(DESTINATION, 'publishFiles.php');
+myRequireOnce(DESTINATION, 'publicationCache.php');
 
 
 

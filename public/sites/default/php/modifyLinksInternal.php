@@ -6,8 +6,8 @@ Input is:
  Transferable Concept #1: How You Can Be Sure You Are A Christian
  </a>
 */
-myRequireOnce('myGetPrototypeFile.php');
-myRequireOnce('modifyLinksMakeRelative.php');
+myRequireOnce(DESTINATION, 'myGetPrototypeFile.php');
+myRequireOnce(DESTINATION, 'modifyLinksMakeRelative.php');
 
 function  modifyLinksInternal($text, $find, $p)
 {

@@ -1,6 +1,6 @@
 <?php
 
-myRequireOnce('writeLog.php');
+myRequireOnce(DESTINATION, 'writeLog.php');
 /*filenamestring(80) "/home/globa544/test_staging.mc2.online/content/M2/eng/multiply1/multiply105.html"
 
 We assume filename is inside of content

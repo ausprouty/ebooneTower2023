@@ -1,8 +1,8 @@
 <?php
 
-myRequireOnce('dirMake.php');
-myRequireOnce('writeLog.php');
-myRequireOnce('modifyRevealAudio.php');
+myRequireOnce(DESTINATION, 'dirMake.php');
+myRequireOnce(DESTINATION, 'writeLog.php');
+myRequireOnce(DESTINATION, 'modifyRevealAudio.php');
 
 
 

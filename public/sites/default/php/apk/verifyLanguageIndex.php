@@ -11,19 +11,20 @@ Looking for
     $p['dir_video_list'] = ROOT_EDIT . 'sites/' . SITE_CODE .'/apk/' .$p['country_code'] .'/'. $p['language_iso'] .'/';
     $p['dir_series'] =  $p['country_code'] .'/'. $p['language_iso'] . '/'. $p['folder_name'];
 */
-myRequireOnce('writeLog.php');
-myRequireOnce('publishLanguages.php');
-myRequireOnce('dirListFiles.php');
-myRequireOnce('dirMake.php');
-myRequireOnce('getBuild.php', 'apk');
+myRequireOnce(DESTINATION, 'writeLog.php');
+myRequireOnce(DESTINATION, 'publishLanguages.php');
+myRequireOnce(DESTINATION, 'dirListFiles.php');
+myRequireOnce(DESTINATION, 'dirMake.php');
+myRequireOnce(DESTINATION, 'getBuild.php', 'apk');
 
-function verifyLanguageIndex($p){
-    $count =count ($p['apk_settings']->languages);
-    if ( $count < 2){
-       return 1;
+function verifyLanguageIndex($p)
+{
+    $count = count($p['apk_settings']->languages);
+    if ($count < 2) {
+        return 1;
     }
     $allowed = [];
-    foreach ($p['apk_settings']->languages  as $language){
+    foreach ($p['apk_settings']->languages  as $language) {
         $allowed[] = $language->language_iso;
     }
     $response = publishLanguages($p, $allowed);

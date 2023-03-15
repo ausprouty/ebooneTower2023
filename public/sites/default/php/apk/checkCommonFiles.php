@@ -5,30 +5,31 @@
 /sites/default/apk/Cx File Explorer.apk-> apk.mc2.something/Cx File Explorer.apk
 /langugage javascript folders
 */
-myRequireOnce('copyDirectory.php');
-myRequireOnce('getBuild.php', 'apk');
-myRequireOnce('writeLog.php');
+myRequireOnce(DESTINATION, 'copyDirectory.php');
+myRequireOnce(DESTINATION, 'getBuild.php', 'apk');
+myRequireOnce(DESTINATION, 'writeLog.php');
 
-function checkCommonFiles($p){
+function checkCommonFiles($p)
+{
   $build = getBuild($p);
-  $p['dir_apk'] = ROOT_APK .  $build. '/';
+  $p['dir_apk'] = ROOT_APK .  $build . '/';
   // see list from verifyCommonFiles
   $destination = [];
   $destination[] = $p['dir_apk'] . 'folder/sites/default/images/css/';
-  $destination[] = $p['dir_apk'] . 'folder/sites/'.SITE_CODE. '/images/css/';
-  $destination[] = $p['dir_apk'] . 'folder/sites/'.SITE_CODE. '/images/standard/';
-  $destination[] = $p['dir_apk'] . 'folder/sites/'.SITE_CODE. '/images/menu/';
-  $destination[] = $p['dir_apk'] . 'folder/sites/'.SITE_CODE. '/images/standard/';
-  $destination[] = $p['dir_apk'] . 'folder/sites/'. SITE_CODE. '/'. $p['country_code']. '/images/standard/';
-  $destination[] = $p['dir_apk'] .'folder/content/'. $p['country_code'] . '/'.  $p['language_iso'] .'/javascript/';
-  foreach ($destination as $d){
-    if (!is_dir($d)){
+  $destination[] = $p['dir_apk'] . 'folder/sites/' . SITE_CODE . '/images/css/';
+  $destination[] = $p['dir_apk'] . 'folder/sites/' . SITE_CODE . '/images/standard/';
+  $destination[] = $p['dir_apk'] . 'folder/sites/' . SITE_CODE . '/images/menu/';
+  $destination[] = $p['dir_apk'] . 'folder/sites/' . SITE_CODE . '/images/standard/';
+  $destination[] = $p['dir_apk'] . 'folder/sites/' . SITE_CODE . '/' . $p['country_code'] . '/images/standard/';
+  $destination[] = $p['dir_apk'] . 'folder/content/' . $p['country_code'] . '/' .  $p['language_iso'] . '/javascript/';
+  foreach ($destination as $d) {
+    if (!is_dir($d)) {
       //writeLogDebug('checkCommonFiles-26', $d);
-        return 'undone';
+      return 'undone';
     }
   }
   $file = $p['dir_apk'] . 'index.html';
-  if (!file_exists($file)){
+  if (!file_exists($file)) {
     //writeLogDebug('checkCommonFiles-32', $file);
     return 'undone';
   }

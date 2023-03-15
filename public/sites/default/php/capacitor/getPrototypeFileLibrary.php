@@ -1,5 +1,5 @@
 <?php
-myRequireOnce('myGetPrototypeFile.php');
+myRequireOnce(DESTINATION, 'myGetPrototypeFile.php');
 function getPrototypeFileLibrary($p)
 {
 

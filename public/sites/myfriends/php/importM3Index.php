@@ -6,7 +6,7 @@ myRequireOnce ('sql.php');
 myRequireOnce ('.env.cors.php');
 myRequireOnce ('getLatestMc2Content.php');
 myRequireOnce ('create.php');\
-myRequireOnce('writeLog.php');
+myRequireOnce(DESTINATION, 'writeLog.php');
 
 
 $fixing = 'multiply3';

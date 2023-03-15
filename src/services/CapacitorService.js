@@ -67,7 +67,7 @@ export default {
   },
   async createBookRouter(params) {
     params = this.initialize(params)
-    params.page = 'createBookRouterer'
+    params.page = 'createBookRouter'
     params.action = 'createBookRouter'
     return await AuthorService.aReturnContent(params)
   },
@@ -77,16 +77,10 @@ export default {
     params.action = 'createBookMediaList'
     return await AuthorService.aReturnContent(params)
   },
-  async verifyBookMediaList(params) {
+  async createBookMediaList(params) {
     params = this.initialize(params)
-    params.page = 'verifyBookMediaList'
-    params.action = 'verifyBookMediaList'
-    return await AuthorService.aReturnContent(params)
-  },
-  async getBuilds(params) {
-    params = this.initialize(params)
-    params.page = 'getBuilds'
-    params.action = 'getBuilds'
+    params.page = 'createBookMediaList'
+    params.action = 'createBookMediaList'
     return await AuthorService.aReturnContent(params)
   },
   async getBooks(params) {

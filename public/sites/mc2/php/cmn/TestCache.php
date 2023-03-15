@@ -3,8 +3,8 @@ echo "In Fix Cache<br>\n";
 
 require_once('../../.env.api.remote.php');
 require_once('../../../default/php/myRequireOnce.php');
-myRequireOnce('sql.php');
-myRequireOnce('writeLog.php');
+myRequireOnce(DESTINATION, 'sql.php');
+myRequireOnce(DESTINATION, 'writeLog.php');
 $output = getCache();
 var_dump($output);
 

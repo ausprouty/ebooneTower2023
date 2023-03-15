@@ -1,5 +1,5 @@
 <?php
-myRequireOnce('writeLog.php');
+myRequireOnce(DESTINATION, 'writeLog.php');
 /*
 
 This is an attempt to have a growing note area on the iphone

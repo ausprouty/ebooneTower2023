@@ -12,27 +12,27 @@
     );
     returns array of extra chapters to include
 */
-myRequireOnce('bibleChapterVerseCount.php');
+myRequireOnce(DESTINATION, 'bibleChapterVerseCount.php');
 
-function bibleExtraChapters($dbt){
+function bibleExtraChapters($dbt)
+{
     $extra = [];
-    $starting_chapter =$dbt['chapterId'] +1 ;
+    $starting_chapter = $dbt['chapterId'] + 1;
     $parts = explode(':', $dbt['verseEnd']);
-    $final_chapter= $parts[0];
+    $final_chapter = $parts[0];
     $final_verse = $parts[1];
-    for ($i = $starting_chapter; $i <= $final_chapter; $i++){
-        if ($i < $final_chapter){
-           $new_dbt=$dbt;
-           $new_dbt['chapterId'] = $i;
-           $last_verse = bibleChapterVerseCount($new_dbt);
-        }
-        else{
+    for ($i = $starting_chapter; $i <= $final_chapter; $i++) {
+        if ($i < $final_chapter) {
+            $new_dbt = $dbt;
+            $new_dbt['chapterId'] = $i;
+            $last_verse = bibleChapterVerseCount($new_dbt);
+        } else {
             $last_verse = $final_verse;
         }
         $extra[] = array(
-            'chapterId'=>$i,
-            'verseStart'=> 1,
-            'verseEnd'=> $last_verse,
+            'chapterId' => $i,
+            'verseStart' => 1,
+            'verseEnd' => $last_verse,
         );
     }
     return $extra;

@@ -18,9 +18,9 @@ Output:
 </vue-image-zoomer>
 */
 
-myRequireOnce('modifyZoomImageGet.php');
-myRequireOnce('copyFilesForSDApp.php', 'capacitor');
-myRequireOnce('writeLog.php');
+myRequireOnce(DESTINATION, 'modifyZoomImageGet.php');
+myRequireOnce(DESTINATION, 'copyFilesForSDApp.php', 'capacitor');
+myRequireOnce(DESTINATION, 'writeLog.php');
 
 
 function modifyZoomImage($text, $p)

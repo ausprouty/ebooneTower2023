@@ -1,7 +1,7 @@
 <?php
 
-myRequireOnce('publishDestination.php');
-myRequireOnce('publishFiles.php');
+myRequireOnce(DESTINATION, 'publishDestination.php');
+myRequireOnce(DESTINATION, 'publishFiles.php');
 
 
 function publishLibraryIndex($p)

@@ -1,33 +1,32 @@
 <?php
-myRequireOnce('writeLog.php');
-myRequireOnce('dirMake.php');
-myRequireOnce('verifyBook.php', 'apk');
-myRequireOnce('getBookDir.php', 'apk');
+myRequireOnce(DESTINATION, 'writeLog.php');
+myRequireOnce(DESTINATION, 'dirMake.php');
+myRequireOnce(DESTINATION, 'verifyBook.php', 'apk');
+myRequireOnce(DESTINATION, 'getBookDir.php', 'apk');
 
-function checkStatusBook($p){
+function checkStatusBook($p)
+{
 
-    $p = getBookDir($p);// set $p['dir_apk']
+    $p = getBookDir($p); // set $p['dir_apk']
     $check = [];
     $out = new stdClass();
     $progress = json_decode($p['progress']);
-    foreach ($progress as $key=>$value){
+    foreach ($progress as $key => $value) {
         $out->$key = $value;
-        switch ($key){
+        switch ($key) {
             case "content":
-                if (file_exists($p['dir_apk'] . '/folder/content/')){
-                   $out->content = verifyBookApk($p);
-                }
-                else{
+                if (file_exists($p['dir_apk'] . '/folder/content/')) {
+                    $out->content = verifyBookApk($p);
+                } else {
                     $out->content = 'undone';
                 }
                 break;
 
             case "videolist":
                 $fn = $p['dir_video_list'];
-                if (file_exists($fn)){
-                   $out->videolist = verifyBookVideoList($p);
-                }
-                else{
+                if (file_exists($fn)) {
+                    $out->videolist = verifyBookVideoList($p);
+                } else {
                     $out->videolist = 'undone';
                 }
                 break;

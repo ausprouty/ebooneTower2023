@@ -1,5 +1,5 @@
 <?php
-myRequireOnce('copyFilesForSDApp.php', 'capacitor');
+myRequireOnce(DESTINATION, 'copyFilesForSDApp.php', 'capacitor');
 
 function publishFilesInCapacitorPage($filename, $p, $destination)
 {

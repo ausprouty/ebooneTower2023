@@ -1,10 +1,10 @@
 <?php
-myRequireOnce('writeLog.php');
-myRequireOnce('dirMake.php');
-myRequireOnce('verifyBookContent.php', 'capacitor');
-myRequireOnce('verifyBookDir.php', 'capacitor');
-myRequireOnce('verifyBookMediaList.php', 'capacitor');
-myRequireOnce('verifyBookRouter.php', 'capacitor');
+myRequireOnce(DESTINATION, 'writeLog.php');
+myRequireOnce(DESTINATION, 'dirMake.php');
+myRequireOnce(DESTINATION, 'verifyBookContent.php', 'capacitor');
+myRequireOnce(DESTINATION, 'verifyBookDir.php', 'capacitor');
+myRequireOnce(DESTINATION, 'verifyBookMediaList.php', 'capacitor');
+myRequireOnce(DESTINATION, 'verifyBookRouter.php', 'capacitor');
 
 function checkStatusBook($p)
 {

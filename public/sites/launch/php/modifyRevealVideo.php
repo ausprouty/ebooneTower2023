@@ -1,6 +1,6 @@
 <?php
-myRequireOnce('writeLog.php');
-myRequireOnce('videoFindForSDCardNewName.php', 'sdcard');
+myRequireOnce(DESTINATION, 'writeLog.php');
+myRequireOnce(DESTINATION, 'videoFindForSDCardNewName.php', 'sdcard');
 /*
 Input is:
     <div class="reveal film">&nbsp;
@@ -93,8 +93,8 @@ NO JS:
 */
 function modifyRevealVideo($text, $bookmark, $p)
 {
-    myRequireOnce('videoTemplate.php', $p['destination']);
-    myRequireOnce('videoFollows.php', 'apk');
+    myRequireOnce(DESTINATION, 'videoTemplate.php', $p['destination']);
+    myRequireOnce(DESTINATION, 'videoFollows.php', 'apk');
     $debug = '';
     $previous_title_phrase = '';
     $watch_phrase = videoTemplateWatchPhrase($bookmark);

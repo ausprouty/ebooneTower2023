@@ -6,32 +6,32 @@ Expects
     version_ot
     version_nt
 */
-myRequireOnce('bibleDbtArray.php');
-myRequireOnce('bibleGetPassage.php');
-myRequireOnce('myGetPrototypeFile.php');
+myRequireOnce(DESTINATION, 'bibleDbtArray.php');
+myRequireOnce(DESTINATION, 'bibleGetPassage.php');
+myRequireOnce(DESTINATION, 'myGetPrototypeFile.php');
 
-function getBibleBlockToInsert($p){
+function getBibleBlockToInsert($p)
+{
     $template = myGetPrototypeFile('bibleBlock.html');
     $output = array();
     $block = '';
     $passages = createBibleDbtArrayFromPassage($p);
-    foreach ($passages as $passage){
-        $passage['version_ot'] =$p['version_ot'];
-        $passage['version_nt'] =$p['version_nt'];
-        if ($passage['collection_code'] == 'NT'){
-            $passage['bid']=$p['version_nt'];
-        }
-        else{
-            $passage['bid']=$p['version_nt'];
+    foreach ($passages as $passage) {
+        $passage['version_ot'] = $p['version_ot'];
+        $passage['version_nt'] = $p['version_nt'];
+        if ($passage['collection_code'] == 'NT') {
+            $passage['bid'] = $p['version_nt'];
+        } else {
+            $passage['bid'] = $p['version_nt'];
         }
         $response = bibleGetPassage($passage);
-        $replace= array(
+        $replace = array(
             '[Reference]',
             '[Text]',
             '[Link]',
             '[ReadMore]'
         );
-        $good= array(
+        $good = array(
             $response['reference'],
             $response['text'],
             $response['link'],
@@ -40,7 +40,6 @@ function getBibleBlockToInsert($p){
         $block .= str_replace($replace, $good, $template);
         $output['bible_block'] = $block;
     }
-    $output['reference']= $p['entry'];
+    $output['reference'] = $p['entry'];
     return $output;
-
 }

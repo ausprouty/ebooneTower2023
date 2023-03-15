@@ -1,28 +1,29 @@
 <?php
 
 
-myRequireOnce('getBuild.php', 'apk');
-myRequireOnce('writeLog.php');
-myRequireOnce('findLibraries.php');
+myRequireOnce(DESTINATION, 'getBuild.php', 'apk');
+myRequireOnce(DESTINATION, 'writeLog.php');
+myRequireOnce(DESTINATION, 'findLibraries.php');
 
-function checkContentIndex($p){
+function checkContentIndex($p)
+{
   $build = getBuild($p);
-  $p['dir_apk'] = ROOT_APK .  $build. '/';
+  $p['dir_apk'] = ROOT_APK .  $build . '/';
 
   $file = $p['dir_apk'] . 'index.html';
-  if (!file_exists($file)){
-     //writeLogDebug('checkContentIndex-15', $file);
+  if (!file_exists($file)) {
+    //writeLogDebug('checkContentIndex-15', $file);
     return 'undone';
   }
   $libraries = findLibraries($p);
-  foreach ($libraries as $library){
-    if ( $library == 'library'){
-      $library ='index';
+  foreach ($libraries as $library) {
+    if ($library == 'library') {
+      $library = 'index';
     }
-    $file = $p['dir_apk'] .'folder/content/'.$p['country_code'] .'/'.  $p['language_iso'] .'/'. $library . '.html';
+    $file = $p['dir_apk'] . 'folder/content/' . $p['country_code'] . '/' .  $p['language_iso'] . '/' . $library . '.html';
 
-    if (!file_exists($file)){
-       //writeLogDebug('checkContentIndex-25', $file);
+    if (!file_exists($file)) {
+      //writeLogDebug('checkContentIndex-25', $file);
       return 'undone';
     }
   }

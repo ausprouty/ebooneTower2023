@@ -1,12 +1,12 @@
 <?php
-myRequireOnce('writeLog.php');
-myRequireOnce('myGetPrototypeFile.php');
+myRequireOnce(DESTINATION, 'writeLog.php');
+myRequireOnce(DESTINATION, 'myGetPrototypeFile.php');
 
 // requires $p['recnum'] and $p['library_code']
 function createLanguageFooter($p)
 {
 
-    myRequireOnce('languageSpecificJavascripts.php', $p['destination']);
+    myRequireOnce(DESTINATION, 'languageSpecificJavascripts.php', $p['destination']);
 
     $debug = 'In createLanguageFooter' . "\n";
     if (isset($p['recnum'])) {
@@ -52,7 +52,7 @@ function createLanguageFooter($p)
         $footer  = isset($text->footer) ? $text->footer : null;
     }
     if (!$footer) {
-        myRequireOnce('getLanguageFooter.php', $p['destination']);
+        myRequireOnce(DESTINATION, 'getLanguageFooter.php', $p['destination']);
         $footer = getLanguageFooter($p);
     }
     $page_title = 'Link: ';

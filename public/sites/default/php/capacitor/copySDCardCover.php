@@ -1,5 +1,5 @@
 <?php
-myRequireOnce('verifyBookDir', 'capacitor');
+myRequireOnce(DESTINATION, 'verifyBookDir', 'capacitor');
 function copyCapacitorCover($p)
 {
      $p = verifyBookDir($p); // set $p['dir_capacitor']

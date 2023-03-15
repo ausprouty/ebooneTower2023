@@ -1,5 +1,5 @@
 <?php
-myRequireOnce('writeLog.php');
+myRequireOnce(DESTINATION, 'writeLog.php');
 
 function keyCache($p)
 {

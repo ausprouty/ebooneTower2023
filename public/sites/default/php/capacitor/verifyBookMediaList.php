@@ -1,6 +1,6 @@
 <?php
 
-myRequireOnce('writeLog.php');
+myRequireOnce(DESTINATION, 'writeLog.php');
 
 function verifyBookMediaList($p)
 {

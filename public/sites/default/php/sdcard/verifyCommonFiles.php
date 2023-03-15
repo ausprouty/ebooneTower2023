@@ -5,8 +5,8 @@
 /sites/default/sdcard/Cx File Explorer.apk-> mc2.sdcard.something/Cx File Explorer.apk
 /langugage javascript folders
 */
-myRequireOnce('copyDirectory.php');
-myRequireOnce('verifyBookDir.php', 'sdcard');
+myRequireOnce(DESTINATION, 'copyDirectory.php');
+myRequireOnce(DESTINATION, 'verifyBookDir.php', 'sdcard');
 
 function verifyCommonFiles($p)
 {

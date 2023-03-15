@@ -11,19 +11,20 @@ Looking for
     $p['dir_video_list'] = ROOT_EDIT . 'sites/' . SITE_CODE .'/sdcard/' .$p['country_code'] .'/'. $p['language_iso'] .'/';
     $p['dir_series'] =  $p['country_code'] .'/'. $p['language_iso'] . '/'. $p['folder_name'];
 */
-myRequireOnce('writeLog.php');
-myRequireOnce('publishLanguages.php');
-myRequireOnce('dirListFiles.php');
-myRequireOnce('dirMake.php');
-myRequireOnce('verifyBookDir.php', 'sdcard');
+myRequireOnce(DESTINATION, 'writeLog.php');
+myRequireOnce(DESTINATION, 'publishLanguages.php');
+myRequireOnce(DESTINATION, 'dirListFiles.php');
+myRequireOnce(DESTINATION, 'dirMake.php');
+myRequireOnce(DESTINATION, 'verifyBookDir.php', 'sdcard');
 
-function verifyLanguageIndex($p){
-    $count =count ($p['sdcard_settings']->languages);
-    if ( $count < 2){
-       return 1;
+function verifyLanguageIndex($p)
+{
+    $count = count($p['sdcard_settings']->languages);
+    if ($count < 2) {
+        return 1;
     }
     $allowed = [];
-    foreach ($p['sdcard_settings']->languages  as $language){
+    foreach ($p['sdcard_settings']->languages  as $language) {
         $allowed[] = $language->language_iso;
     }
     $response = publishLanguages($p, $allowed);

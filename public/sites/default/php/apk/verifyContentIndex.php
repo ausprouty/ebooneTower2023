@@ -1,17 +1,18 @@
 <?php
-myRequireOnce('getBuild.php', 'apk');
-myRequireOnce('writeLog.php');
-myRequireOnce('publishLibrary.php');
-myRequireOnce('findLibraries.php');
+myRequireOnce(DESTINATION, 'getBuild.php', 'apk');
+myRequireOnce(DESTINATION, 'writeLog.php');
+myRequireOnce(DESTINATION, 'publishLibrary.php');
+myRequireOnce(DESTINATION, 'findLibraries.php');
 
 
 
-function verifyContentIndex($p){
+function verifyContentIndex($p)
+{
   $build = getBuild($p);
-  $p['dir_apk'] = ROOT_APK . $build. '/';
+  $p['dir_apk'] = ROOT_APK . $build . '/';
   verifyContentIndexRoot($p);
   $libraries = findLibraries($p);
-  foreach ($libraries as $library){
+  foreach ($libraries as $library) {
     $p['library_code'] = $library;
     writeLogAppend('verifyContentIndex-16', $p);
     publishLibrary($p);
@@ -20,10 +21,11 @@ function verifyContentIndex($p){
 }
 
 
-function verifyContentIndexRoot($p){
-  $template_file = ROOT_EDIT . 'sites/'. SITE_CODE.'/prototype/apk/rootIndex.html';
-  if (!file_exists($template_file)){
-    writeLogError('verifyContentIndexRoot'. $template_file);
+function verifyContentIndexRoot($p)
+{
+  $template_file = ROOT_EDIT . 'sites/' . SITE_CODE . '/prototype/apk/rootIndex.html';
+  if (!file_exists($template_file)) {
+    writeLogError('verifyContentIndexRoot' . $template_file);
   }
   $text = file_get_contents($template_file);
   $find = [
@@ -39,5 +41,4 @@ function verifyContentIndexRoot($p){
   $filename = $p['dir_apk'] . 'index.html';
   fileWrite($filename, $text, $p);
   return;
-
 }

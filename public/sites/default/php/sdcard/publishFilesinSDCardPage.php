@@ -1,5 +1,5 @@
 <?php
-myRequireOnce('copyFilesForSDApp.php', 'sdcard');
+myRequireOnce(DESTINATION, 'copyFilesForSDApp.php', 'sdcard');
 
 function publishFilesInSDCardPage($filename, $p, $destination)
 {

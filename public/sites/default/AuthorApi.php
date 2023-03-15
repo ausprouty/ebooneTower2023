@@ -17,8 +17,8 @@ if (file_exists($backend)) {
 	trigger_error("No backend for AuthorApi. Looking for $backend", E_USER_ERROR);
 }
 require_once('php/myRequireOnce.php');
-myRequireOnce('sql.php');
-myRequireOnce('writeLog.php');
+myRequireOnce(DESTINATION, 'sql.php');
+myRequireOnce(DESTINATION, 'writeLog.php');
 myHeaders(); // send cors headers
 // assign variables
 $out = array();
@@ -47,14 +47,14 @@ if (isset($p['action'])) {
 		$ok = myApiAuthorize($p['token']);
 		unset($p['token']);  // so it will not be sent back
 		if ($ok || $p['action'] == 'bookmark') {
-			myRequireOnce('dirMake.php');
+			myRequireOnce(DESTINATION, 'dirMake.php');
 			if (isset($p['page'])) {
 				$subdirectory = null;
 				if (isset($p['subdirectory'])) {
 					$subdirectory  = $p['subdirectory'];
 				}
 				writeLogDebug('AuthorApi-62-p', $p);
-				myRequireOnce($p['page'], $subdirectory);
+				myRequireOnce(DESTINATION, $p['page'], $subdirectory);
 				$action = $p['action'];
 				$out = $action($p);
 			} else {
@@ -135,6 +135,7 @@ function setParameters($post)
 		$p['version'] = VERSION;
 	}
 	$p['site'] =  $_GET['site'];
+	myDestination($p);  // set destination
 	writeLogDebug('AuthorSetParameters-p', $p);
 	return $p;
 }

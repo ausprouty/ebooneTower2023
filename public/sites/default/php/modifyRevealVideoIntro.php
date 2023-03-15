@@ -1,6 +1,6 @@
 <?php
-myRequireOnce('writeLog.php');
-myRequireOnce('modifyRevealVideo.php');
+myRequireOnce(DESTINATION, 'writeLog.php');
+myRequireOnce(DESTINATION, 'modifyRevealVideo.php');
 
 
 /*
@@ -52,8 +52,8 @@ For Output see appropriate VideoTemplate.php in
 */
 function modifyRevealVideoIntro($text, $bookmark, $p)
 {
-    myRequireOnce('videoTemplate.php', $p['destination']);
-    myRequireOnce('videoFollows.php', 'apk');
+    myRequireOnce(DESTINATION, 'videoTemplate.php', $p['destination']);
+    myRequireOnce(DESTINATION, 'videoFollows.php', 'apk');
     $debug = '';
     $previous_title_phrase = '';
     $watch_phrase = videoTemplateWatchPhrase($bookmark);

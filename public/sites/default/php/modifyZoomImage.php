@@ -22,7 +22,7 @@ output;
 <div onclick="zoomShow('/sites/launch/content/U1/eng/images/intro/intro2.png')"><img src="/sites/launch/content/U1/eng/images/intro/intro2.png" /></div>
 
 */
-myRequireOnce('modifyZoomImageGet.php');
+myRequireOnce(DESTINATION, 'modifyZoomImageGet.php');
 
 function modifyZoomImage($text, $p)
 {

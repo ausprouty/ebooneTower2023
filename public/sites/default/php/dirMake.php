@@ -1,6 +1,6 @@
 <?php
 // make directory if not found. No directory can have words '.bat','.html', '.json', '.mp3', '.mp4', '.wav')
-myRequireOnce('writeLog.php');
+myRequireOnce(DESTINATION, 'writeLog.php');
 function dirMake($filename)
 {
 	$dir = '';

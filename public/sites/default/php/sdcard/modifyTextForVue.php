@@ -1,6 +1,6 @@
 <?php
 
-myRequireOnce('modifyImagePathForVue.php', 'sdcard');
+myRequireOnce(DESTINATION, 'modifyImagePathForVue.php', 'sdcard');
 
 
 function modifyTextForVue($text, $bookmark)

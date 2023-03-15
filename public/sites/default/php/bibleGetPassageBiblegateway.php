@@ -19,15 +19,16 @@
 
 		BASED ON THE LOGIC OF JANUARY 2020
 */
-myRequireOnce('getElementsByClass.php');
-myRequireOnce('simple_html_dom.php', 'libraries/simplehtmldom_1_9_1');
-myRequireOnce('writeLog.php');
+myRequireOnce(DESTINATION, 'getElementsByClass.php');
+myRequireOnce(DESTINATION, 'simple_html_dom.php', 'libraries/simplehtmldom_1_9_1');
+myRequireOnce(DESTINATION, 'writeLog.php');
 
 
 
-function bibleGetPassageBiblegateway($p){
+function bibleGetPassageBiblegateway($p)
+{
 	$output = array();
-	$output['debug']= '';
+	$output['debug'] = '';
 	// returns array (and I have no idea why both verse and reference; why k.
 	//1 =>
 	//array (
@@ -42,14 +43,14 @@ function bibleGetPassageBiblegateway($p){
 	//
 	//<p><strong><a href="http://mobile.biblegateway.com/versions/New-International-Version-NIV-Bible/">New International Version</a> (NIV)</strong> <p>Holy Bible, New International Version®, NIV® Copyright ©  1973, 1978, 1984, 2011 by <a href="http://www.biblica.com/">Biblica, Inc.®</a> Used by permission. All rights reserved worldwide.</p>',
 	//   'reference' => 'John 14:15-26',
-    // ),
-    $parse = array();
+	// ),
+	$parse = array();
 	// it seems that Chinese does not always like the way we enter things.
 	$reference_shaped = str_replace($p['bookLookup'], $p['bookId'], $p['entry']); // try this and see if it works/
-	$reference_shaped = str_replace(' ' , '%20', $reference_shaped);
+	$reference_shaped = str_replace(' ', '%20', $reference_shaped);
 
 	$agent = 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30)';
-	$reffer = 'http://biblegateway.com//passage/?search='. $reference_shaped . '&version='. $p['version_code']; // URL
+	$reffer = 'http://biblegateway.com//passage/?search=' . $reference_shaped . '&version=' . $p['version_code']; // URL
 	$POSTFIELDS = null;
 	$cookie_file_path = null;
 
@@ -58,7 +59,7 @@ function bibleGetPassageBiblegateway($p){
 	// The URL to fetch. You can also set this when initializing a conversation with curl_init().
 	curl_setopt($ch, CURLOPT_USERAGENT, $agent); // The contents of the "User-Agent: " header to be used in a HTTP request.
 	curl_setopt($ch, CURLOPT_POST, 1); //TRUE to do a regular HTTP POST. This POST is the normal application/x-www-form-urlencoded kind, most commonly used by HTML forms.
-	curl_setopt($ch, CURLOPT_POSTFIELDS,$POSTFIELDS); //The full data to post in a HTTP "POST" operation.
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $POSTFIELDS); //The full data to post in a HTTP "POST" operation.
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);  // TRUE to return the transfer as a string of the return value of curl_exec() instead of outputting it out directly.
 	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1); // TRUE to follow any "Location: " header that the server sends as part of the HTTP header (note this is recursive, PHP will follow as many "Location: " headers that it is sent, unless CURLOPT_MAXREDIRS is set).
 	curl_setopt($ch, CURLOPT_REFERER, $reffer); //The contents of the "Referer: " header to be used in a HTTP request.
@@ -70,19 +71,19 @@ function bibleGetPassageBiblegateway($p){
 	curl_setopt($ch, CURLOPT_LOW_SPEED_TIME, 90); // Wait 30 seconds for download
 	curl_setopt($ch, CURLOPT_TIMEOUT, 90); // Wait 30 seconds for download
 
-  	$url = 'https://biblegateway.com/passage/?search='. $reference_shaped . '&version='. $p['version_code']; // URL
+	$url = 'https://biblegateway.com/passage/?search=' . $reference_shaped . '&version=' . $p['version_code']; // URL
 	$output['link'] = $url;
-  	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_URL, $url);
 	$string = curl_exec($ch);  // grab URL and pass it to the variable.
 	// see https://code.tutsplus.com/tutorials/html-parsing-and-screen-scraping-with-the-simple-html-dom-library--net-11856
 
 	$html = str_get_html($string);
 	$e = $html->find('.dropdown-display-text', 0);
 	$reference = $e->innertext;
- 	$passages = $html->find('.passage-text');
+	$passages = $html->find('.passage-text');
 	$bible = '';
-	foreach($passages as $passage){
-       $bible .= $passage;
+	foreach ($passages as $passage) {
+		$bible .= $passage;
 	}
 	$html->clear();
 	unset($html);
@@ -91,76 +92,76 @@ function bibleGetPassageBiblegateway($p){
 	//
 	$html = str_get_html($bible);
 	writeLogDebug('bibleGetPassageBiblegateway-92', $bible);
-	$ret = $html->find ('span');
-	foreach ($ret as $span){
-		$span->outertext= $span->innertext;
+	$ret = $html->find('span');
+	foreach ($ret as $span) {
+		$span->outertext = $span->innertext;
 	}
 	// remove all links
-	$ret = $html->find ('a');
-	foreach ($ret as $href){
-		$href->outertext= '';
+	$ret = $html->find('a');
+	foreach ($ret as $href) {
+		$href->outertext = '';
 	}
 	// remove footnotes
-	$ret= $html->find('div[class=footnotes]');
-	foreach ($ret as $footnote){
-		$footnote->outertext= '';
+	$ret = $html->find('div[class=footnotes]');
+	foreach ($ret as $footnote) {
+		$footnote->outertext = '';
 	}
 	$bible = $html->outertext;
 
 	$html = str_get_html($bible);
-	$ret = $html->find ('span[class=woj]');
-	foreach ($ret as $span){
-		$span->outertext= $span->innertext;
+	$ret = $html->find('span[class=woj]');
+	foreach ($ret as $span) {
+		$span->outertext = $span->innertext;
 	}
-    $bible = $html->outertext;
-    $html->clear();
+	$bible = $html->outertext;
+	$html->clear();
 	$html = str_get_html($bible);
 	// remove links to footnotes
-	$ret= $html->find('sup[class=footnote]');
-	foreach ($ret as $footnote){
-		$footnote->outertext= '';
+	$ret = $html->find('sup[class=footnote]');
+	foreach ($ret as $footnote) {
+		$footnote->outertext = '';
 	}
-    // remove crossreference div
-	$ret= $html->find('div[class=crossrefs hidden]');
-	foreach ($ret as $cross_reference){
-		$cross_reference->outertext= '';
+	// remove crossreference div
+	$ret = $html->find('div[class=crossrefs hidden]');
+	foreach ($ret as $cross_reference) {
+		$cross_reference->outertext = '';
 	}
-	$ret= $html->find('sup[class=crossreference]');
-	foreach ($ret as $cross_reference){
-		$cross_reference->outertext= '';
+	$ret = $html->find('sup[class=crossreference]');
+	foreach ($ret as $cross_reference) {
+		$cross_reference->outertext = '';
 	}
-	$ret= $html->find('div[class=il-text]');
-	foreach ($ret as $cross_reference){
-		$cross_reference->outertext= '';
+	$ret = $html->find('div[class=il-text]');
+	foreach ($ret as $cross_reference) {
+		$cross_reference->outertext = '';
 	}
 	// change chapter number to verse 1
 	// <span class="chapternum">53&nbsp;</span>
-	$ret= $html->find('span[class=chapternum]');
-	foreach ($ret as $chapter){
-		$chapter->outertext= '<sup class="versenum">1&nbsp;</sup>';
+	$ret = $html->find('span[class=chapternum]');
+	foreach ($ret as $chapter) {
+		$chapter->outertext = '<sup class="versenum">1&nbsp;</sup>';
 	}
-    $bible = $html->outertext;
+	$bible = $html->outertext;
 	unset($html);
-	$bad= array(
+	$bad = array(
 		'<!--end of crossrefs-->'
 	);
-	$good='';
-	$bible= str_replace( $bad, $good, $bible);
-    $pos_start = strpos($bible,'<p' );
-	if ($pos_start !== FALSE){
+	$good = '';
+	$bible = str_replace($bad, $good, $bible);
+	$pos_start = strpos($bible, '<p');
+	if ($pos_start !== FALSE) {
 		$bible = substr($bible, $pos_start);
 
-        $bible= str_ireplace('</div>', '', $bible);
-		$bible= str_ireplace('<div class="passage-other-trans">', '', $bible);
+		$bible = str_ireplace('</div>', '', $bible);
+		$bible = str_ireplace('<div class="passage-other-trans">', '', $bible);
 	}
-	$output['bible'] =   "\n" . '<!-- begin bible -->'. $bible   ;
+	$output['bible'] =   "\n" . '<!-- begin bible -->' . $bible;
 	$output['bible'] .=  "\n" . '<!-- end bible -->' . "\n";
-    $output['content']= [
+	$output['content'] = [
 		'reference' =>  $reference,
 		'text' => $output['bible'],
 		'link' => $output['link']
 	];
 	//writeLogDebug('bibleGetPassageBiblegateway-110', $output);
 
-	return $output ;
+	return $output;
 }

@@ -1,6 +1,6 @@
 <?php
 
-myRequireOnce('videoFindForSDCardNewName.php', 'sdcard');
+myRequireOnce(DESTINATION, 'videoFindForSDCardNewName.php', 'sdcard');
 
 function videoTemplateOffline($title_phrase, $p, $offline_video_count, $bookmark)
 {

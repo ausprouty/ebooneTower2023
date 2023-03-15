@@ -1,13 +1,14 @@
 <?php
-myRequireOnce('writeLog.php');
+myRequireOnce(DESTINATION, 'writeLog.php');
 
-function modifyNextSteps($text, $bookmark, $p){
-    $count= $bookmark['page']->count;
-    if (strpos($text, '"previous-step-area"') !== false ){
-       $text = modifyNextStepsPrevious($text, $count);
+function modifyNextSteps($text, $bookmark, $p)
+{
+    $count = $bookmark['page']->count;
+    if (strpos($text, '"previous-step-area"') !== false) {
+        $text = modifyNextStepsPrevious($text, $count);
     }
-    if (strpos($text, '"next-step-area"') !== false ){
-       $text = modifyNextStepsNext($text, $count);
+    if (strpos($text, '"next-step-area"') !== false) {
+        $text = modifyNextStepsNext($text, $count);
     }
     return $text;
 }
@@ -24,9 +25,10 @@ function modifyNextSteps($text, $bookmark, $p){
 
 */
 
-function modifyNextStepsPrevious($text, $count){
+function modifyNextStepsPrevious($text, $count)
+{
     $previous_count = $count - 1;
-    $template ='<div class="previous-step-area">
+    $template = '<div class="previous-step-area">
         <h3>Previous Goal</h3>
         <form>
         <input id="previous-step" type="hidden" value="#" />
@@ -38,15 +40,15 @@ function modifyNextStepsPrevious($text, $count){
         </div>
         </form>';
     $begin = '<div class="previous-step-area">';
-    $end='</form>';
+    $end = '</form>';
     $template = str_replace('#', $previous_count, $template);
-    $pos_start = strpos($text,$begin);
+    $pos_start = strpos($text, $begin);
     $pos_end = strpos($text, $end, $pos_start);
     $length = $pos_end - $pos_start + strlen($end);
-      // from https://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match
+    // from https://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match
     $text = substr_replace($text, $template, $pos_start, $length);
 
-   return $text;
+    return $text;
 }
 /*
 <div class="next-step-area">
@@ -58,8 +60,9 @@ function modifyNextStepsPrevious($text, $count){
 </form>
 
 */
-function modifyNextStepsNext($text, $count){
-    $template ='<div class="next-step-area">
+function modifyNextStepsNext($text, $count)
+{
+    $template = '<div class="next-step-area">
         <h3>Next Step Goal</h3>
         <form>
         <input id="next-step" type="hidden" value="#" />
@@ -72,10 +75,10 @@ function modifyNextStepsNext($text, $count){
         </form>';
     $template = str_replace('#', $count, $template);
     $begin = '<div class="next-step-area">';
-    $end='</form>';
-    $pos_start = strpos($text,$begin);
+    $end = '</form>';
+    $pos_start = strpos($text, $begin);
     $pos_end = strpos($text, $end, $pos_start);
     $length = $pos_end - $pos_start + strlen($end);
     $text = substr_replace($text, $template, $pos_start, $length);
-   return $text;
+    return $text;
 }

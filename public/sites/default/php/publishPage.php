@@ -1,10 +1,10 @@
 <?php
-myRequireOnce('createPage.php');
-myRequireOnce('modifyPage.php');
-myRequireOnce('publishDestination.php');
-myRequireOnce('publishFiles.php');
-myRequireOnce('publishFilesInPage.php');
-myRequireOnce('writeLog.php');
+myRequireOnce(DESTINATION, 'createPage.php');
+myRequireOnce(DESTINATION, 'modifyPage.php');
+myRequireOnce(DESTINATION, 'publishDestination.php');
+myRequireOnce(DESTINATION, 'publishFiles.php');
+myRequireOnce(DESTINATION, 'publishFilesInPage.php');
+myRequireOnce(DESTINATION, 'writeLog.php');
 
 
 // needs to return files in Page so we can include these when downloading a series for offline use.
@@ -53,7 +53,7 @@ function publishPage($p)
     $text .= '<!--- Created by publishPage-->' . "\n";
     writeLogDebug('publishPage-ZOOM-54', $text);
     if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor') {
-        myRequireOnce('addVueWrapper.php', 'sdcard');
+        myRequireOnce(DESTINATION, 'addVueWrapper.php', 'sdcard');
         $text = addVueWrapperPage($text);
         //writeLogDebug('publishPage-58', $p['destination'] );
     }

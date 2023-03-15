@@ -1,12 +1,12 @@
 <?php
-require_once ('../../.env.api.remote.php');
+require_once('../../.env.api.remote.php');
 require_once('../../../default/php/myRequireOnce.php');
-myRequireOnce ('sql.php');
-myRequireOnce ('writeLog.php');
-myRequireOnce('bibleBrainGetVideoPlaylist.php');
+myRequireOnce('sql.php');
+myRequireOnce('writeLog.php');
+myRequireOnce(DESTINATION, 'bibleBrainGetVideoPlaylist.php');
 $output = 'starting|';
 $p = [];
- writeLogAppend('checkLumoForGospels-9', 'running');
+writeLogAppend('checkLumoForGospels-9', 'running');
 
 //$p['fileset'] = 'INDNTV';
 $sql = 'SELECT * FROM dbt_bible_recordings
@@ -14,7 +14,7 @@ $sql = 'SELECT * FROM dbt_bible_recordings
     AND lumo_matthew IS NULL
     LIMIT 15';
 $result = sqlMany($sql);
-while($data = $result->fetch_array()){
+while ($data = $result->fetch_array()) {
     $p['language_iso'] = $data['iso'];
     $fileset = bibleBrainGetVideoFilesetForLanguage($p);
     writeLogAppend('checkLumoForGospels-19', $fileset);
@@ -28,11 +28,11 @@ while($data = $result->fetch_array()){
         SET lumo_matthew = $matthew, lumo_mark = $mark, lumo_luke = $luke, lumo_john = $john
         WHERE id = $id";
     sqlArray($sql, 'update');
-
 }
 echo $output;
 
-function _hasLumo($gospel, $fileset){
+function _hasLumo($gospel, $fileset)
+{
     $p = [];
     $p['bookId'] = $gospel;
     $p['fileset'] = $fileset;
@@ -41,9 +41,9 @@ function _hasLumo($gospel, $fileset){
     $p['verseEnd'] = 2;
     $resp = bibleBrainGetVideoPlaylist($p);
     $found = 0;
-    foreach ($resp as $r){
-        if ($r != NULL){
-          $found = 1;
+    foreach ($resp as $r) {
+        if ($r != NULL) {
+            $found = 1;
         }
     }
     return $found;
