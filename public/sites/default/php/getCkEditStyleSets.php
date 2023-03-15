@@ -15,7 +15,7 @@ function getCkEditStyleSets($p)
 		}
 	} else {
 		writeLogError('getCKStyleSets-20-site', $site);
-		$message('in getCkEditStyleSets can not find ' . $site);
+		$message = 'in getCkEditStyleSets can not find ' . $site;
 		trigger_error($message, E_USER_ERROR);
 	}
 	return $set;

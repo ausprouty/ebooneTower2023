@@ -80,7 +80,7 @@ function bibleCheckDBTIndex($p)
         }
     }
     $debug .= "\n\n\n\n" . $found . '/' . $total;
-    return $out;
+    return $debug;
 }
 
 function bibleCheckDBTDetail($p)

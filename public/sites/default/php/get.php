@@ -60,12 +60,14 @@ function getTemplate($p)
 {
 	$debug = 'getTemplate' . "\n";
 	if (!$p['language_iso']) {
-		$debug .= "language_iso not set\n";
-		return $out;
+		$message = "language_iso not set\n";
+		trigger_error($message, E_USER_ERROR);
+		return null;
 	}
 	if (!$p['template']) {
-		$debug .= "template not set\n";
-		return $out;
+		$message = "template not set\n";
+		trigger_error($message, E_USER_ERROR);
+		return null;
 	}
 
 	$language_dir = ROOT_EDIT_CONTENT . $p['country_code'] . '/' . $p['language_iso'];
@@ -88,8 +90,9 @@ function getTemplates($p)
 {
 	$debug = 'getTemplates' . "\n";
 	if (!$p['language_iso']) {
-		$debug .= "language_iso not set\n";
-		return $out;
+		$message = "language_iso not set\n";
+		trigger_error($message, E_USER_ERROR);
+		return null;
 	}
 
 	$results = '[';

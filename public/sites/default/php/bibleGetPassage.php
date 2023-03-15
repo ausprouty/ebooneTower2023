@@ -41,9 +41,9 @@ function bibleGetPassage($p)
             }
         }
         if (!isset($p['bid'])) {
-            $debug .= 'p[bid] is not set' . "\n\n\n";
-            //writeLog ('bibleGetPassage45-' . time(), $debug);
-            return $out;
+            $message = 'p[bid] is not set';
+            trigger_error($message, E_USER_ERROR);
+            return null;
         }
     }
     $sql = "SELECT * FROM dbm_bible WHERE bid = " . $p['bid'];

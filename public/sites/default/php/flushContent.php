@@ -1,6 +1,7 @@
 <?php
 
 // this will transfer only latest data to content_current
+// and this does not work
 
 myRequireOnce('getLatestContent.php');
 
@@ -10,7 +11,7 @@ function flushContent()
     $sql = 'SELECT distinct country_code FROM content';
     $query = sqlMany($sql);
     while ($data = $query->fetch_array()) {
-        flushContentCountry($data['country_code']);
+        //flushContentCountry($data['country_code']);
     }
     return TRUE;
 }
@@ -22,7 +23,7 @@ function flushContentCountries()
     $countries = getLatestContent($p);
     flushContentInsert($countries);
 }
-function flushContentInsert($data)
+/*function flushContentInsert($data)
 {
 
     $sql = "INSERT INTO content_current (version, edit_date, edit_uid, language_iso, country_code, folder_name, filetype, title, filename, text)
@@ -30,3 +31,4 @@ function flushContentInsert($data)
           (1, '$edit_date', '$edit_uid', '$destination_language_iso', '$destination_country_code', '$folder_name', '$filetype', '$title', '$filename', '$text')";
     $done = sqlInsert($sql);
 }
+*/

@@ -10,8 +10,7 @@ function bibleLinkMaker($p)
     $debug = 'in bibleLinkMaker' . "\n";
     if (!isset($p['text'])) {
         trigger_error("'p[text] is not set in bibleLinkMaker", E_USER_ERROR);
-        $debug .= 'p[text] is not set' . "\n\n\n";
-        return $out;
+        return null;
     }
     $text = $p['text'];
     // patterns - what is a valid item to appear just before a book name

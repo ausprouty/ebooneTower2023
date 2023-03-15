@@ -77,7 +77,7 @@ function _convertVideo($video)
 function _convertTitle($passage, $p)
 {
     $iso = $p['new_language_iso'];
-    $p['passage'] = $text;
+    $p['passage'] = $passage;
     $parts = explode(' ', $passage);
     $book = $parts[0];
     if ($book == 1 || $book == 2 || $book == 3) {
