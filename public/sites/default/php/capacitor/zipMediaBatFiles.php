@@ -27,7 +27,7 @@ function zipMediaBatFilesGet($p)
     $output = [];
     $dir = ROOT_EDIT . 'sites/' . SITE_CODE . '/capacitor/' . $p['country_code'] . '/';
     $subDirectories = explode('.', $p['capacitor_settings']->subDirectory);
-    //writeLogDebug('zipMediaBatFilesGet', $subDirectories);
+    //writeLogDebug('capacitor-zipMediaBatFilesGet', $subDirectories);
     foreach ($subDirectories as $sub) {
         if (strlen($sub) > 1) { // because first one will be blank
             $check_dir = $dir . $sub;
@@ -35,6 +35,6 @@ function zipMediaBatFilesGet($p)
             $output = array_merge($files, $output);
         }
     }
-    //writeLogDebug('zipMediaBatFilesGet-33', $output);
+    //writeLogDebug('capacitor-zipMediaBatFilesGet-33', $output);
     return $output;
 }

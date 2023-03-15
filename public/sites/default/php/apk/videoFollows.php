@@ -69,8 +69,8 @@ function videoFollows($previous_url, $url)
 // you need to change the previous title phrase to include the entire passage this video shows
 function videoFollowsChangeVideoTitle($previous_title_phrase, $text, $bookmark)
 {
-    //writeLogDebug('videoFollowsChangeVideoTitle-72', $text);
-    // writeLogDebug('videoFollowsChangeVideoTitle-73', $previous_title_phrase);
+    //writeLogDebug('apk-('videoFollowsChangeVideoTitle-72', $text);
+    // writeLogDebug('apk-('videoFollowsChangeVideoTitle-73', $previous_title_phrase);
     $pos_title_phrase = strpos($text, $previous_title_phrase);
     if ($pos_title_phrase === FALSE) {
         // this will fail when you have more than two videos in a row. Don't worry about it.  It should be fine.
@@ -96,7 +96,7 @@ function videoFollowsChangeVideoTitle($previous_title_phrase, $text, $bookmark)
     // from https://stackoverflow.com/questions/10066647/multibyte-trim-in-php
     // did not work
     //$reference = preg_replace('~^\s+|\s+$~us', '', $reference);
-    // writeLogDebug('videoFollowsChangeVideoTitle-95', $reference);
+    // writeLogDebug('apk-('videoFollowsChangeVideoTitle-95', $reference);
     $watch_phrase = $bookmark['language']->watch_offline;
     $new_title_phrase = str_replace('%', $reference, $watch_phrase);
 
@@ -109,9 +109,9 @@ function videoFollowsChangeVideoTitle($previous_title_phrase, $text, $bookmark)
         'new_title_phrase' => $new_title_phrase
     );
     */
-    //writeLogDebug('videoFollowsChangeVideoTitle-108', $debug);
+    //writeLogDebug('apk-('videoFollowsChangeVideoTitle-108', $debug);
     //$text = str_replace($previous_title_phrase, $new_title_phrase, $text);
-    // writeLogDebug('videoFollowsChangeVideoTitle-110', $new_title_phrase);
+    // writeLogDebug('apk-('videoFollowsChangeVideoTitle-110', $new_title_phrase);
     //return $text;
     return  $new_title_phrase;
 }

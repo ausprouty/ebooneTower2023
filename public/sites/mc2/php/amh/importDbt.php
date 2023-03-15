@@ -21,7 +21,7 @@ foreach ($lines as $line) {
             $dbt = JSON_ENCODE(createBibleDbtArrayFromPassage($p));
             $sql = "INSERT INTO dbt_videos (lesson, passage,dbt_array) VALUES
                 ('" . $lesson . "','" . $p['entry'] . "','" .  $dbt . "')";
-            writeLogDebug('importDbt-23', $sql);
+            writeLogDebug('mc2-importDbt-23', $sql);
             sqlArray($sql, $update = 'update');
         }
     }

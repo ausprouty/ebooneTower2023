@@ -25,15 +25,15 @@ function createBookContent($p)
     $data = sqlArray($sql);
     if (!$data) {
         $message = 'No data found for: ' . $sql;
-        writeLogError('createBookContent-29', $message);
+        writeLogError('createBookContent-capacitor-29', $message);
         return $p;
     }
     $text = json_decode($data['text']);
     if ($text) {
         // create Series
-        //writeLogDebug('createBookContent-48', 'I am going to createSeries');
+        //writeLogDebug('capacitor-createBookContent-capacitor-48', 'I am going to createSeries');
         $result = createSeries($p, $data);
-        // writeLogDebug('createBookContent-50', 'I returned from  createSeries');
+        // writeLogDebug('capacitor-createBookContent-capacitor-50', 'I returned from  createSeries');
         $p = $result['p']; // this gives us $p['files_json']
         if ($result['text']) {
             // find css
@@ -50,7 +50,7 @@ function createBookContent($p)
             $fname = str_replace('mc2.capacitor/M2/', 'mc2.capacitor/views/M2/', $fname);
             myRequireOnce('modifyTextForVue.php', 'capacitor');
             $result['text'] = modifyTextForVue($result['text'], $bookmark);
-            //writeLogDebug('createBookContent-78', $result['text']);
+            //writeLogDebug('capacitor-createBookContent-capacitor-78', $result['text']);
             myRequireOnce('createBookRouter.php', 'capacitor');
             createBookRouter($data, $p);
             $result['text'] .= '<!--- Created by createBookContent-->' . "\n";

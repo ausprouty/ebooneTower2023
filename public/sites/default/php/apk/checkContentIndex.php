@@ -12,7 +12,7 @@ function checkContentIndex($p)
 
   $file = $p['dir_apk'] . 'index.html';
   if (!file_exists($file)) {
-    //writeLogDebug('checkContentIndex-15', $file);
+    //writeLogDebug('apk-('checkContentIndex-15', $file);
     return 'undone';
   }
   $libraries = findLibraries($p);
@@ -23,7 +23,7 @@ function checkContentIndex($p)
     $file = $p['dir_apk'] . 'folder/content/' . $p['country_code'] . '/' .  $p['language_iso'] . '/' . $library . '.html';
 
     if (!file_exists($file)) {
-      //writeLogDebug('checkContentIndex-25', $file);
+      //writeLogDebug('apk-('checkContentIndex-25', $file);
       return 'undone';
     }
   }

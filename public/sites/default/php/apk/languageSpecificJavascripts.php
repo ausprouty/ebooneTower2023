@@ -19,6 +19,6 @@ function languageSpecificJavascripts($p)
             }
         }
     }
-    //writeLogDebug('languageSpecificJavascripts-20', $out);
+    //writeLogDebug('apk-('languageSpecificJavascripts-20', $out);
     return $out;
 }

@@ -7,6 +7,6 @@ function getLanguageFooter($p)
         $language_footer =  'languageFooter.html';
     }
     $footer  =  myGetPrototypeFile($language_footer, $p['destination']);
-    //writeLogDebug('getLanguageFooter-11', $footer);
+    //writeLogDebug('sdcard-getLanguageFooter-11', $footer);
     return $footer;
 }

@@ -35,7 +35,7 @@ while ($data = $query->fetch_array()) {
     $new['my_uid'] = 996; // done by computer
     createContent($new);
 }
-writeLogDebug('FixOutgoingBibleLinks' . time(), $debug);
+writeLogDebug('mc2-FixOutgoingBibleLinks' . time(), $debug);
 return;
 
 function  _fix($text)

@@ -9,13 +9,12 @@ myRequireOnce('getPrototypeFileLibrary.php';
 function createLibrary($p, $text)
 {
 
-    writeLogDebug('createLibrarym- default', $p);
-    $out = [];
+    
     /* Return a container for the books in this library.
     This will be used to prototype these books by prototypeLibraryandBooks.
 
     */
-
+    writeLogDebug('capacitor-createLibrary- capacitor', $p);
     $out = [];
     $out['books'] = []; // used by publishLibraryAndBooks
     $debug = "createLibrary\n";
@@ -30,7 +29,7 @@ function createLibrary($p, $text)
         $b = $p;
     }
     $bookmark  = bookmark($b);
-    //writeLogDebug('createLibrary-default31', $bookmark);
+    //writeLogDebug('capacitor-createLibrary-31', $bookmark);
     //
     // get template for library and fill in library details
     //
@@ -130,15 +129,15 @@ function createLibrary($p, $text)
                     // deal with any duplicates
                     $out['books'][$code] = $book;
                     // create link for series, library or page
-                   
+
                     if ($book->format == 'series') {
-                        $this_link =  $code . '/index.html';
+                        $this_link = $p['language_iso'] . '-' .  $code . '-index';
                     } elseif ($book->format == 'library') {
-                        $this_link =  $code . '.html';
+                        $this_link = $p['language_iso'] . '-' .  $code . '-index';
                     } else {
-                        $this_link = 'pages/' . $code . '.html';
+                        // todo: fix this next line
+                        $this_link = $p['language_iso'] . '-' .  $code;
                     }
-                    
 
                     // dealing with legacy data
                     if (isset($book->image->image)) {
@@ -147,7 +146,20 @@ function createLibrary($p, $text)
                         $country_index =  dirCreate('country', DESTINATION, $p);
                         $book_image =   $country_index .  $bookmark['language']->image_dir . '/' . $book->image;
                     }
-                    writeLogAppend('createLibrary-default- 163', $book_image);
+                    /* change 
+                        /sites/mc2/content/M2/eng/images
+                        /sites/mc2/content/M2/images/
+                        to    
+                        @/assets/images/eng
+                        @/assets/images/
+                    */
+                    $old = 'sites/' . SITE_CODE . '/content/' . $p['country_code'] . '/' . $p['language_iso'] . '/images';
+                    $new = '@/assets/images/' . $p['language_iso'];
+                    $book_image = str_replace($old, $new, $book_image);
+                    $old = 'sites/' . SITE_CODE . '/content/' . $p['country_code'] . '/images';
+                    $new = '@/assets/images/';
+                    $book_image = str_replace($old, $new, $book_image);
+                    writeLogAppend('createLibrary-capacitor- 163', $book_image);
                     $replace = array(
                         $this_link,
                         $book_image,

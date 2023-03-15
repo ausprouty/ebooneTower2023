@@ -29,7 +29,7 @@ function modifyTextForImages($text, $bookmark)
         'src="@/assets/'
     );
     $text = str_replace($bad, $good, $text);
-    //writeLogDebug('modifyTextForImages-31', $bookmark);
+    //writeLogDebug('capacitor-modifyTextForImages-31', $bookmark);
     $language_iso = $bookmark['language']->iso;
     $bad = array(
         '/@/assets',

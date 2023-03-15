@@ -24,7 +24,7 @@ foreach ($lines as $line) {
         $text_date = _myYear($items[9]);
         $sql = "INSERT INTO dbt_bible_recordings (iso, lang_name, bible_name, bible_id, `population`, country, video_date, audio_date,text_date) VALUES
             ('$iso', '$lang_name', '$bible_name', '$bible_id', $population, '$country', $video_date, $audio_date, $text_date)";
-        writeLogDebug('importDbt-23', $sql);
+        writeLogDebug('mc2-importDbt-23', $sql);
         sqlArray($sql, $update = 'insert');
     }
 }

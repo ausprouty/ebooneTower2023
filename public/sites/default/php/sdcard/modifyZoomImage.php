@@ -25,7 +25,7 @@ myRequireOnce('writeLog.php');
 
 function modifyZoomImage($text, $p)
 {
-    //writeLogDebug('modifyZoomImage-sd-27', $text);
+    //writeLogDebug('sdcard-modifyZoomImage-sd-27', $text);
     $template = '   
     <div class="zoom-image">
     <vue-image-zoomer
@@ -56,7 +56,7 @@ function modifyZoomImage($text, $p)
         $new = str_replace($placeholders, $values, $template);
         $text = substr_replace($text, $new, $pos_start, $length_span);
     }
-    //writeLogDebug('modifyZoomImage-sd-57', $text);
+    //writeLogDebug('sdcard-modifyZoomImage-sd-57', $text);
     return $text;
 }
 
@@ -69,13 +69,13 @@ function modifyZoomImage($text, $p)
 
 function  modifyZoomImageGetImageRegular($image, $p)
 {
-    //writeLogDebug('modifyZoomImageGetImageRegular-69', $image);
+    //writeLogDebug('sdcard-modifyZoomImageGetImageRegular-69', $image);
     $find = '/images/';
     $pos_start = strpos($image, $find) + strlen($find);
     $raw = substr($image, $pos_start);
     $output = '/images/zoom/' . $raw;
     modifyZoomImageCopyImage($image, $output, $p);
-    //writeLogDebug('modifyZoomImageGetImageRegular-69', $output);
+    //writeLogDebug('sdcard-modifyZoomImageGetImageRegular-69', $output);
     return $output;
 }
 function   modifyZoomImageGetImageZoom($image)

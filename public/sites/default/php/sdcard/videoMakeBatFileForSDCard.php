@@ -128,7 +128,7 @@ function videoMakeBatFileForSDCardWrite($text, $p)
 function videoMakeBatFileForSDCardWriteConcat($text, $p, $filename)
 {
     //define("ROOT_EDIT", '/home/vx5ui10wb4ln/public_html/myfriends.edit/');
-    //writeLogDebug('videoMakeBatFileForSDCardWriteConcat-123-p', $p);
+    //writeLogDebug('sdcard-videoMakeBatFileForSDCardWriteConcat-123-p', $p);
     $dir = ROOT_EDIT  . 'sites/' . SITE_CODE  . '/sdcard/' . $p['country_code'] . '/' . $p['language_iso']  . '/concat/';
     dirMake($dir);
     $filename =  $filename . '.txt';
