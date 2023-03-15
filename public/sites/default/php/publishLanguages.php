@@ -1,8 +1,8 @@
 <?php
-myRequireOnce(DESTINATION, 'createLanguages.php');
-myRequireOnce(DESTINATION, 'publishDestination.php');
-myRequireOnce(DESTINATION, 'publishFiles.php');
-myRequireOnce(DESTINATION, 'publishLanguagesAvailable.php');
+myRequireOnce('createLanguages.php');
+myRequireOnce('publishDestination.php');
+myRequireOnce('publishFiles.php');
+myRequireOnce('publishLanguagesAvailable.php');
 
 
 function publishLanguages($p, $allowed = ['all'])

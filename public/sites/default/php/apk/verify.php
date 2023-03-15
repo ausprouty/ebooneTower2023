@@ -11,10 +11,10 @@ Looking for
     $p['dir_video_list'] = ROOT_EDIT . 'sites/' . SITE_CODE .'/apk/' .$p['country_code'] .'/'. $p['language_iso'] .'/';
     $p['dir_series'] =  $p['country_code'] .'/'. $p['language_iso'] . '/'. $p['folder_name'];
 */
-myRequireOnce(DESTINATION, 'writeLog.php');
-myRequireOnce(DESTINATION, 'getBuild.php', 'apk');
-myRequireOnce(DESTINATION, 'dirListFiles.php');
-myRequireOnce(DESTINATION, 'dirMake.php');
+myRequireOnce('writeLog.php');
+myRequireOnce('getBuild.php', 'apk');
+myRequireOnce('dirListFiles.php');
+myRequireOnce('dirMake.php');
 
 function verifyBookMedia($p)
 {

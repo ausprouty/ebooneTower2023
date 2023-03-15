@@ -11,11 +11,11 @@ Looking for
     $p['dir_video_list'] = ROOT_EDIT . 'sites/' . SITE_CODE .'/apk/' .$p['country_code'] .'/'. $p['language_iso'] .'/';
     $p['dir_series'] =  $p['country_code'] .'/'. $p['language_iso'] . '/'. $p['folder_name'];
 */
-myRequireOnce(DESTINATION, 'writeLog.php');
-myRequireOnce(DESTINATION, 'publishLanguages.php');
-myRequireOnce(DESTINATION, 'dirListFiles.php');
-myRequireOnce(DESTINATION, 'dirMake.php');
-myRequireOnce(DESTINATION, 'getBuild.php', 'apk');
+myRequireOnce('writeLog.php');
+myRequireOnce('publishLanguages.php');
+myRequireOnce('dirListFiles.php');
+myRequireOnce('dirMake.php');
+myRequireOnce('getBuild.php', 'apk');
 
 function verifyLanguageIndex($p)
 {

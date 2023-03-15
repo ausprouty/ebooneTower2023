@@ -1,12 +1,12 @@
 <?php
 
-myRequireOnce(DESTINATION, 'dirMake.php');
-myRequireOnce(DESTINATION, 'writeLog.php');
-myRequireOnce(DESTINATION, 'modifyRevealVideo.php');
-myRequireOnce(DESTINATION, 'videoFindForApkNewName.php', 'apk');
-myRequireOnce(DESTINATION, 'audioMakeRefFileForApk.php', 'apk');
-myRequireOnce(DESTINATION, 'videoReference.php', 'apk');
-myRequireOnce(DESTINATION, 'videoFollows.php', 'apk');
+myRequireOnce('dirMake.php');
+myRequireOnce('writeLog.php');
+myRequireOnce('modifyRevealVideo.php');
+myRequireOnce('videoFindForApkNewName.php', 'apk');
+myRequireOnce('audioMakeRefFileForApk.php', 'apk');
+myRequireOnce('videoReference.php', 'apk');
+myRequireOnce('videoFollows.php', 'apk');
 
 
 function videoMakeBatFileForApk($p)

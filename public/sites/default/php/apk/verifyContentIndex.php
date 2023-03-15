@@ -1,8 +1,8 @@
 <?php
-myRequireOnce(DESTINATION, 'getBuild.php', 'apk');
-myRequireOnce(DESTINATION, 'writeLog.php');
-myRequireOnce(DESTINATION, 'publishLibrary.php');
-myRequireOnce(DESTINATION, 'findLibraries.php');
+myRequireOnce('getBuild.php', 'apk');
+myRequireOnce('writeLog.php');
+myRequireOnce('publishLibrary.php');
+myRequireOnce('findLibraries.php');
 
 
 

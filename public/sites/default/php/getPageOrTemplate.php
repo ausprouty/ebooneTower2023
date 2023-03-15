@@ -1,12 +1,12 @@
 <?php
-myRequireOnce(DESTINATION, 'bibleDbtArray.php');
-myRequireOnce(DESTINATION, 'bibleGetPassage.php');
-myRequireOnce(DESTINATION, 'sql.php');
+myRequireOnce('bibleDbtArray.php');
+myRequireOnce('bibleGetPassage.php');
+myRequireOnce('sql.php');
 
 
 function getPageOrTemplate($p)
 {
-    myRequireOnce(DESTINATION, 'version2Text.php');
+    myRequireOnce('version2Text.php');
 
     $debug = 'In getPageOrTemplate' . "\n";
     $ok = true;
@@ -31,7 +31,7 @@ function getPageOrTemplate($p)
     if (isset($p['bookmark'])) {
         $bookmark = json_decode($p['bookmark']);
     } else {
-        myRequireOnce(DESTINATION, 'bookmark.php');
+        myRequireOnce('bookmark.php');
         $debug = "No bookmark given, so looking for it now";
         $bookmark = bookmark($p);
     }

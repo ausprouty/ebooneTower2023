@@ -1,10 +1,10 @@
 <?php
 
-myRequireOnce(DESTINATION, 'verifyBookDir.php', 'sdcard');
-myRequireOnce(DESTINATION, 'verifyBook.php', 'sdcard');
-myRequireOnce(DESTINATION, 'dirListSubdir.php');
-myRequireOnce(DESTINATION, 'copyDirectory.php');
-myRequireOnce(DESTINATION, 'createDirectories.php');
+myRequireOnce('verifyBookDir.php', 'sdcard');
+myRequireOnce('verifyBook.php', 'sdcard');
+myRequireOnce('dirListSubdir.php');
+myRequireOnce('copyDirectory.php');
+myRequireOnce('createDirectories.php');
 
 function copyBookMedia($p)
 {

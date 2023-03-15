@@ -1,9 +1,9 @@
 <?php
-myRequireOnce(DESTINATION, 'getLatestContent.php');
-myRequireOnce(DESTINATION, 'writeLog.php');
-myRequireOnce(DESTINATION, 'dirMake.php');
-myRequireOnce(DESTINATION, 'verifyBookDir.php', 'sdcard');
-myRequireOnce(DESTINATION, 'verifyBookMedia.php', 'sdcard');
+myRequireOnce('getLatestContent.php');
+myRequireOnce('writeLog.php');
+myRequireOnce('dirMake.php');
+myRequireOnce('verifyBookDir.php', 'sdcard');
+myRequireOnce('verifyBookMedia.php', 'sdcard');
 
 
 function verifyBookCover($p)

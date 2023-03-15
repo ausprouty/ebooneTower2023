@@ -6,9 +6,9 @@ Expects
     version_ot
     version_nt
 */
-myRequireOnce(DESTINATION, 'bibleDbtArray.php');
-myRequireOnce(DESTINATION, 'bibleGetPassage.php');
-myRequireOnce(DESTINATION, 'myGetPrototypeFile.php');
+myRequireOnce('bibleDbtArray.php');
+myRequireOnce('bibleGetPassage.php');
+myRequireOnce('myGetPrototypeFile.php');
 
 function getBibleBlockToInsert($p)
 {

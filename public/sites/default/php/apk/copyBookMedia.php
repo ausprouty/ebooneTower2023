@@ -1,10 +1,10 @@
 <?php
 
-myRequireOnce(DESTINATION, 'getBuild.php', 'apk');
-myRequireOnce(DESTINATION, 'verifyBook.php', 'apk');
-myRequireOnce(DESTINATION, 'dirListSubdir.php');
-myRequireOnce(DESTINATION, 'copyDirectory.php');
-myRequireOnce(DESTINATION, 'createDirectories.php');
+myRequireOnce('getBuild.php', 'apk');
+myRequireOnce('verifyBook.php', 'apk');
+myRequireOnce('dirListSubdir.php');
+myRequireOnce('copyDirectory.php');
+myRequireOnce('createDirectories.php');
 
 function copyBookMedia($p)
 {

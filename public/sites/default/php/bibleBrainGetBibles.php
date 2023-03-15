@@ -1,6 +1,6 @@
 <?php
 
-myRequireOnce(DESTINATION, 'bibleBrainGet.php');
+myRequireOnce('bibleBrainGet.php');
 
 /*This endpoint would be used to find all content available for each Bible for a specific language.
 https://4.dbt.io/api/bibles?language_code=HAE&page=1&limit=25

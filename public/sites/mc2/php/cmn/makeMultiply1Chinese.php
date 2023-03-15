@@ -1,12 +1,12 @@
 <?php
 return;
 require_once('../../.env.api.remote.mc2.php');
-myRequireOnce(DESTINATION, 'sql.php');
-myRequireOnce(DESTINATION, '.env.cors.php');
-myRequireOnce(DESTINATION, 'bookmark.php');
-myRequireOnce(DESTINATION, 'bibleDbtArray.php');
-myRequireOnce(DESTINATION, 'bibleGetPassage.php');
-myRequireOnce(DESTINATION, 'create.php');
+myRequireOnce('sql.php');
+myRequireOnce('.env.cors.php');
+myRequireOnce('bookmark.php');
+myRequireOnce('bibleDbtArray.php');
+myRequireOnce('bibleGetPassage.php');
+myRequireOnce('create.php');
 
 // get Bible passages and Video details
 $text = [];

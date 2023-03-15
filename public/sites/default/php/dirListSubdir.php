@@ -1,6 +1,6 @@
 <?php
 
-myRequireOnce(DESTINATION, 'writeLog.php');
+myRequireOnce('writeLog.php');
 // list subdirectories
 function dirListSubdir($directory)
 {

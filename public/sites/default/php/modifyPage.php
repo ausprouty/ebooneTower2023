@@ -1,26 +1,26 @@
 <?php
 
-myRequireOnce(DESTINATION, 'createPage.php');
-myRequireOnce(DESTINATION, 'getTitle.php');
-myRequireOnce(DESTINATION, 'modifyBibleLinks.php');
-myRequireOnce(DESTINATION, 'modifyExternalJavascript.php');
-myRequireOnce(DESTINATION, 'modifyHeaders.php');
-myRequireOnce(DESTINATION, 'modifyJavascript.php');
-myRequireOnce(DESTINATION, 'modifyLinks.php');
-myRequireOnce(DESTINATION, 'modifyNextSteps.php');
-myRequireOnce(DESTINATION, 'modifyNoteArea.php');
+myRequireOnce('createPage.php');
+myRequireOnce('getTitle.php');
+myRequireOnce('modifyBibleLinks.php');
+myRequireOnce('modifyExternalJavascript.php');
+myRequireOnce('modifyHeaders.php');
+myRequireOnce('modifyJavascript.php');
+myRequireOnce('modifyLinks.php');
+myRequireOnce('modifyNextSteps.php');
+myRequireOnce('modifyNoteArea.php');
 //myRequireOnce ('modifyReadMore.php');
-myRequireOnce(DESTINATION, 'modifyReference.php');
-myRequireOnce(DESTINATION, 'modifyRevealAudio.php');
-myRequireOnce(DESTINATION, 'modifyRevealBible.php');
-myRequireOnce(DESTINATION, 'modifyRevealSummary.php');
-myRequireOnce(DESTINATION, 'modifyRevealTrainer.php');
-myRequireOnce(DESTINATION, 'modifyRevealVideo.php');
-myRequireOnce(DESTINATION, 'modifyRevealVideoIntro.php');
-myRequireOnce(DESTINATION, 'modifySendAction.php');
-myRequireOnce(DESTINATION, 'version2Text.php');
+myRequireOnce('modifyReference.php');
+myRequireOnce('modifyRevealAudio.php');
+myRequireOnce('modifyRevealBible.php');
+myRequireOnce('modifyRevealSummary.php');
+myRequireOnce('modifyRevealTrainer.php');
+myRequireOnce('modifyRevealVideo.php');
+myRequireOnce('modifyRevealVideoIntro.php');
+myRequireOnce('modifySendAction.php');
+myRequireOnce('version2Text.php');
 
-myRequireOnce(DESTINATION, 'writeLog.php');
+myRequireOnce('writeLog.php');
 
 
 function modifyPage($text, $p, $data, $bookmark)
@@ -30,7 +30,7 @@ function modifyPage($text, $p, $data, $bookmark)
     //writeLogDebug('modifyPage-29', $text);
     if (isset($p['destination'])) {
         if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor') {
-            myRequireOnce(DESTINATION, 'modifyTextForVue.php', 'sdcard');
+            myRequireOnce('modifyTextForVue.php', 'sdcard');
             $text = modifyTextForVue($text, $bookmark);
         }
     }
@@ -106,7 +106,7 @@ function modifyPage($text, $p, $data, $bookmark)
     //writeLogDebug('modifyPage-104-ZOOM', $text);
     if (strpos($text, 'class="zoom"') !== FALSE) {
         //writeLogAppend('modifyPage-106-Zoom', $p['filename']);
-        myRequireOnce(DESTINATION, 'modifyZoomImage.php', $p['destination']);
+        myRequireOnce('modifyZoomImage.php', $p['destination']);
         $text = modifyZoomImage($text, $p);
     }
     if (strpos($text, '<div class="javascript') !== false) {

@@ -1,5 +1,5 @@
 <?php
-myRequireOnce(DESTINATION, 'publishDestination.php');
+myRequireOnce('publishDestination.php');
 
 function languageSpecificJavascripts($p)
 {

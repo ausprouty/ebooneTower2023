@@ -1,7 +1,7 @@
 <?php
-function myRequireOnce(DESTINATION, $filename, $subdirectory = null)
+function myRequireOnce($filename, $subdirectory = null)
 {
-    //_appendmyRequireOnce(DESTINATION, 'myRequireOnce', "\n\n$subdirectory/$filename\n");
+    //_appendmyRequireOnce ('myRequireOnce', "\n\n$subdirectory/$filename\n");
     $new_name = null;
     $filename = _cleanMyRequireOnceFile($filename);
     if ($subdirectory) {
@@ -12,11 +12,11 @@ function myRequireOnce(DESTINATION, $filename, $subdirectory = null)
         $new_name = myRequireOnceDirectories($filename);
     }
     if ($new_name) {
-        //_appendmyRequireOnce(DESTINATION, 'myRequireOnce', "$new_name\n");
+        //_appendmyRequireOnce ('myRequireOnce', "$new_name\n");
         require_once($new_name);
     } else {
-        _appendmyRequireOnce(DESTINATION, 'ERROR-myRequireOnce', "\n\n$subdirectory/$filename\n");
-        _appendmyRequireOnce(DESTINATION, 'ERROR-myRequireOnce', "NOT FOUND\n");
+        _appendmyRequireOnce('ERROR-myRequireOnce', "\n\n$subdirectory/$filename\n");
+        _appendmyRequireOnce('ERROR-myRequireOnce', "NOT FOUND\n");
     }
     return;
 }
@@ -26,10 +26,10 @@ function myRequireOnceDirectories($filename)
     $new_name = null;
     if (file_exists(UNIQUE_API_FILE_DIRECTORY . $filename)) {
         $new_name = UNIQUE_API_FILE_DIRECTORY . $filename;
-        //_appendmyRequireOnce(DESTINATION, 'myRequireOnce', "$new_name\n");
+        //_appendmyRequireOnce ('myRequireOnce', "$new_name\n");
     } else if (file_exists(STANDARD_API_FILE_DIRECTORY . $filename)) {
         $new_name = STANDARD_API_FILE_DIRECTORY . $filename;
-        //_appendmyRequireOnce(DESTINATION, 'myRequireOnce', "$new_name\n");
+        //_appendmyRequireOnce ('myRequireOnce', "$new_name\n");
     }
     if (isset($_SESSION['user'])) {
         if (file_exists(TESTING_API_FILE_DIRECTORY . $filename) && $_SESSION['user'] ==  DEVELOPER) {
@@ -62,7 +62,7 @@ function _cleanMyRequireOnceSubdirectory($page)
     return $page;
 }
 
-function _appendmyRequireOnce(DESTINATION, $filename, $content)
+function _appendmyRequireOnce($filename, $content)
 {
     $root_log = ROOT_LOG;
     if (!is_array($content)) {

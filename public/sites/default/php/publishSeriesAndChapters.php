@@ -1,12 +1,12 @@
 <?php
-myRequireOnce(DESTINATION, 'create.php');
-myRequireOnce(DESTINATION, 'dirMake.php');
-myRequireOnce(DESTINATION, 'fileWrite.php');
-myRequireOnce(DESTINATION, 'publishFiles.php');
-myRequireOnce(DESTINATION, 'publishSeries.php');
-myRequireOnce(DESTINATION, 'publishPage.php');
-myRequireOnce(DESTINATION, 'writeLog.php');
-myRequireOnce(DESTINATION, 'publicationCache.php');
+myRequireOnce('create.php');
+myRequireOnce('dirMake.php');
+myRequireOnce('fileWrite.php');
+myRequireOnce('publishFiles.php');
+myRequireOnce('publishSeries.php');
+myRequireOnce('publishPage.php');
+myRequireOnce('writeLog.php');
+myRequireOnce('publicationCache.php');
 
 
 function publishSeriesAndChapters($p)

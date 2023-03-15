@@ -1,28 +1,28 @@
 <?php
 
-myRequireOnce(DESTINATION, 'bookmark.php');
-myRequireOnce(DESTINATION, 'copyGlobal.php');
-myRequireOnce(DESTINATION, 'dirMake.php');
-myRequireOnce(DESTINATION, 'createDirectory.php');
-myRequireOnce(DESTINATION, 'fileWrite.php');
-myRequireOnce(DESTINATION, 'getTitle.php');
-myRequireOnce(DESTINATION, 'languageHtml.php');
+myRequireOnce('bookmark.php');
+myRequireOnce('copyGlobal.php');
+myRequireOnce('dirMake.php');
+myRequireOnce('createDirectory.php');
+myRequireOnce('fileWrite.php');
+myRequireOnce('getTitle.php');
+myRequireOnce('languageHtml.php');
 
-myRequireOnce(DESTINATION, 'makePathsRelative.php');
-myRequireOnce(DESTINATION, 'modifyHeaders.php');
-myRequireOnce(DESTINATION, 'modifyImages.php');
-myRequireOnce(DESTINATION, 'modifyVersion.php');
+myRequireOnce('makePathsRelative.php');
+myRequireOnce('modifyHeaders.php');
+myRequireOnce('modifyImages.php');
+myRequireOnce('modifyVersion.php');
 //myRequireOnce ('publishCopyImagesAndStyles.php');
-myRequireOnce(DESTINATION, 'publishFilesInPage.php');
-myRequireOnce(DESTINATION, 'createLanguageFooter.php');
-myRequireOnce(DESTINATION, 'publishCSS.php');
-myRequireOnce(DESTINATION, 'writeLog.php');
-myRequireOnce(DESTINATION, 'myGetPrototypeFile.php');
+myRequireOnce('publishFilesInPage.php');
+myRequireOnce('createLanguageFooter.php');
+myRequireOnce('publishCSS.php');
+myRequireOnce('writeLog.php');
+myRequireOnce('myGetPrototypeFile.php');
 
 // destination must be 'staging', 'website', 'pdf'  or 'sdcard'
 function publishFiles($destination, $p, $fname, $text, $standard_css, $selected_css)
 {
-    myRequireOnce(DESTINATION, 'languageSpecificJavascripts.php', $p['destination']);
+    myRequireOnce('languageSpecificJavascripts.php', $p['destination']);
     $file_name_parts = explode('/', $fname);
     $fsname = array_pop($file_name_parts);
     $fsname = str_replace('.html', '', $fsname);

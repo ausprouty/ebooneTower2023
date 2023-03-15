@@ -1,5 +1,5 @@
 <?php
-myRequireOnce(DESTINATION, 'getBuild.php', 'apk');
+myRequireOnce('getBuild.php', 'apk');
 function getBookDir($p)
 {
     if (!isset($p['apk_settings'])) {

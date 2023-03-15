@@ -19,9 +19,9 @@
 
 		BASED ON THE LOGIC OF JANUARY 2020
 */
-myRequireOnce(DESTINATION, 'getElementsByClass.php');
-myRequireOnce(DESTINATION, 'simple_html_dom.php', 'libraries/simplehtmldom_1_9_1');
-myRequireOnce(DESTINATION, 'writeLog.php');
+myRequireOnce('getElementsByClass.php');
+myRequireOnce('simple_html_dom.php', 'libraries/simplehtmldom_1_9_1');
+myRequireOnce('writeLog.php');
 
 
 

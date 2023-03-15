@@ -1,5 +1,5 @@
 <?php
-myRequireOnce(DESTINATION, 'writeLog.php');
+myRequireOnce('writeLog.php');
 // look in subdirectory first.  If not there look in site directory
 //define("ROOT_EDIT", '/home/globa544/edit.mc2.online/');
 // define("SITE_CODE", 'mc2');

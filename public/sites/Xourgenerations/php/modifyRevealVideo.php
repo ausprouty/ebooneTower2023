@@ -1,5 +1,5 @@
 <?php
-myRequireOnce ('writeLog.php');
+myRequireOnce('writeLog.php');
 /*
 Input is:
     <div class="reveal film">&nbsp;
@@ -65,12 +65,13 @@ Output for Acts: where input is https://api.arclight.org/videoPlayerUrl?refId=2_
 
 
 */
-function modifyRevealVideo($text, $bookmark){
+function modifyRevealVideo($text, $bookmark)
+{
 
     $out = [];
     $debug = 'In 4G revealVideo' . "\n";
     $watch_phrase = $bookmark['language']->watch;
-    $standard_template_link= '<button id="revealButton[id]" type="button" class="external-movie [video_type]">[title_phrase]</button>
+    $standard_template_link = '<button id="revealButton[id]" type="button" class="external-movie [video_type]">[title_phrase]</button>
         <div class="collapsed">[video]</div>';
     $template_link = '
     <div id="VideoToggle[id]" class="summary [video_type]">
@@ -88,10 +89,10 @@ function modifyRevealVideo($text, $bookmark){
     $find = '<div class="reveal_big film">';
     $count = substr_count($text, $find);
     $debug = "count is $count \n";;
-    for ($i = 0; $i < $count; $i++){
+    for ($i = 0; $i < $count; $i++) {
         $new = $template_link;
         // get old division
-        $pos_start = strpos($text,$find);
+        $pos_start = strpos($text, $find);
         $pos_end = strpos($text, '</div>', $pos_start);
         $length = $pos_end - $pos_start + 6;  // add 6 because last item is 6 long
         $old = substr($text, $pos_start, $length);
@@ -103,12 +104,12 @@ function modifyRevealVideo($text, $bookmark){
         $url = modifyVideoRevealFindText($old, 4);
         $debug .=  "url is | $url |\n";
         // find type of video and trim url
-        if (strpos($url, 'api.arclight.org/videoPlayerUrl?') != FALSE){
+        if (strpos($url, 'api.arclight.org/videoPlayerUrl?') != FALSE) {
             $new .=  $template_options; // JESUS project videos are available in many languages
             //https://api.arclight.org/videoPlayerUrl?refId=6_529-GOMatt2512
             $url = str_ireplace('https://api.arclight.org/videoPlayerUrl?refId=', '', $url); //6_529-GOMatt2512
             $video_type_string = substr($url, 0, 1); //6
-            switch ($video_type_string){
+            switch ($video_type_string) {
                 case 1:
                     $video_type = 'jfilm';
                     break;
@@ -119,32 +120,29 @@ function modifyRevealVideo($text, $bookmark){
                     $video_type = 'lumo';
                     break;
                 default:
-                 $video_type = $video_type_string;
+                    $video_type = $video_type_string;
             }
-            if (strpos($url, '-') !== FALSE){
+            if (strpos($url, '-') !== FALSE) {
                 $dash = strpos($url, '-');
                 $url = substr($url, $dash);
             }
             // find start and end times
-            $start_time = modifyVideoRevealFindTime ($old, 7);
+            $start_time = modifyVideoRevealFindTime($old, 7);
             $debug .=  "start_time is | $start_time |\n";
-            $end_time = modifyVideoRevealFindTime ($old, 9);
+            $end_time = modifyVideoRevealFindTime($old, 9);
             $debug .=  "end time is | $end_time |\n";
-            if ($start_time || $end_time){
-                $url .= '&start='. $start_time . '&end=' .$end_time;
+            if ($start_time || $end_time) {
+                $url .= '&start=' . $start_time . '&end=' . $end_time;
             }
-        }
-        elseif (strpos($url, 'https://vimeo.com/') !== FALSE){  //https://vimeo.com/162977296
+        } elseif (strpos($url, 'https://vimeo.com/') !== FALSE) {  //https://vimeo.com/162977296
             $video_type = 'vimeo';
             $url = str_ireplace('https://vimeo.com/', '', $url); //162977296
-        }
-        else{
+        } else {
             $video_type = 'unknown';
             $url = 'unknown';
-
         }
         // make replacements
-        $video = '['. $video_type . ']' . $url; //[lumo]-GOMatt2512
+        $video = '[' . $video_type . ']' . $url; //[lumo]-GOMatt2512
 
         $debug .=  "video is | $video |\n";
         $new = str_replace('[video]', $video, $new);
@@ -155,7 +153,7 @@ function modifyRevealVideo($text, $bookmark){
     </div>';
         $debug .=  "new is | $new |\n";
         // replace old
-         // from https://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match
+        // from https://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match
         $length = $pos_end - $pos_start + 6;  // add 6 because last item is 6 long
         $text = substr_replace($text, $new, $pos_start, $length);
     }
@@ -163,29 +161,35 @@ function modifyRevealVideo($text, $bookmark){
     return $text;
 }
 // return the text from the td_segment
-function modifyVideoRevealFindText($old, $td_number){
+function modifyVideoRevealFindText($old, $td_number)
+{
     $pos_td = 0;
-    for ($i = 1; $i<= $td_number; $i++){
+    for ($i = 1; $i <= $td_number; $i++) {
         $pos_td = strpos($old, '<td', $pos_td + 1);
     }
-    $pos_start = strpos($old, '>', $pos_td) +1;
+    $pos_start = strpos($old, '>', $pos_td) + 1;
     $pos_end = strpos($old, '</', $pos_td);
     $length = $pos_end - $pos_start;
     $text = substr($old, $pos_start, $length);
     $text = trim(rtrim($text));
     return $text;
 }
-function modifyVideoRevealFindTime ($old,$td_number){
+function modifyVideoRevealFindTime($old, $td_number)
+{
     $text = modifyVideoRevealFindText($old, $td_number);
-    if ($text == 'start'){$time = 0; }
-    else if ($text == 'end'){$time = null; }
-    else{ $time = timeToSeconds($text);}
+    if ($text == 'start') {
+        $time = 0;
+    } else if ($text == 'end') {
+        $time = null;
+    } else {
+        $time = timeToSeconds($text);
+    }
     return $time;
 }
 //function timeToSeconds(string $time): int
 function timeToSeconds($time)
 {
-    if (strpos($time, ':') == FALSE){
+    if (strpos($time, ':') == FALSE) {
         return intval($time);
     }
     $arr = explode(':', $time);

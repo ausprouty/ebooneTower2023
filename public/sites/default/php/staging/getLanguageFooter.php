@@ -1,5 +1,5 @@
 <?php
-myRequireOnce(DESTINATION, 'myGetPrototypeFile.php');
+myRequireOnce('myGetPrototypeFile.php');
 function getLanguageFooter($p)
 {
     $language_footer =  'languageFooter.html';

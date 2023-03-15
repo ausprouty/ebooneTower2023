@@ -1,16 +1,16 @@
 <?php
-echo 'in Help Insert'. "<br>\n";
-require_once ('../.env.api.remote.myfriends.php');
+echo 'in Help Insert' . "<br>\n";
+require_once('../.env.api.remote.myfriends.php');
 
-myRequireOnce ('sql.php');
-myRequireOnce ('.env.cors.php');
-myRequireOnce ('getLatestContent.php');
-myRequireOnce ('createHelpContent.php');
+myRequireOnce('sql.php');
+myRequireOnce('.env.cors.php');
+myRequireOnce('getLatestContent.php');
+myRequireOnce('createHelpContent.php');
 
 // get library
 
 $p = array(
-    'scope'=> 'library',
+    'scope' => 'library',
     'country_code' => 'HD',
     'language_iso' => 'eng',
     'library_code' => 'library'
@@ -22,7 +22,7 @@ createHelpContent($new);
 
 // get index
 $p = array(
-    'scope'=> 'series',
+    'scope' => 'series',
     'country_code' => 'HD',
     'language_iso' => 'eng',
     'folder_name' => 'help-1',
@@ -41,15 +41,15 @@ $sql = 'SELECT DISTINCT filename FROM content
     AND filename != "index"
     ORDER BY filename';
 $query  = sqlMany($sql);
-while($data = $query->fetch_array()){
-     echo ( $data['filename'] . "<br>\n");
-     $p = array(
-         'scope'=> 'page',
-         'country_code' => 'HD',
-         'language_iso' => 'eng',
-         'folder_name' => 'help-1',
-         'filename' => $data['filename']
-     );
+while ($data = $query->fetch_array()) {
+    echo ($data['filename'] . "<br>\n");
+    $p = array(
+        'scope' => 'page',
+        'country_code' => 'HD',
+        'language_iso' => 'eng',
+        'folder_name' => 'help-1',
+        'filename' => $data['filename']
+    );
     $res = getLatestContent($p);
     $new = $res['content'];
     $new['my_uid'] = 996; // done by computer

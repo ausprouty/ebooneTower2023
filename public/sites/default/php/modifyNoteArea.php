@@ -1,6 +1,6 @@
 <?php
-myRequireOnce(DESTINATION, 'writeLog.php');
-myRequireOnce(DESTINATION, 'myGetPrototypeFile.php');
+myRequireOnce('writeLog.php');
+myRequireOnce('myGetPrototypeFile.php');
 
 /*
 

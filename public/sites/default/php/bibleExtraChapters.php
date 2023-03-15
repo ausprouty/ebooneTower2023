@@ -12,7 +12,7 @@
     );
     returns array of extra chapters to include
 */
-myRequireOnce(DESTINATION, 'bibleChapterVerseCount.php');
+myRequireOnce('bibleChapterVerseCount.php');
 
 function bibleExtraChapters($dbt)
 {

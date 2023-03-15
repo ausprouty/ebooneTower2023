@@ -2,7 +2,7 @@
 
 require_once('../.env.api.remote.php');
 require_once('../../default/php/myRequireOnce.php');
-myRequireOnce(DESTINATION, 'sql.php');
+myRequireOnce('sql.php');
 
 echo "In Fix Bible Book Names<br>\n";
 $sql = 'SELECT * FROM dbm_bible_book_names';

@@ -1,5 +1,5 @@
 <?php
-myRequireOnce(DESTINATION, 'getBookDir', 'apk');
+myRequireOnce('getBookDir', 'apk');
 function copyApkCover($p)
 {
      $p = getBookDir($p); // set $p['dir_apk']

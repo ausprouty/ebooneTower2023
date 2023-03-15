@@ -1,14 +1,14 @@
 <?php
-myRequireOnce(DESTINATION, 'bookmark.php');
-myRequireOnce(DESTINATION, 'publishFiles.php');
-myRequireOnce(DESTINATION, 'writeLog.php');
-myRequireOnce(DESTINATION, 'myGetPrototypeFile.php');
+myRequireOnce('bookmark.php');
+myRequireOnce('publishFiles.php');
+myRequireOnce('writeLog.php');
+myRequireOnce('myGetPrototypeFile.php');
 
 
 
 function createSeries($p, $data)
 {
-    myRequireOnce(DESTINATION, 'createSeriesNavlink.php', $p['destination']);
+    myRequireOnce('createSeriesNavlink.php', $p['destination']);
 
     $text = json_decode($data['text']);
     // get language footer in prototypeOEpublish.php

@@ -1,6 +1,6 @@
 <?php
-myRequireOnce(DESTINATION, 'dirMake.php');
-myRequireOnce(DESTINATION, 'getBuild.php', 'apk');
+myRequireOnce('dirMake.php');
+myRequireOnce('getBuild.php', 'apk');
 
 /*
 define("ROOT_EDIT", '/home/globa544/edit.mc2.online/');

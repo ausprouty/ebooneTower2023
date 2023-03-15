@@ -1,6 +1,6 @@
 <?php
-myRequireOnce(DESTINATION, 'writeLog.php');
-myRequireOnce(DESTINATION, 'audioReference.php', 'sdcard');
+myRequireOnce('writeLog.php');
+myRequireOnce('audioReference.php', 'sdcard');
 /*
 Input is:
     <--Start Audio Template-->

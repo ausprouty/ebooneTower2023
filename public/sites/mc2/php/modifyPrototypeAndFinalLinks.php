@@ -6,7 +6,7 @@
 
     except for page/apk.html
 */
-myRequireOnce(DESTINATION, 'writeLog.php');
+myRequireOnce('writeLog.php');
 function modifyPrototypeAndFinalLinks($text, $replace, $p)
 {
     $special = 'https://app.mc2.online/content/' . $p['country_code'] . '/' . $p['language_iso'] . '/pages/apk.html';

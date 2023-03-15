@@ -1,11 +1,11 @@
 <?php
 
-myRequireOnce(DESTINATION, 'dirMake.php');
-myRequireOnce(DESTINATION, 'writeLog.php');
-myRequireOnce(DESTINATION, 'modifyRevealVideo.php');
-myRequireOnce(DESTINATION, 'videoFindForCapacitorNewName.php', 'capacitor');
-myRequireOnce(DESTINATION, 'audioMakeRefFileForCapacitor.php', 'capacitor');
-myRequireOnce(DESTINATION, 'videoReference.php', 'capacitor');
+myRequireOnce('dirMake.php');
+myRequireOnce('writeLog.php');
+myRequireOnce('modifyRevealVideo.php');
+myRequireOnce('videoFindForCapacitorNewName.php', 'capacitor');
+myRequireOnce('audioMakeRefFileForCapacitor.php', 'capacitor');
+myRequireOnce('videoReference.php', 'capacitor');
 
 
 function videoMakeBatFileForCapacitor($p)

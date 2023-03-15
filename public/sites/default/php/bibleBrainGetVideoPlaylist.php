@@ -1,6 +1,6 @@
 <?php
 
-myRequireOnce(DESTINATION, 'bibleBrainGet.php');
+myRequireOnce('bibleBrainGet.php');
 
 //https://4.dbt.io/api/bibles/filesets/:filesetid/:bookid/:chapterid?v=4
 /*$dbt_array = array(

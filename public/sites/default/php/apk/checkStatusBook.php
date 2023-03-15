@@ -1,8 +1,8 @@
 <?php
-myRequireOnce(DESTINATION, 'writeLog.php');
-myRequireOnce(DESTINATION, 'dirMake.php');
-myRequireOnce(DESTINATION, 'verifyBook.php', 'apk');
-myRequireOnce(DESTINATION, 'getBookDir.php', 'apk');
+myRequireOnce('writeLog.php');
+myRequireOnce('dirMake.php');
+myRequireOnce('verifyBook.php', 'apk');
+myRequireOnce('getBookDir.php', 'apk');
 
 function checkStatusBook($p)
 {

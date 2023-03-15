@@ -1,6 +1,6 @@
 <?php
 
-myRequireOnce(DESTINATION, 'write.Log');
+myRequireOnce('write.Log');
 // find all .css and .js  and create version based on time created
 // called by publishFiles
 

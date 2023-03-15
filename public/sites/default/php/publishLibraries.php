@@ -2,7 +2,7 @@
 
 myRequireOnce('publishLibrary.php');
 myRequireOnce('findLibraries.php');
-myRequireOnce(DESTINATION, 'write.Log');
+myRequireOnce('write.Log');
 
 
 function publishLibraries($p)

@@ -6,7 +6,7 @@
 		'link' => $output['link']
 	];
 */
-myRequireOnce(DESTINATION, 'bibleBrainGet.php');
+myRequireOnce('bibleBrainGet.php');
 
 function bibleGetPassageBibleBrain($p)
 {

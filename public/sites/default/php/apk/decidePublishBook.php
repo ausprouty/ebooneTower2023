@@ -1,5 +1,5 @@
 <?php
-myRequireOnce(DESTINATION, 'folderList.php');
+myRequireOnce('folderList.php');
 
 function decidePublishBook($p, $book)
 {

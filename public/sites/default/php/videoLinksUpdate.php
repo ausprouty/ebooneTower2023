@@ -1,36 +1,38 @@
 <?php
-myRequireOnce ('create.php');
-myRequireOnce ('getContentByRecnum.php');
-myRequireOnce ('getLatestContent.php');
+myRequireOnce('create.php');
+myRequireOnce('getContentByRecnum.php');
+myRequireOnce('getLatestContent.php');
 
-function videoLinksUpdate($p){
+function videoLinksUpdate($p)
+{
 
-    $debug = 'I was in updateVideoLinks'. "\n";
+    $debug = 'I was in updateVideoLinks' . "\n";
     $p['scope'] = 'page';
     $content = getContentByRecnum($p);
 
     $text = $content['text'];
-    if (strpos($text, '<div class="reveal video') !== FALSE){
+    if (strpos($text, '<div class="reveal video') !== FALSE) {
         $find = '<div class="reveal video';
         $text =  videoLinksFix($text, $find);
     }
-    $content ['text']= $text;
-    createContent($content );
-    $content ['scope'] = 'page';
-    unset($content ['recnum']);
-    $out = getLatestContent($content );
+    $content['text'] = $text;
+    createContent($content);
+    $content['scope'] = 'page';
+    unset($content['recnum']);
+    $out = getLatestContent($content);
     return $out;
 }
 /* <div class="reveal video">&nbsp;
 <hr /><a href="https://api.arclight.org/videoPlayerUrl?refId=6_529-GOJohnEnglish4724">John 10:22-42</a>
 */
-function videoLinksFix($text, $find){
+function videoLinksFix($text, $find)
+{
 
     $count = substr_count($text, $find);
-    for ($i = 0; $i < $count; $i++){
+    for ($i = 0; $i < $count; $i++) {
         $new = videoLinksTemplate();
         // get old division
-        $pos_start = strpos($text,$find);
+        $pos_start = strpos($text, $find);
         $pos_end = strpos($text, '</div>', $pos_start);
         $length = $pos_end - $pos_start + 6;  // add 6 because last item is 6 long
         $old = substr($text, $pos_start, $length);
@@ -50,15 +52,15 @@ function videoLinksFix($text, $find){
         $new = str_replace('[Link]', $link, $new);
         $debug .=  "word is | $word |\n";
         $debug .=  "new is | $new |\n";
-         // from https://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match
+        // from https://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match
         $text = substr_replace($text, $new, $pos_start, $length);
     }
 
     return $text;
-
 }
 
-function videoLinksTemplate(){
+function videoLinksTemplate()
+{
     return '
 
     <div class="reveal film">&nbsp;

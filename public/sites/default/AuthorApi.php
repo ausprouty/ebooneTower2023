@@ -17,8 +17,8 @@ if (file_exists($backend)) {
 	trigger_error("No backend for AuthorApi. Looking for $backend", E_USER_ERROR);
 }
 require_once('php/myRequireOnce.php');
-myRequireOnce(DESTINATION, 'sql.php');
-myRequireOnce(DESTINATION, 'writeLog.php');
+require_once('php/sql.php');
+require_once('php/writeLog.php');
 myHeaders(); // send cors headers
 // assign variables
 $out = array();
@@ -47,14 +47,14 @@ if (isset($p['action'])) {
 		$ok = myApiAuthorize($p['token']);
 		unset($p['token']);  // so it will not be sent back
 		if ($ok || $p['action'] == 'bookmark') {
-			myRequireOnce(DESTINATION, 'dirMake.php');
+			myRequireOnce('dirMake.php');
 			if (isset($p['page'])) {
 				$subdirectory = null;
 				if (isset($p['subdirectory'])) {
 					$subdirectory  = $p['subdirectory'];
 				}
 				writeLogDebug('AuthorApi-62-p', $p);
-				myRequireOnce(DESTINATION, $p['page'], $subdirectory);
+				myRequireOnce($p['page'], $subdirectory);
 				$action = $p['action'];
 				$out = $action($p);
 			} else {
@@ -77,26 +77,13 @@ if (isset($p['action'])) {
 $debug .= "\n\nHERE IS JSON_ENCODE OF DATA THAT IS NOT ESCAPED\n";
 $debug .= json_encode($out) . "\n";
 writeLog($p['action'],   $debug);
-/*
-if ($p['action'] == 'downloadMediaBatFiles'){
-    $zipname = $out;
-	writeLogDebug('zip-87', $zipname);
-	writeLogDebug('zip-88',filesize($zipname));
-	header('Content-Type: application/zip');
-    header('Content-disposition: attachment; filename='. $zipname);
-    header('Content-Length: ' . filesize($zipname));
-    readfile($zipname);
-
-}
-*/
-
 header("Content-type: application/json");
 echo json_encode($out, JSON_UNESCAPED_UNICODE);
 
 // return response
 
 die();
-//}
+
 
 
 /*

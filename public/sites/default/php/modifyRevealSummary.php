@@ -1,6 +1,6 @@
 <?php
-myRequireOnce(DESTINATION, 'writeLog.php');
-myRequireOnce(DESTINATION, 'myGetPrototypeFile.php');
+myRequireOnce('writeLog.php');
+myRequireOnce('myGetPrototypeFile.php');
 // see https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_collapsible
 
 /* You should have something like this:

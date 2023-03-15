@@ -1,9 +1,9 @@
 <?php
 
 
-myRequireOnce(DESTINATION, 'getBuild.php', 'apk');
-myRequireOnce(DESTINATION, 'writeLog.php');
-myRequireOnce(DESTINATION, 'findLibraries.php');
+myRequireOnce('getBuild.php', 'apk');
+myRequireOnce('writeLog.php');
+myRequireOnce('findLibraries.php');
 
 function checkContentIndex($p)
 {

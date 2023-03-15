@@ -1,5 +1,5 @@
 <?php
-myRequireOnce(DESTINATION, 'bibleBrainGet.php');
+myRequireOnce('bibleBrainGet.php');
 // this gives you text of the Bible (fileset setlected);
 // "\/bibles\/filesets\/{fileset_id}\/{book}\/{chapter}": {
 function bibleBrainGetChapterResources($p)

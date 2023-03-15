@@ -1,10 +1,10 @@
 <?php
 
-myRequireOnce(DESTINATION, 'verifyBookDir.php', 'capacitor');
-myRequireOnce(DESTINATION, 'verifyBook.php', 'capacitor');
-myRequireOnce(DESTINATION, 'dirListSubdir.php');
-myRequireOnce(DESTINATION, 'copyDirectory.php');
-myRequireOnce(DESTINATION, 'createDirectories.php');
+myRequireOnce('verifyBookDir.php', 'capacitor');
+myRequireOnce('verifyBook.php', 'capacitor');
+myRequireOnce('dirListSubdir.php');
+myRequireOnce('copyDirectory.php');
+myRequireOnce('createDirectories.php');
 
 function copyBookMedia($p)
 {

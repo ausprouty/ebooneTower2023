@@ -1,9 +1,9 @@
 <?php
 
-myRequireOnce(DESTINATION, 'createSeries.php');
-myRequireOnce(DESTINATION, 'dirCreate.php');
-myRequireOnce(DESTINATION, 'publishFiles.php');
-myRequireOnce(DESTINATION, 'publicationCache.php');
+myRequireOnce('createSeries.php');
+myRequireOnce('dirCreate.php');
+myRequireOnce('publishFiles.php');
+myRequireOnce('publicationCache.php');
 
 function createBookContent($p)
 {
@@ -48,10 +48,10 @@ function createBookContent($p)
             $dir = dirCreate('series', $p['destination'],  $p, $folders = null, $create = false);
             $fname = $dir . ucfirst($p['language_iso']) . ucfirst($p['folder_name']) . 'Index.vue';
             $fname = str_replace('mc2.capacitor/M2/', 'mc2.capacitor/views/M2/', $fname);
-            myRequireOnce(DESTINATION, 'modifyTextForVue.php', 'capacitor');
+            myRequireOnce('modifyTextForVue.php', 'capacitor');
             $result['text'] = modifyTextForVue($result['text'], $bookmark);
             //writeLogDebug('createBookContent-78', $result['text']);
-            myRequireOnce(DESTINATION, 'createBookRouter.php', 'capacitor');
+            myRequireOnce('createBookRouter.php', 'capacitor');
             createBookRouter($data, $p);
             $result['text'] .= '<!--- Created by createBookContent-->' . "\n";
             publishFiles($p['destination'], $p, $fname, $result['text'],  STANDARD_CSS, $selected_css);

@@ -1,7 +1,7 @@
 <?php
-myRequireOnce(DESTINATION, 'publishFiles.php');
-myRequireOnce(DESTINATION, 'publishLibrary.php');
-myRequireOnce(DESTINATION, 'publishSeriesAndChapters.php');
+myRequireOnce('publishFiles.php');
+myRequireOnce('publishLibrary.php');
+myRequireOnce('publishSeriesAndChapters.php');
 
 function publishLibraryAndBooks($p)
 {

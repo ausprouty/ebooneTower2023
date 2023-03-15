@@ -13,8 +13,8 @@
      );
  */
 myRequireOnce('writeLog.php');
-myRequireOnce(DESTINATION, 'bibleChapterVerseCount.php');
-myRequireOnce(DESTINATION, 'bibleExtraChapters.php');
+myRequireOnce('bibleChapterVerseCount.php');
+myRequireOnce('bibleExtraChapters.php');
 
 function createBibleDbtArrayFromPassage($p)
 {

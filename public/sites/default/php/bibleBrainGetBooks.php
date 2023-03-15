@@ -1,5 +1,5 @@
 <?php
-myRequireOnce(DESTINATION, 'bibleBrainGet.php');
+myRequireOnce('bibleBrainGet.php');
 
 function bibleBrainGetBooks($p)
 {

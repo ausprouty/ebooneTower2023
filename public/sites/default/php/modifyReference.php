@@ -1,5 +1,5 @@
 <?php
-myRequireOnce(DESTINATION, 'writeLog.php');
+myRequireOnce('writeLog.php');
 
 /* input is:text=&quot;Jerry Trousdale wrote&quot; ref=&quot;The Kingdom Unleashed: How Jesus’ 1st-century  kingdom values are transforming thousand of culture and awakening his Church. - Jerry Trousdale, Glenn Shunshine&quot;}
 

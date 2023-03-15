@@ -1,5 +1,5 @@
 <?php
-myRequireOnce ('sql.php');
+myRequireOnce('sql.php');
 /*requires $p as array:
         'entry' => 'Zephaniah 1:2-3'
         'bookId' => 'Zeph',
@@ -23,23 +23,24 @@ myRequireOnce ('sql.php');
 
 */
 
-function bibleGetPassage($p){
-    $out=[];
+function bibleGetPassage($p)
+{
+    $out = [];
     // make sure bid is set
-    if (!isset($p['bid'])){
-        if (isset($p['collection_code'])){
-            if ($p['collection_code'] == 'OT'){
-                if (isset($p['version_ot'])){
+    if (!isset($p['bid'])) {
+        if (isset($p['collection_code'])) {
+            if ($p['collection_code'] == 'OT') {
+                if (isset($p['version_ot'])) {
                     $p['bid'] = $p['version_ot'];
                 }
             }
-            if ($p['collection_code'] == 'NT'){
-                if (isset($p['version_nt'])){
+            if ($p['collection_code'] == 'NT') {
+                if (isset($p['version_nt'])) {
                     $p['bid'] = $p['version_nt'];
                 }
             }
         }
-        if (!isset($p['bid'])){
+        if (!isset($p['bid'])) {
             $debug .= 'p[bid] is not set' . "\n\n\n";
             //writeLog ('bibleGetPassage45-' . time(), $debug);
             return $out;
@@ -48,23 +49,22 @@ function bibleGetPassage($p){
     $sql = "SELECT * FROM dbm_bible WHERE bid = " . $p['bid'];
     //$debug = $sql . "\n";
     $data = sqlBibleArray($sql);
-    if ($data['right_to_left'] != 't'){
+    if ($data['right_to_left'] != 't') {
         $p['rldir'] = 'ltr';
-    }
-    else{
+    } else {
         $p['rldir'] = 'rtl';
     }
 
     //writeLogDebug('bibleGetPassage-59',$data['source']);
-    if ($data['source'] == 'bible_gateway'){
-        myRequireOnce ('bibleGetPassageBiblegateway.php');
+    if ($data['source'] == 'bible_gateway') {
+        myRequireOnce('bibleGetPassageBiblegateway.php');
         $p['version_code'] = $data['version_code'];
         $res = bibleGetPassageBiblegateway($p);
         $out = $res['content'];
         return $out;
     }
-    if ($data['source']  == 'dbt'){
-        myRequireOnce ('bibleGetPassageBibleBrain.php');
+    if ($data['source']  == 'dbt') {
+        myRequireOnce('bibleGetPassageBibleBrain.php');
         $p['damId'] = $data['dam_id'];
         $out = bibleGetPassageBibleBrain($p);
         return $out;

@@ -3,7 +3,7 @@
 /*  creates directories for copying files
 input may be  "/home/globa544/apk.mc2/cmn.m1/folder/sites/mc2/images/icons/favicon-32x32.png/"
 */
-myRequireOnce(DESTINATION, 'writeLog.php');
+myRequireOnce('writeLog.php');
 
 function createDirectory($dir)
 {

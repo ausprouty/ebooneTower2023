@@ -1,5 +1,5 @@
 <?php
-myRequireOnce(DESTINATION, 'writeLog.php');
+myRequireOnce('writeLog.php');
 
 function verifyBookRouter($p)
 {

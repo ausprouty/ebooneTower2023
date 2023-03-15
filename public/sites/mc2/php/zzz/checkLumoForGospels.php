@@ -3,7 +3,7 @@ require_once('../../.env.api.remote.php');
 require_once('../../../default/php/myRequireOnce.php');
 myRequireOnce('sql.php');
 myRequireOnce('writeLog.php');
-myRequireOnce(DESTINATION, 'bibleBrainGetVideoPlaylist.php');
+myRequireOnce('bibleBrainGetVideoPlaylist.php');
 $output = 'starting|';
 $p = [];
 writeLogAppend('checkLumoForGospels-9', 'running');

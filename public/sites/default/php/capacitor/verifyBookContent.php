@@ -1,9 +1,9 @@
 <?php
-myRequireOnce(DESTINATION, 'getLatestContent.php');
-myRequireOnce(DESTINATION, 'writeLog.php');
-myRequireOnce(DESTINATION, 'dirMake.php');
-myRequireOnce(DESTINATION, 'verifyBookDir.php', 'capacitor');
-myRequireOnce(DESTINATION, 'verifyBookMedia.php', 'capacitor');
+myRequireOnce('getLatestContent.php');
+myRequireOnce('writeLog.php');
+myRequireOnce('dirMake.php');
+myRequireOnce('verifyBookDir.php', 'capacitor');
+myRequireOnce('verifyBookMedia.php', 'capacitor');
 
 
 

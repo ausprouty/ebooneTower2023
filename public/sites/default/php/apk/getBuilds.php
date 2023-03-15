@@ -1,6 +1,6 @@
 <?php
 //define("ROOT_APK", ROOT . 'apk.mc2/');
-myRequireOnce(DESTINATION, 'folderList.php');
+myRequireOnce('folderList.php');
 
 function getBuilds()
 {

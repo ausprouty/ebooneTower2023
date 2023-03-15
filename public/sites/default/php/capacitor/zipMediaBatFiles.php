@@ -1,6 +1,6 @@
 <?php
-myRequireOnce(DESTINATION, 'dirListRecursive.php');
-myRequireOnce(DESTINATION, 'writeLog.php');
+myRequireOnce('dirListRecursive.php');
+myRequireOnce('writeLog.php');
 
 function zipMediaBatFiles($p)
 {

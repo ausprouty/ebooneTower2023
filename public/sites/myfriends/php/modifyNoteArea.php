@@ -1,5 +1,5 @@
 <?php
-myRequireOnce(DESTINATION, 'writeLog.php');
+myRequireOnce('writeLog.php');
 /*
 
 This site always adds the standard instruction

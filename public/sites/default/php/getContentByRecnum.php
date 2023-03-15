@@ -1,7 +1,8 @@
 <?php
-myRequireOnce ('sql.php');
+myRequireOnce('sql.php');
 
-function getContentByRecnum($p){
+function getContentByRecnum($p)
+{
     $sql = "SELECT * from content
         WHERE recnum = '" .  $p['recnum'] . "'";
     $out = sqlArray($sql);

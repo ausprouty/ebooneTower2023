@@ -1,6 +1,6 @@
 <?php
 
-myRequireOnce(DESTINATION, 'myGetPrototypeFile.php');
+myRequireOnce('myGetPrototypeFile.php');
 
 function addVueWrapperPage($html)
 {

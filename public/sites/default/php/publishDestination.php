@@ -6,7 +6,7 @@ define("ROOT_SDCARD", ROOT . 'mc2.sdcard');
 
 
 */
-myRequireOnce(DESTINATION, 'getBuild.php', 'apk');
+myRequireOnce('getBuild.php', 'apk');
 
 function publishDestination($p)
 {

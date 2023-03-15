@@ -4,7 +4,7 @@ require_once('../../.env.api.remote.php');
 require_once('../../../default/php/myRequireOnce.php');
 myRequireOnce('sql.php');
 myRequireOnce('writeLog.php');
-myRequireOnce(DESTINATION, 'dirMake.php');
+myRequireOnce('dirMake.php');
 $text = '';
 $p = [];
 $p['language_iso'] = 'amh';

@@ -5,9 +5,9 @@
 /sites/default/apk/Cx File Explorer.apk-> apk.mc2.something/Cx File Explorer.apk
 /langugage javascript folders
 */
-myRequireOnce(DESTINATION, 'copyDirectory.php');
-myRequireOnce(DESTINATION, 'getBuild.php', 'apk');
-myRequireOnce(DESTINATION, 'writeLog.php');
+myRequireOnce('copyDirectory.php');
+myRequireOnce('getBuild.php', 'apk');
+myRequireOnce('writeLog.php');
 
 function verifyCommonFiles($p)
 {

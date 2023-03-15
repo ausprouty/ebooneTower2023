@@ -1,6 +1,6 @@
 <?php
-myRequireOnce(DESTINATION, 'dirList.php');
-myRequireOnce(DESTINATION, 'dirMake.php');
+myRequireOnce('dirList.php');
+myRequireOnce('dirMake.php');
 function copyStandardFiles($p)
 {
     $dirStandard = 'sites/' . SITE_CODE . '/images/standard/';

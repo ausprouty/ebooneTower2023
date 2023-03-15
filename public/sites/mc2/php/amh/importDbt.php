@@ -4,7 +4,7 @@ require_once('../../../default/php/myRequireOnce.php');
 myRequireOnce('sql.php');
 myRequireOnce('writeLog.php');
 myRequireOnce('sql.php');
-myRequireOnce(DESTINATION, 'bibleDbtArray.php');
+myRequireOnce('bibleDbtArray.php');
 $output = '';
 return;
 $p = [];

@@ -1,6 +1,6 @@
 <?php
 
-myRequireOnce(DESTINATION, 'videoFindForCapacitorNewName.php', 'capacitor');
+myRequireOnce('videoFindForCapacitorNewName.php', 'capacitor');
 
 function videoTemplateOffline($title_phrase, $p, $offline_video_count, $bookmark)
 {

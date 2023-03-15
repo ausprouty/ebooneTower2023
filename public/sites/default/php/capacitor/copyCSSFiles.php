@@ -1,6 +1,6 @@
 <?php
-myRequireOnce(DESTINATION, 'dirList.php');
-myRequireOnce(DESTINATION, 'dirMake.php');
+myRequireOnce('dirList.php');
+myRequireOnce('dirMake.php');
 //define("ROOT_EDIT", ROOT . 'edit.mc2.online/');
 function copyCSSFiles($p)
 {

@@ -2,9 +2,9 @@
 /*
 Looking for all images and styles that are in the current file
 */
-myRequireOnce(DESTINATION, 'createDirectory.php');
-myRequireOnce(DESTINATION, 'publishDestination.php');
-myRequireOnce(DESTINATION, 'writeLog.php');
+myRequireOnce('createDirectory.php');
+myRequireOnce('publishDestination.php');
+myRequireOnce('writeLog.php');
 
 
 
