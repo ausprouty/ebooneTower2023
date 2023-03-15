@@ -17,7 +17,7 @@
         <p>For sensitive countries be sure to click "Remove External Links"</p>
         <p>
           You will find all content in {{ this.capacitor_root
-          }}{{ this.capacitor.subDirectory }}
+          }}/{{ this.capacitor.subDirectory }}
         </p>
       </div>
       <div>
@@ -86,6 +86,7 @@
         :language="language"
       />
 
+      <p>The MediaList Files  Media.bat files will be at mc2.media/lists</p>
       <p>After you make the Media List Bat files:</p>
       <ul>
         <li>Check for Errors in the error log</li>
@@ -97,11 +98,8 @@
           {{ this.$route.params.country_code }}, unzip and run the bat files -
           (They take too much processing time to run remotely.)
         </li>
-        <li>Make a zip file of the audio and video directories</li>
-        <li>
-          Then upload the zip file to sites/{{ this.site }}/media/LANGUAGE_ISO
-        </li>
-        <li>Check to see that all audio files are in the audio directory</li>
+        <li>Copy the media files to mc2.media/LANGUAGE_ISO</li>
+        <li>Verify that all media files are in this directory</li>
       </ul>
 
     </div>
@@ -197,27 +195,17 @@ export default {
     },
 
     capacitorSubDir() {
-      var sub = ''
-      var temp = ''
-      var len = this.capacitor.languages.length
-      for (var i = 0; i < len; i++) {
-        temp = sub.concat('.', this.capacitor.languages[i].language_iso)
-        sub = temp
-      }
-      this.capacitor.subDirectory = sub
+      this.capacitor.subDirectory = this.capacitor.languages[0].language_iso
       this.$store.dispatch('setCapacitorSettings', this.capacitor)
-      return sub
+      return this.capacitor.subDirectory
     },
   },
   async created() {
     this.authorized = this.authorize('write', this.$route.params)
     if (this.authorized) {
-      console.log ('You are authorized')
-      console.log (this.$route.params)
       await AuthorService.bookmark(this.$route.params)
       this.country_name = this.bookmark.country.name
       this.language_data = await CapacitorService.getLanguages(this.$route.params)
-      console.log (this.language_data)
       this.$store.dispatch('setLanguages', [this.language_data])
       var len = this.language_data.length
       for (var i = 0; i < len; i++) {

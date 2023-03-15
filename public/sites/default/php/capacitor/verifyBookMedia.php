@@ -18,6 +18,7 @@ myRequireOnce('dirMake.php');
 
 function verifyBookMedia($p)
 {
+    return 'undone';
     $output = [];
     $p = verifyBookDir($p);
 
