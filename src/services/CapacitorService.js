@@ -59,6 +59,30 @@ export default {
     params.action = 'checkStatusBook'
     return await AuthorService.aReturnContent(params)
   },
+  async createBookContent(params) {
+    params = this.initialize(params)
+    params.page = 'createBookContent'
+    params.action = 'createBookContent'
+    return await AuthorService.aReturnContent(params)
+  },
+  async createBookRouter(params) {
+    params = this.initialize(params)
+    params.page = 'createBookRouterer'
+    params.action = 'createBookRouter'
+    return await AuthorService.aReturnContent(params)
+  },
+  async createBookMediaList(params) {
+    params = this.initialize(params)
+    params.page = 'createBookMediaListk'
+    params.action = 'createBookMediaList'
+    return await AuthorService.aReturnContent(params)
+  },
+  async verifyBookMediaList(params) {
+    params = this.initialize(params)
+    params.page = 'verifyBookMediaList'
+    params.action = 'verifyBookMediaList'
+    return await AuthorService.aReturnContent(params)
+  },
   async getBuilds(params) {
     params = this.initialize(params)
     params.page = 'getBuilds'

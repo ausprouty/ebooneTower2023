@@ -2,7 +2,7 @@
 
 myRequireOnce('fileWrite.php');
 
-function routesCreateForSeries($data, $p)
+function createBookRouter($data, $p)
 {
     $series = json_decode($data['text']);
     $template = '

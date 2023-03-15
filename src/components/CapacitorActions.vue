@@ -88,14 +88,15 @@ export default {
       if (location == 'content') {
         this.content_text = 'Publishing'
         await CapacitorService.publish('seriesAndChapters', params)
-        this.progress.content = await CapacitorService.verifyBookCapacitor(params)
+        this.progress.content = await CapacitorService.createBookContent(params)
         this.content_text = 'Content '
       }
       if (location == 'router') {
         this.router_text = 'Publishing'
         await CapacitorService.publish('router', params)
-        this.progress.router = await CapacitorService.verifyBookRouter(params)
+        this.progress.router = await CapacitorService.createBookContent(params)
         this.router_text = 'Router Published'
+        this.progress.router ='done'
       }
       if (location == 'media') {
         this.media_text = 'Checking'
@@ -103,11 +104,10 @@ export default {
         this.progress.media = await CapacitorService.verifyBookMedia(params)
         this.media_text = 'Media Checked'
       }
-      
       if (location == 'videolist') {
         this.videolist_text = 'Publishing'
         await CapacitorService.publish('videoMakeBatFileForCapacitor', params)
-        this.progress.videolist = await CapacitorService.verifyBookVideoList(
+        this.progress.videolist = await CapacitorService.createBookVideoList(
           params
         )
         this.videolist_text = 'Media List Published'

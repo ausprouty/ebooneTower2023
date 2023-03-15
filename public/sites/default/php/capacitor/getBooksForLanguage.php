@@ -42,8 +42,12 @@ function _getBooksForLanguageRecnum($book)
         'folder_name' => $book->code,
         'scope' => 'series'
     );
-    writeLogDebug('getBooksForLanguageRecnum-43', $params);
     $content = getLatestContent($params);
-    writeLogDebug('getBooksForLanguageRecnum-43', $content);
-    return $content['recnum'];
+    if (isset($content['recnum'])) {
+        return $content['recnum'];
+    } else {
+        // these will be libraries
+        //writeLogAppend('ERROR - getBooksForLanguageRecnum-43', $params);
+        return null;
+    }
 }

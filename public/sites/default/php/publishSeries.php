@@ -69,17 +69,6 @@ function publishSeries($p)
                 $fname = $dir . ucfirst($p['language_iso']) . ucfirst($p['folder_name']) . 'Index.vue';
                 $fname = str_replace('mc2.sdcard/M2/', 'mc2.sdcard/views/M2/', $fname);
             }
-            if ($p['destination'] == 'capacitor') {
-                $dir = dirCreate('series', $p['destination'],  $p, $folders = null, $create = false);
-                $fname = $dir . ucfirst($p['language_iso']) . ucfirst($p['folder_name']) . 'Index.vue';
-                $fname = str_replace('mc2.capacitor/M2/', 'mc2.capacitor/views/M2/', $fname);
-                myRequireOnce('modifyTextForVue.php', 'capacitor');
-                $result['text'] = modifyTextForVue($result['text'], $bookmark);
-                writeLogDebug('publishSeries-78', $result['text']);
-                myRequireOnce('routesCreateForSeries.php', 'capacitor');
-                routesCreateForSeries($data, $p);
-            }
-
             $result['text'] .= '<!--- Created by publishSeries-->' . "\n";
             publishFiles($p['destination'], $p, $fname, $result['text'],  STANDARD_CSS, $selected_css);
             $time = time();
