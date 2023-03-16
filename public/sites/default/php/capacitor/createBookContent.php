@@ -1,4 +1,5 @@
 <?php
+// This may be redundant now  see PublishSeriesAndChapters
 
 myRequireOnce('createSeries.php');
 myRequireOnce('dirCreate.php');
@@ -32,10 +33,10 @@ function createBookContent($p)
     }
     $text = json_decode($data['text']);
     if ($text) {
-        // create Series
-        //writeLogDebug('capacitor-createBookContent-capacitor-48', 'I am going to createSeries');
+        // create Series Index
+        // writeLogDebug('capacitor-createBookContent-48', 'I am going to createSeries');
         $result = createSeries($p, $data);
-        // writeLogDebug('capacitor-createBookContent-capacitor-50', 'I returned from  createSeries');
+        //writeLogDebug('capacitor-createBookContent-50', 'I returned from  createSeries');
         $p = $result['p']; // this gives us $p['files_json']
         if ($result['text']) {
             // find css

@@ -10,7 +10,7 @@ myRequireOnce('createSeriesNavlink.php');
 function createSeries($p, $data)
 {
 
-
+    writeLogDebug('createSeries-13', $p);
     $text = json_decode($data['text']);
     // get language footer in prototypeOEpublish.php
     $footer = createLanguageFooter($p); // returns $footer
