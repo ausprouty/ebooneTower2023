@@ -31,7 +31,7 @@ function publishPage($p)
     foreach ($data as $key => $value) {
         $debug .= $key . ' => ' . $value . "\n";
     }
-    //writeLogError ('publishPage-30-debug', $debug);
+    //writeLogError ('capacitor-publishPage-30-debug', $debug);
     $text  = createPage($p, $data);
     $files_in_page  = publishFilesInPage($text, $p);
     $p['files_in_page'] = array_merge($p['files_in_page'], $files_in_page);
@@ -54,13 +54,13 @@ function publishPage($p)
     $text .= '<!--- Created by publishPage-->' . "\n";
     writeLogDebug('publishPage-ZOOM-54', $text);
     $text = addVueWrapperPage($text);
-    //writeLogDebug('publishPage-58', DESTINATION );
+    //writeLogDebug('capacitor-publishPage-58', DESTINATION );
     $series_dir = dirStandard('series', DESTINATION,  $p, $folders = null, $create = true);
     $fname = $series_dir .  ucfirst($data['language_iso'])  . ucfirst($data['filename']) . '.vue';
     writeLogAppend('publishPage-64', $fname);
     // go to publishFiles
-    // writeLogAppend('publishPage-81', DESTINATION . '    '. $fname);
+    writeLogAppend('capacitor-publishPage-81', DESTINATION . '    ' . $fname);
     publishFiles($p, $fname, $text,  STANDARD_CSS, $selected_css);
-    //writeLog ('publishPage-72-debug', $debug);//
+    //writeLog ('capacitor-publishPage-72-debug', $debug);//
     return ($p);
 }

@@ -16,8 +16,8 @@ function verifyBookContent($p)
     $content = getLatestContent($p);
     $text = json_decode($content['text']);
     $dir_series =  dirStandard('series', DESTINATION,  $p, $folders = null, $create = true);
-    if (file_exists($dir_series)) {
-        return 'ready';
+    if (!file_exists($dir_series)) {
+        return 'undone';
     }
     // now see if all items are there
 

@@ -10,6 +10,7 @@ myRequireOnce('modifyLinks.php');
 myRequireOnce('modifyNextSteps.php');
 myRequireOnce('modifyNoteArea.php');
 //myRequireOnce ('modifyReadMore.php');
+myRequireOnce('modifyTextForVue.php');
 myRequireOnce('modifyReference.php');
 myRequireOnce('modifyRevealAudio.php');
 myRequireOnce('modifyRevealBible.php');
@@ -27,7 +28,10 @@ function modifyPage($text, $p, $data, $bookmark)
 {
     //writeLogDebug('modifyPage-27', $text);
     $text = version2Text($text);
-    writeLogDebug('modifyPage-37-ZOOM', $text);
+    //writeLogDebug('modifyPage-29', $text);
+    $text = modifyTextForVue($text, $bookmark);
+
+    //writeLogDebug('modifyPage-37-ZOOM', $text);
     /* you must modify reveal video and audio before modifying external links
        reveal_big is used by site generations
     */
