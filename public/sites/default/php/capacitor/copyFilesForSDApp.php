@@ -16,7 +16,7 @@ function copyFilesForSDApp($from, $to, $line)
         createDirectory($to);
         copy($from, $to);
     } else {
-        $bad = '/sites/mc2/images/';
+        $bad = '/sites/' . SITE_CODE . '/images/';
         if (strpos($to, $bad) !== false) {
             $good = '/assets/images/';
             $to = str_replace($bad, $good, $to);

@@ -19,7 +19,7 @@ function modifyTextForVue($text, $bookmark)
 }
 function modifyTextForImages($text, $bookmark)
 {
-    $text = str_ireplace('sites/mc2/images/standard/', '@/assets/images/standard/', $text);
+    $text = str_ireplace('sites/' . SITE_CODE . '/images/standard/', '@/assets/images/standard/', $text);
     $bad = array(
         '<img src="content/',
         'src="/sites/mc2/content/M2/'

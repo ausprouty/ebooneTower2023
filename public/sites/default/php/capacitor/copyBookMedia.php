@@ -1,7 +1,7 @@
 <?php
 
-myRequireOnce('verifyBookDir.php', 'capacitor');
-myRequireOnce('verifyBook.php', 'capacitor');
+myRequireOnce('verifyBookDir.php');
+myRequireOnce('verifyBook.php');
 myRequireOnce('dirListSubdir.php');
 myRequireOnce('copyDirectory.php');
 myRequireOnce('createDirectories.php');

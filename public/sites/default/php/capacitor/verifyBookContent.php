@@ -7,7 +7,7 @@ myRequireOnce('verifyBookMedia.php', 'capacitor');
 
 
 
-
+myRequireOnce('dirStandard.php');
 
 function verifyBookContent($p)
 {
@@ -15,8 +15,8 @@ function verifyBookContent($p)
     $p['scope'] = 'series';
     $content = getLatestContent($p);
     $text = json_decode($content['text']);
-    $dir_series = $p['dir_capacitor'] . 'views/' . $p['dir_series'] . '/';
-    if (!file_exists($dir_series)) {
+    $dir_series =  dirStandard('series', DESTINATION,  $p, $folders = null, $create = true);
+    if (file_exists($dir_series)) {
         return 'ready';
     }
     // now see if all items are there

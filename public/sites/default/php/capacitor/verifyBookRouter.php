@@ -6,7 +6,7 @@ function verifyBookRouter($p)
     $dir = dirStandard('router', DESTINATION,  $p);
     $filename = 'routes' . ucfirst($p['language_iso'])  . ucfirst($p['folder_name'] . '.js');
     $router = $dir . $filename;
-    writeLogAppend('verifyBookRouter', $router);
+    writeLogAppend('capacitor-verifyBookRouter', $router);
     if (file_exists($router)) {
         return 'done';
     } else {
