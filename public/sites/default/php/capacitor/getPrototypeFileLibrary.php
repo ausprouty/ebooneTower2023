@@ -3,7 +3,7 @@ myRequireOnce('myGetPrototypeFile.php');
 function getPrototypeFileLibrary($p)
 {
 
-    $body = myGetPrototypeFile('library.vue');
+    $body = myGetPrototypeFile('library');
 
     return  $body;
 }

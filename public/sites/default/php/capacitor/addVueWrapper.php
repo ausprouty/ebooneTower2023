@@ -6,7 +6,7 @@ function addVueWrapperPage($html)
 {
     $needle = '<vue-image-zoomer';
     if (strpos($html, $needle) === false) {
-        $template = myGetPrototypeFile('page.vue');
+        $template = myGetPrototypeFile('page');
     } else {
         $template = myGetPrototypeFile('pageZoom.vue');
     }
