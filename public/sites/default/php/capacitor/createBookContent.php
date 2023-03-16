@@ -45,7 +45,7 @@ function createBookContent($p)
             }
             $bookmark  = bookmark($b);
             $selected_css = isset($bookmark['book']->style) ? $bookmark['book']->style : STANDARD_CSS;
-            $dir = dirCreate('series', $p['destination'],  $p, $folders = null, $create = false);
+            $dir = dirCreate('series', DESTINATION,  $p, $folders = null, $create = false);
             $fname = $dir . ucfirst($p['language_iso']) . ucfirst($p['folder_name']) . 'Index.vue';
             $fname = str_replace('mc2.capacitor/M2/', 'mc2.capacitor/views/M2/', $fname);
             myRequireOnce('modifyTextForVue.php', 'capacitor');
@@ -59,7 +59,7 @@ function createBookContent($p)
         }
     } else {
         $message = 'No text found for ' .  $query . "\n";
-        writeLogAppend('ERROR- createBookContent-93', $message);
+        writeLogAppend('ERROR- capacitor- createBookContent-63', $message);
     }
-    return $p;
+    return 'done';
 }

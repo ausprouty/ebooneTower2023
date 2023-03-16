@@ -6,6 +6,6 @@ function getLanguageFooter($p){
     else{
         $language_footer=  'languageFooter.html';
     }
-    $footer  =  myGetPrototypeFile( $language_footer, $p['destination']);
+    $footer  =  myGetPrototypeFile( $language_footer);
     return $footer;
 }

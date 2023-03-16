@@ -3,12 +3,13 @@ myRequireOnce('bookmark.php');
 myRequireOnce('publishFiles.php');
 myRequireOnce('writeLog.php');
 myRequireOnce('myGetPrototypeFile.php');
+myRequireOnce('createSeriesNavlink.php');
 
 
 
 function createSeries($p, $data)
 {
-    myRequireOnce('createSeriesNavlink.php', $p['destination']);
+  
 
     $text = json_decode($data['text']);
     // get language footer in prototypeOEpublish.php
@@ -28,7 +29,7 @@ function createSeries($p, $data)
     if ($data['folder_name'] == 'current' || $data['folder_name'] == 'youth-basics') {
         $this_template = myGetPrototypeFile('seriesCurrent.html', $p['destination']);
     } else {
-        if ($p['destination'] !== 'sdcard') {
+        if ($p['destination'] !== 'sdcard' && ) {
             $this_template = myGetPrototypeFile('series.html', $p['destination']);
         }
         if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor') {

@@ -88,8 +88,8 @@ export default {
       if (location == 'content') {
         this.content_text = 'Publishing'
         await CapacitorService.publish('seriesAndChapters', params)
-        var response = await CapacitorService.createBookContent(params)
-        console.log (response)
+        response = await CapacitorService.createBookContent(params)
+        console.log(response)
         this.progress.content = 'done'
         this.content_text = 'Content'
       }

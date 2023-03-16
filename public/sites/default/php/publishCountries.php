@@ -31,11 +31,11 @@ function publishCountries($p)
     // create page
     //
     // get main template and do some replacing
-    $main_template = myGetPrototypeFile('countries.html', $p['destination']);
+    $main_template = myGetPrototypeFile('countries.html');
     $main_template = str_replace('{{ version }}', VERSION, $main_template);
     $main_template = str_replace('{{ site }}', SITE_CODE, $main_template);
     // get sub template and do some replacing
-    $sub_template = myGetPrototypeFile('country.html', $p['destination']);
+    $sub_template = myGetPrototypeFile('country.html');
     $debug .=  $sub_template . "\n";
     $countries = json_decode($data['text']);
     $country_template = '';
