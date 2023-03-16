@@ -23,11 +23,10 @@ function dirMake($filename)
 	writeLogAppend('dirMake-23', $filename);
 	$file_types = array('.bat', '.html', '.js', '.json', '.mp3', '.mp4', '.wav', '.vue');
 	$parts = explode('/', $filename);
-	if (strpos($filename, '/') === 0){
+	if (strpos($filename, '/') === 0) {
 		$dir = '/';
-	}
-	else{
-		$dir = ''
+	} else {
+		$dir = '';
 	}
 	foreach ($parts as $part) {
 		$ok = true;

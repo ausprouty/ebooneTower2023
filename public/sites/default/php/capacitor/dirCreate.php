@@ -12,7 +12,7 @@ function dirCreate($scope, $destination,  $p, $folders = null, $create = true)
         case 'capacitor':
             $dir = ROOT_CAPACITOR;
             if (isset($p['capacitorsettings']->subDirectory)) {
-                $dir .= $p['capacitor_settings']->subDirectory 
+                $dir .= $p['capacitor_settings']->subDirectory;
             }
             break;
         case 'default':
@@ -23,13 +23,13 @@ function dirCreate($scope, $destination,  $p, $folders = null, $create = true)
         case 'assets':
             $dir .=  $p['language_iso'] . '/src/assets/';
             break;
-            case 'public':
+        case 'public':
             $dir .=  $p['language_iso'] . '/public/';
-                break;
+            break;
         case 'router':
             $dir .=  $p['language_iso'] . '/src/router/';
             break;
-       
+
         case 'series':
             $dir .=  $p['language_iso'] . '/src/views/' . $p['country_code']  . '/' . $p['language_iso'] . '/' . $p['folder_name'] . '/';
             break;

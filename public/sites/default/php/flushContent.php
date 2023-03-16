@@ -21,7 +21,7 @@ function flushContentCountries()
     $p = [];
     $p['scope'] = 'countries';
     $countries = getLatestContent($p);
-    flushContentInsert($countries);
+    //flushContentInsert($countries);
 }
 /*function flushContentInsert($data)
 {

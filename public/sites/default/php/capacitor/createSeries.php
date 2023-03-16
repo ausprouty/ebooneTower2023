@@ -10,7 +10,6 @@ myRequireOnce('createSeriesNavlink.php');
 function createSeries($p, $data)
 {
 
-
     $text = json_decode($data['text']);
     // get language footer in prototypeOEpublish.php
     $footer = createLanguageFooter($p); // returns $footer
@@ -107,14 +106,7 @@ function createSeries($p, $data)
     $chapters_text = '';
     if (isset($text->chapters)) {
         foreach ($text->chapters as $chapter) {
-            $status = false;
-            if ($p['destination'] == 'staging') {
-                if (isset($chapter->prototype)) {
-                    $status = $chapter->prototype;
-                }
-            } else {
-                $status = $chapter->publish;
-            }
+            $status = $chapter->publish;
             //_write_series_log($p, $chapter);
             if ($status  == true) { // we only want to process those with this as true
                 $filename = $language_dir . $chapter->filename . '.html';
@@ -145,7 +137,7 @@ function createSeries($p, $data)
                     <!-- chapter title end -->' . "\n";
                 }
 
-                $link =  $chapter->filename . '.html';
+                $link =  $p['language_iso'] . '-' . $chapter->filename;
 
 
                 $replace = array(
@@ -166,6 +158,6 @@ function createSeries($p, $data)
     }
     $out['text'] = str_replace('[[chapters]]', $chapters_text, $this_template);
     $out['p'] = $p;
-    //writeLogDebug('createSeries-161', $out);
+    //writeLogDebug('capacitor-createSeries-161', $out);
     return $out;
 }

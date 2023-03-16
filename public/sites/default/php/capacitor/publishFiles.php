@@ -7,18 +7,19 @@ myRequireOnce('createDirectory.php');
 myRequireOnce('fileWrite.php');
 myRequireOnce('getTitle.php');
 myRequireOnce('languageHtml.php');
-
+myRequireOnce('languageSpecificJavascripts.php');
 myRequireOnce('makePathsRelative.php');
 myRequireOnce('modifyHeaders.php');
 myRequireOnce('modifyImages.php');
 myRequireOnce('modifyVersion.php');
+myRequireOnce('myGetPrototypeFile.php');
 //myRequireOnce ('publishCopyImagesAndStyles.php');
-myRequireOnce('capacitor - publishFilesInPage.php');
+myRequireOnce('publishFilesInPage.php');
 myRequireOnce('createLanguageFooter.php');
 myRequireOnce('publishCSS.php');
 myRequireOnce('writeLog.php');
-myRequireOnce('myGetPrototypeFile.php');
-myRequireOnce('languageSpecificJavascripts.php');
+
+
 
 // destination must be 'staging', 'website', 'pdf'  or 'sdcard'
 function publishFiles($p, $fname, $text, $standard_css, $selected_css)
