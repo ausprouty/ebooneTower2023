@@ -47,8 +47,10 @@ function createBookRouter($data, $p)
         $text .= $item . "\n";
     }
     $text .= '];';
-    $filename = '/router/routes' . ucfirst($data['language_iso'])  . ucfirst($data['folder_name'] . '.js');
-    fileWrite($filename, $text, $p);
-    writeLogDebug('capacitor-createBookRouter-51', $filename);
+    $dir = dirCreate('router', DESTINATION,  $p);
+    $filename = 'routes' . ucfirst($p['language_iso'])  . ucfirst($p['folder_name'] . '.js');
+    $router = $dir . $filename;
+    fileWrite($router, $text, $p);
+    //writeLogDebug('capacitor-createBookRouter-51', $filename);
     return;
 }
