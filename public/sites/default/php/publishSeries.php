@@ -59,16 +59,8 @@ function publishSeries($p)
             }
             $bookmark  = bookmark($b);
             $selected_css = isset($bookmark['book']->style) ? $bookmark['book']->style : STANDARD_CSS;
-
-            if (DESTINATION != 'capacitor') {
-                $dir = dirCreate('series', DESTINATION,  $p, $folders = null, $create = true);
-                $fname = $dir . 'index.html';
-            }
-            if (DESTINATION == 'capacitor') {
-                $dir = dirCreate('series', DESTINATION,  $p, $folders = null, $create = false);
-                $fname = $dir . ucfirst($p['language_iso']) . ucfirst($p['folder_name']) . 'Index.vue';
-                writeLogAppend('publishSeries-70', $fname);
-            }
+            $dir = dirCreate('series', DESTINATION,  $p, $folders = null, $create = true);
+            $fname = $dir . 'index.html';
             $result['text'] .= '<!--- Created by publishSeries-->' . "\n";
             publishFiles($p, $fname, $result['text'],  STANDARD_CSS, $selected_css);
             $time = time();

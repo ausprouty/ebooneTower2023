@@ -197,7 +197,7 @@ export default {
     },
 
     capacitorSubDir() {
-      this.capacitor.subDirectory = this.capacitor.languages[0].language_iso
+      this.capacitor.subDirectory = this.capacitor.languages[0].language_iso + '/'
       this.$store.dispatch('setCapacitorSettings', this.capacitor)
       return this.capacitor.subDirectory
     },

@@ -87,10 +87,9 @@ export default {
       //console.log(params)
       if (location == 'content') {
         this.content_text = 'Publishing'
-        await CapacitorService.publish('seriesAndChapters', params)
         response = await CapacitorService.createBookContent(params)
         console.log(response)
-        this.progress.content = 'done'
+        this.progress.content = response
         this.content_text = 'Content'
       }
       if (location == 'router') {
@@ -98,7 +97,6 @@ export default {
         await CapacitorService.publish('router', params)
         this.progress.router = await CapacitorService.createBookContent(params)
         this.router_text = 'Router Published'
-        this.progress.router ='done'
       }
       if (location == 'media') {
         this.media_text = 'Checking'
