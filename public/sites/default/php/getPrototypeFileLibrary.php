@@ -3,7 +3,7 @@ myRequireOnce('myGetPrototypeFile.php');
 function getPrototypeFileLibrary($p)
 {
 
-    $body = myGetPrototypeFile('library.html', $p['destination']);
+    $body = myGetPrototypeFile('library');
 
     return  $body;
 }

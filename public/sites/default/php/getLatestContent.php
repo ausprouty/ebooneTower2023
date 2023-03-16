@@ -110,7 +110,7 @@ function getLatestContent($p)
                 if (!isset($p['destination'])) {
                     $p['destination'] = 'website';
                 }
-                $out['text'] =  myGetPrototypeFile('library.json', $p['destination']);
+                $out['text'] =  myGetPrototypeFile('library.json');
             } else {
                 $debug .= 'No default ' . "\n";
                 $out['text'] =  null;

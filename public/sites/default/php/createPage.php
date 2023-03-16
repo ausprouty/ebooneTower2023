@@ -25,9 +25,9 @@ function createPage($p, $content)
         writeLogError('createPage-20', $debug);
     }
     if ($bookmark['book']->format == 'series') {
-        $this_template = myGetPrototypeFile('pageInSeries.html', $p['destination']);
+        $this_template = myGetPrototypeFile('pageInSeries.html');
         // insert nav bar and set ribbon value and link value
-        $nav = myGetPrototypeFile('navRibbon.html', $p['destination']);
+        $nav = myGetPrototypeFile('navRibbon.html');
         $this_template = str_replace('[[nav]]', $nav, $this_template);
         $ribbon = isset($bookmark['library']->format->back_button) ? $bookmark['library']->format->back_button->image : DEFAULT_BACK_RIBBON;
         $navlink = 'index.html';
@@ -37,9 +37,9 @@ function createPage($p, $content)
     }
     // values for page that is not part of a series
     if ($bookmark['book']->format == 'page') {
-        $this_template = myGetPrototypeFile('page.html', $p['destination']);
+        $this_template = myGetPrototypeFile('page');
         // insert nav bar
-        $nav = myGetPrototypeFile('navRibbon.html', $p['destination']);
+        $nav = myGetPrototypeFile('navRibbon.html');
         $this_template = str_replace('[[nav]]', $nav, $this_template);
         $ribbon = isset($bookmark['library']->format->back_button->image) ? $bookmark['library']->format->back_button->image : DEFAULT_BACK_RIBBON;
         // this will work if there is no special library index.

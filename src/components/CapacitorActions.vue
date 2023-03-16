@@ -124,9 +124,7 @@ export default {
     var params = this.book
     params.capacitor_settings = JSON.stringify(this.capacitorSettings)
     params.progress = JSON.stringify(this.progress)
-    console.log(params)
     this.progress = await CapacitorService.checkStatusBook(params)
-    console.log(this.progress)
   },
 }
 </script>

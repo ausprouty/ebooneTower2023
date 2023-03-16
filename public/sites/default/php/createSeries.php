@@ -9,7 +9,7 @@ myRequireOnce('createSeriesNavlink.php');
 
 function createSeries($p, $data)
 {
-  
+
 
     $text = json_decode($data['text']);
     // get language footer in prototypeOEpublish.php
@@ -27,17 +27,10 @@ function createSeries($p, $data)
     // replace placeholders in template
     // Note: Current  is unique in that only has one book in the series.
     if ($data['folder_name'] == 'current' || $data['folder_name'] == 'youth-basics') {
-        $this_template = myGetPrototypeFile('seriesCurrent.html', $p['destination']);
+        $this_template = myGetPrototypeFile('seriesCurrent.html');
     } else {
-        if ($p['destination'] !== 'sdcard' && ) {
-            $this_template = myGetPrototypeFile('series.html', $p['destination']);
-        }
-        if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor') {
-            $this_template = myGetPrototypeFile('series.vue', $p['destination']);
-            // writeLogDebug('createSeries-33',  $this_template);
-        }
-        // insert nav bar
-        $nav = myGetPrototypeFile('navRibbon.html', $p['destination']);
+        $this_template = myGetPrototypeFile('series');
+        $nav = myGetPrototypeFile('navRibbon.html');
         $this_template = str_replace('[[nav]]', $nav, $this_template);
     }
 
@@ -98,8 +91,8 @@ function createSeries($p, $data)
     //
     // get chapter template
     //
-    $chapterText_template = myGetPrototypeFile('chapterText.html', $p['destination']);
-    $chapterImage_template = myGetPrototypeFile('chapterImage.html', $p['destination']);
+    $chapterText_template = myGetPrototypeFile('chapterText.html');
+    $chapterImage_template = myGetPrototypeFile('chapterImage.html');
     $placeholders = array(
         '{{ link }}',
         '{{ language.rldir }}',

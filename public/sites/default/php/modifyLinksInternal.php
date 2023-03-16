@@ -11,7 +11,7 @@ myRequireOnce('modifyLinksMakeRelative.php');
 
 function  modifyLinksInternal($text, $find, $p)
 {
-    $template = myGetPrototypeFile('linkInternal.html', $p['destination']);
+    $template = myGetPrototypeFile('linkInternal.html');
     //todo: fix for pdf links.
     $template_pdf = '<a target= "_blank" href="/content/[link]">';
 
