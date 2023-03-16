@@ -1,5 +1,5 @@
 <?php
-myRequireOnce('dirCreate.php');
+myRequireOnce('dirStandard.php');
 myRequireOnce('fileWrite.php');
 myRequireOnce('writeLog.php');
 
@@ -30,7 +30,7 @@ function editTemplate($p)
     return false;
   }
   // $template_dir = ROOT_EDIT_CONTENT . $p['country_code'] .'/'. $p['language_iso'] .'/templates/';
-  $template_dir = dirCreate('language', 'edit',  $p,  'templates/');
+  $template_dir = dirStandard('language', 'edit',  $p,  'templates/');
 
   // make sure this is an html file
   if (strpos($p['template'], '.html') === FALSE) {

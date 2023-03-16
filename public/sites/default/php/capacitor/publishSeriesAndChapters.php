@@ -18,8 +18,8 @@ function publishSeriesAndChapters($p)
     $out = publishSeries($p);
     if (!isset($out['files_json'])) {
         $message = 'No files_json returned from Publish Series';
-        writeLogError('publishSeriesAndChapters-17', $message);
-        writeLogError('publishSeriesAndChapters-18', $p);
+        writeLogError('capacitor-publishSeriesAndChapters-17', $message);
+        writeLogError('capacitor-publishSeriesAndChapters-18', $p);
         // this will happen if you have a sublibrary
     }
     $files_json = $out['files_json']; // this starts file for download of series
@@ -33,7 +33,7 @@ function publishSeriesAndChapters($p)
     //writeLogAppend('publishSeriesAndChapters-30', $cache);
     $files_in_pages =  $cache['files_included'];
     $chapters = $text->chapters;
-    writeLogDebug('publishSeriesAndChapters-33', $p);
+    writeLogDebug('capacitor-publishSeriesAndChapters-33', $p);
     foreach ($chapters as $chapter) {
         // it is possible that the server has finished the previous task and has
         // deleted the cache.  You do not want to do everything over again.
@@ -68,23 +68,8 @@ function publishSeriesAndChapters($p)
                     }
                 }
             } else {
-                // find file and add to database
-                $series_dir = dirCreate('series', DESTINATION,  $p, $folders = null, $create = false);
-                $file =   $series_dir .  $chapter->filename . '.html';
-                if (file_exists($file)) {
-                    $p['text'] = file_get_contents($file);
-                    $p['filename'] = $chapter->filename;
-                    createContent($p);
-                    $data = sqlArray($sql);
-                    $p['recnum'] = $data['recnum'];
-                    $result =  publishPage($p);
-                    if (is_array($result['files_in_page'])) {
-                        $files_in_pages = publishSeriesAndChaptersCombineArrays($files_in_pages, $result['files_in_page']);
-                    }
-                } else {
-                    $message = 'NO RESULT for ' . $file . "\n";
-                    writeLogError('publishSeriesAndChapters-66', $message);
-                }
+                $message = 'No data found for ' . $chapter->filename;
+                trigger_error($message, E_USER_ERROR);
             }
         }
 

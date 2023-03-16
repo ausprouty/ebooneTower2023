@@ -1,6 +1,6 @@
 <?php
 
-myRequireOnce('dirCreate.php');
+myRequireOnce('dirStandard.php');
 myRequireOnce('myGetPrototypeFile.php');
 myRequireOnce('writeLog.php');
 

@@ -1,6 +1,6 @@
 <?php
 myRequireOnce('writeLog.php');
-myRequireOnce('dirCreate.php');
+myRequireOnce('dirStandard.php');
 myRequireOnce('decidePublishBook.php');
 myRequireOnce('getLibraryImage.php');
 myRequireOnce('getPrototypeFileLibrary.php';
@@ -143,7 +143,7 @@ function createLibrary($p, $text)
                     if (isset($book->image->image)) {
                         $book_image =  $book->image->image;
                     } else {
-                        $country_index =  dirCreate('country', DESTINATION, $p);
+                        $country_index =  dirStandard('country', DESTINATION, $p);
                         $book_image =   $country_index .  $bookmark['language']->image_dir . '/' . $book->image;
                     }
                     /* change 

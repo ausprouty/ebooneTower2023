@@ -10,7 +10,7 @@ define("ROOT_STAGING", '/home/globa544/test_staging.mc2.online/');
 define("ROOT_WEBSITE", '/home/globa544/test_publish.mc2.online/');
 define("ROOT_SDCARD", ROOT . 'mc2.sdcard');
 */
-function dirCreate($scope, $destination,  $p, $folders = null, $create = true)
+function dirStandard($scope, $destination,  $p, $folders = null, $create = true)
 {
     $dir = '';
     switch ($destination) {
@@ -34,12 +34,6 @@ function dirCreate($scope, $destination,  $p, $folders = null, $create = true)
             $dir = ROOT_SDCARD;
             if (isset($p['sdcard_settings']->subDirectory)) {
                 $dir .= $p['sdcard_settings']->subDirectory . '/views/';
-            }
-            break;
-        case 'capacitor':
-            $dir = ROOT_CAPACITOR;
-            if (isset($p['capacitorsettings']->subDirectory)) {
-                $dir .= $p['capacitor_settings']->subDirectory . '/views/';
             }
             break;
         case 'root':

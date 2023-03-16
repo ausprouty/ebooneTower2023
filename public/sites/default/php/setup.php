@@ -1,7 +1,7 @@
 <?php
 myRequireOnce('create.php');
 myRequireOnce('copyGlobal.php');
-myRequireOnce('dirCreate.php');
+myRequireOnce('dirStandard.php');
 myRequireOnce('writeLog.php');
 
 
@@ -14,8 +14,8 @@ function setupImageFolder($p)
 		return null;
 	}
 	copyGlobal(
-		dirCreate('country', 'edit',  $p, $folders = 'images/standard/'),
-		dirCreate('language', 'edit',  $p, $folders = 'images/standard/')
+		dirStandard('country', 'edit',  $p, $folders = 'images/standard/'),
+		dirStandard('language', 'edit',  $p, $folders = 'images/standard/')
 	);
 	$out = 'success';
 	return $out;
@@ -33,7 +33,7 @@ function setupTemplatesLanguage($p)
 		trigger_error($message, E_USER_ERROR);
 		return null;
 	}
-	$template_dir = dirCreate('country', 'edit',  $p, $folders = 'templates');
+	$template_dir = dirStandard('country', 'edit',  $p, $folders = 'templates');
 	$p['folder_name'] = array();
 	$dir = new DirectoryIterator($template_dir);
 	foreach ($dir as $fileinfo) {
@@ -42,8 +42,8 @@ function setupTemplatesLanguage($p)
 			writeLogError('setupTemplatesLanguage-' . $count, $folders);
 			$count++;
 			copyGlobal(
-				dirCreate('country', 'edit',  $p, $folders),
-				dirCreate('language', 'edit',  $p, $folders)
+				dirStandard('country', 'edit',  $p, $folders),
+				dirStandard('language', 'edit',  $p, $folders)
 			);
 			$out = 'success';
 		}

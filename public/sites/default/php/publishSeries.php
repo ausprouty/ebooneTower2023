@@ -1,7 +1,7 @@
 <?php
 
 myRequireOnce('createSeries.php');
-myRequireOnce('dirCreate.php');
+myRequireOnce('dirStandard.php');
 myRequireOnce('publishFiles.php');
 myRequireOnce('publicationCache.php');
 
@@ -59,7 +59,7 @@ function publishSeries($p)
             }
             $bookmark  = bookmark($b);
             $selected_css = isset($bookmark['book']->style) ? $bookmark['book']->style : STANDARD_CSS;
-            $dir = dirCreate('series', DESTINATION,  $p, $folders = null, $create = true);
+            $dir = dirStandard('series', DESTINATION,  $p, $folders = null, $create = true);
             $fname = $dir . 'index.html';
             $result['text'] .= '<!--- Created by publishSeries-->' . "\n";
             publishFiles($p, $fname, $result['text'],  STANDARD_CSS, $selected_css);

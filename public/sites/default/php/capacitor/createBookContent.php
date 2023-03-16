@@ -2,7 +2,7 @@
 // This may be redundant now  see PublishSeriesAndChapters
 
 myRequireOnce('createSeries.php');
-myRequireOnce('dirCreate.php');
+myRequireOnce('dirStandard.php');
 myRequireOnce('publishFiles.php');
 myRequireOnce('publicationCache.php');
 myRequireOnce('modifyTextForVue.php');
@@ -48,7 +48,7 @@ function createBookContent($p)
             }
             $bookmark  = bookmark($b);
             $selected_css = isset($bookmark['book']->style) ? $bookmark['book']->style : STANDARD_CSS;
-            $dir = dirCreate('series', DESTINATION,  $p, $folders = null, $create = false);
+            $dir = dirStandard('series', DESTINATION,  $p, $folders = null, $create = false);
             $fname = $dir . ucfirst($p['language_iso']) . ucfirst($p['folder_name']) . 'Index.vue';
             writeLogDebug('capacitor-createBookContent-50', $fname);
             //$fname = str_replace('mc2.capacitor/M2/', 'mc2.capacitor/views/M2/', $fname);

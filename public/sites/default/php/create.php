@@ -1,5 +1,5 @@
 <?php
-myRequireOnce('dirCreate.php');
+myRequireOnce('dirStandard.php');
 myRequireOnce('writeLog.php');
 
 //// add content to database
@@ -66,7 +66,7 @@ function createContent($p)
 function createContentFolder($p)
 {
 	//$dir = ROOT_EDIT_CONTENT . $p['country_code']. '/'. $p['language_iso'] . '/'. $p['$folder_name'];
-	$dir = dirCreate('series', 'edit',  $p);
+	$dir = dirStandard('series', 'edit',  $p);
 
 	return "Success";
 }
@@ -74,7 +74,7 @@ function createDirectoryLanguages($p)
 {
 	$languages = json_decode($p['text']);
 	foreach ($langauges as $language_iso) {
-		$dir = dirCreate('language', 'edit',  $p);
+		$dir = dirStandard('language', 'edit',  $p);
 	}
 	return "Success";
 }
@@ -94,7 +94,7 @@ function createSeriesIndex($p)
 		return NULL;
 	}
 	$content = '[]';
-	$file_index = dirCreate('series', 'edit',  $p) . 'index.html';
+	$file_index = dirStandard('series', 'edit',  $p) . 'index.html';
 	$debug .= 'index: ' . $file_index  . "\n";
 	if (!file_exists($file_index)) {
 		$fh = fopen($file_index, 'w');
@@ -121,7 +121,7 @@ function createStyle($p)
 			$valid = false;
 	}
 	if ($valid) {
-		$dir = dirCreate('country', 'edit',  $p) . 'styles/';
+		$dir = dirStandard('country', 'edit',  $p) . 'styles/';
 
 		$fname = $dir . $_FILES["file"]["name"];
 		$debug .= 'fname: ' . $fname . "\n";
@@ -149,7 +149,7 @@ function createTemplate($p)
 	}
 	if ($valid) {
 		if (isset($p['$folder_name'])) {
-			$dir = dirCreate('language', 'edit',  $p) . 'templates/' . $p['$folder_name'];
+			$dir = dirStandard('language', 'edit',  $p) . 'templates/' . $p['$folder_name'];
 			$fname = $dir . '/' . $_FILES["file"]["name"];
 
 			if (move_uploaded_file($_FILES["file"]["tmp_name"], $fname)) {

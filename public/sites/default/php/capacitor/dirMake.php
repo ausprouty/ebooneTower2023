@@ -13,21 +13,23 @@ function dirMake($filename)
 	if (
 		strpos($filename, ROOT_EDIT) === FALSE &&
 		strpos($filename, ROOT_STAGING) === FALSE &&
-		strpos($filename, ROOT_APK) === FALSE &&
-		strpos($filename, ROOT_SDCARD) === FALSE &&
 		strpos($filename, ROOT_CAPACITOR) === FALSE &&
 		strpos($filename, ROOT_WEBSITE) === FALSE
 	) {
 		$filename = ROOT_EDIT .  $filename;
 	}
-	writeLogAppend('dirMake-23', $filename);
+	//writeLogAppend('capacitor-dirMake-23', $filename);
 	$file_types = array('.bat', '.html', '.js', '.json', '.mp3', '.mp4', '.wav', '.vue');
 	$parts = explode('/', $filename);
-	if (strpos($filename, '/') === 0) {
+	/*if (strpos($filename, '/') == 0) {
+		writeLogAppend('capacitor-dirMake-27', $filename);
 		$dir = '/';
 	} else {
+		writeLogAppend('capacitor-dirMake-29', $filename);
 		$dir = '';
 	}
+	*/
+	$dir = '';
 	foreach ($parts as $part) {
 		$ok = true;
 		foreach ($file_types as $type) {
@@ -37,7 +39,7 @@ function dirMake($filename)
 		}
 		if ($ok) {
 			$dir .= $part . '/';
-			writeLogAppend('dirMake-41', $dir);
+			//writeLogAppend('capacitor-dirMake-41', $dir);
 			if (!file_exists($dir)) {
 				mkdir($dir);
 			}

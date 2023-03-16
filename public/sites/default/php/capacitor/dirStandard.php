@@ -5,7 +5,7 @@ myRequireOnce('dirMake.php');
 
 define("ROOT_SDCARD", ROOT . 'mc2.sdcard');
 */
-function dirCreate($scope, $destination,  $p, $folders = null, $create = true)
+function dirStandard($scope, $destination,  $p, $folders = null, $create = true)
 {
     $dir = '';
     switch ($destination) {

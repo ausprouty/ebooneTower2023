@@ -1,5 +1,5 @@
 <?php
-myRequireOnce('dirCreate.php');
+myRequireOnce('dirStandard.php');
 
 myRequireOnce('publishFiles.php');
 myRequireOnce('myGetPrototypeFile.php');
@@ -92,7 +92,7 @@ function publishLanguagesAvailable($p)
     // write file
     //
     $fname =  '/content/' . SITE_CODE . '/' .  $p['country_code'] . '/' . 'languages.html';
-    $fname =  dirCreate('country', DESTINATION, $p) . 'languages.html';
+    $fname =  dirStandard('country', DESTINATION, $p) . 'languages.html';
 
     $debug .= "Copied Languages available to $fname \n";
     $body .= '<!--- Created by publishLanguagesAvailable-->' . "\n";

@@ -4,7 +4,7 @@
 //myRequireOnce ('setup.php');
 //myRequireOnce ('copyGlobal.php');
 
-myRequireOnce('dirCreate.php');
+myRequireOnce('dirStandard.php');
 
 function setupLanguageFolder($p)
 {
@@ -21,9 +21,9 @@ function setupLanguageFolder($p)
 		return false;
 	}
 
-	dirCreate('language', 'edit',  $p, 'images/standard');
-	dirCreate('language', 'edit',  $p, 'images/custom');
-	dirCreate('language', 'edit',  $p, 'templates/');
-	dirCreate('language', 'edit',  $p, 'javascript/');
+	dirStandard('language', 'edit',  $p, 'images/standard');
+	dirStandard('language', 'edit',  $p, 'images/custom');
+	dirStandard('language', 'edit',  $p, 'templates/');
+	dirStandard('language', 'edit',  $p, 'javascript/');
 	return true;
 }

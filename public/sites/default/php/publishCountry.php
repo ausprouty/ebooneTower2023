@@ -1,6 +1,6 @@
 <?php
 myRequireOnce('copyGlobal.php');
-myRequireOnce('dirCreate.php');
+myRequireOnce('dirStandard.php');
 myRequireOnce('publishFiles.php');
 
 
@@ -25,24 +25,24 @@ function publishCountry($p)
     //
     // make sure Country directories are current
     copyGlobal(
-        dirCreate('country', 'edit',  $p, 'images/'),
-        dirCreate('country', $p['destination'],  $p, 'images/')
+        dirStandard('country', 'edit',  $p, 'images/'),
+        dirStandard('country', $p['destination'],  $p, 'images/')
     );
     copyGlobal(
-        dirCreate('country', 'edit',  $p, 'styles/'),
-        dirCreate('country', $p['destination'],  $p, 'styles/')
+        dirStandard('country', 'edit',  $p, 'styles/'),
+        dirStandard('country', $p['destination'],  $p, 'styles/')
     );
 
     //
     // make sure Language directories are current
     //
     copyGlobal(
-        dirCreate('language', 'edit',  $p, 'images/'),
-        dirCreate('language', $p['destination'],  $p, 'images/')
+        dirStandard('language', 'edit',  $p, 'images/'),
+        dirStandard('language', $p['destination'],  $p, 'images/')
     );
     copyGlobal(
-        dirCreate('language', 'edit',  $p, 'styles/'),
-        dirCreate('language', $p['destination'],  $p, 'styles/')
+        dirStandard('language', 'edit',  $p, 'styles/'),
+        dirStandard('language', $p['destination'],  $p, 'styles/')
     );
 
     $text = json_decode($data['text']);
@@ -55,13 +55,13 @@ function publishCountry($p)
     $body .= '</div>' . "\n";
 
     //
-    $country_dir_destination = dirCreate('country', '',  $p, $folders = null, $create = true);
+    $country_dir_destination = dirStandard('country', '',  $p, $folders = null, $create = true);
     $file = $country_dir_destination . '/index.html';
     $p['selected_css'] = 'AU/styles/AU-freeform.css';
     // write coutnry file
     $body .= '<!--- Created by prototypeCountry-->' . "\n";
     $p = publishFiles($p, $file, $body,   $p['standard_css'],  $p['selected_css']);
-    $language_dir_destination = dirCreate('language', '',  $p, $folders = null, $create = true);
+    $language_dir_destination = dirStandard('language', '',  $p, $folders = null, $create = true);
     $file = $language_dir_destination . '/index.html';
     $p = publishFiles($p, $file, $body, $p['standard_css'], $p['selected_css']);
 
