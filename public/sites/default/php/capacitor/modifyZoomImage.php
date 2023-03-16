@@ -73,7 +73,8 @@ function  modifyZoomImageGetImageRegular($image, $p)
     $find = '/images/';
     $pos_start = strpos($image, $find) + strlen($find);
     $raw = substr($image, $pos_start);
-    $output = '/images/zoom/' . $raw;
+    $dir_zoom = dirStandard('zoom', DESTINATION,  $p, $folders = null, $create = true);
+    $output = $dir_zoom . $raw;
     modifyZoomImageCopyImage($image, $output, $p);
     //writeLogDebug('capacitor-modifyZoomImageGetImageRegular-69', $output);
     return $output;
@@ -83,7 +84,8 @@ function   modifyZoomImageGetImageZoom($image)
     $find = '/images/';
     $pos_start = strpos($image, $find) + strlen($find);
     $raw = substr($image, $pos_start);
-    $output = '/images/zoom/' . $raw;
+    $dir_zoom = dirStandard('zoom', DESTINATION,  $p, $folders = null, $create = true);
+    $output = $dir_zoom . $raw;
     return $output;
 }
 //root edit is sites/' . SITE_CODE . '/content/'

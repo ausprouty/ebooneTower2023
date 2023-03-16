@@ -29,6 +29,9 @@ function dirStandard($scope, $destination,  $p, $folders = null, $create = true)
         case 'series':
             $dir .=  $p['language_iso'] . '/src/views/' . $p['country_code']  . '/' . $p['language_iso'] . '/' . $p['folder_name'] . '/';
             break;
+        case 'zoom':
+            $dir .=  $p['language_iso'] . '/public/images/zoom/';
+            break;
         case 'default':
     }
     $dir .= $folders;
