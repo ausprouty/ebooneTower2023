@@ -58,7 +58,7 @@ function createBookContent($p)
             $time = time();
         }
     } else {
-        $message = 'No text found for ' .  $query . "\n";
+        $message = 'No text found for ' .  $query . "\n This may be an index.";
         writeLogAppend('ERROR- capacitor- createBookContent-63', $message);
     }
     return 'done';

@@ -1,9 +1,8 @@
 <?php
-// make directory if not found. No directory can have words '.bat','.html', '.json', '.mp3', '.mp4', '.wav')
+// make directory if not found. No directory can have words '.bat','.html', '.json', '.mp3', '.mp4', '.wav', '.vue)
 myRequireOnce('writeLog.php');
 function dirMake($filename)
 {
-	$dir = '';
 	$filename = rtrim($filename);
 	if (strpos($filename, '//') !== FALSE) {
 		$filename = str_ireplace('//', '/', $filename);
@@ -24,6 +23,12 @@ function dirMake($filename)
 	writeLogAppend('dirMake-23', $filename);
 	$file_types = array('.bat', '.html', '.js', '.json', '.mp3', '.mp4', '.wav', '.vue');
 	$parts = explode('/', $filename);
+	if (strpos($filename, '/') === 0){
+		$dir = '/';
+	}
+	else{
+		$dir = ''
+	}
 	foreach ($parts as $part) {
 		$ok = true;
 		foreach ($file_types as $type) {
@@ -33,7 +38,7 @@ function dirMake($filename)
 		}
 		if ($ok) {
 			$dir .= $part . '/';
-			//writeLogAppend('dirMake-24', $dir);
+			writeLogAppend('dirMake-41', $dir);
 			if (!file_exists($dir)) {
 				mkdir($dir);
 			}
