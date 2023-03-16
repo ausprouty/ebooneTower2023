@@ -15,7 +15,7 @@ myRequireOnce('writeLog.php');
 myRequireOnce('publishLanguages.php');
 myRequireOnce('dirListFiles.php');
 myRequireOnce('dirMake.php');
-myRequireOnce('verifyBookDir.php', 'capacitor');
+myRequireOnce('verifyBookDir.php');
 
 function verifyLanguageIndex($p)
 {

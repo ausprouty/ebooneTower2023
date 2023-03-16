@@ -1,5 +1,5 @@
 <?php
-myRequireOnce('copyFilesForSDApp.php', 'capacitor');
+myRequireOnce('copyFilesForCapacitor.php');
 
 function publishFilesInCapacitorPage($filename, $p, $destination)
 {
@@ -21,7 +21,7 @@ function publishFilesInCapacitorPage($filename, $p, $destination)
         $from = str_replace('//', '/', $from);
         writeLogAppend('publishFilesInCapacitorPage-20', $from);
         if (file_exists($from)) {
-            copyFilesForSDApp($from, $to, 23);
+            copyFilesForCapacitor($from, $to, 23);
         } else {
 
             /*
@@ -50,7 +50,7 @@ function publishFilesInCapacitorPage($filename, $p, $destination)
                 // @/assets/images/standard/Stories-of-Hope.png
             }
             if (file_exists($from)) {
-                copyFilesForSDApp($from, $to, 52);
+                copyFilesForCapacitor($from, $to, 52);
             }
             if (!file_exists($from)) {
                 /* check country directory
@@ -66,7 +66,7 @@ function publishFilesInCapacitorPage($filename, $p, $destination)
                 $from = str_ireplace($cc . $cc, $cc, $from);
                 $from = str_ireplace('//', '/', $from);
                 if (file_exists($from)) {
-                    copyFilesForSDApp($from, $to, 69);
+                    copyFilesForCapacitor($from, $to, 69);
                 } else {
                     $message = "$from -- modified not found\n$filename -- original file\n\n";
                     writeLogAppend('ERRORS-publishFilesInCapacitorPage-72', $message);
@@ -99,7 +99,7 @@ function publishFilesInCapacitorPage($filename, $p, $destination)
         }
         $from =  ROOT_EDIT  . $from;
         if (file_exists($from)) {
-            copyFilesForSDApp($from, $to, 107);
+            copyFilesForCapacitor($from, $to, 107);
         }
         if (!file_exists($from)) {
             /*
@@ -108,7 +108,7 @@ function publishFilesInCapacitorPage($filename, $p, $destination)
             */
             $try = str_replace('images/', '', $from);
             if (file_exists($try)) {
-                copyFilesForSDApp($try, $to, 111);
+                copyFilesForCapacitor($try, $to, 111);
             } else {
                 $message = "$filename -- original file\n$from -- not found\n$try -- not found\n\n";
                 writeLogAppend('ERRORS-publishFilesInCapacitorPage-115', $message);

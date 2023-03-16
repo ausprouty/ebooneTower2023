@@ -2,8 +2,8 @@
 myRequireOnce('getLatestContent.php');
 myRequireOnce('writeLog.php');
 myRequireOnce('dirMake.php');
-myRequireOnce('verifyBookDir.php', 'capacitor');
-myRequireOnce('verifyBookMedia.php', 'capacitor');
+myRequireOnce('verifyBookDir.php');
+myRequireOnce('verifyBookMedia.php');
 
 
 
@@ -22,11 +22,13 @@ function verifyBookContent($p)
     // now see if all items are there
 
     $ok = true;
-    foreach ($text->chapters as $chapter) {
-        if ($chapter->publish) {
-            $filename =  $dir_series . $chapter->filename . '.vue';
-            if (!file_exists($filename)) {
-                $ok = false;
+    if (isset($text->chapters)) {
+        foreach ($text->chapters as $chapter) {
+            if ($chapter->publish) {
+                $filename =  $dir_series . $chapter->filename . '.vue';
+                if (!file_exists($filename)) {
+                    $ok = false;
+                }
             }
         }
     }

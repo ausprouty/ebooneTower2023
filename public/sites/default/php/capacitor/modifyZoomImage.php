@@ -19,7 +19,7 @@ Output:
 */
 
 myRequireOnce('modifyZoomImageGet.php');
-myRequireOnce('copyFilesForSDApp.php', 'capacitor');
+myRequireOnce('copyFilesForCapacitor.php');
 myRequireOnce('writeLog.php');
 
 
@@ -132,5 +132,5 @@ function copyFilesForZoom($from, $to)
 {
     $message = "$from > $to\n";
     writeLogAppend('WATCH-copyFilesForZoom-126', $message);
-    copyFilesForSDApp($from, $to, 'zoom');
+    copyFilesForCapacitor($from, $to, 'zoom');
 }

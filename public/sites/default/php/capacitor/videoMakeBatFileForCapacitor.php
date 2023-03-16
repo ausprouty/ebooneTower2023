@@ -3,9 +3,9 @@
 myRequireOnce('dirMake.php');
 myRequireOnce('writeLog.php');
 myRequireOnce('modifyRevealVideo.php');
-myRequireOnce('videoFindForCapacitorNewName.php', 'capacitor');
-myRequireOnce('audioMakeRefFileForCapacitor.php', 'capacitor');
-myRequireOnce('videoReference.php', 'capacitor');
+myRequireOnce('videoFindForCapacitorNewName.php');
+myRequireOnce('audioMakeRefFileForCapacitor.php');
+myRequireOnce('videoReference.php');
 
 
 function videoMakeBatFileForCapacitor($p)

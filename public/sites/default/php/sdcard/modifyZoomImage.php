@@ -19,7 +19,7 @@ Output:
 */
 
 myRequireOnce('modifyZoomImageGet.php');
-myRequireOnce('copyFilesForSDApp.php', 'sdcard');
+myRequireOnce('copyFilesForSDApp.php');
 myRequireOnce('writeLog.php');
 
 
