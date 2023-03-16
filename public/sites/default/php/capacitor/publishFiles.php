@@ -13,7 +13,7 @@ myRequireOnce('modifyHeaders.php');
 myRequireOnce('modifyImages.php');
 myRequireOnce('modifyVersion.php');
 //myRequireOnce ('publishCopyImagesAndStyles.php');
-myRequireOnce('publishFilesInPage.php');
+myRequireOnce('capacitor - publishFilesInPage.php');
 myRequireOnce('createLanguageFooter.php');
 myRequireOnce('publishCSS.php');
 myRequireOnce('writeLog.php');
@@ -28,7 +28,7 @@ function publishFiles($p, $fname, $text, $standard_css, $selected_css)
     $file_name_parts = explode('/', $fname);
     $fsname = array_pop($file_name_parts);
     $fsname = str_replace('.html', '', $fsname);
-    //// //writeLogDebug('publishFile-24-'. $fsname, $text);
+    //// //writeLogDebug('capacitor - publishFile-24-'. $fsname, $text);
     // some libary indexes have a name of meet.html with then gets appended with another html
     if (strpos($fname, '.html.html') !== false) {
         $fname = str_replace('.html.html', '.html', $fname);
@@ -37,13 +37,6 @@ function publishFiles($p, $fname, $text, $standard_css, $selected_css)
     $output = myGetPrototypeFile('header.html');
     // add onload only if files are here
     $onload_note_js = '';
-    if (strpos($text, '<form') !== false) {
-        $pos = strrpos($fname, '/') + 1;
-        $filename = substr($fname, $pos);
-        $note_index = $p['country_code'] . '-' . $p['language_iso'] . '-' . $p['folder_name'] . '-' . $filename;
-        $onload_note_js = ' onLoad= "showNotes(\'' . $note_index . '\')" ';
-        $output .= '<!--- publishFiles added onLoad -->' . "\n";
-    }
     if (strpos($text, '<div class="header') !== false) {
         $result = modifyHeaders($text);
         $text = $result['text'];
@@ -51,15 +44,12 @@ function publishFiles($p, $fname, $text, $standard_css, $selected_css)
     } else {
         $headers = ' ';
     }
-    if ($destination != 'staging') {
-        // class="nobreak" need to be changed to class="nobreak-final" so color is correct
-        $text = str_ireplace("nobreak", "nobreak-final", $text);
-    }
+    // class="nobreak" need to be changed to class="nobreak-final" so color is correct
+    $text = str_ireplace("nobreak", "nobreak-final", $text);
     $title = WEBSITE_TITLE;
     if (isset($p['recnum'])) {
         $title .= ' ' . getTitle($p['recnum']);
     }
-
     $language_iso = isset($p['language_iso']) ? $p['language_iso'] : DEFAULT_LANGUAGE_ISO;
     $language_google = languageHtml($p['language_iso']);
     $placeholders = array(
@@ -85,7 +75,7 @@ function publishFiles($p, $fname, $text, $standard_css, $selected_css)
         ''
     );
     $output = str_replace($placeholders, $replace,  $output);
-    //// //writeLogDebug('publishFile-82-'. $fsname, $output);
+    //writeLogDebug('capacitor - publishFile-82-'. $fsname, $output);
     // insert text
     $output .= $text;
     // remove dupliate CSS
@@ -100,7 +90,10 @@ function publishFiles($p, $fname, $text, $standard_css, $selected_css)
     $output = modifyImages($output, $p);
     // make sure  all files are copied to destination directory
     publishFilesInPage($output, $p);
-    writeLogDebug('publishFile-109-ZOOM',  $output);
+
+    //writeLogDebug('capacitor - publishFile-106-ZOOM',  $output);
+    $output = makePathsRelative($output, $fname);
+    writeLogDebug('capacitor - publishFile-109-ZOOM',  $output);
     fileWrite($fname, $output, $p);
     return $output;
 }
