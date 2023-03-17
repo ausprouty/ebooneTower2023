@@ -29,7 +29,7 @@ function modifyPage($text, $p, $data, $bookmark)
     //writeLogDebug('modifyPage-27', $text);
     $text = version2Text($text);
     //writeLogDebug('modifyPage-29', $text);
-    $text = modifyTextForVue($text, $bookmark);
+    $text = modifyTextForVue($text, $bookmark, $p);
 
     //writeLogDebug('modifyPage-37-ZOOM', $text);
     /* you must modify reveal video and audio before modifying external links

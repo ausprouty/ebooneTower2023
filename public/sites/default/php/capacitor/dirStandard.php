@@ -47,6 +47,6 @@ function dirStandard($scope, $destination,  $p, $folders = null, $create = true)
         'destination' => $destination,
         'folder' => $folders
     );
-    writeLogAppend('capacitor-dirCreate-60', $debug);
+    writeLogAppend('capacitor-dirStandard-60', $debug);
     return $dir;
 }

@@ -4,35 +4,50 @@
 ->
 /home/globa544/mc2.capacitor/eng/public/images/zoom/eng/multiply2/Period5.png"
 */
-function copyFilesForCapacitor($from, $to, $line)
+myRequireOnce('dirMake.php');
+function copyFilesForCapacitor($from, $to, $called_by)
+
 {
+    $top_guard = ['src', 'public'];
+    $src_guard = ['assets', 'components', 'router', 'views'];
+    if (strpos($to, '@') !== false) {
+        writeLogError('copyFilesForCapacitor-10', $to);
+        return;
+    }
+    if (strpos($from, '@') !== false) {
+        writeLogError('copyFilesForCapacitor-14', $to);
+        return;
+    }
     $to = str_replace('//', '/', $to);
-    $message = "$to\n$from\n$line\n\n";
+    $message = "$to\n$from\n$called_by\n\n";
     writeLogAppend('capacitor-copyFilesForCapacitor-7', $message);
-    $route_guard = ['assets', 'public', 'router', 'views'];
+
     if (strpos($to, ROOT_CAPACITOR) === false) {
-        writeLogError('copyFilesForCapacitor-9', $to);
+        writeLogError('copyFilesForCapacitor-18', $to);
         return;
     }
     $test = str_replace(ROOT_CAPACITOR, '', $to);
     $parts = explode('/', $test);
     //eng/public/images/zoom/eng/multiply2/Period5.png"
-    if (in_array($parts[1], $route_guard)) {
+    if (in_array($parts[1], $top_guard)) {
+        if ($parts[1] == 'src') {
+            if (!in_array($parts[2], $src_guard)) {
+                writeLogError('capacitor-copyFilesForCapacitor-34', $parts);
+                $message = "Unguarded route of   $parts[2] in  $to";
+                trigger_error($message, E_USER_ERROR);
+            }
+        }
         createDirectory($to);
-        copy($from, $to);
-    } else {
-        /* $bad = '/sites/' . SITE_CODE . '/images/';
-        if (strpos($to, $bad) !== false) {
-            $good = '/assets/images/';
-            $to = str_replace($bad, $good, $to);
-            createDirectory($to);
+        if (file_exists($from)) {
+            dirMake($to);
             copy($from, $to);
         } else {
-            writeLogError('copyFilesForCapacitor-19', $from . '->' . $to);
+            $message = "Source file does not exist $from when called by $called_by";
+            trigger_error($message, E_USER_ERROR);
         }
-    
-    */
-        $message = 'Unguarded route for ' . $to;
+    } else {
+        writeLogError('capacitor-copyFilesForCapacitor-42', $parts);
+        $message = "Unguarded route of   $parts[1] in  $to";
         trigger_error($message, E_USER_ERROR);
     }
 }

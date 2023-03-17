@@ -52,7 +52,7 @@ function createBookContent($p)
             $fname = $dir . ucfirst($p['language_iso']) . ucfirst($p['folder_name']) . 'Index.vue';
             writeLogDebug('capacitor-createBookContent-50', $fname);
             //$fname = str_replace('mc2.capacitor/M2/', 'mc2.capacitor/views/M2/', $fname);
-            $result['text'] = modifyTextForVue($result['text'], $bookmark);
+            $result['text'] = modifyTextForVue($result['text'], $bookmark, $p);
             //writeLogDebug('capacitor-createBookContent-capacitor-78', $result['text']);
             createBookRouter($p);
             $result['text'] .= '<!--- Created by createBookContent-->' . "\n";

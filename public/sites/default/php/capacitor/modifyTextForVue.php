@@ -1,9 +1,10 @@
 <?php
 
 myRequireOnce('modifyImagePathForVue.php');
+myRequireOnce('copyFilesForCapacitor.php');
 
 
-function modifyTextForVue($text, $bookmark)
+function modifyTextForVue($text, $bookmark, $p)
 {
     $bad = array(
         '<form class = "auto_submit_item">',
@@ -11,13 +12,59 @@ function modifyTextForVue($text, $bookmark)
         '</form>'
     );
     $text = str_replace($bad, '', $text);
-    $text = modifyTextForImages($text, $bookmark);
+    $text = modifyTextForImages($text, $p);
     $text = modifyTextForVuePopUp($text);
     $text = modifyTextForVueReadMore($text, $bookmark);
     $text = modifyImagePathForVue($text, $bookmark);
     return $text;
 }
-function modifyTextForImages($text, $bookmark)
+// modify image and copy (it is much easier to do now)
+function modifyTextForImages($text, $p)
+{
+    $find = '<img';
+    $bad = array(' ', '"');
+    $count = substr_count($text, $find);
+    $pos_start = 0;
+    for ($i = 1; $i <= $count; $i++) {
+        $img_start = strpos($text, $find, $pos_start);
+        $img_end = strpos($text, '>', $img_start);
+        $img_length = $img_end - $img_start + 1;
+        //<img class="lesson-icon" src="/sites/mc2/images/standard/look-forward.png">
+        $img_div = substr($text, $img_start, $img_length);
+        $src_start = strpos($img_div, ' src') + 4;
+        $src_quote1 = strpos($img_div, '"', $src_start) + 1;
+        $src_quote2 = strpos($img_div, '"', $src_quote1);
+        $src_length = $src_quote2 - $src_quote1;
+        $src = substr($img_div, $src_quote1, $src_length);
+        $message = "$img_div\n$src\n\n";
+
+        $source = str_replace($bad, '', $src);
+        // do not replace any that start with @
+        if (strpos($source, '@') === false) {
+            writeLogAppend('capacitor-modifyTextForImages-44', $message);
+            modifyTextForImagesCopy($source, $p);
+            $new = '@/assets/' . $source;
+            $new = str_replace('//', '/', $new);
+            $text = substr_replace($text, $new, $src_start, $src_length);
+        } else {
+            writeLogAppend('capacitor-modifyTextForImages-50', $message);
+        }
+        $pos_start = $img_end;
+    }
+    return $text;
+}
+function modifyTextForImagesCopy($source, $p)
+{
+    $cap_dir = dirStandard('assets', DESTINATION,  $p, $folders = null, $create = true);
+    $destination = $cap_dir . $source;
+    $destination = str_replace('//', '/', $destination,);
+    $source = ROOT_WEBSITE . $source;
+    $source = str_replace('//', '/', $source);
+    $message = "$source\n$destination\n\n";
+    writeLogAppend('capacitor-modifyTextForImagesCopy-49', $message);
+    copyFilesForCapacitor($source, $destination, 'modifyTextForImages');
+}
+function XmodifyTextForImages($text, $bookmark)
 {
     $text = str_ireplace('sites/' . SITE_CODE . '/images/standard/', '@/assets/images/standard/', $text);
     $bad = array(

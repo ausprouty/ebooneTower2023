@@ -21,14 +21,6 @@ function dirMake($filename)
 	//writeLogAppend('capacitor-dirMake-23', $filename);
 	$file_types = array('.bat', '.html', '.js', '.json', '.mp3', '.mp4', '.wav', '.vue');
 	$parts = explode('/', $filename);
-	/*if (strpos($filename, '/') == 0) {
-		writeLogAppend('capacitor-dirMake-27', $filename);
-		$dir = '/';
-	} else {
-		writeLogAppend('capacitor-dirMake-29', $filename);
-		$dir = '';
-	}
-	*/
 	$dir = '';
 	foreach ($parts as $part) {
 		$ok = true;
@@ -39,9 +31,11 @@ function dirMake($filename)
 		}
 		if ($ok) {
 			$dir .= $part . '/';
-			//writeLogAppend('capacitor-dirMake-41', $dir);
 			if (!file_exists($dir)) {
+				writeLogAppend('capacitor-dirMake-35', $dir);
 				mkdir($dir);
+			} else {
+				writeLogAppend('capacitor-dirMake-39', $dir);
 			}
 		}
 	}

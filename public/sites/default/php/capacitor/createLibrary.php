@@ -3,13 +3,13 @@ myRequireOnce('writeLog.php');
 myRequireOnce('dirStandard.php');
 myRequireOnce('decidePublishBook.php');
 myRequireOnce('getLibraryImage.php');
-myRequireOnce('getPrototypeFileLibrary.php';
+myRequireOnce('getPrototypeFileLibrary.php');
 
 
 function createLibrary($p, $text)
 {
 
-    
+
     /* Return a container for the books in this library.
     This will be used to prototype these books by prototypeLibraryandBooks.
 
@@ -93,7 +93,7 @@ function createLibrary($p, $text)
         $temp = 'bookImage.html';
         $debug .= 'Using template for bookImage ' . "\n";
     }
-    $book_template = myGetPrototypeFile( $temp);
+    $book_template = myGetPrototypeFile($temp);
     //
     //  replace for values in book templage for each book
     //
@@ -146,6 +146,7 @@ function createLibrary($p, $text)
                         $country_index =  dirStandard('country', DESTINATION, $p);
                         $book_image =   $country_index .  $bookmark['language']->image_dir . '/' . $book->image;
                     }
+                    $old_book_image = $book_image;
                     /* change 
                         /sites/mc2/content/M2/eng/images
                         /sites/mc2/content/M2/images/
@@ -156,9 +157,11 @@ function createLibrary($p, $text)
                     $old = 'sites/' . SITE_CODE . '/content/' . $p['country_code'] . '/' . $p['language_iso'] . '/images';
                     $new = '@/assets/images/' . $p['language_iso'];
                     $book_image = str_replace($old, $new, $book_image);
+
                     $old = 'sites/' . SITE_CODE . '/content/' . $p['country_code'] . '/images';
                     $new = '@/assets/images/';
                     $book_image = str_replace($old, $new, $book_image);
+                    createLibraryCopy($old, $book_image);
                     writeLogAppend('createLibrary-capacitor- 163', $book_image);
                     $replace = array(
                         $this_link,
@@ -175,4 +178,14 @@ function createLibrary($p, $text)
     $out['body'] = str_replace('[[books]]', $books, $body);
     //writeLog('createLibrary', $debug);
     return $out;
+}
+/*
+$old = 'sites/' . SITE_CODE . '/content/' . $p['country_code'] . '/images';
+$new = '@/assets/images/';
+*/
+function createLibraryCopy($from, $to)
+{
+    writeLogAppend('capacitor-createLibraryCopy-187', "$from\n$to\n\n");
+
+    //dirStandard($scope, $destination,  $p, $folders = null, $create = true)
 }
