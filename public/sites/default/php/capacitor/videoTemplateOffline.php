@@ -7,7 +7,7 @@ function videoTemplateOffline($title_phrase, $p, $offline_video_count, $bookmark
 
     $template = videoTemplateLink();
     $filename = $bookmark['page']->filename;
-    $video = '/' . SITE_CODE . '/' . $p['language_iso'] . '/video/' .  $p['folder_name'] . '/';
+    $video = '/' . strtoupper(SITE_CODE) . '/' . $p['language_iso'] . '/video/' .  $p['folder_name'] . '/';
     $video .= videoFindForCapacitorNewName($filename);
     if ($offline_video_count > 0) {
         $video .= '-' . $offline_video_count;

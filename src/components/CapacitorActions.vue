@@ -12,10 +12,10 @@
     <div class="column">
       <button
         class="button"
-        v-bind:class="progress.videolist"
-        @click="localPublish('videolist')"
+        v-bind:class="progress.medialist"
+        @click="localPublish('medialist')"
       >
-        {{ videolist_text }}
+        {{ medialist_text }}
       </button>
     </div>
     <div class="column">
@@ -69,12 +69,12 @@ export default {
   data() {
     return {
       content_text: 'Content',
-      videolist_text: 'Media List',
+      medialist_text: 'Media List',
       media_text: 'Media',
       router_text: 'Router File',
       progress: {
         content: 'undone',
-        videolist: 'undone',
+        medialist: 'undone',
         media: 'undone',
         router: 'undone',
       },
@@ -103,13 +103,13 @@ export default {
         this.progress.media = await CapacitorService.verifyBookMedia(params)
         this.media_text = 'Media Checked'
       }
-      if (location == 'videolist') {
-        this.videolist_text = 'Publishing'
+      if (location == 'medialist') {
+        this.medialist_text = 'Publishing'
         await CapacitorService.publish('videoMakeBatFileForCapacitor', params)
-        this.progress.videolist = await CapacitorService.createBookVideoList(
+        this.progress.medialist = await CapacitorService.createBookMediaList(
           params
         )
-        this.videolist_text = 'Media List Published'
+        this.medialist_text = 'Media List Published'
       }
       if (response == 'error') {
         alert('There was an error in localPublish')

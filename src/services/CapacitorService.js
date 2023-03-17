@@ -73,12 +73,6 @@ export default {
   },
   async createBookMediaList(params) {
     params = this.initialize(params)
-    params.page = 'createBookMediaListk'
-    params.action = 'createBookMediaList'
-    return await AuthorService.aReturnContent(params)
-  },
-  async createBookMediaList(params) {
-    params = this.initialize(params)
     params.page = 'createBookMediaList'
     params.action = 'createBookMediaList'
     return await AuthorService.aReturnContent(params)

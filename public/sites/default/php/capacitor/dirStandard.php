@@ -25,7 +25,6 @@ function dirStandard($scope, $destination,  $p, $folders = null, $create = true)
         case 'router':
             $dir .=  $p['language_iso'] . '/src/router/';
             break;
-
         case 'series':
             $dir .=  $p['language_iso'] . '/src/views/' . $p['country_code']  . '/' . $p['language_iso'] . '/' . $p['folder_name'] . '/';
             break;
