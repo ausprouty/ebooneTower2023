@@ -1,9 +1,32 @@
 <?php
 
 myRequireOnce('fileWrite.php');
+myRequireOnce('dirStandard.php');
 
-function createBookRouter($data, $p)
+function createBookRouter($p)
 {
+    // when coming in with only book information the folder_name is not yet set
+    if (!isset($p['folder_name'])) {
+        if (isset($p['code'])) {
+            $p['folder_name'] = $p['code'];
+        }
+    }
+    //
+    //find series data
+    //
+    $sql = "SELECT * FROM content
+            WHERE  country_code = '" . $p['country_code'] . "'
+            AND  language_iso = '" . $p['language_iso'] . "'
+            AND folder_name = '" . $p['folder_name'] . "'  AND filename = 'index'
+            AND prototype_date IS NOT NULL
+            ORDER BY recnum DESC LIMIT 1";
+    $data = sqlArray($sql);
+    if (!$data) {
+        // most likely this is not a series
+        $message = 'No data found for: ' . $sql;
+        writeLogAppend('WARNING- capacitor-createBookRouter-51', $message);
+        return 'undone';
+    }
     $series = json_decode($data['text']);
     $template = '
     {
@@ -51,6 +74,6 @@ function createBookRouter($data, $p)
     $filename = 'routes' . ucfirst($p['language_iso'])  . ucfirst($p['folder_name'] . '.js');
     $router = $dir . $filename;
     fileWrite($router, $text, $p);
-    //writeLogDebug('capacitor-createBookRouter-51', $filename);
-    return;
+    writeLogDebug('capacitor-createBookRouter-51', $router);
+    return 'done';
 }

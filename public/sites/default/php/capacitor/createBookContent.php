@@ -54,7 +54,7 @@ function createBookContent($p)
             //$fname = str_replace('mc2.capacitor/M2/', 'mc2.capacitor/views/M2/', $fname);
             $result['text'] = modifyTextForVue($result['text'], $bookmark);
             //writeLogDebug('capacitor-createBookContent-capacitor-78', $result['text']);
-            createBookRouter($data, $p);
+            createBookRouter($p);
             $result['text'] .= '<!--- Created by createBookContent-->' . "\n";
             publishFiles($p, $fname, $result['text'],  STANDARD_CSS, $selected_css);
         }
