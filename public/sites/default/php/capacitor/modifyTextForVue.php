@@ -12,15 +12,21 @@ function modifyTextForVue($text, $bookmark, $p)
         '</form>'
     );
     $text = str_replace($bad, '', $text);
+    //writeLogDebug('capacitor-modifyTextForVue-15', $text);
     $text = modifyTextForImages($text, $p);
+    //writeLogDebug('capacitor-modifyTextForVue-17', $text);
     $text = modifyTextForVuePopUp($text);
+    //writeLogDebug('capacitor-modifyTextForVue-19', $text);
     $text = modifyTextForVueReadMore($text, $bookmark);
+    //writeLogDebug('capacitor-modifyTextForVue-21', $text);
     $text = modifyImagePathForVue($text, $bookmark);
+    //writeLogDebug('capacitor-modifyTextForVue-23', $text);
     return $text;
 }
 // modify image and copy (it is much easier to do now)
 function modifyTextForImages($text, $p)
 {
+    //writeLogDebug('capacitor-modifyTextForImages-29', $text);
     $find = '<img';
     $bad = array(' ', '"');
     $count = substr_count($text, $find);
@@ -41,15 +47,18 @@ function modifyTextForImages($text, $p)
         $source = str_replace($bad, '', $src);
         // do not replace any that start with @
         if (strpos($source, '@') === false) {
-            writeLogAppend('capacitor-modifyTextForImages-44', $message);
+            //writeLogAppend('capacitor-modifyTextForImages-44', $message);
             modifyTextForImagesCopy($source, $p);
-            $new = '@/assets/' . $source;
-            $new = str_replace('//', '/', $new);
-            $text = substr_replace($text, $new, $src_start, $src_length);
+            $new_source = '@/assets/' . $source;
+            $new_source = str_replace('//', '/', $new_source);
+            $new_div = str_replace($src, $new_source, $img_div);
+            //writeLogAppend('capacitor-modifyTextForImages-55', "$img_div\n$new_div\n\n");
+            $text = substr_replace($text, $new_div, $img_start, $img_length);
         } else {
-            writeLogAppend('capacitor-modifyTextForImages-50', $message);
+            writeLogAppend('capacitor-modifyTextForImages-58', $message);
         }
         $pos_start = $img_end;
+        //writeLogDebug('capacitor-modifyTextForImages-61-' . $i, $text);
     }
     return $text;
 }
@@ -61,7 +70,7 @@ function modifyTextForImagesCopy($source, $p)
     $source = ROOT_WEBSITE . $source;
     $source = str_replace('//', '/', $source);
     $message = "$source\n$destination\n\n";
-    writeLogAppend('capacitor-modifyTextForImagesCopy-49', $message);
+    //writeLogAppend('capacitor-modifyTextForImagesCopy-49', $message);
     copyFilesForCapacitor($source, $destination, 'modifyTextForImages');
 }
 function XmodifyTextForImages($text, $bookmark)
@@ -158,7 +167,7 @@ function modifyTextForVueReadMore($text, $bookmark)
             $pos_end =  strpos($text, $needle_a, $pos_start);
             $length = $pos_end - $pos_start + 4;
             $old = substr($text, $pos_start, $length);
-            writeLog('modifyReadMore-24-old',  $old);
+            // writeLog('modifyReadMore-24-old',  $old);
             $new = '';
             $text = substr_replace($text, $new, $pos_start, $length);
             $pos_start = $pos_end;

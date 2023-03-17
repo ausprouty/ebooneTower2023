@@ -26,12 +26,11 @@ myRequireOnce('writeLog.php');
 
 function modifyPage($text, $p, $data, $bookmark)
 {
-    //writeLogDebug('modifyPage-27', $text);
+    //writeLogDebug('capacitor-modifyPage-27', $text);
     $text = version2Text($text);
-    //writeLogDebug('modifyPage-29', $text);
+    //writeLogDebug('capacitor-modifyPage-31', $text);
     $text = modifyTextForVue($text, $bookmark, $p);
-
-    //writeLogDebug('modifyPage-37-ZOOM', $text);
+    //writeLogDebug('capacitor-modifyPage-33', $text);
     /* you must modify reveal video and audio before modifying external links
        reveal_big is used by site generations
     */
@@ -46,7 +45,7 @@ function modifyPage($text, $p, $data, $bookmark)
     if (strpos($text, '<div class="reveal audio">') !== FALSE) {
         $text = modifyRevealAudio($text, $bookmark, $p);
     }
-    //writeLogDebug('modifyPages-52-ZOOM', $text);
+    //writeLogDebug('capacitor-modifyPages-49', $text);
     //
     // modify note fields
     //
@@ -67,7 +66,7 @@ function modifyPage($text, $p, $data, $bookmark)
     if (strpos($text, '{text=&quot;')  !== false) {
         $text = modifyReference($text);
     }
-    //writeLogDebug('modifyPage-73-ZOOM', $text);
+    //writeLogDebug('capacitor-modifyPage-73-ZOOM', $text);
     //
     // strip out open new tab so that modifyLinks is called
     //
@@ -79,11 +78,11 @@ function modifyPage($text, $p, $data, $bookmark)
     //writeLogDebug('modify-page-65', $text);
     //  change internal links for easy return:
     // for SDCard we may need to remove all external references; esp those to Bible sites
-    //writeLogDebug('modifyPage-85-ZOOM', $text);
+    //writeLogDebug('capacitor-modifyPage-85-ZOOM', $text);
     if (strpos($text, '<a href=') !== FALSE || strpos($text, '<a class="readmore"') !== FALSE) {
         $text = modifyLinks($text, $p);
     }
-    //writeLogDebug('modifyPage-88-ZOOM', $text);
+    //writeLogDebug('capacitor-modifyPage-88', $text);
 
     // popup text needs to be visible to editor but hidden in prototype and production
     if (strpos($text, 'class="popup"') !== FALSE) {
@@ -92,17 +91,17 @@ function modifyPage($text, $p, $data, $bookmark)
     if (strpos($text, '<span class="bible-link">') !== FALSE) {
         $text = modifyBibleLinks($text, $p);
     }
-    //writeLogDebug('modifyPage-96', $text);
+    //writeLogDebug('capacitor-modifyPage-96', $text);
     if (strpos($text, '<div class="reveal">') !== FALSE ||  strpos($text, '<div class="reveal_big">') !== FALSE) {
         $text = modifyRevealSummary($text, $p);
     }
-    //writeLogDebug('modifyPage-100', $text);
+    //writeLogDebug('capacitor-modifyPage-100', $text);
     if (strpos($text, '<div class="reveal bible">') !== FALSE) {
         $text = modifyRevealBible($text, $bookmark, $p);
     }
-    //writeLogDebug('modifyPage-104-ZOOM', $text);
+    //writeLogDebug('capacitor-modifyPage-104', $text);
     if (strpos($text, 'class="zoom"') !== FALSE) {
-        //writeLogAppend('modifyPage-106-Zoom', $p['filename']);
+        //writeLogAppend('capacitor-modifyPage-106-Zoom', $p['filename']);
         myRequireOnce('modifyZoomImage.php', $p['destination']);
         $text = modifyZoomImage($text, $p);
     }
@@ -112,7 +111,7 @@ function modifyPage($text, $p, $data, $bookmark)
     if (strpos($text, '<div class="external-javascript') !== false) {
         $text  = modifyExternalJavascript($text);
     }
-    //writeLogDebug('modifyPage-118-ZOOM', $text);
+    //writeLogDebug('capacitor-modifyPage-118-ZOOM', $text);
     /* if (strpos($text, '<div class="header') !== false){
 This needs to come later in the process
     }
@@ -132,6 +131,7 @@ This needs to come later in the process
     $text = str_replace('<hr />', '', $text);
     $text = str_replace('<li>&nbsp;', '<li>', $text);
     $text = str_replace('</a> )', '</a>)', $text);
-    writeLogDebug('modifyPage-120', $text);
+    //writeLogDebug('capacitor-modifyPage-120', $text);
+    trigger_error('check ModifyPage', E_USER_ERROR);
     return $text;
 }
