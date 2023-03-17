@@ -48,7 +48,7 @@ function modifyZoomImage($text, $p)
         $alt =  modifyZoomImageGetAlt($old);
         $source_image = modifyZoomImageGetImage($old);
         $regular_image = modifyZoomImageGetImageRegular($source_image, $p);
-        $zoom_image = modifyZoomImageGetImageZoom($source_image);
+        $zoom_image = modifyZoomImageGetImageZoom($source_image, $p);
 
         // replace placeholders with values
         $placeholders = array('[regular_image]', '[zoom_image]', '[alt]', '[source_image]');
@@ -73,23 +73,30 @@ function  modifyZoomImageGetImageRegular($image, $p)
     $find = '/images/';
     $pos_start = strpos($image, $find) + strlen($find);
     $raw = substr($image, $pos_start);
-    $dir_zoom = dirStandard('zoom', DESTINATION,  $p, $folders = null, $create = true);
+    $dir_zoom = dirStandard('zoom_root', DESTINATION,  $p, $folders = null, $create = true);
     $output = $dir_zoom . $raw;
-    modifyZoomImageCopyImage($image, $output, $p);
+    copyFilesForZoom($image, $output);
     //writeLogDebug('capacitor-modifyZoomImageGetImageRegular-69', $output);
     return $output;
 }
-function   modifyZoomImageGetImageZoom($image)
+function   modifyZoomImageGetImageZoom($image, $p)
 {
     $find = '/images/';
     $pos_start = strpos($image, $find) + strlen($find);
     $raw = substr($image, $pos_start);
-    $dir_zoom = dirStandard('zoom', DESTINATION,  $p, $folders = null, $create = true);
+    $dir_zoom = dirStandard('zoom_root', DESTINATION,  $p, $folders = null, $create = true);
     $output = $dir_zoom . $raw;
     return $output;
 }
-//root edit is sites/' . SITE_CODE . '/content/'
-function  modifyZoomImageCopyImage($image_source, $image_destination, $p)
+
+function copyFilesForZoom($from, $to)
+{
+    $message = "$from > $to\n";
+    writeLogAppend('WATCH-copyFilesForZoom-126', $message);
+    copyFilesForCapacitor($from, $to, 'zoom');
+}
+
+function  XmodifyZoomImageCopyImage($image_source, $image_destination, $p)
 {
     $destination = ROOT_CAPACITOR . 'public' . $image_destination;
     $bad = "@/assets/images/";
@@ -129,10 +136,4 @@ function  modifyZoomImageCopyImage($image_source, $image_destination, $p)
             }
         }
     }
-}
-function copyFilesForZoom($from, $to)
-{
-    $message = "$from > $to\n";
-    writeLogAppend('WATCH-copyFilesForZoom-126', $message);
-    copyFilesForCapacitor($from, $to, 'zoom');
 }

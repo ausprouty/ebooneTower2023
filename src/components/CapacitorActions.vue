@@ -94,8 +94,7 @@ export default {
       }
       if (location == 'router') {
         this.router_text = 'Publishing'
-        await CapacitorService.publish('router', params)
-        this.progress.router = await CapacitorService.createBookContent(params)
+        this.progress.router = await CapacitorService.createBookRouter(params)
         this.router_text = 'Router Published'
       }
       if (location == 'media') {

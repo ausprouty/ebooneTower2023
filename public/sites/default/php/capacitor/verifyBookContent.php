@@ -20,20 +20,16 @@ function verifyBookContent($p)
         return 'undone';
     }
     // now see if all items are there
-
-    $ok = true;
     if (isset($text->chapters)) {
         foreach ($text->chapters as $chapter) {
             if ($chapter->publish) {
-                $filename =  $dir_series . $chapter->filename . '.vue';
+                $filename = $dir_series .  ucfirst($p['language_iso'])  . ucfirst($chapter->filename) . '.vue';
                 if (!file_exists($filename)) {
-                    $ok = false;
+                    return 'ready';
                 }
             }
         }
-    }
-    if ($ok) {
         return 'done';
     }
-    return 'ready';
+    return 'undone';
 }
