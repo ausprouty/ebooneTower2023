@@ -132,6 +132,6 @@ This needs to come later in the process
     $text = str_replace('<li>&nbsp;', '<li>', $text);
     $text = str_replace('</a> )', '</a>)', $text);
     //writeLogDebug('capacitor-modifyPage-120', $text);
-    trigger_error('check ModifyPage', E_USER_ERROR);
+    //trigger_error('check ModifyPage', E_USER_ERROR);
     return $text;
 }

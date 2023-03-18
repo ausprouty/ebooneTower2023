@@ -3,13 +3,15 @@ myRequireOnce('writeLog.php');
 
 function verifyBookRouter($p)
 {
+    $progress = new stdClass();
     $dir = dirStandard('router', DESTINATION,  $p);
     $filename = 'routes' . ucfirst($p['language_iso'])  . ucfirst($p['folder_name'] . '.js');
     $router = $dir . $filename;
     writeLogAppend('capacitor-verifyBookRouter', $router);
     if (file_exists($router)) {
-        return 'done';
+        $progress->progress =  'done';
     } else {
-        return 'undone';
+        $progress->progress =  'undone';
     }
+    return $progress;
 }

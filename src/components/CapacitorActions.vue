@@ -1,42 +1,48 @@
 <template>
-  <div class="row">
-    <div class="column">
-      <button
-        class="button"
-        v-bind:class="progress.content"
-        @click="localPublish('content')"
-      >
-        {{ content_text }}
-      </button>
-    </div>
-    <div class="column">
-      <button
-        class="button"
-        v-bind:class="progress.medialist"
-        @click="localPublish('medialist')"
-      >
-        {{ medialist_text }}
-      </button>
-    </div>
-    <div class="column">
-      <button
-        class="button"
-        v-bind:class="progress.media"
-        @click="localPublish('media')"
-      >
-        {{ media_text }}
-      </button>
-    </div>
-    <div class="column">
-      <button
-        class="button"
-        v-bind:class="progress.router"
-        @click="localPublish('router')"
-      >
-        {{ router_text }}
-      </button>
-    </div>
+  <div>
+    <div class="row">
+      <div class="column">
+        <button
+          class="button"
+          v-bind:class="progress.content.progress"
+          @click="localPublish('content')"
+        >
+          {{ content_text }}
+        </button>
+      </div>
+      <div class="column">
+        <button
+          class="button"
+          v-bind:class="progress.medialist.progress"
+          @click="localPublish('medialist')"
+        >
+          {{ medialist_text }}
+        </button>
+      </div>
+      <div class="column">
+        <button
+          class="button"
+          v-bind:class="progress.media.progress"
+          @click="localPublish('media')"
+        >
+          {{ media_text }}
+        </button>
+      </div>
+      <div class="column">
+        <button
+          class="button"
+          v-bind:class="progress.router.progress"
+          @click="localPublish('router')"
+        >
+          {{ router_text }}
+        </button>
+      </div>
   </div>
+  <div class="row" v-if="progress.medialist.message">
+    {this.progress.medialist.message}
+    
+  </div>
+</div>
 </template>
 
 <script>
@@ -68,15 +74,28 @@ export default {
 */
   data() {
     return {
+      error_count: 0,
       content_text: 'Content',
       medialist_text: 'Media List',
       media_text: 'Media',
       router_text: 'Router File',
       progress: {
-        content: 'undone',
-        medialist: 'undone',
-        media: 'undone',
-        router: 'undone',
+        content: {
+          progress: 'undone',
+          message: null,
+        },
+        medialist: {
+          progress: 'invisible',
+          message: null,
+        },
+        medialist: {
+          progress: 'invisible',
+          message: null,
+        },
+        medialist: {
+          progress: 'invisible',
+          message: null,
+        },
       },
     }
   },
@@ -109,19 +128,31 @@ export default {
         this.progress.medialist = await CapacitorService.createBookMediaList(
           params
         )
-        this.medialist_text = 'Media List Published'
+        if (this.progress.medialist == 'done'){
+          this.medialist_text = 'Media All Present'
+        }
+        if (this.progress.medialist == 'error'){
+          this.medialist_text = 'Missing Media'
+        }
       }
       if (response == 'error') {
-        alert('There was an error in localPublish')
+        console.log('You may have timed out')
+        this.error_count++
+        if (this.error_count == 1){
+          this.checkStatus()
+        }
+        
       }
     },
-    async loadView() {},
+    async checkStatus() {
+      var params = this.book
+      params.capacitor_settings = JSON.stringify(this.capacitorSettings)
+      params.progress = JSON.stringify(this.progress)
+      this.progress = await CapacitorService.checkStatusBook(params)
+    },
   },
   async created() {
-    var params = this.book
-    params.capacitor_settings = JSON.stringify(this.capacitorSettings)
-    params.progress = JSON.stringify(this.progress)
-    this.progress = await CapacitorService.checkStatusBook(params)
+    await this.checkStatus()
   },
 }
 </script>
@@ -157,16 +188,20 @@ div.parent {
   padding: 10px;
   color: white;
 }
-
 .ready {
   background-color: yellow;
   padding: 10px;
   color: black;
 }
+.invisible {
+  background-color: white;
+  padding: 10px;
+  color: white;
+}
 
 .done {
   background-color: green;
   padding: 10px;
-   color: white;
+  color: white;
 }
 </style>

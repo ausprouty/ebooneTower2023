@@ -32,8 +32,10 @@ function dirMake($filename)
 		if ($ok) {
 			$dir .= $part . '/';
 			if (!file_exists($dir)) {
-				writeLogAppend('capacitor-dirMake-35', $dir);
-				mkdir($dir);
+				if (!is_dir($dir)) {
+					mkdir($dir);
+					writeLogAppend('capacitor-dirMake-35', $dir);
+				}
 			} else {
 				writeLogAppend('capacitor-dirMake-39', $dir);
 			}

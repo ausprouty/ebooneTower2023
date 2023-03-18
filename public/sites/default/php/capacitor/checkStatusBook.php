@@ -17,18 +17,24 @@ function checkStatusBook($p)
     $p = verifyBookDir($p); // set $p['dir_capacitor']
     $check = [];
     $out = new stdClass();
+    $content_progress = verifyBookContent($p);
     $progress = json_decode($p['progress']);
     foreach ($progress as $key => $value) {
         $out->$key = $value;
         switch ($key) {
             case "content":
-                $out->content = verifyBookContent($p);
+                $out->content =  $content_progress;
                 break;
             case "media":
                 $out->media = verifyBookMedia($p);
                 break;
             case "medialist":
-                $out->medialist = verifyBookMediaList($p);
+                if ($content_progress->progress == 'done') {
+                    $out->medialist = verifyBookMediaList($p);
+                } else {
+                    $out->medialist = 'invisible';
+                }
+
                 break;
             case "router":
                 $out->router = verifyBookRouter($p);

@@ -11,13 +11,15 @@ myRequireOnce('dirStandard.php');
 
 function verifyBookContent($p)
 {
+    $progress = new stdClass();
     $p = verifyBookDir($p);
     $p['scope'] = 'series';
     $content = getLatestContent($p);
     $text = json_decode($content['text']);
     $dir_series =  dirStandard('series', DESTINATION,  $p, $folders = null, $create = true);
     if (!file_exists($dir_series)) {
-        return 'undone';
+        $progress->progress=  'undone';
+        return $progress;
     }
     // now see if all items are there
     if (isset($text->chapters)) {
@@ -25,11 +27,16 @@ function verifyBookContent($p)
             if ($chapter->publish) {
                 $filename = $dir_series .  ucfirst($p['language_iso'])  . ucfirst($chapter->filename) . '.vue';
                 if (!file_exists($filename)) {
-                    return 'ready';
+                    $progress->progress = 'ready';
+                    $progress->message = $filename . ' not found';
+                    return $progress;
                 }
             }
         }
-        return 'done';
+        $progress->progress=  'done';
+        return $progress;
     }
-    return 'undone';
+    $progress->progress=  'undone';
+    return $progress;
+}
 }
