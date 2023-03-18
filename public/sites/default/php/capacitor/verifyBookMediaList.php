@@ -21,11 +21,12 @@ function verifyBookMediaList($p)
     foreach ($media_array as $media) {
         $file = ROOT_MEDIA . $media;
         if (!file_exists($file)) {
-            $files_missing .= $file . '<br>';
+            $files_missing .= "$file \n";
             $progress->progress = 'error';
+        }
     }
-    if ($progress->progress == 'error'){
-        $progress->message = 'The following media is missing:<br>'. $files_missing;
+    if ($progress->progress == 'error') {
+        $progress->message = "The following media is missing:\n" . $files_missing;
     }
     return $progress;
 }

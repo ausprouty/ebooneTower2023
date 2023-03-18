@@ -63,19 +63,19 @@ export default {
     params = this.initialize(params)
     params.page = 'publishSeriesAndChapters'
     params.action = 'publishSeriesAndChapters'
-    return await AuthorService.aReturnContent(params)
+    return await AuthorService.aReturnContentParsed(params)
   },
   async createBookRouter(params) {
     params = this.initialize(params)
     params.page = 'createBookRouter'
     params.action = 'createBookRouter'
-    return await AuthorService.aReturnContent(params)
+    return await AuthorService.aReturnContentParsed(params)
   },
   async createBookMediaList(params) {
     params = this.initialize(params)
     params.page = 'createBookMediaList'
     params.action = 'createBookMediaList'
-    return await AuthorService.aReturnContent(params)
+    return await AuthorService.aReturnContentParsed(params)
   },
   async getBooks(params) {
     params = this.initialize(params)
@@ -157,25 +157,25 @@ export default {
     params = this.initialize(params)
     params.page = 'verifyBookContent'
     params.action = 'verifyBookContent'
-    return await AuthorService.aReturnContent(params)
+    return await AuthorService.aReturnContentParsed(params)
   },
   async verifyBookRouter(params) {
     params = this.initialize(params)
     params.page = 'verifyBookRouter'
     params.action = 'verifyBookRouter'
-    return await AuthorService.aReturnContent(params)
+    return await AuthorService.aReturnContentParsed(params)
   },
   async verifyBookMedia(params) {
     params = this.initialize(params)
     params.page = 'verifyBook'
     params.action = 'verifyBookMedia'
-    return await AuthorService.aReturnContent(params)
+    return await AuthorService.aReturnContentParsed(params)
   },
   async verifyBookMediaList(params) {
     params = this.initialize(params)
     params.page = 'verifyBookMediaList'
     params.action = 'verifyBookMediaList'
-    return await AuthorService.aReturnContent(params)
+    return await AuthorService.aReturnContentParsed(params)
   },
   async verifyCommonFiles(params) {
     params = this.initialize(params)

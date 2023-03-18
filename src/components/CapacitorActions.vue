@@ -39,8 +39,7 @@
       </div>
   </div>
   <div class="row" v-if="progress.medialist.message">
-    {this.progress.medialist.message}
-    
+   {{ this.progress.medialist.message }}
   </div>
 </div>
 </template>
@@ -88,11 +87,11 @@ export default {
           progress: 'invisible',
           message: null,
         },
-        medialist: {
+        media: {
           progress: 'invisible',
           message: null,
         },
-        medialist: {
+        router: {
           progress: 'invisible',
           message: null,
         },
@@ -113,42 +112,45 @@ export default {
       }
       if (location == 'router') {
         this.router_text = 'Publishing'
-        this.progress.router = await CapacitorService.createBookRouter(params)
+        response = await CapacitorService.createBookRouter(params)
+        this.progress.router = response
         this.router_text = 'Router Published'
       }
       if (location == 'media') {
         this.media_text = 'Checking'
         await CapacitorService.publish('media', params)
-        this.progress.media = await CapacitorService.verifyBookMedia(params)
+        response = await CapacitorService.verifyBookMedia(params)
+        this.progress.media = response
         this.media_text = 'Media Checked'
       }
       if (location == 'medialist') {
         this.medialist_text = 'Publishing'
         await CapacitorService.publish('videoMakeBatFileForCapacitor', params)
-        this.progress.medialist = await CapacitorService.createBookMediaList(
-          params
-        )
-        if (this.progress.medialist == 'done'){
+        response = await CapacitorService.createBookMediaList(params)
+        this.progress.medialist = response
+        if (this.progress.medialist.progress == 'done'){
           this.medialist_text = 'Media All Present'
         }
-        if (this.progress.medialist == 'error'){
+        if (this.progress.medialist.progress == 'error'){
           this.medialist_text = 'Missing Media'
         }
       }
       if (response == 'error') {
         console.log('You may have timed out')
         this.error_count++
-        if (this.error_count == 1){
+        if (this.error_count == 1) {
           this.checkStatus()
         }
-        
       }
     },
     async checkStatus() {
       var params = this.book
       params.capacitor_settings = JSON.stringify(this.capacitorSettings)
       params.progress = JSON.stringify(this.progress)
-      this.progress = await CapacitorService.checkStatusBook(params)
+      var response = await CapacitorService.checkStatusBook(params)
+      console.log (response)
+      this.progress = response
+      console.log (this.progress)
     },
   },
   async created() {

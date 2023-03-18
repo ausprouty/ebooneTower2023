@@ -18,7 +18,7 @@ function verifyBookContent($p)
     $text = json_decode($content['text']);
     $dir_series =  dirStandard('series', DESTINATION,  $p, $folders = null, $create = true);
     if (!file_exists($dir_series)) {
-        $progress->progress=  'undone';
+        $progress->progress =  'undone';
         return $progress;
     }
     // now see if all items are there
@@ -33,10 +33,9 @@ function verifyBookContent($p)
                 }
             }
         }
-        $progress->progress=  'done';
+        $progress->progress =  'done';
         return $progress;
     }
-    $progress->progress=  'undone';
+    $progress->progress =  'undone';
     return $progress;
-}
 }

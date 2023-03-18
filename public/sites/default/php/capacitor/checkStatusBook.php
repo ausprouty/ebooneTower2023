@@ -42,5 +42,6 @@ function checkStatusBook($p)
             default:
         }
     }
+    writeLogDebug('capacitor-checkStatusBook-45', $out);
     return $out;
 }
