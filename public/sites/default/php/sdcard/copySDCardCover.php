@@ -1,5 +1,5 @@
 <?php
-myRequireOnce('verifyBookDir', 'sdcard');
+myRequireOnce('verifyBookDir');
 function copySDCardCover($p)
 {
      $p = verifyBookDir($p); // set $p['dir_sdcard']

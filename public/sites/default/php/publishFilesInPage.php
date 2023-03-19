@@ -5,7 +5,7 @@
 
 //define("ROOT_EDIT", '/home/globa544/edit.mc2.online/');
 myRequireOnce('publishDestination.php');
-myRequireOnce('publishFilesInSDCardPage.php', 'sdcard');
+myRequireOnce('publishFilesInSDCardPage.php');
 myRequireOnce('//writeLog.php');
 myRequireOnce('version2Text.php');
 

@@ -1,7 +1,7 @@
 <?php
 
-myRequireOnce('verifyBookDir.php', 'sdcard');
-myRequireOnce('verifyBook.php', 'sdcard');
+myRequireOnce('verifyBookDir.php');
+myRequireOnce('verifyBook.php');
 myRequireOnce('dirListSubdir.php');
 myRequireOnce('copyDirectory.php');
 myRequireOnce('createDirectories.php');

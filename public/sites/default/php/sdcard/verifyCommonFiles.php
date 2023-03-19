@@ -6,7 +6,7 @@
 /langugage javascript folders
 */
 myRequireOnce('copyDirectory.php');
-myRequireOnce('verifyBookDir.php', 'sdcard');
+myRequireOnce('verifyBookDir.php');
 
 function verifyCommonFiles($p)
 {

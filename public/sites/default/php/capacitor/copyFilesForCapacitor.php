@@ -40,7 +40,11 @@ function copyFilesForCapacitor($from, $to, $called_by)
         createDirectory($to);
         if (file_exists($from)) {
             dirMake($to);
-            copy($from, $to);
+            if (!is_dir($to)) {
+                copy($from, $to);
+            } else {
+                writeLogAPPEND('ERROR- capacitor-copyFilesForCapacitor-47', $to);
+            }
         } else {
             $message = "Source file does not exist $from when called by $called_by";
             trigger_error($message, E_USER_ERROR);

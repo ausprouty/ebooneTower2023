@@ -3,10 +3,10 @@
 myRequireOnce('dirMake.php');
 myRequireOnce('writeLog.php');
 myRequireOnce('modifyRevealVideo.php');
-myRequireOnce('videoFindForApkNewName.php', 'apk');
-myRequireOnce('audioMakeRefFileForApk.php', 'apk');
-myRequireOnce('videoReference.php', 'apk');
-myRequireOnce('videoFollows.php', 'apk');
+myRequireOnce('videoFindForApkNewName.php');
+myRequireOnce('audioMakeRefFileForApk.php');
+myRequireOnce('videoReference.php');
+myRequireOnce('videoFollows.php');
 
 
 function videoMakeBatFileForApk($p)

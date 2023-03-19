@@ -2,8 +2,8 @@
 myRequireOnce('getLatestContent.php');
 myRequireOnce('writeLog.php');
 myRequireOnce('dirMake.php');
-myRequireOnce('getBookDir.php', 'apk');
-myRequireOnce('verifyBookMedia.php', 'apk');
+myRequireOnce('getBookDir.php');
+myRequireOnce('verifyBookMedia.php');
 
 
 function verifyBookCover($p)

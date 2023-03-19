@@ -2,6 +2,7 @@
 
 myRequireOnce('modifyImagePathForVue.php');
 myRequireOnce('copyFilesForCapacitor.php');
+myRequireOnce('dirStandard.php');
 
 
 function modifyTextForVue($text, $bookmark, $p)

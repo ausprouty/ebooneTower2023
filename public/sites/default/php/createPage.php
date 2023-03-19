@@ -31,9 +31,6 @@ function createPage($p, $content)
         $this_template = str_replace('[[nav]]', $nav, $this_template);
         $ribbon = isset($bookmark['library']->format->back_button) ? $bookmark['library']->format->back_button->image : DEFAULT_BACK_RIBBON;
         $navlink = 'index.html';
-        if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor') {
-            $navlink =   $bookmark['language']->iso . '-' . $bookmark['book']->code . '-index';
-        }
     }
     // values for page that is not part of a series
     if ($bookmark['book']->format == 'page') {

@@ -1,7 +1,7 @@
 <?php
 
-myRequireOnce('getBuild.php', 'apk');
-myRequireOnce('verifyBook.php', 'apk');
+myRequireOnce('getBuild.php');
+myRequireOnce('verifyBook.php');
 myRequireOnce('dirListSubdir.php');
 myRequireOnce('copyDirectory.php');
 myRequireOnce('createDirectories.php');

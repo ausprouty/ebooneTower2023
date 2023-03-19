@@ -1,8 +1,8 @@
 <?php
 myRequireOnce('writeLog.php');
 myRequireOnce('dirMake.php');
-myRequireOnce('verifyBook.php', 'sdcard');
-myRequireOnce('verifyBookDir.php', 'sdcard');
+myRequireOnce('verifyBook.php');
+myRequireOnce('verifyBookDir.php');
 
 function checkStatusBook($p)
 {

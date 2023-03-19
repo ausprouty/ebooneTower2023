@@ -1,5 +1,7 @@
 <?php
 myRequireOnce('writeLog.php');
+myRequireOnce('videoTemplate.php');
+myRequireOnce('videoFollows.php');
 
 
 /*
@@ -47,8 +49,7 @@ For Output see appropriate VideoTemplate.php in
 */
 function modifyRevealVideo($text, $bookmark, $p)
 {
-    myRequireOnce('videoTemplate.php', $p['destination']);
-    myRequireOnce('videoFollows.php', 'apk');
+
     $debug = '';
     $previous_title_phrase = '';
     $watch_phrase = videoTemplateWatchPhrase($bookmark);

@@ -1,6 +1,5 @@
 <?php
-myRequireOnce('writeLog.php');
-myRequireOnce('videoFindForSDCardNewName.php', 'sdcard');
+
 /*
 Input is:
     <div class="reveal film">&nbsp;
@@ -91,10 +90,13 @@ NO JS:
     <div> <a href src="[video]">Watch  Luke 18:35-43 </a></div>
 
 */
+myRequireOnce('writeLog.php');
+myRequireOnce('videoFindForSDCardNewName.php');
+myRequireOnce('videoTemplate.php');
+myRequireOnce('videoFollows.php');
 function modifyRevealVideo($text, $bookmark, $p)
 {
-    myRequireOnce('videoTemplate.php', $p['destination']);
-    myRequireOnce('videoFollows.php', 'apk');
+
     $debug = '';
     $previous_title_phrase = '';
     $watch_phrase = videoTemplateWatchPhrase($bookmark);

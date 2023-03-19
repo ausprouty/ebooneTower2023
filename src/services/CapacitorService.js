@@ -130,18 +130,14 @@ export default {
       case 'page':
         action = 'AuthorApi.php?page=publishPage&action=publishPage'
         break
-      case 'videoMakeBatFileForApk':
-        action =
-          'AuthorApi.php?page=videoMakeBatFileForApk&action=videoMakeBatFileForApk'
+      case 'videoMakeBatFile':
+        action = 'AuthorApi.php?page=videoMakeBatFile&action=videoMakeBatFile'
         break
       case 'videoConcatBat':
         action = 'AuthorApi.php?page=videoConcatBat&action=videoConcatBat'
         break
       case 'media':
         action = 'AuthorApi.php?page=copyBookMedia&action=copyBookMedia'
-        break
-      case 'cover':
-        action = 'AuthorApi.php?page=copyApkCover&action=copyApkCover'
         break
 
       case 'default':

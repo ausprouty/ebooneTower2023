@@ -15,8 +15,6 @@ function publishDestination($p)
     return ROOT_STAGING;
   } elseif ($destination == 'website') {
     return ROOT_WEBSITE;
-  } elseif ($destination == 'capacitor') {
-    return ROOT_CAPACITOR . _publishDestinationCapacitor($p);
   } elseif ($destination == 'sdcard') {
     return ROOT_SDCARD . _publishDestinationSDCard($p);
   } elseif ($destination == 'nojs') {
@@ -57,20 +55,6 @@ function _publishDestinationSDCard($p)
   if (isset($p['sdcard_settings']->subDirectory)) {
     $bad = ['/', '..'];
     $clean = str_replace($bad, '', $p['sdcard_settings']->subDirectory);
-    return $clean;
-  }
-  return null;
-}
-function _publishDestinationCapacitor($p)
-{
-  if (!isset($p['capacitor_settings'])) {
-    $message = 'No Capacitor Settings';
-    writeLogError('_publishDestinationCapacitor-p ', $p);
-    trigger_error($message, E_USER_ERROR);
-  }
-  if (isset($p['capacitor_settings']->subDirectory)) {
-    $bad = ['/', '..'];
-    $clean = str_replace($bad, '', $p['capacitor_settings']->subDirectory);
     return $clean;
   }
   return null;

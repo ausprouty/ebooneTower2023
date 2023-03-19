@@ -16,10 +16,10 @@
           </button>
         </div>
       </div>
-      <div v-if="this.sdcard">
+      <div v-if="this.capacitor">
         <div>
-          <button class="button" @click="localPublish('sdcard')">
-            {{ this.sdcard_text }}
+          <button class="button" @click="localPublish('capacitor')">
+            {{ this.capacitor_text }}
           </button>
         </div>
       </div>
@@ -82,7 +82,7 @@ import { mapState } from 'vuex'
 import LogService from '@/services/LogService.js'
 import PrototypeService from '@/services/PrototypeService.js'
 import PublishService from '@/services/PublishService.js'
-import SDCardService from '@/services/SDCardService.js'
+import CapacitorService from '@/services/CapacitorService.js'
 import NavBar from '@/components/NavBarAdmin.vue'
 
 import { pageMixin } from '@/mixins/PageMixin.js'
@@ -102,6 +102,14 @@ export default {
       prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
       rldir: 'ltr',
       book_style: process.env.VUE_APP_SITE_STYLE,
+      capacitor_settings: {
+        languages: [],
+        footer: null,
+        remove_external_links: false,
+        action: 'capacitor',
+        series: null,
+        subDirectory: this.$route.params.language_iso + '/',
+      },
     }
   },
   methods: {
@@ -198,10 +206,11 @@ export default {
         response = await PublishService.publish('page', params)
         this.publish_text = 'Published'
       }
-      if (location == 'sdcard') {
-        this.sdcard_text = 'Publishing SD Card'
-        response = await SDCardService.publish('page', params)
-        this.sdcard_text = 'SD Card Published'
+      if (location == 'capacitor') {
+        this.capacitor_text = 'Publishing Capacitor Test Page'
+        params.capacitor_settings = this.capacitor_settings
+        response = await CapacitorService.publish('page', params)
+        this.capacitor_text = 'Published Capacitor Test Page'
       }
       if (response['error']) {
         this.error = response['message']
@@ -255,13 +264,14 @@ export default {
             if (this.publish) {
               if (this.publish_date) {
                 this.publish_text = 'Publish  Again'
-                this.sdcard = true
-                this.sdcard_text = 'SDCard'
+                this.capacitor = true
+                this.capacitor_text = 'Capacitor Test Page'
               } else {
                 this.publish_text = 'Publish '
               }
             }
           }
+          
         }
         //console.log('PagePreview-263')
         // end authorization for prototype and publish

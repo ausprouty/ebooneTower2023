@@ -1,7 +1,7 @@
 <?php
 
 
-myRequireOnce('getBuild.php', 'apk');
+myRequireOnce('getBuild.php');
 myRequireOnce('writeLog.php');
 myRequireOnce('findLibraries.php');
 

@@ -2,8 +2,8 @@
 myRequireOnce('getLatestContent.php');
 myRequireOnce('writeLog.php');
 myRequireOnce('dirMake.php');
-myRequireOnce('verifyBookDir.php', 'sdcard');
-myRequireOnce('verifyBookMedia.php', 'sdcard');
+myRequireOnce('verifyBookDir.php');
+myRequireOnce('verifyBookMedia.php');
 
 
 function verifyBookCover($p)

@@ -3,9 +3,9 @@
 myRequireOnce('dirMake.php');
 myRequireOnce('writeLog.php');
 myRequireOnce('modifyRevealVideo.php');
-myRequireOnce('videoFindForSDCardNewName.php', 'sdcard');
-myRequireOnce('audioMakeRefFileForSDCard.php', 'sdcard');
-myRequireOnce('videoReference.php', 'sdcard');
+myRequireOnce('videoFindForSDCardNewName.php');
+myRequireOnce('audioMakeRefFileForSDCard.php');
+myRequireOnce('videoReference.php');
 
 
 function videoMakeBatFileForSDCard($p)
