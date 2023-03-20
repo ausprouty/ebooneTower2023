@@ -99,6 +99,7 @@ export default {
     return {
       prototype_text: 'Prototype',
       publish_text: 'Publish',
+      capacitor_text: 'Capacitor Test Page',
       prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
       rldir: 'ltr',
       book_style: process.env.VUE_APP_SITE_STYLE,

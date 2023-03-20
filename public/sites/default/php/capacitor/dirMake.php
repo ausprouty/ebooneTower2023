@@ -19,7 +19,7 @@ function dirMake($filename)
 		$filename = ROOT_EDIT .  $filename;
 	}
 	//writeLogAppend('capacitor-dirMake-23', $filename);
-	$file_types = array('.bat', '.html', '.js', '.json', '.mp3', '.mp4', '.wav', '.vue');
+	$file_types = array('.bat', '.html', '.jpg', '.js', '.json', '.mp3', '.mp4', '.png', '.wav', '.vue');
 	$parts = explode('/', $filename);
 	$dir = '';
 	foreach ($parts as $part) {
@@ -40,8 +40,6 @@ function dirMake($filename)
 						writeLogAppend('capacitor-dirMake-42', $dir);
 					}
 				}
-			} else {
-				writeLogAppend('capacitor-dirMake-47', $dir);
 			}
 		}
 	}

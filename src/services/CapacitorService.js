@@ -77,6 +77,13 @@ export default {
     params.action = 'createBookMediaList'
     return await AuthorService.aReturnContentParsed(params)
   },
+  async createBookMediaBatFile(params) {
+    params = this.initialize(params)
+    params.page = 'createBookMediaBatFile'
+    params.action = 'createBookMediaBatFile'
+    return await AuthorService.aReturnContentParsed(params)
+  },
+
   async getBooks(params) {
     params = this.initialize(params)
     params.page = 'getBooksForLanguage'
