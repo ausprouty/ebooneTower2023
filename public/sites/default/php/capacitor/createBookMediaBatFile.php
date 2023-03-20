@@ -1,17 +1,24 @@
 <?php
 
-myRequireOnce('dirMake.php');
-myRequireOnce('writeLog.php');
-myRequireOnce('modifyRevealVideo.php');
-myRequireOnce('videoFindForOfflineNewName.php');
 myRequireOnce('audioMakeRefFileForOffline.php');
-myRequireOnce('videoReference.php');
+myRequireOnce('dirMake.php');
+myRequireOnce('modifyRevealVideo.php');
+myRequireOnce('videoBibleFindForOffline');
+myRequireOnce('videoFindForOfflineNewName.php');
 myRequireOnce('videoFollows.php');
+myRequireOnce('videoIntroFindForOffline.php');
+myRequireOnce('videoMakeBatFileForOfflineConsiderConcat.php');
+myRequireOnce('videoMakeBatFileForOfflineSingle.php');
+myRequireOnce('videoMakeBatFileForOfflineWrite.php');
+myRequireOnce('videoMakeBatFileToCheckSource.php');
+myRequireOnce('videoReference.php');
+myRequireOnce('writeLog.php');
 
 
-function videoMakeBatFileForOffline($p)
+
+function createBookMediaBatFile($p)
 {
-    audioMakeRefFileForOffline($p);
+    //audioMakeRefFileForOffline($p);
     $output = 'mkdir video' . "\n";
     $output .= 'cd video' . "\n";
     $output .= 'mkdir ' . $p['folder_name'] . "\n";
@@ -32,10 +39,10 @@ function videoMakeBatFileForOffline($p)
     if (isset($text->chapters)) {
         foreach ($text->chapters as $chapter) {
             if (!isset($chapter->prototype)) {
-                writeLogAppend('videoMakeBatFileForOffline', $chapter);
+                //writeLogAppennd('videoMakeBatFileForOffline', $chapter);
             } elseif ($chapter->prototype) {
                 $bible_videos = videoBibleFindForOffline($p, $chapter->filename);
-                writeLogAppend('videoMakeBatFileForOffline-37', $bible_videos);
+                //writeLogAppennd('videoMakeBatFileForOffline-37', $bible_videos);
                 $count = count($bible_videos);
                 //writeLog('videoMakeBatFileForOffline-32-count-'. $chapter->filename , $count);
                 $dir = 'video/' . $p['folder_name'];
@@ -47,16 +54,18 @@ function videoMakeBatFileForOffline($p)
                 }
                 // spanish MC2 has intro videos
                 $intro_videos = videoIntroFindForOffline($p, $chapter->filename);
-                writeLogAppend('videoMakeBatFileForOffline-49', $intro_videos);
-                $output .= videoMakeBatFileForOfflineSingle($intro_videos[0], $dir);
-                // merge together
-                $chapter_videos = array_merge($bible_videos, $intro_videos);
-                writeLogAppend('videoMakeBatFileForOffline-54', $chapter_videos);
+                writeLogAppennd('videoMakeBatFileForOffline-49', $intro_videos);
+                if (is_array($intro_videos)){}
+                    $output .= videoMakeBatFileForOfflineSingle($intro_videos[0], $dir);
+                    // merge together
+                    $chapter_videos = array_merge($bible_videos, $intro_videos);
+                    //writeLogAppennd('videoMakeBatFileForOffline-54', $chapter_videos);
+                }
                 videoMakeBatFileToCheckSource($chapter_videos, $p);
             }
         }
     }
-    writeLogAppend('videoMakeBatFileForOffline-59', $output);
+    //writeLogAppennd('videoMakeBatFileForOffline-59', $output);
     videoMakeBatFileForOfflineWrite($output, $p);
     return $output;
 }

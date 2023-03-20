@@ -1,5 +1,6 @@
 <?php
 myRequireOnce('videoMakeBatFileForOfflineSingle.php');
+myRequireOnce('videoMakeBatFileForOfflineConcat.php');
 
 function videoMakeBatFileForOfflineConsiderConcat($chapter_videos,  $p, $filename, $dir)
 {

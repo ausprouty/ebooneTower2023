@@ -6,7 +6,7 @@ myRequireOnce('modifyRevealAudio.php');
 
 
 
-function audioMakeRefFileForCapacitor($p)
+function audioMakeRefFileForOffline($p)
 {
     $output = '';
     $series_audios = [];

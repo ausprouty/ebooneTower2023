@@ -2,6 +2,7 @@
 
 myRequireOnce('videoOfflineNewName.php');
 myRequireOnce('videoMakeBatFileForOfflineSingle.php');
+myRequireOnce('videoMakeBatFileForOfflineWriteConcat.php');
 
 function videoMakeBatFileForOfflineConcat($chapter_videos, $p,  $filename)
 {

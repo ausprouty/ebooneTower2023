@@ -23,7 +23,7 @@
         <button
           class="button"
           v-bind:class="progress.media_batfile.progress"
-          @click="localPublish('media')"
+          @click="localPublish('media_batfile')"
         >
           {{ media_batfile_text }}
         </button>
@@ -76,7 +76,7 @@ export default {
       error_count: 0,
       content_text: 'Content',
       medialist_text: 'Media List',
-      media_batfile_text: 'Media',
+      media_batfile_text: 'Media BatFile',
       router_text: 'Router File',
       progress: {
         content: {
@@ -117,10 +117,11 @@ export default {
         this.router_text = 'Router Published'
       }
       if (location == 'media_batfile') {
-        this.media_batfile_text = 'Creating'
+        this.media_batfile_text = 'Creating Media BatFile'
         await CapacitorService.publish('media_batfile', params)
         response = await CapacitorService.createBookMediaBatFile(params)
-        this.progress.media = response
+        console.log (response)
+        this.progress.media_batfile = response
         this.media_batfile_text = 'Media BatFile Created'
       }
       if (location == 'medialist') {

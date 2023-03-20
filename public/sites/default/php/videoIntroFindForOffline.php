@@ -31,6 +31,10 @@
 
     <hr /></div>';
 */
+myRequireOnce('videoOfflineNewName.php');
+myRequireOnce('videoReference.php');
+myRequireOnce('mofifyVideoTextAndTime.php');
+
 function videoIntroFindForOffline($p, $filename)
 {
     //todo clean this
@@ -43,7 +47,7 @@ function videoIntroFindForOffline($p, $filename)
     $videoReference = videoReference();
     $video = [];
     $video['filename'] = $filename;
-    $new_name = videoFindForApkNewName($filename);
+    $new_name = videoOfflineNewName($filename);
     $video['new_name'] = $new_name;
     $sql = "SELECT * FROM content
         WHERE  country_code = '" . $p['country_code'] . "'

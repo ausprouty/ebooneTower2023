@@ -4,6 +4,7 @@ myRequireOnce('dirMake.php');
 myRequireOnce('verifyBookContent.php');
 myRequireOnce('verifyBookDir.php');
 myRequireOnce('verifyBookMediaList.php');
+myRequireOnce('verifyMediaBatFile.php');
 myRequireOnce('verifyBookRouter.php');
 
 function checkStatusBook($p)
@@ -25,8 +26,8 @@ function checkStatusBook($p)
             case "content":
                 $out->content =  $content_progress;
                 break;
-            case "media":
-                $out->media = verifyBookMedia($p);
+            case "media_batfile":
+                $out->media_batfile = verifyMediaBatFile($p);
                 break;
             case "medialist":
                 if ($content_progress->progress == 'done') {

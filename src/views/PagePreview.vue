@@ -272,7 +272,6 @@ export default {
               }
             }
           }
-          
         }
         //console.log('PagePreview-263')
         // end authorization for prototype and publish
