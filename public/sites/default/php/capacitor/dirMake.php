@@ -14,6 +14,7 @@ function dirMake($filename)
 		strpos($filename, ROOT_EDIT) === FALSE &&
 		strpos($filename, ROOT_STAGING) === FALSE &&
 		strpos($filename, ROOT_CAPACITOR) === FALSE &&
+		strpos($filename, ROOT_MEDIA) === FALSE &&
 		strpos($filename, ROOT_WEBSITE) === FALSE
 	) {
 		$filename = ROOT_EDIT .  $filename;

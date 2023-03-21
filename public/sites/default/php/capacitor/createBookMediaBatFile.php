@@ -54,8 +54,8 @@ function createBookMediaBatFile($p)
                 }
                 // spanish MC2 has intro videos
                 $intro_videos = videoIntroFindForOffline($p, $chapter->filename);
-                writeLogAppennd('videoMakeBatFileForOffline-49', $intro_videos);
-                if (is_array($intro_videos)){}
+                writeLogAppend('videoMakeBatFileForOffline-49', $intro_videos);
+                if (isset($intro_videos[0])) {
                     $output .= videoMakeBatFileForOfflineSingle($intro_videos[0], $dir);
                     // merge together
                     $chapter_videos = array_merge($bible_videos, $intro_videos);

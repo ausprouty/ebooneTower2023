@@ -89,12 +89,12 @@
       <p>The MediaList Files  Media.bat files will be at mc2.media/lists</p>
       <p>After you make the Media List Bat files:</p>
       <ul>
-        <li>Check for Errors in the error log</li>
+        <li>Note sure why I have this.....Check for Errors in the error log</li>
         <li>Correct errors in html and republish</li>
         <li>Download any missing files</li>
         <li>Update Reference File</li>
         <li>
-          Download, move to M:MC2/capacitor/
+          Download, move to M:MC2/Media/M2/
           {{ this.$route.params.country_code }}, unzip and run the bat files -
           (They take too much processing time to run remotely.)
         </li>
