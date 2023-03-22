@@ -3,6 +3,10 @@
 /home/globa544/edit.mc2.online/sites/mc2/content/M2/eng/multiply2/Period5.png
 ->
 /home/globa544/mc2.capacitor/eng/public/images/zoom/eng/multiply2/Period5.png"
+
+/home/globa544/edit.mc2.online/sites/mc2/content/M2/eng/multiply2/Period5.png
+->
+/home/globa544/mc2.capacitor/eng/src/assets/sites/mc2/content/M2/eng/multiply2/Period5.png"
 */
 myRequireOnce('dirMake.php');
 function copyFilesForCapacitor($from, $to, $called_by)

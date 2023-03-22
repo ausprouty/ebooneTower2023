@@ -30,9 +30,7 @@ function publishSeries($p)
     $text = json_decode($data['text']);
     if ($text) {
         // create Series
-        writeLogDebug('capacitor-publishSeries-48', 'I am going to createSeries');
         $result = createSeries($p, $data);
-        writeLogDebug('capacitor-publishSeries-50', 'I returned from  createSeries');
         $p = $result['p']; // this gives us $p['files_json']
         if ($result['text']) {
             // find css

@@ -14,8 +14,10 @@ function publishSeriesAndChapters($p)
     if (!isset($p['resume'])) {
         $p['resume'] = 'false';
     }
+
     // first prototype the Series Index
     $out = publishSeries($p);
+    trigger_error('publisSeriesAndChapters - did we create odd directories?', E_USER_ERROR);
     if (!isset($out['files_json'])) {
         $message = 'No files_json returned from Publish Series';
         writeLogError('capacitor-publishSeriesAndChapters-17', $message);

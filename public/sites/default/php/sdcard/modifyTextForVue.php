@@ -3,7 +3,7 @@
 myRequireOnce('modifyImagePathForVue.php');
 
 
-function modifyTextForVue($text, $bookmark)
+function XmodifyTextForVue($text, $bookmark)
 {
     $bad = array(
         '<form class = "auto_submit_item">',

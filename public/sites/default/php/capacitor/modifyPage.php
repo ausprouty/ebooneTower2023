@@ -25,7 +25,9 @@ myRequireOnce('writeLog.php');
 
 
 function modifyPage($text, $p, $data, $bookmark)
+
 {
+
     //writeLogDebug('capacitor-modifyPage-27', $text);
     $text = version2Text($text);
     //writeLogDebug('capacitor-modifyPage-31', $text);

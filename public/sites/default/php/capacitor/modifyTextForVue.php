@@ -1,6 +1,6 @@
 <?php
 
-myRequireOnce('modifyImagePathForVue.php');
+
 myRequireOnce('copyFilesForCapacitor.php');
 myRequireOnce('dirStandard.php');
 
@@ -20,7 +20,6 @@ function modifyTextForVue($text, $bookmark, $p)
     //writeLogDebug('capacitor-modifyTextForVue-19', $text);
     $text = modifyTextForVueReadMore($text, $bookmark);
     //writeLogDebug('capacitor-modifyTextForVue-21', $text);
-    $text = modifyImagePathForVue($text, $bookmark);
     //writeLogDebug('capacitor-modifyTextForVue-23', $text);
     return $text;
 }

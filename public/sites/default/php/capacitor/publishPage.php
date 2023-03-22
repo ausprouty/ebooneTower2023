@@ -13,6 +13,7 @@ myRequireOnce('addVueWrapper.php');
 
 function publishPage($p)
 {
+
     $p['files_in_page'] = isset($p['files_in_page']) ? $p['files_in_page'] : [];
     $rand = random_int(0, 9999);
     $debug = '';
@@ -33,6 +34,7 @@ function publishPage($p)
     }
     //writeLogError ('capacitor-publishPage-30-debug', $debug);
     $text  = createPage($p, $data);
+
     $files_in_page  = publishFilesInPage($text, $p);
     $p['files_in_page'] = array_merge($p['files_in_page'], $files_in_page);
     // get bookmark for stylesheet

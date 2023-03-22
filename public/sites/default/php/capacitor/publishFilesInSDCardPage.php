@@ -1,7 +1,7 @@
 <?php
 myRequireOnce('copyFilesForCapacitor.php');
 
-function publishFilesInCapacitorPage($filename, $p, $destination)
+function XpublishFilesInCapacitorPage($filename, $p, $destination)
 {
     writeLogDebug('capacitor-publishFilesInCapacitorPage-5', $p);
     if (strpos($filename,  myString('/assets/images')) !== false) {
