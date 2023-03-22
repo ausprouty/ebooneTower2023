@@ -110,7 +110,7 @@ function videoReference()
     $link['GOLuke2619'] = 'lumo/LUMOLuke19144.mp4';
     $link['GOLuke2620'] = 'lumo/LUMOLuke19452047.mp4';
     $link['GOLuke2622'] = 'lumo/LUMOLuke21372238.mp4';
-    $link['GOLuke2623'] =  'lumo/LUMOLuke22392325.mp4';
+    $link['GOLuke2623'] = 'lumo/LUMOLuke22392325.mp4';
     $link['GOLuke2625'] = 'lumo/LUMOLuke24153.mp4';
     $link['GOMark1501'] = 'lumo/LUMOMark1145.mp4';
     $link['GOMark1503'] = 'lumo/LUMOMark320441.mp4';

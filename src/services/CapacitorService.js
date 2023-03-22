@@ -81,7 +81,9 @@ export default {
     params = this.initialize(params)
     params.page = 'createBookMediaBatFile'
     params.action = 'createBookMediaBatFile'
-    return await AuthorService.aReturnContentParsed(params)
+    var response = await AuthorService.aReturnContent(params)
+    console.log(response)
+    return response
   },
 
   async getBooks(params) {

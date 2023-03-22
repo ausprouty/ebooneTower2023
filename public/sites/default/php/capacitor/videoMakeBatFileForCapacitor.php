@@ -223,7 +223,7 @@ function videoFindForCapacitor($p, $filename)
                 $video['download_name'] = $videoReference[$url];
             } else {
                 $video['download_name'] = NULL;
-                $message = 'Download name not found for ' . $url;
+                $message = "Download name not found for  $url in videoFindForCapacitor line 226\n";
                 writeLogError('videoFindForCapacitor-216-' . $p['language_iso'] . '-' . $filename, $message);
             }
         } else {
@@ -231,7 +231,7 @@ function videoFindForCapacitor($p, $filename)
                 $video['download_name'] = $videoReference[$url];
             } else {
                 $video['download_name'] = NULL;
-                $message = 'Download name not found for ' . $url;
+                $message = "Download name not found for  $url in videoFindForCapacitor line 234\n";
                 writeLogError('videoFindForCapacitor-226-' . $p['language_iso'] . '-' .  $filename, $message);
             }
         }

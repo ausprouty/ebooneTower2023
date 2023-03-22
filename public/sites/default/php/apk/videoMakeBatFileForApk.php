@@ -279,7 +279,7 @@ function videoBibleFindForApk($p, $filename)
                 $video['download_name'] = $videoReference[$url];
             } else {
                 $video['download_name'] = NULL;
-                $message = 'Download name not found for ' . $url;
+                $message = "Download name not found for  $url in videoBibleFindForApk line 282\n";
                 writeLogError('videoFindForApk-216-' . $p['language_iso'] . '-' . $filename, $message);
             }
         } else {
@@ -287,7 +287,7 @@ function videoBibleFindForApk($p, $filename)
                 $video['download_name'] = $videoReference[$url];
             } else {
                 $video['download_name'] = NULL;
-                $message = 'Download name not found for ' . $url;
+                $message = "Download name not found for  $url in videoBibleFindForApk line 290\n";
                 writeLogError('videoFindForApk-226-' . $p['language_iso'] . '-' .  $filename, $message);
             }
         }
@@ -396,7 +396,7 @@ function videoIntroFindForApk($p, $filename)
                 $video['download_name'] = $videoReference[$url];
             } else {
                 $video['download_name'] = NULL;
-                $message = 'Download name not found for ' . $url;
+                $message = "Download name not found for  $url in videoIntroFindForApk line 399\n";
                 writeLogError('videoFindForApk-216-' . $p['language_iso'] . '-' . $filename, $message);
             }
         } else {
@@ -404,7 +404,7 @@ function videoIntroFindForApk($p, $filename)
                 $video['download_name'] = $videoReference[$url];
             } else {
                 $video['download_name'] = NULL;
-                $message = 'Download name not found for ' . $url;
+                $message = "Download name not found for  $url in videoIntroFindForApk line 409\n";
                 writeLogError('videoFindForApk-226-' . $p['language_iso'] . '-' .  $filename, $message);
             }
         }

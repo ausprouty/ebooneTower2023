@@ -23,9 +23,10 @@ function createBookMediaList($p)
         if (!file_exists($file)) {
             $files_missing .= $file . '<br>';
             $progress->progress = 'error';
+        }
     }
-    if ($progress->progress == 'error'){
-        $progress->message = 'The following media is missing:<br>'. $files_missing;
+    if ($progress->progress == 'error') {
+        $progress->message = 'The following media is missing:<br>' . $files_missing;
     }
     return $progress;
 }

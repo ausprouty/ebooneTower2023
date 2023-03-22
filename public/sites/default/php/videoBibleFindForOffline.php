@@ -32,17 +32,30 @@
 */
 myRequireOnce('videoOfflineNewName.php');
 myRequireOnce('modifyViedoTextAndTime.php');
+myRequireOnce('videoReference.php');
+/*
+returns object
+
+$out->chapter_videos (array)
+$out->message (string)
+
+The message is errors which are passed back to CapacitorBookAction
+
+*/
 
 function videoBibleFindForOffline($p, $filename)
 {
-    //todo clean this
-    $chapter_videos = [];
 
-    //writeLog('videoFindForOffline-113-p', $p);
-    //writeLog('videoFindForOffline-114-filename', $filename);
+    $out = new stdClass();
+    $chapter_videos = [];
+    $message = null;
+
+    //writeLog('videoBibleFindForOffline-113-p', $p);
+    //writeLog('videoBibleFindForOffline-114-filename', $filename);
     // find chapter that has been prototyped
     $chapter_videos = [];
     $videoReference = videoReference();
+    writeLogDebug('videoBibleFindForOffline', $videoReference);
     $video = [];
     $video['filename'] = $filename;
     $new_name = videoOfflineNewName($filename);
@@ -56,14 +69,13 @@ function videoBibleFindForOffline($p, $filename)
         ORDER BY recnum DESC LIMIT 1";
     $data = sqlArray($sql);
     if (!isset($data['text'])) {
-        writeLogError('videoFindForOffline -' . $filename, $sql);
+        writeLogError('videoBibleFindForOffline -' . $filename, $sql);
         return $chapter_videos;
     }
     $text = $data['text'];
-    ////writeLog('videoFindForOffline-76-'. $filename, $text);
     $find = '<div class="reveal film">';
     $count = substr_count($text, $find);
-    //writeLog('videoFindForOffline-140-count', $count);
+    //writeLog('videoBibleFindForOffline-140-count', $count);
     $offset = 0;
     $previous_url = NULL;
     for ($i = 0; $i < $count; $i++) {
@@ -78,27 +90,26 @@ function videoBibleFindForOffline($p, $filename)
         //find url
         $url = modifyVideoRevealFindText($old, 4);
         $arc = 'api.arclight.org';
-        ////writeLog('videoFindForOffline-95-'. $filename . $count, $url . "\n" . $find);
-
+        ////writeLog('videoBibleFindForOffline-95-'. $filename . $count, $url . "\n" . $find);
         if (strpos($url, $arc)) {
             $url = str_ireplace('https://api.arclight.org/videoPlayerUrl?refId=', '', $url);
-            ////writeLog('videoFindForOffline-99-'. $filename . $count, $url);
+            ////writeLog('videoBibleFindForOffline-99-'. $filename . $count, $url);
             $start = strpos($url, '-') + 1;
             $url = substr($url, $start);
             if (isset($videoReference[$url])) {
                 $video['download_name'] = $videoReference[$url];
             } else {
                 $video['download_name'] = NULL;
-                $message = 'Download name not found for ' . $url;
-                writeLogError('videoFindForOffline-216-' . $p['language_iso'] . '-' . $filename, $message);
+                $message .= "Download name not found for $url in $filename in 
+                videoBibleFindForOffline line 103.  Check videoReference.php<br>\n";
             }
         } else {
             if (isset($videoReference[$url])) {
                 $video['download_name'] = $videoReference[$url];
             } else {
                 $video['download_name'] = NULL;
-                $message = 'Download name not found for ' . $url;
-                writeLogError('videoFindForOffline-226-' . $p['language_iso'] . '-' .  $filename, $message);
+                $message .= "Download name not found for $url in $filename in 
+                videoBibleFindForOffline line 112.  Check videoReference.php<br>\n";
             }
         }
         $video['url'] = $url;
@@ -114,6 +125,8 @@ function videoBibleFindForOffline($p, $filename)
         }
         $chapter_videos[] = $video;
     }
-    //writeLog('videoFindForOffline-185-chaptervideos', $chapter_videos);
-    return $chapter_videos;
+    writeLog('capacitor - videoBibleFindForOffline-124', $out);
+    $out->chapter_videos = $chapter_videos;
+    $out->message = $message;
+    return $out;
 }

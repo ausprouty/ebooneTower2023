@@ -7,6 +7,12 @@ myRequireOnce('verifyBookMediaList.php');
 myRequireOnce('verifyBookMediaBatFile.php');
 myRequireOnce('verifyBookRouter.php');
 
+/* return object
+$out->media_batfile->progress
+$out->media_batfile->message
+
+*/
+
 function checkStatusBook($p)
 {
     if (!isset($p['capacitor_settings']->subDirectory)) {

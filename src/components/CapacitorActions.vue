@@ -38,8 +38,10 @@
         </button>
       </div>
   </div>
-  <div class="row" v-if="progress.medialist.message">
-   {{ this.progress.medialist.message }}
+  <div class="row">
+    <span  v-html="progress.content.message"></span>
+   <span  v-html="progress.medialist.message"></span>
+   <span  v-html="progress.media_batfile.message"></span>
   </div>
 </div>
 </template>
@@ -118,9 +120,8 @@ export default {
       }
       if (location == 'media_batfile') {
         this.media_batfile_text = 'Creating Media BatFile'
-        await CapacitorService.publish('media_batfile', params)
         response = await CapacitorService.createBookMediaBatFile(params)
-        console.log (response)
+        console.log(response)
         this.progress.media_batfile = response
         this.media_batfile_text = 'Media BatFile Created'
       }
@@ -138,10 +139,11 @@ export default {
       }
       if (response == 'error') {
         console.log('You may have timed out')
-        this.error_count++
-        if (this.error_count == 1) {
-          this.checkStatus()
-        }
+        console.log (response)
+        //this.error_count++
+        //if (this.error_count == 1) {
+        //  this.checkStatus()
+        //}
       }
     },
     async checkStatus() {

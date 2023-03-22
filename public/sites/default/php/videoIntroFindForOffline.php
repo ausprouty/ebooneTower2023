@@ -34,14 +34,22 @@
 myRequireOnce('videoOfflineNewName.php');
 myRequireOnce('videoReference.php');
 myRequireOnce('mofifyVideoTextAndTime.php');
+/*
+returns object
+
+$out->chapter_videos (array)
+$out->message (string)
+
+The message is errors which are passed back to CapacitorBookAction
+
+*/
 
 function videoIntroFindForOffline($p, $filename)
 {
-    //todo clean this
+    $out = new stdClass();
     $chapter_videos = [];
+    $message = null;
 
-    //writeLog('videoFindForApk-113-p', $p);
-    //writeLog('videoFindForApk-114-filename', $filename);
     // find chapter that has been prototyped
     $chapter_videos = [];
     $videoReference = videoReference();
@@ -62,10 +70,8 @@ function videoIntroFindForOffline($p, $filename)
         return $chapter_videos;
     }
     $text = $data['text'];
-    ////writeLog('videoFindForApk-76-'. $filename, $text);
     $find = '<div class="reveal film intro">';
     $count = substr_count($text, $find);
-    //writeLog('videoFindForApk-140-count', $count);
     $offset = 0;
     $previous_url = NULL;
     for ($i = 0; $i < $count; $i++) {
@@ -80,27 +86,26 @@ function videoIntroFindForOffline($p, $filename)
         //find url
         $url = modifyVideoRevealFindText($old, 4);
         $arc = 'api.arclight.org';
-        ////writeLog('videoFindForApk-95-'. $filename . $count, $url . "\n" . $find);
+
 
         if (strpos($url, $arc)) {
             $url = str_ireplace('https://api.arclight.org/videoPlayerUrl?refId=', '', $url);
-            ////writeLog('videoFindForApk-99-'. $filename . $count, $url);
             $start = strpos($url, '-') + 1;
             $url = substr($url, $start);
             if (isset($videoReference[$url])) {
                 $video['download_name'] = $videoReference[$url];
             } else {
                 $video['download_name'] = NULL;
-                $message = 'Download name not found for ' . $url;
-                writeLogError('videoFindForApk-216-' . $p['language_iso'] . '-' . $filename, $message);
+                $message .= "Download name not found for $url in $filename in 
+                videoIntroFindForOffline line 100.  Check videoReferenceFile.\n";
             }
         } else {
             if (isset($videoReference[$url])) {
                 $video['download_name'] = $videoReference[$url];
             } else {
                 $video['download_name'] = NULL;
-                $message = 'Download name not found for ' . $url;
-                writeLogError('videoFindForApk-226-' . $p['language_iso'] . '-' .  $filename, $message);
+                $message .= "Download name not found for $url in $filename  in 
+                videoIntroFindForOffline line 107.  Check videoReferenceFile.\n";
             }
         }
         $video['url'] = $url;
@@ -115,6 +120,9 @@ function videoIntroFindForOffline($p, $filename)
         $video['new_name'] = $new_name . '-' . $intro_count;
         $chapter_videos[] = $video;
     }
-    //writeLog('videoFindForApk-185-chaptervideos', $chapter_videos);
-    return $chapter_videos;
+
+    $out->chapter_videos = $chapter_videos;
+    $out->message = $message;
+    writeLog('capacitor - videoIntroFindForOffline-124', $out);
+    return $out;
 }

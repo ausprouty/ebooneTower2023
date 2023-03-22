@@ -18,13 +18,14 @@ myRequireOnce('writeLog.php');
 
 function createBookMediaBatFile($p)
 {
+    $progress = new stdClass();
     //audioMakeRefFileForOffline($p);
     $output = 'mkdir video' . "\n";
     $output .= 'cd video' . "\n";
     $output .= 'mkdir ' . $p['folder_name'] . "\n";
     $output .= 'cd ..' . "\n";
-    $series_videos = [];
     $chapter_videos = [];
+    $message = '';
 
     //find series data that has been prototyped
     $sql = "SELECT * FROM content
@@ -34,6 +35,11 @@ function createBookMediaBatFile($p)
         AND prototype_date IS NOT NULL
         ORDER BY recnum DESC LIMIT 1";
     $data = sqlArray($sql);
+    if (!isset($data['text'])) {
+        $progress->message = 'Content not found for this series';
+        $progress->progress = 'undone';
+        return $progress;
+    }
     // find chapters that have been prototyped
     $text = json_decode($data['text']);
     if (isset($text->chapters)) {
@@ -41,8 +47,10 @@ function createBookMediaBatFile($p)
             if (!isset($chapter->prototype)) {
                 //writeLogAppennd('videoMakeBatFileForOffline', $chapter);
             } elseif ($chapter->prototype) {
-                $bible_videos = videoBibleFindForOffline($p, $chapter->filename);
-                //writeLogAppennd('videoMakeBatFileForOffline-37', $bible_videos);
+                $response = videoBibleFindForOffline($p, $chapter->filename);
+                writeLogAppend('capacitior-createBookMediaBatFile-45', $response);
+                $message .= $response->message;
+                $bible_videos = $response->chapter_videos;
                 $count = count($bible_videos);
                 //writeLog('videoMakeBatFileForOffline-32-count-'. $chapter->filename , $count);
                 $dir = 'video/' . $p['folder_name'];
@@ -53,19 +61,22 @@ function createBookMediaBatFile($p)
                     $output .= videoMakeBatFileForOfflineConsiderConcat($bible_videos,  $p, $chapter->filename, $dir);
                 }
                 // spanish MC2 has intro videos
-                $intro_videos = videoIntroFindForOffline($p, $chapter->filename);
-                writeLogAppend('videoMakeBatFileForOffline-49', $intro_videos);
+                $response = videoIntroFindForOffline($p, $chapter->filename);
+                $message .= $response->message;
+                $intro_videos = $response->chapter_videos;
                 if (isset($intro_videos[0])) {
                     $output .= videoMakeBatFileForOfflineSingle($intro_videos[0], $dir);
-                    // merge together
                     $chapter_videos = array_merge($bible_videos, $intro_videos);
-                    //writeLogAppennd('videoMakeBatFileForOffline-54', $chapter_videos);
                 }
                 videoMakeBatFileToCheckSource($chapter_videos, $p);
             }
         }
     }
-    //writeLogAppennd('videoMakeBatFileForOffline-59', $output);
+    writeLogDebug('capacitior-createBookMediaBatFile-69', $output);
     videoMakeBatFileForOfflineWrite($output, $p);
-    return $output;
+    $progress->message = $message;
+    $progress->progress = 'done';
+    writeLogDebug('capacitior-createBookMediaBatFile-76', $progress);
+
+    return $progress;
 }

@@ -102,7 +102,7 @@
         <li>Verify that all media files are in this directory</li>
       </ul>
       <p>Router will be found at {{ this.capacitor_root
-          }}/{{ this.capacitor.subDirectory }}/router</p>
+          }}/{{ this.capacitor.subDirectory }}router</p>
 
     </div>
   </div>
