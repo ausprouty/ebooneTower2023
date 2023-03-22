@@ -42,6 +42,7 @@ function copyFilesForCapacitor($from, $to, $called_by)
             dirMake($to);
             if (!is_dir($to)) {
                 copy($from, $to);
+                writeLogAPPEND('CHECK- capacitor-copyFilesForCapacitor-45', $to);
             } else {
                 writeLogAPPEND('ERROR- capacitor-copyFilesForCapacitor-47', $to);
             }

@@ -1,7 +1,7 @@
 <?php
 myRequireOnce('dirList.php');
 myRequireOnce('dirMake.php');
-function copyStandardFiles($p)
+function XcopyStandardFiles($p)
 {
     $dirStandard = 'sites/' . SITE_CODE . '/images/standard/';
     $dirSource =  ROOT_EDIT . $dirStandard;

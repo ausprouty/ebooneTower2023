@@ -8,7 +8,7 @@
 myRequireOnce('copyDirectory.php');
 myRequireOnce('verifyBookDir.php');
 
-function verifyCommonFiles($p)
+function XverifyCommonFiles($p)
 {
   $subdirectory =  _verifyBookClean($p['capacitor_settings']->subDirectory);
   $p['dir_capacitor'] = ROOT_CAPACITOR . $subdirectory . '/';;
@@ -51,9 +51,7 @@ function verifyCommonFiles($p)
     }
   }
   // apk
-  $source = ROOT_EDIT . 'sites/default/capacitor/Cx File Explorer.apk';
-  $destination = $p['dir_capacitor'] . 'Cx File Explorer.apk';
-  copy($source, $destination);
+
 
   $source = ROOT_EDIT . 'sites/' . SITE_CODE . '/prototype/capacitor/' .  SITE_CODE . '.html';
   $destination = $p['dir_capacitor'] . SITE_CODE . '.html';

@@ -100,6 +100,14 @@ function videoIntroFindForOffline($p, $filename)
                 videoIntroFindForOffline line 100.  Check videoReferenceFile.\n";
             }
         } else {
+            $youtube = 'https://www.youtube.com/watch?v=';
+            if (strpos($url, $youtube)) {
+                $url = str_replace($youtube, 'youtube-', $url);
+            }
+            $vimeo = 'https://vimeo.com/';
+            if (strpos($url, $vimeo)) {
+                $url = str_replace($vimeo, 'vimeo-', $url);
+            }
             if (isset($videoReference[$url])) {
                 $video['download_name'] = $videoReference[$url];
             } else {
@@ -116,7 +124,7 @@ function videoIntroFindForOffline($p, $filename)
         $video['follows'] = videoFollows($previous_url, $url);
         $previous_url = $url;
         //if more than one video in this chapter
-        $intro_count = 100 + i;
+        $intro_count = 100 + $i;
         $video['new_name'] = $new_name . '-' . $intro_count;
         $chapter_videos[] = $video;
     }

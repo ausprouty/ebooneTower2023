@@ -55,7 +55,7 @@ function videoBibleFindForOffline($p, $filename)
     // find chapter that has been prototyped
     $chapter_videos = [];
     $videoReference = videoReference();
-    writeLogDebug('videoBibleFindForOffline', $videoReference);
+    writeLogDebug('videoReference from videoBibleFindForOffline', $videoReference);
     $video = [];
     $video['filename'] = $filename;
     $new_name = videoOfflineNewName($filename);
@@ -104,6 +104,15 @@ function videoBibleFindForOffline($p, $filename)
                 videoBibleFindForOffline line 103.  Check videoReference.php<br>\n";
             }
         } else {
+            $youtube = 'https://www.youtube.com/watch?v=';
+            if (strpos($url, $youtube) !== FALSE) {
+                $url = str_replace($youtube, 'youtube-', $url);
+            }
+            $vimeo = 'https://vimeo.com/';
+            if (strpos($url, $vimeo)  !== FALSE) {
+                writeLogAppend('videoBibleFindForOffline-113', $vimeo);
+                $url = str_replace($vimeo, 'vimeo-', $url);
+            }
             if (isset($videoReference[$url])) {
                 $video['download_name'] = $videoReference[$url];
             } else {

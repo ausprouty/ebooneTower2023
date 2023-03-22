@@ -10,7 +10,7 @@ function audioReference()
 	$link['https://vimeo.com/640677429'] = '/MC2/spa/audio/tc/tc07.mp3';
 	$link['https://vimeo.com/640678351'] = '/MC2/spa/audio/tc/tc08.mp3';
 	$link['https://vimeo.com/640688707'] = '/MC2/spa/audio/tc/tc09.mp3';
-	$link['https%3A//api.soundcloud.com/tracks/1129152820'] = '/MC2/eng/audio/tc/tc01.mp3';
+	$link['https://api.soundcloud.com/tracks/1129152820'] = '/MC2/eng/audio/tc/tc01.mp3';
 	$link['https://api.soundcloud.com/tracks/1129152820'] = '/MC2/eng/audio/tc/tc01.mp3';
 	$link['https://api.soundcloud.com/tracks/1129152820'] = '/MC2/eng/audio/tc/tc01.mp3';
 	$link['https://api.soundcloud.com/tracks/1128625594'] = '/MC2/eng/audio/tc/tc02.mp3';

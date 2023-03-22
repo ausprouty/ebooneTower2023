@@ -1,6 +1,7 @@
 <?php
 
 myRequireOnce('dirMake.php');
+myRequireOnce('dirStandard.php');
 myRequireOnce('writeLog.php');
 myRequireOnce('modifyRevealAudio.php');
 
@@ -25,7 +26,7 @@ function audioMakeRefFileForOffline($p)
         foreach ($text->chapters as $chapter) {
             if (isset($chapter->prototype)) {
                 if ($chapter->prototype) {
-                    $chapter_audios = audioFindForCapacitor($p, $chapter->filename);
+                    $chapter_audios = audioFindForOffline($p, $chapter->filename);
                     if (count($chapter_audios) > 0) {
                         foreach ($chapter_audios as $chapter_audio) {
                             array_push($series_audios, $chapter_audio);
@@ -33,37 +34,38 @@ function audioMakeRefFileForOffline($p)
                     }
                 }
             } else {
-                writeLogError('audioMakeRefFileForCapacitor-36', $chapter);
+                writeLogError('audioMakeRefFileForOffline-36', $chapter);
             }
         }
     }
 
     // create file even if no data; otherwise verify will not work
-    $template = '$link[\'[old_name]\'] = \'[new_name]\'';
+    $template = 'Rename and Resample [old_name] to [new_name]';
     foreach ($series_audios as $audio) {
         if ($audio['url']) {
+            $new_name = strtoupper(SITE_CODE) . '/' . $p['language_iso']  . '/audio/' . $p['folder_name'] . '/' . $audio['new_name'] . '.mp3';
             $placeholders = array(
                 '[old_name]',
                 '[new_name]'
             );
             $replace = array(
                 $audio['url'],
-                $audio['new_name']
+                $new_name
             );
             $output .= str_replace($placeholders, $replace,  $template) . "\n";
         }
     }
-    audioMakeBatFileForCapacitorWrite($output, $p);
+    audioMakeBatFileForOfflineWrite($output, $p);
 
     return $output;
 }
 
-function audioMakeBatFileForCapacitorWrite($text, $p)
+function audioMakeBatFileForOfflineWrite($text, $p)
 {
     //define("ROOT_EDIT", '/home/vx5ui10wb4ln/public_html/myfriends.edit/');
-    $dir = ROOT_EDIT  . 'sites/' . SITE_CODE  . '/capacitor/' . $p['country_code'] . '/' . $p['language_iso'] . '/';
-    dirMake($dir);
-    $filename =  $p['folder_name'] .  'audio.bat';
+    $dir =  dirStandard('media_batfile', DESTINATION,  $p, $folders = null, $create = true);
+    $filename =  $p['folder_name'] .  'audio.txt';
+    writeLogDebug('audioMakeBatFileForOfflineWrite-67', $filename);
     $fh = fopen($dir . $filename, 'w');
     fwrite($fh, $text);
     fclose($fh);
@@ -100,15 +102,15 @@ function audioMakeBatFileForCapacitorWrite($text, $p)
 
     <hr /></div>';
 */
-function audioFindForCapacitor($p, $filename)
+function audioFindForOffline($p, $filename)
 {
-    //writeLog('audioFindForCapacitor-113-p', $p);
-    //writeLog('audioFindForCapacitor-114-filename', $filename);
+    //writeLog('audioFindForOffline-113-p', $p);
+    //writeLog('audioFindForOffline-114-filename', $filename);
     // find chapter that has been prototyped
     $chapter_audios = [];
     $audio = [];
     $audio['filename'] = $filename;
-    $new_name = audioFindForCapacitorNewName($filename);
+    $new_name = audioFindForOfflineNewName($filename);
     $audio['new_name'] = $new_name;
     $sql = "SELECT * FROM content
         WHERE  country_code = '" . $p['country_code'] . "'
@@ -119,7 +121,7 @@ function audioFindForCapacitor($p, $filename)
         ORDER BY recnum DESC LIMIT 1";
     $data = sqlArray($sql);
     $text = $data['text'];
-    //writeLog('audioFindForCapacitor-76-'. $filename, $text);
+    //writeLog('audioFindForOffline-76-'. $filename, $text);
     $find = '<div class="reveal audio">';
     $count = substr_count($text, $find);
     $offset = 0;
@@ -135,7 +137,7 @@ function audioFindForCapacitor($p, $filename)
         $audio['title'] = modifyRevealAudioFindText($old, 2);
         //find url
         $url = modifyRevealAudioFindText($old, 4);
-        //writeLog('audioFindForCapacitor-95-'. $filename . $count, $url . "\n" . $find);
+        //writeLog('audioFindForOffline-95-'. $filename . $count, $url . "\n" . $find);
         $audio['url'] = $url;
         //if more than one audio in this chapter
         if ($i > 0) {
@@ -143,10 +145,10 @@ function audioFindForCapacitor($p, $filename)
         }
         $chapter_audios[] = $audio;
     }
-    //writeLog('audioFindForCapacitor-185-chapteraudios', $chapter_audios);
+    //writeLog('audioFindForOffline-185-chapteraudios', $chapter_audios);
     return $chapter_audios;
 }
-function  audioFindForCapacitorNewName($filename)
+function  audioFindForOfflineNewName($filename)
 {
     return $filename;
 }
