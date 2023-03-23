@@ -27,6 +27,7 @@ function modifyTextForVue($text, $bookmark, $p)
 function modifyTextForImages($text, $p)
 {
     //writeLogDebug('capacitor-modifyTextForImages-29', $text);
+    $progress = new stdClass();
     $find = '<img';
     $bad = array(' ', '"');
     $count = substr_count($text, $find);
@@ -48,7 +49,7 @@ function modifyTextForImages($text, $p)
         // do not replace any that start with @
         if (strpos($source, '@') === false) {
             //writeLogAppend('capacitor-modifyTextForImages-44', $message);
-            modifyTextForImagesCopy($source, $p);
+            $progress = modifyTextForImagesCopy($source, $p);
             $new_source = '@/assets/' . $source;
             $new_source = str_replace('//', '/', $new_source);
             $new_div = str_replace($src, $new_source, $img_div);
@@ -60,16 +61,18 @@ function modifyTextForImages($text, $p)
         $pos_start = $img_end;
         //writeLogDebug('capacitor-modifyTextForImages-61-' . $i, $text);
     }
-    return $text;
+    return $text and $progress;
 }
 function modifyTextForImagesCopy($source, $p)
 {
+    $progress = new stdClass();
     $cap_dir = dirStandard('assets', DESTINATION,  $p, $folders = null, $create = true);
     $destination = $cap_dir . $source;
     $destination = str_replace('//', '/', $destination,);
     $source = ROOT_WEBSITE . $source;
     $source = str_replace('//', '/', $source);
-    copyFilesForCapacitor($source, $destination, 'modifyTextForImages');
+    $progress = copyFilesForCapacitor($source, $destination, 'modifyTextForImages');
+    return $progress;
 }
 
 

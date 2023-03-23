@@ -7,6 +7,7 @@ myRequireOnce('writeLog.php');
 
 function createDirectory($dir)
 {
+    // we can not handle relative 
     if (strpos($dir, './') !== FALSE) {
         writeLogAppend('ERROR-createDirectory', $dir);
         return;

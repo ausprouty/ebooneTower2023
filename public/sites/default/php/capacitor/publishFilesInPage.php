@@ -4,6 +4,7 @@
 */
 
 //define("ROOT_EDIT", '/home/globa544/edit.mc2.online/');
+myRequireOnce('progressMerge.php');
 myRequireOnce('publishDestination.php');
 myRequireOnce('publishFilesInSDCardPage.php');
 myRequireOnce('writeLog.php');
@@ -31,6 +32,9 @@ function  publishFilesInPage($text, $p)
 function publishFilesInPageFind($find_begin, $text, $p)
 {
     $destination = DESTINATION;
+    $progress = new stdClass();
+    $new_progress = new stdClass();
+    $out = new stdClass();
     $files_in_page = [];
     $debug = '';
     $find_end = '"';
@@ -44,17 +48,14 @@ function publishFilesInPageFind($find_begin, $text, $p)
             $pos_end = strpos($text, $find_end) - 1;
             $filename = substr($text, 1, $pos_end);
             // filename = /sites/mc2/images/standard/look-back.png
-            $from = ROOT_EDIT . $filename;
+            $from = ROOT_EDIT .  $filename;
             $from = str_replace('//', '/', $from);
-            $debug .= "from is $from\n";
             if (file_exists($from)) {
-                // creating list of files to include in download for pwa
-                $bad = 'sites/' . SITE_CODE . '/content/';
-                $clean_filename = str_replace($bad, 'content/', $filename);
-                $files_in_page[] = '/' . $clean_filename;
+                $files_in_page[] = $filename;
                 // I think I want to include html
                 if (!is_dir($from) && strpos($from, '.html') === false) {
-                    publishFilesInPageWrite($filename, $p);
+                    $new_progress = publishFilesInPageWrite($filename, $p);
+                    $progress = progressMerge($progress, $new_progress);
                 }
             } else { // we do not need to copy html files; they may not have been rendered yet.
                 if (strpos($filename, '.html') == false) {
@@ -62,7 +63,8 @@ function publishFilesInPageFind($find_begin, $text, $p)
                         if (strpos($filename, 'script:popUp') == false) { // no need to copy from popups
                             $find = 'localVideoOptions.js';
                             if (strpos($filename, $find)  == false) {
-                                publishFilesInPageWrite($filename, $p);
+                                $new_progress =  publishFilesInPageWrite($filename, $p);
+                                $progress = progressMerge($progress, $new_progress);
                             }
                         }
                     }
@@ -71,7 +73,9 @@ function publishFilesInPageFind($find_begin, $text, $p)
             $text = substr($text, $pos_end);
         }
     }
-    return $files_in_page;
+    $out->progress = $progress;
+    $out->files_in_page = $files_in_page;
+    return $out;
 }
 /*
 sites/mc2/images/ribbons/back-ribbon-mc2.png
@@ -82,9 +86,13 @@ sites/mc2/images/standard/Share.png
 */
 function publishFilesInPageWrite($filename, $p)
 {
+    $progress = new stdClass();
     $from = ROOT_EDIT . $filename;
+    $from = str_replace('//', '/', $from);
     $dir = dirStandard('assets', DESTINATION,  $p, $folders = null, $create = true);
     $to = $dir . $filename;
+    $to = str_replace('//', '/', $to);
     writeLogAppend('capacitor-publishFilesInPageWrite-81', "$from -> $to");
-    copyFilesForCapacitor($from, $to, 'publishFilesInPageWrite');
+    $progress = copyFilesForCapacitor($from, $to,  'publishFilesInPage');
+    return $progress;
 }

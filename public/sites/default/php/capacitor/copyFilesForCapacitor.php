@@ -12,23 +12,28 @@ myRequireOnce('dirMake.php');
 function copyFilesForCapacitor($from, $to, $called_by)
 
 {
+    $progress = new stdClass();
+    $progress->progress = 'undone';
     $top_guard = ['src', 'public'];
     $src_guard = ['assets', 'components', 'router', 'views'];
     if (strpos($to, '@') !== false) {
         writeLogError('copyFilesForCapacitor-10', $to);
-        return;
+        $progress->message = "$to starts with @ in copyFilesForCapacitor";
+        $progress->progress = 'error';
+        return $progress;
     }
     if (strpos($from, '@') !== false) {
         writeLogError('copyFilesForCapacitor-14', $to);
-        return;
+        $progress->message = "$from starts with @ in copyFilesForCapacitor";
+        $progress->progress = 'error';
+        return $progress;
     }
     $to = str_replace('//', '/', $to);
-    $message = "$to\n$from\n$called_by\n\n";
-    writeLogAppend('capacitor-copyFilesForCapacitor-7', $message);
-
     if (strpos($to, ROOT_CAPACITOR) === false) {
         writeLogError('copyFilesForCapacitor-18', $to);
-        return;
+        $progress->message = "Unguarded route of   $parts[2] in  $to in copyFilesForCapacitor";
+        $progress->progress = 'error';
+        return $progress;
     }
     $test = str_replace(ROOT_CAPACITOR, '', $to);
     $parts = explode('/', $test);
@@ -37,8 +42,9 @@ function copyFilesForCapacitor($from, $to, $called_by)
         if ($parts[1] == 'src') {
             if (!in_array($parts[2], $src_guard)) {
                 writeLogError('capacitor-copyFilesForCapacitor-34', $parts);
-                $message = "Unguarded route of   $parts[2] in  $to";
-                trigger_error($message, E_USER_ERROR);
+                $progress->message = "Unguarded route of   $parts[2] in  $to in copyFilesForCapacitor";
+                $progress->progress = 'error';
+                return $progress;
             }
         }
         createDirectory($to);
@@ -46,17 +52,18 @@ function copyFilesForCapacitor($from, $to, $called_by)
             dirMake($to);
             if (!is_dir($to)) {
                 copy($from, $to);
-                writeLogAPPEND('CHECK- capacitor-copyFilesForCapacitor-45', $to);
+                $progress->progress = 'done';
             } else {
-                writeLogAPPEND('ERROR- capacitor-copyFilesForCapacitor-47', $to);
+                $progress->message = "Destination  of $to is a directory when called by $called_by in copyFilesForCapacitor";
+                $progress->progress = 'error';
             }
         } else {
-            $message = "Source file does not exist $from when called by $called_by";
-            trigger_error($message, E_USER_ERROR);
+            $progress->message = "Source file does not exist $from when called by $called_by in copyFilesForCapacitor";
+            $progress->progress = 'error';
         }
     } else {
-        writeLogError('capacitor-copyFilesForCapacitor-42', $parts);
-        $message = "Unguarded route of   $parts[1] in  $to";
-        trigger_error($message, E_USER_ERROR);
+        $progress->message = "Unguarded route of   $parts[1] in  $to in copyFilesForCapacitor";
+        $progress->progress = 'error';
     }
+    return $progress;
 }

@@ -17,6 +17,7 @@ function createLibrary($p, $text)
     */
     writeLogDebug('capacitor-createLibrary- capacitor', $p);
     $out = [];
+    $progress = new stdClass();
     $out['books'] = []; // used by publishLibraryAndBooks
     $debug = "createLibrary\n";
     $filename =  $p['library_code'];
@@ -155,7 +156,8 @@ function createLibrary($p, $text)
                     */
                     $from = ROOT_EDIT . $book_image;
                     $to = dirStandard('assets', DESTINATION,  $p, $folders = null, $create = true);
-                    copyFilesForCapacitor($from, $to, 'createLibrary');
+                    $new_progress = copyFilesForCapacitor($from, $to, 'createLibrary');
+                    $progress = progressMerge($progress, $new_progress);
                     writeLogAppend('createLibrary-capacitor- 163', $book_image);
                     $replace = array(
                         $this_link,
@@ -168,8 +170,9 @@ function createLibrary($p, $text)
             }
         }
     }
-
-    $out['body'] = str_replace('[[books]]', $books, $body);
+    $out = new stdClass();
+    $out->body = str_replace('[[books]]', $books, $body);
+    $out->progress = $progress;
     //writeLog('createLibrary', $debug);
     return $out;
 }

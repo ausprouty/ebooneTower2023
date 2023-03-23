@@ -25,6 +25,7 @@ myRequireOnce('writeLog.php');
 
 function modifyZoomImage($text, $p)
 {
+    $progress = new stdClass();
     //writeLogDebug('capacitor-modifyZoomImage-sd-27', $text);
     $template = '   
     <div class="zoom-image">
@@ -49,7 +50,10 @@ function modifyZoomImage($text, $p)
         $source_image = modifyZoomImageGetImage($old);
         $regular_image = modifyZoomImageGetImageRegular($source_image, $p);
         $zoom_image = modifyZoomImageGetImageZoom($source_image, $p);
-
+        $new_progress = copyFilesForCapacitor($source_image, $zoom_image, 'modifyZoomImage-53');
+        $progress = progressMerge($progress, $new_progress);
+        $new_progress = copyFilesForCapacitor($source_image, $regular_image, 'modifyZoomImage-54');
+        $progress = progressMerge($progress, $new_progress);
         // replace placeholders with values
         $placeholders = array('[regular_image]', '[zoom_image]', '[alt]', '[source_image]');
         $values = array($regular_image, $zoom_image, $alt, $source_image);
@@ -57,7 +61,10 @@ function modifyZoomImage($text, $p)
         $text = substr_replace($text, $new, $pos_start, $length_span);
     }
     //writeLogDebug('capacitor-modifyZoomImage-sd-57', $text);
-    return $text;
+    $out = new stdClass();
+    $out->text = $text;
+    $out->progress = $progress;
+    return $out;
 }
 
 /*
@@ -75,8 +82,6 @@ function  modifyZoomImageGetImageRegular($image, $p)
     $raw = substr($image, $pos_start);
     $dir_zoom = dirStandard('zoom_root', DESTINATION,  $p, $folders = null, $create = true);
     $to = $dir_zoom . $raw;
-    copyFilesForZoom($image, $to);
-    copyFilesForCapacitor($image, $to, 'zoom');
     return $to;
 }
 function   modifyZoomImageGetImageZoom($image, $p)
@@ -87,11 +92,4 @@ function   modifyZoomImageGetImageZoom($image, $p)
     $dir_zoom = dirStandard('zoom_root', DESTINATION,  $p, $folders = null, $create = true);
     $output = $dir_zoom . $raw;
     return $output;
-}
-
-function copyFilesForZoom($from, $to)
-{
-    $message = "$from > $to\n";
-    writeLogAppend('WATCH-copyFilesForZoom-126', $message);
-    copyFilesForCapacitor($from, $to, 'zoom');
 }
