@@ -69,36 +69,9 @@ function modifyTextForImagesCopy($source, $p)
     $destination = str_replace('//', '/', $destination,);
     $source = ROOT_WEBSITE . $source;
     $source = str_replace('//', '/', $source);
-    $message = "$source\n$destination\n\n";
-    //writeLogAppend('capacitor-modifyTextForImagesCopy-49', $message);
     copyFilesForCapacitor($source, $destination, 'modifyTextForImages');
 }
-function XmodifyTextForImages($text, $bookmark)
-{
-    $text = str_ireplace('sites/' . SITE_CODE . '/images/standard/', '@/assets/images/standard/', $text);
-    $bad = array(
-        '<img src="content/',
-        'src="/sites/mc2/content/M2/'
-    );
-    $good = array(
-        '<img src="@/assets/',
-        'src="@/assets/'
-    );
-    $text = str_replace($bad, $good, $text);
-    //writeLogDebug('capacitor-modifyTextForImages-31', $bookmark);
-    $language_iso = $bookmark['language']->iso;
-    $bad = array(
-        '/@/assets',
-        '/' . $language_iso . '/images/',
 
-    );
-    $good = array(
-        '@/assets',
-        '/images/' . $language_iso . '/',
-    );
-    $text = str_replace($bad, $good, $text);
-    return $text;
-}
 
 /*need to change 
 
