@@ -32,9 +32,9 @@ function  publishFilesInPage($text, $p)
 function publishFilesInPageFind($find_begin, $text, $p)
 {
     $destination = DESTINATION;
-    $progress = new stdClass();
-    $new_progress = new stdClass();
-    $out = new stdClass();
+    $progress = new stdClass;
+    $new_progress = new stdClass;
+    $out = new stdClass;
     $files_in_page = [];
     $debug = '';
     $find_end = '"';
@@ -86,7 +86,7 @@ sites/mc2/images/standard/Share.png
 */
 function publishFilesInPageWrite($filename, $p)
 {
-    $progress = new stdClass();
+    $progress = new stdClass;
     $from = ROOT_EDIT . $filename;
     $from = str_replace('//', '/', $from);
     $dir = dirStandard('assets', DESTINATION,  $p, $folders = null, $create = true);

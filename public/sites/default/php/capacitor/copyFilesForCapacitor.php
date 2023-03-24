@@ -12,7 +12,7 @@ myRequireOnce('dirMake.php');
 function copyFilesForCapacitor($from, $to, $called_by)
 
 {
-    $progress = new stdClass();
+    $progress = new stdClass;
     $progress->progress = 'undone';
     $top_guard = ['src', 'public'];
     $src_guard = ['assets', 'components', 'router', 'views'];
@@ -53,6 +53,7 @@ function copyFilesForCapacitor($from, $to, $called_by)
             if (!is_dir($to)) {
                 copy($from, $to);
                 $progress->progress = 'done';
+                $progress->message = "Copied $from to  $to  when called by $called_by in copyFilesForCapacitor";
             } else {
                 $progress->message = "Destination  of $to is a directory when called by $called_by in copyFilesForCapacitor";
                 $progress->progress = 'error';

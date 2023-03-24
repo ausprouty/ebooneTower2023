@@ -17,6 +17,7 @@ function publishSeriesAndChapters($p)
 
     // first prototype the Series Index
     $out = publishSeries($p);
+    writeLogDebug('publishSeriesAndChapters -20', $out);
 
     if (!isset($out['files_json'])) {
         $message = 'No files_json returned from Publish Series';
@@ -80,19 +81,15 @@ function publishSeriesAndChapters($p)
         updateCache($cache, DESTINATION);
     }
     clearCache($cache, DESTINATION);
-    trigger_error('publisSeriesAndChapters - did we create odd directories?', E_USER_ERROR);
-    return true;
+    return $out;
 }
 function publishSeriesAndChaptersCombineArrays($files_in_pages, $new_files)
 {
-    //writeLogDebug('publishSeriesAndChaptersCombineArrays-101', $files_in_pages);
-    //writeLogDebug('publishSeriesAndChaptersCombineArrays-102', $new_files);
     foreach ($new_files as $new) {
         writeLogAppend('ppublishSeriesAndChaptersCombineArrays-104', $new);
         if (!in_array($new, $files_in_pages)) {
             array_push($files_in_pages, $new);
         }
     }
-    //writeLogAppend('publishSeriesAndChaptersCombineArrays-109', $files_in_pages);
     return $files_in_pages;
 }

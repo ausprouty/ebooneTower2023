@@ -18,7 +18,7 @@ myRequireOnce('dirMake.php');
 
 function verifyBookMedia($p)
 {
-    $progress = new stdClass();
+    $progress = new stdClass;
     $progress->progress = 'undone';
     return $progress;
 }

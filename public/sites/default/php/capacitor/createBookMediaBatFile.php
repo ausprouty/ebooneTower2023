@@ -18,7 +18,7 @@ myRequireOnce('writeLog.php');
 
 function createBookMediaBatFile($p)
 {
-    $progress = new stdClass();
+    $progress = new stdClass;
     audioMakeRefFileForOffline($p);
     $output = 'mkdir video' . "\n";
     $output .= 'cd video' . "\n";

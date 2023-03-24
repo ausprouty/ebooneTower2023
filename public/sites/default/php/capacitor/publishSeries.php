@@ -8,6 +8,7 @@ myRequireOnce('publicationCache.php');
 // returns $p[files_json] for use by publishSeriesandChapters
 function publishSeries($p)
 {
+    $progress = new stdClass;
     // when coming in with only book information the folder_name is not yet set
     if (!isset($p['folder_name'])) {
         if (isset($p['code'])) {
@@ -23,14 +24,16 @@ function publishSeries($p)
         ORDER BY recnum DESC LIMIT 1";
     $data = sqlArray($sql);
     if (!$data) {
-        $message = 'No data found for: ' . $sql;
-        writeLogError('capacitor-publishSeries-29', $message);
-        trigger_error($message, E_USER_ERROR);
+        $progress->message = 'No data found for: ' . $sql;
+        $progress->progress = 'error';
+        $p['progress'] = $progress;
+        return $p;
     }
     $text = json_decode($data['text']);
     if ($text) {
         // create Series
         $result = createSeries($p, $data);
+        // returns
         $p = $result['p']; // this gives us $p['files_json']
         if ($result['text']) {
             // find css
@@ -50,9 +53,13 @@ function publishSeries($p)
             $time = time();
         }
     } else {
-        $message = 'No text found for ' .  $query . "\n";
-        writeLogAppend('ERROR- capacitor-publishSeries-93', $message);
-        trigger_error($message, E_USER_ERROR);
+        $progress->message = 'No data found for: ' . $sql;
+        $progress->progress = 'error';
+        $p['progress'] = $progress;
+        return $p;
     }
+    $progress->message = 'Data found for: ' . $sql;
+    $progress->progress = 'done';
+    $p['progress'] = $progress;
     return $p;
 }

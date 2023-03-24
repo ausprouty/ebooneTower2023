@@ -25,7 +25,7 @@ myRequireOnce('writeLog.php');
 
 function modifyZoomImage($text, $p)
 {
-    $progress = new stdClass();
+    $progress = new stdClass;
     //writeLogDebug('capacitor-modifyZoomImage-sd-27', $text);
     $template = '   
     <div class="zoom-image">
@@ -61,7 +61,7 @@ function modifyZoomImage($text, $p)
         $text = substr_replace($text, $new, $pos_start, $length_span);
     }
     //writeLogDebug('capacitor-modifyZoomImage-sd-57', $text);
-    $out = new stdClass();
+    $out = new stdClass;
     $out->text = $text;
     $out->progress = $progress;
     return $out;

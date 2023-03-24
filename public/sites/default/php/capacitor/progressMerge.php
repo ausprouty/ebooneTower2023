@@ -1,15 +1,19 @@
 <?php
-function  progressMerge($progress, $new_progress){
-    if ($new_progress->progress == 'error'){
-        $progress->progress = 'error';
+function  progressMerge($progress, $new_progress)
+{
+    $out = new stdClass;
+    if ($new_progress->progress == 'error') {
+        $out->progress = 'error';
+    } else {
+        $out->progress = $progress->progress;
     }
-    if (isset($new_progress->message)){
-        if (isset($progress->message)){
+    if (isset($new_progress->message)) {
+        if (isset($progress->message)) {
             $progress->message .= $new_progress->message;
-        }
-        else{
+        } else {
             $progress->message = $new_progress->message;
         }
     }
-    return $progress;
+    $out->message = $progress->message;
+    return $out;
 }

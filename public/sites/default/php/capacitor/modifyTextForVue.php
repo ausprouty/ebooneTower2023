@@ -3,31 +3,43 @@
 
 myRequireOnce('copyFilesForCapacitor.php');
 myRequireOnce('dirStandard.php');
+myRequireOnce('progressMerge.php');
 
 
 function modifyTextForVue($text, $bookmark, $p)
 {
+    $out = new stdClass;
+    $response = new stdClass;
+    $progress = new stdClass;
+    if (isset($p['progress]'])) {
+        $progress = $p['progress'];
+    }
+
+    writeLogDebug('Object-ModifyTextForVue-18', $text);
     $bad = array(
         '<form class = "auto_submit_item">',
         '<form>',
         '</form>'
     );
     $text = str_replace($bad, '', $text);
-    //writeLogDebug('capacitor-modifyTextForVue-15', $text);
-    $text = modifyTextForImages($text, $p);
-    //writeLogDebug('capacitor-modifyTextForVue-17', $text);
-    $text = modifyTextForVuePopUp($text);
-    //writeLogDebug('capacitor-modifyTextForVue-19', $text);
-    $text = modifyTextForVueReadMore($text, $bookmark);
-    //writeLogDebug('capacitor-modifyTextForVue-21', $text);
-    //writeLogDebug('capacitor-modifyTextForVue-23', $text);
-    return $text;
+    $response = modifyTextForImages($text, $p);
+    writeLogDebug('Object-modifyTextForVue-26', $response);
+    $progress = progressMerge($progress, $response->progress);
+
+    $response = modifyTextForVuePopUp($response->text);
+    $progress = progressMerge($progress, $response->progress);
+    $response = modifyTextForVueReadMore($response->text, $bookmark);
+    $out->text = $response->text;
+    $out->progress = $progress;
+    return $out;
 }
 // modify image and copy (it is much easier to do now)
 function modifyTextForImages($text, $p)
 {
     //writeLogDebug('capacitor-modifyTextForImages-29', $text);
-    $progress = new stdClass();
+    $out = new stdClass;
+    $progress = new stdClass;
+    $new_progress = new stdClass;
     $find = '<img';
     $bad = array(' ', '"');
     $count = substr_count($text, $find);
@@ -43,29 +55,32 @@ function modifyTextForImages($text, $p)
         $src_quote2 = strpos($img_div, '"', $src_quote1);
         $src_length = $src_quote2 - $src_quote1;
         $src = substr($img_div, $src_quote1, $src_length);
-        $message = "$img_div\n$src\n\n";
-
         $source = str_replace($bad, '', $src);
         // do not replace any that start with @
         if (strpos($source, '@') === false) {
             //writeLogAppend('capacitor-modifyTextForImages-44', $message);
-            $progress = modifyTextForImagesCopy($source, $p);
+            $new_progress = modifyTextForImagesCopy($source, $p);
+            $progress = progressMerge($progress, $new_progress);
             $new_source = '@/assets/' . $source;
             $new_source = str_replace('//', '/', $new_source);
             $new_div = str_replace($src, $new_source, $img_div);
             //writeLogAppend('capacitor-modifyTextForImages-55', "$img_div\n$new_div\n\n");
             $text = substr_replace($text, $new_div, $img_start, $img_length);
         } else {
-            writeLogAppend('capacitor-modifyTextForImages-58', $message);
+            $new_progress->progress = 'error';
+            $new_progress->message = "Image $source starts with @ in modifyTextForImages";
+            $progress = progressMerge($progress, $new_progress);
         }
         $pos_start = $img_end;
         //writeLogDebug('capacitor-modifyTextForImages-61-' . $i, $text);
     }
-    return $text and $progress;
+    $out->text = $text;
+    $out->progress = $progress;
+    return $out;
 }
 function modifyTextForImagesCopy($source, $p)
 {
-    $progress = new stdClass();
+    $progress = new stdClass;
     $cap_dir = dirStandard('assets', DESTINATION,  $p, $folders = null, $create = true);
     $destination = $cap_dir . $source;
     $destination = str_replace('//', '/', $destination,);
@@ -87,6 +102,8 @@ to
 
 function modifyTextForVuePopUp($text)
 {
+    $out = new stdClass;
+    writeLogDebug('Object-modifyTextForVuePopup', $text);
     $template = '<span class="popup-link" @click = "popUp(\'[id]\')"> [reference]</span>';
     $count = substr_count($text, '<a href="javascript:popUp');
     $pos_start = 0;
@@ -120,12 +137,15 @@ function modifyTextForVuePopUp($text)
         $length =  $pos_label_end + 4 -  $pos_href_start;
         $text = substr_replace($text, $new, $pos_href_start, $length);
     }
-    return $text;
+    $out->text = $text;
+    $out->message = '';
+    return $out;
 }
 
 function modifyTextForVueReadMore($text, $bookmark)
 {
     $debug = '';
+    $out = new stdClass;
     $find = array();
     $find[] = '<a class="readmore"';
     $find[] = '<a class="bible-readmore"';
@@ -149,5 +169,7 @@ function modifyTextForVueReadMore($text, $bookmark)
             $pos_start = $pos_end;
         }
     }
-    return $text;
+    $out->text = $text;
+    $out->message = '';
+    return $out;
 }

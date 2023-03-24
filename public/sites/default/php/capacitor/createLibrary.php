@@ -17,7 +17,7 @@ function createLibrary($p, $text)
     */
     writeLogDebug('capacitor-createLibrary- capacitor', $p);
     $out = [];
-    $progress = new stdClass();
+    $progress = new stdClass;
     $out['books'] = []; // used by publishLibraryAndBooks
     $debug = "createLibrary\n";
     $filename =  $p['library_code'];
@@ -170,7 +170,7 @@ function createLibrary($p, $text)
             }
         }
     }
-    $out = new stdClass();
+    $out = new stdClass;
     $out->body = str_replace('[[books]]', $books, $body);
     $out->progress = $progress;
     //writeLog('createLibrary', $debug);

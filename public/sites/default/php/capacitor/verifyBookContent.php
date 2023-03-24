@@ -11,7 +11,7 @@ myRequireOnce('dirStandard.php');
 
 function verifyBookContent($p)
 {
-    $progress = new stdClass();
+    $progress = new stdClass;
     $p = verifyBookDir($p);
     $p['scope'] = 'series';
     $content = getLatestContent($p);

@@ -5,7 +5,7 @@ myRequireOnce('createBookMediaListVideos');
 
 function verifyBookMediaList($p)
 {
-    $progress = new stdClass();
+    $progress = new stdClass;
     $files_missing = null;
     $progress->progress = 'done';
     $media_array = [];

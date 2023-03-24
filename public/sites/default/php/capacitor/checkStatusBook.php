@@ -23,7 +23,7 @@ function checkStatusBook($p)
     }
     $p = verifyBookDir($p); // set $p['dir_capacitor']
     $check = [];
-    $out = new stdClass();
+    $out = new stdClass;
     $content_progress = verifyBookContent($p);
     $progress = json_decode($p['progress']);
     foreach ($progress as $key => $value) {
