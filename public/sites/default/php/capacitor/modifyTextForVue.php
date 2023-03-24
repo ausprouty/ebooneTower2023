@@ -15,7 +15,7 @@ function modifyTextForVue($text, $bookmark, $p)
         $progress = $p['progress'];
     }
 
-    writeLogDebug('Object-ModifyTextForVue-18', $text);
+    //writeLogDebug('Object-ModifyTextForVue-18', $text); // text is string of text only
     $bad = array(
         '<form class = "auto_submit_item">',
         '<form>',
@@ -23,11 +23,15 @@ function modifyTextForVue($text, $bookmark, $p)
     );
     $text = str_replace($bad, '', $text);
     $response = modifyTextForImages($text, $p);
-    writeLogDebug('Object-modifyTextForVue-26', $response);
-    $progress = progressMerge($progress, $response->progress);
+    ////writeLogDebug('Object-modifyTextForVue-26', $response);  // object with both text and progress
+    $progress = progressMerge($progress, $response->progress, ' modifyTextForVue-27');
+    //writeLogDebug('Object-modifyTextForVue-28', $response->progress);
+    //writeLogDebug('Object-modifyTextForVue-29', $progress);
 
     $response = modifyTextForVuePopUp($response->text);
-    $progress = progressMerge($progress, $response->progress);
+    //writeLogDebug('Object-modifyTextForVue-32', $response->progress);
+    //writeLogDebug('Object-modifyTextForVue-33', $progress);
+    $progress = progressMerge($progress, $response->progress, ' modifyTextForVue-34');
     $response = modifyTextForVueReadMore($response->text, $bookmark);
     $out->text = $response->text;
     $out->progress = $progress;
@@ -36,7 +40,7 @@ function modifyTextForVue($text, $bookmark, $p)
 // modify image and copy (it is much easier to do now)
 function modifyTextForImages($text, $p)
 {
-    //writeLogDebug('capacitor-modifyTextForImages-29', $text);
+    ////writeLogDebug('capacitor-modifyTextForImages-29', $text);
     $out = new stdClass;
     $progress = new stdClass;
     $new_progress = new stdClass;
@@ -58,21 +62,21 @@ function modifyTextForImages($text, $p)
         $source = str_replace($bad, '', $src);
         // do not replace any that start with @
         if (strpos($source, '@') === false) {
-            //writeLogAppend('capacitor-modifyTextForImages-44', $message);
+            ////writeLogAppend('capacitor-modifyTextForImages-44', $message);
             $new_progress = modifyTextForImagesCopy($source, $p);
-            $progress = progressMerge($progress, $new_progress);
+            $progress = progressMerge($progress, $new_progress, 'modifyTextForImages-67');
             $new_source = '@/assets/' . $source;
             $new_source = str_replace('//', '/', $new_source);
             $new_div = str_replace($src, $new_source, $img_div);
-            //writeLogAppend('capacitor-modifyTextForImages-55', "$img_div\n$new_div\n\n");
+            ////writeLogAppend('capacitor-modifyTextForImages-55', "$img_div\n$new_div\n\n");
             $text = substr_replace($text, $new_div, $img_start, $img_length);
         } else {
             $new_progress->progress = 'error';
             $new_progress->message = "Image $source starts with @ in modifyTextForImages";
-            $progress = progressMerge($progress, $new_progress);
+            $progress = progressMerge($progress, $new_progress, 'modifyTextForImages-76');
         }
         $pos_start = $img_end;
-        //writeLogDebug('capacitor-modifyTextForImages-61-' . $i, $text);
+        ////writeLogDebug('capacitor-modifyTextForImages-61-' . $i, $text);
     }
     $out->text = $text;
     $out->progress = $progress;
@@ -103,7 +107,7 @@ to
 function modifyTextForVuePopUp($text)
 {
     $out = new stdClass;
-    writeLogDebug('Object-modifyTextForVuePopup', $text);
+    //writeLogDebug('Object-modifyTextForVuePopup', $text); // text only as string
     $template = '<span class="popup-link" @click = "popUp(\'[id]\')"> [reference]</span>';
     $count = substr_count($text, '<a href="javascript:popUp');
     $pos_start = 0;
@@ -139,6 +143,7 @@ function modifyTextForVuePopUp($text)
     }
     $out->text = $text;
     $out->message = '';
+    $out->progress = '';
     return $out;
 }
 
@@ -163,7 +168,7 @@ function modifyTextForVueReadMore($text, $bookmark)
             $pos_end =  strpos($text, $needle_a, $pos_start);
             $length = $pos_end - $pos_start + 4;
             $old = substr($text, $pos_start, $length);
-            // writeLog('modifyReadMore-24-old',  $old);
+            // //writeLog('modifyReadMore-24-old',  $old);
             $new = '';
             $text = substr_replace($text, $new, $pos_start, $length);
             $pos_start = $pos_end;

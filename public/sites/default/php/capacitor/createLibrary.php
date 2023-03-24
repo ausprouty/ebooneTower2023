@@ -157,7 +157,7 @@ function createLibrary($p, $text)
                     $from = ROOT_EDIT . $book_image;
                     $to = dirStandard('assets', DESTINATION,  $p, $folders = null, $create = true);
                     $new_progress = copyFilesForCapacitor($from, $to, 'createLibrary');
-                    $progress = progressMerge($progress, $new_progress);
+                    $progress = progressMerge($progress, $new_progress, 'createLibrary-160');
                     writeLogAppend('createLibrary-capacitor- 163', $book_image);
                     $replace = array(
                         $this_link,

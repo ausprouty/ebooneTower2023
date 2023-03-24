@@ -52,7 +52,7 @@ function modifyRevealVideo($text, $bookmark, $p)
 
     $debug = '';
     $previous_title_phrase = '';
-    $watch_phrase = videoTemplateWatchPhrase($bookmark);
+    $watch_phrase = videoTemplateOfflineWatchPhrase($bookmark);
     $previous_url = '';
     $find = '<div class="reveal film">';
     $count = substr_count($text, $find);

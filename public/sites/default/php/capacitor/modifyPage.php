@@ -27,11 +27,14 @@ myRequireOnce('writeLog.php');
 function modifyPage($text, $p, $data, $bookmark)
 
 {
-
+    $out = new stdClass;
     //writeLogDebug('capacitor-modifyPage-27', $text);
     $text = version2Text($text);
     //writeLogDebug('capacitor-modifyPage-31', $text);
-    $text = modifyTextForVue($text, $bookmark, $p);
+    $response = modifyTextForVue($text, $bookmark, $p);
+    $text = $response->text;
+    $progress = $response->progress;
+    writeLogDebug('Object - modifyPage', $progress);
     //writeLogDebug('capacitor-modifyPage-33', $text);
     /* you must modify reveal video and audio before modifying external links
        reveal_big is used by site generations
@@ -135,5 +138,7 @@ This needs to come later in the process
     $text = str_replace('</a> )', '</a>)', $text);
     //writeLogDebug('capacitor-modifyPage-120', $text);
     //trigger_error('check ModifyPage', E_USER_ERROR);
-    return $text;
+    $out->text = $text;
+    $out->progress = $progress;
+    return $out;
 }

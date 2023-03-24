@@ -34,6 +34,7 @@ function publishPage($p)
     }
     //writeLogError ('capacitor-publishPage-30-debug', $debug);
     $text  = createPage($p, $data);
+    writeLogDebug('Object-PublishPage-37', $text);
 
     $files_in_page  = publishFilesInPage($text, $p);
     $p['files_in_page'] = array_merge($p['files_in_page'], $files_in_page);
@@ -52,7 +53,9 @@ function publishPage($p)
     //
     // modify the page for notes and links
     //
-    $text = modifyPage($text, $p, $data, $bookmark);
+    $response =  modifyPage($text, $p, $data, $bookmark);
+    $text = $response->text;
+    $progress = $response->progress;
     $text .= '<!--- Created by publishPage-->' . "\n";
     writeLogDebug('publishPage-ZOOM-54', $text);
     $text = addVueWrapperPage($text);
@@ -64,5 +67,6 @@ function publishPage($p)
     writeLogAppend('capacitor-publishPage-81', DESTINATION . '    ' . $fname);
     publishFiles($p, $fname, $text,  STANDARD_CSS, $selected_css);
     //writeLog ('capacitor-publishPage-72-debug', $debug);//
+    $p['progress'] = $progress;
     return ($p);
 }

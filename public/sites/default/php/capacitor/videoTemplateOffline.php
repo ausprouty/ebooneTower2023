@@ -5,7 +5,7 @@ myRequireOnce('videoFindForCapacitorNewName.php');
 function videoTemplateOffline($title_phrase, $p, $offline_video_count, $bookmark)
 {
 
-    $template = videoTemplateLink();
+    $template = videoTemplateOfflineLink();
     $filename = $bookmark['page']->filename;
     $video = '/' . strtoupper(SITE_CODE) . '/' . $p['language_iso'] . '/video/' .  $p['folder_name'] . '/';
     $video .= videoFindForCapacitorNewName($filename);
@@ -28,7 +28,7 @@ function videoTemplateOffline($title_phrase, $p, $offline_video_count, $bookmark
 
 
 
-function videoTemplateLink()
+function videoTemplateOfflineLink()
 {
 
     $template_link = '<button id="[video]" type="button" class="external-movie">
@@ -38,7 +38,7 @@ function videoTemplateLink()
     return  $template_link;
 }
 
-function videoTemplateWatchPhrase($bookmark)
+function videoTemplateOfflineWatchPhrase($bookmark)
 {
     $watch_phrase = $bookmark['language']->watch_offline;
     return $watch_phrase;
