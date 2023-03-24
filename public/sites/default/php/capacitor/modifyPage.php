@@ -106,7 +106,7 @@ function modifyPage($text, $p, $data, $bookmark)
     }
     //writeLogDebug('capacitor-modifyPage-104', $text);
     if (strpos($text, 'class="zoom"') !== FALSE) {
-        //writeLogAppend('capacitor-modifyPage-106-Zoom', $p['filename']);
+        ////writeLogAppend('capacitor-modifyPage-106-Zoom', $p['filename']);
         myRequireOnce('modifyZoomImage.php', $p['destination']);
         $text = modifyZoomImage($text, $p);
     }

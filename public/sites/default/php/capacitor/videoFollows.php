@@ -74,7 +74,7 @@ function videoFollowsChangeVideoTitle($previous_title_phrase, $text, $bookmark)
     $pos_title_phrase = strpos($text, $previous_title_phrase);
     if ($pos_title_phrase === FALSE) {
         // this will fail when you have more than two videos in a row. Don't worry about it.  It should be fine.
-        writeLogAppend('WATCH- videoFollowsChangeVideoTitle-75', $previous_title_phrase . ': May be third video');
+        //writeLogAppend('WATCH- videoFollowsChangeVideoTitle-75', $previous_title_phrase . ': May be third video');
         return $text;
     }
     $minus_title_phrase = 0 - $pos_title_phrase;
@@ -92,7 +92,7 @@ function videoFollowsChangeVideoTitle($previous_title_phrase, $text, $bookmark)
     $reference = substr($text, $pos_read_start, $length);
     $reference = str_replace('&nbsp;', '', $reference);
     $reference = trim(strip_tags($reference));
-    //writeLogAppend('videoFollowsChangeVideoTitle-87', $reference);
+    ////writeLogAppend('videoFollowsChangeVideoTitle-87', $reference);
     // from https://stackoverflow.com/questions/10066647/multibyte-trim-in-php
     // did not work
     //$reference = preg_replace('~^\s+|\s+$~us', '', $reference);

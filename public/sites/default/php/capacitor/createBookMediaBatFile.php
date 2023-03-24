@@ -48,7 +48,7 @@ function createBookMediaBatFile($p)
                 //writeLogAppennd('videoMakeBatFileForOffline', $chapter);
             } elseif ($chapter->prototype) {
                 $response = videoBibleFindForOffline($p, $chapter->filename);
-                writeLogAppend('capacitior-createBookMediaBatFile-45', $response);
+                //writeLogAppend('capacitior-createBookMediaBatFile-45', $response);
                 $message .= $response->message;
                 $bible_videos = $response->chapter_videos;
                 $count = count($bible_videos);

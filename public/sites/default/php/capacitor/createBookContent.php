@@ -10,6 +10,7 @@ myRequireOnce('createBookRouter.php');
 
 function createBookContent($p)
 {
+    $out = new stdClass;
     // when coming in with only book information the folder_name is not yet set
     if (!isset($p['folder_name'])) {
         if (isset($p['code'])) {
@@ -33,9 +34,11 @@ function createBookContent($p)
     }
     $text = json_decode($data['text']);
     if ($text) {
+        $message = 'Text found for ' .  $sql . "\n";
         // create Series Index
         // writeLogDebug('capacitor-createBookContent-48', 'I am going to createSeries');
         $result = createSeries($p, $data);
+        writeLogDebug('ProgressCreateBookContent-39', $result);
         //writeLogDebug('capacitor-createBookContent-50', 'I returned from  createSeries');
         $p = $result['p']; // this gives us $p['files_json']
         if ($result['text']) {
@@ -60,7 +63,9 @@ function createBookContent($p)
         }
     } else {
         $message = 'No text found for ' .  $sql . "\n This may be an index.";
-        writeLogAppend('ERROR- capacitor- createBookContent-63', $message);
+        //writeLogAppend('ERROR- capacitor- createBookContent-63', $message);
     }
-    return 'done';
+    $out->message = $message;
+    $out->progress = 'undone';
+    return $out;
 }

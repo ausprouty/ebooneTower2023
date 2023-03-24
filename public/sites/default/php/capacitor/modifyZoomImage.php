@@ -45,7 +45,7 @@ function modifyZoomImage($text, $p)
         $length_span = $pos_end - $pos_start + strlen($find_end);
         $length_words = $pos_end - $pos_start;
         $old = substr($text, $pos_start, $length_words);
-        //writeLogAppend('modifyZoomImage-sd-43', $old);
+        ////writeLogAppend('modifyZoomImage-sd-43', $old);
         $alt =  modifyZoomImageGetAlt($old);
         $source_image = modifyZoomImageGetImage($old);
         $regular_image = modifyZoomImageGetImageRegular($source_image, $p);

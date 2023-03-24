@@ -11,7 +11,7 @@ function zipMediaBatFiles($p)
     $zip = new ZipArchive;
     $zip->open($zipname, ZipArchive::CREATE);
     foreach ($files as $file) {
-        writeLogAppend('zipMediaBatFiles', $file);
+        //writeLogAppend('zipMediaBatFiles', $file);
         //$zip->addFile($file);
         $filename = str_replace($dir, '', $file);
         $zip->addFromString($filename,  file_get_contents($file));

@@ -46,7 +46,7 @@ function XverifyCommonFiles($p)
     if ($language_code != '') {
       $source = ROOT_EDIT . 'sites/' . SITE_CODE . '/content/' . $p['country_code'] . '/' . $language_code . '/javascript/';
       $destination = $p['dir_capacitor'] . 'folder/content/' . $p['country_code'] . '/' . $language_code . '/javascript/';
-      writeLogAppend('verifyCommonFiles-50', "$source\n$destination \n\n");
+      //writeLogAppend('verifyCommonFiles-50', "$source\n$destination \n\n");
       copyDirectory($source, $destination);
     }
   }

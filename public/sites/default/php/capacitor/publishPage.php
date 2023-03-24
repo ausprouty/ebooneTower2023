@@ -62,9 +62,9 @@ function publishPage($p)
     //writeLogDebug('capacitor-publishPage-58', DESTINATION );
     $series_dir = dirStandard('series', DESTINATION,  $p, $folders = null, $create = true);
     $fname = $series_dir .  ucfirst($data['language_iso'])  . ucfirst($data['filename']) . '.vue';
-    writeLogAppend('publishPage-64', $fname);
+    //writeLogAppend('publishPage-64', $fname);
     // go to publishFiles
-    writeLogAppend('capacitor-publishPage-81', DESTINATION . '    ' . $fname);
+    //writeLogAppend('capacitor-publishPage-81', DESTINATION . '    ' . $fname);
     publishFiles($p, $fname, $text,  STANDARD_CSS, $selected_css);
     //writeLog ('capacitor-publishPage-72-debug', $debug);//
     $p['progress'] = $progress;

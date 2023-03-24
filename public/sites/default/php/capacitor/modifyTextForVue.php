@@ -62,13 +62,13 @@ function modifyTextForImages($text, $p)
         $source = str_replace($bad, '', $src);
         // do not replace any that start with @
         if (strpos($source, '@') === false) {
-            ////writeLogAppend('capacitor-modifyTextForImages-44', $message);
+            //////writeLogAppend('capacitor-modifyTextForImages-44', $message);
             $new_progress = modifyTextForImagesCopy($source, $p);
             $progress = progressMerge($progress, $new_progress, 'modifyTextForImages-67');
             $new_source = '@/assets/' . $source;
             $new_source = str_replace('//', '/', $new_source);
             $new_div = str_replace($src, $new_source, $img_div);
-            ////writeLogAppend('capacitor-modifyTextForImages-55', "$img_div\n$new_div\n\n");
+            //////writeLogAppend('capacitor-modifyTextForImages-55', "$img_div\n$new_div\n\n");
             $text = substr_replace($text, $new_div, $img_start, $img_length);
         } else {
             $new_progress->progress = 'error';

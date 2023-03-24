@@ -21,5 +21,8 @@ function  progressMerge($progress, $new_progress, $source = null)
     if (isset($progress->message)) {
         $out->message = $progress->message;
     }
+    writeLogAppend('progressMerge-24', "\n\n$source\n");
+    writeLogAppend('progressMerge-24', $progress);
+    writeLogAppend('progressMerge-24', "\nNext Record\n");
     return $out;
 }

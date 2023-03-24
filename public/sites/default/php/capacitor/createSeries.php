@@ -110,14 +110,14 @@ function createSeries($p, $data)
             //_write_series_log($p, $chapter);
             if ($status  == true) { // we only want to process those with this as true
                 $filename = $language_dir . $chapter->filename . '.html';
-                writeLogAppend('capacitor-createSeries-113', $filename);
+                //writeLogAppend('capacitor-createSeries-113', $filename);
                 /* we need to replace
                 /sites/sent67/content/U1/eng/hope/hope01.html
                 with
                 /content/U1/eng/hope/hope01.html
                 */
                 $filename = str_ireplace('/sites/' . SITE_CODE, '', $filename);
-                writeLogAppend('capacitor-createSeries-120', $filename);
+                //writeLogAppend('capacitor-createSeries-120', $filename);
                 $p['files_json'] .= '{"url":"' . $filename . '"},' . "\n";
                 $image = null;
                 if (isset($chapter->image)) {

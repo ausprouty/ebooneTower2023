@@ -92,7 +92,7 @@ function publishFilesInPageWrite($filename, $p)
     $dir = dirStandard('assets', DESTINATION,  $p, $folders = null, $create = true);
     $to = $dir . $filename;
     $to = str_replace('//', '/', $to);
-    writeLogAppend('capacitor-publishFilesInPageWrite-81', "$from -> $to");
+    //writeLogAppend('capacitor-publishFilesInPageWrite-81', "$from -> $to");
     $progress = copyFilesForCapacitor($from, $to,  'publishFilesInPage');
     return $progress;
 }

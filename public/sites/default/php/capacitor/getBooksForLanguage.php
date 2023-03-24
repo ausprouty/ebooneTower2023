@@ -47,7 +47,7 @@ function _getBooksForLanguageRecnum($book)
         return $content['recnum'];
     } else {
         // these will be libraries
-        //writeLogAppend('ERROR - getBooksForLanguageRecnum-43', $params);
+        ////writeLogAppend('ERROR - getBooksForLanguageRecnum-43', $params);
         return null;
     }
 }

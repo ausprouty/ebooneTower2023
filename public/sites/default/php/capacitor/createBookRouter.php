@@ -24,7 +24,7 @@ function createBookRouter($p)
     if (!$data) {
         // most likely this is not a series
         $message = 'No data found for: ' . $sql;
-        writeLogAppend('WARNING- capacitor-createBookRouter-51', $message);
+        //writeLogAppend('WARNING- capacitor-createBookRouter-51', $message);
         return 'undone';
     }
     $series = json_decode($data['text']);

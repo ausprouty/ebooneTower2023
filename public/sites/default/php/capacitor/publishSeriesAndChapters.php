@@ -23,6 +23,7 @@ function publishSeriesAndChapters($p)
 
     // first prototype the Series Index
     $out = publishSeries($p);
+    writeLogDebug('Progress-publishSeriesandChapters-26', $out);
     $new_progress = $out['progress'];
     $progress = progressMerge($progress, $new_progress, 'publishSeriesAndChapters-27');
     if (!isset($out['files_json'])) {
@@ -75,7 +76,7 @@ function publishSeriesAndChapters($p)
             } else {
                 $new_progress->message = "No data found for  $chapter->filename in publishSeriesAndChapters";
                 $new_progress->progress = 'error';
-                $progress = progressMerge($progress, $new_progress), 'publishSeriesAndChapters-78';
+                $progress = progressMerge($progress, $new_progress, 'publishSeriesAndChapters-78');
             }
         }
         $cache['sessions_published'][] = $chapter->filename;

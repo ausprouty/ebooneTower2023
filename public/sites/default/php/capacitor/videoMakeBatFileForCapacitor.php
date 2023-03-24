@@ -31,7 +31,7 @@ function videoMakeBatFileForCapacitor($p)
     if (isset($text->chapters)) {
         foreach ($text->chapters as $chapter) {
             if (!isset($chapter->prototype)) {
-                writeLogAppend('videoMakeBatFileForCapacitor', $chapter);
+                //writeLogAppend('videoMakeBatFileForCapacitor', $chapter);
             } elseif ($chapter->prototype) {
                 $chapter_videos = videoFindForCapacitor($p, $chapter->filename);
                 $count = count($chapter_videos);
