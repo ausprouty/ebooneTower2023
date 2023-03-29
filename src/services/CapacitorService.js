@@ -63,7 +63,7 @@ export default {
     params = this.initialize(params)
     params.page = 'publishSeriesAndChapters'
     params.action = 'publishSeriesAndChapters'
-    return await AuthorService.aReturnContentParsed(params)
+    return await AuthorService.aReturnContent(params)
   },
   async createBookRouter(params) {
     params = this.initialize(params)

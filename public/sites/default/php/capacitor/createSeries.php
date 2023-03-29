@@ -55,7 +55,7 @@ function createSeries($p, $data)
     $description = isset($text->description) ? $text->description : NULL;
     $ribbon = isset($bookmark['library']->format->back_button) ? $bookmark['library']->format->back_button->image : DEFAULT_BACK_RIBBON;
     $language_dir = '/content/' . $data['country_code'] . '/' . $data['language_iso'] . '/' . $data['folder_name'] . '/';
-    $p['files_json'] = '[{"url":"' .  $language_dir . 'files.json"},' . "\n"; // rest to be filled in with chapters
+    $files_json = '[{"url":"' .  $language_dir . 'files.json"},' . "\n"; // rest to be filled in with chapters
     // dealing with legacy data
     if (isset($bookmark['book']->image->image)) {
         $book_image = $bookmark['book']->image->image;
@@ -118,7 +118,7 @@ function createSeries($p, $data)
                 */
                 $filename = str_ireplace('/sites/' . SITE_CODE, '', $filename);
                 //writeLogAppend('capacitor-createSeries-120', $filename);
-                $p['files_json'] .= '{"url":"' . $filename . '"},' . "\n";
+                $files_json .= '{"url":"' . $filename . '"},' . "\n";
                 $image = null;
                 if (isset($chapter->image)) {
                     if ($chapter->image != '') {
@@ -158,8 +158,9 @@ function createSeries($p, $data)
             }
         }
     }
-    $out['text'] = str_replace('[[chapters]]', $chapters_text, $this_template);
-    $out['p'] = $p;
+    $out = new stdClass;
+    $out->text = str_replace('[[chapters]]', $chapters_text, $this_template);
+    $out->files_json = $files_json;
     writeLogDebug('capacitor-createSeries-161', $out);
     return $out;
 }

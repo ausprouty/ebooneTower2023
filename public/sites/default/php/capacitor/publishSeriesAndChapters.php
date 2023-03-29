@@ -14,6 +14,7 @@ function publishSeriesAndChapters($p)
 {
     $progress = new stdClass;
     $new_progress = new stdClass;
+    $out = new stdClass;
     if (isset($p['progress'])) {
         $progress = $p['progress'];
     }
@@ -22,15 +23,18 @@ function publishSeriesAndChapters($p)
     }
 
     // first prototype the Series Index
-    $out = publishSeries($p);
+    $response = publishSeries($p);
     writeLogDebug('Progress-publishSeriesandChapters-26', $out);
-    $new_progress = $out['progress'];
+    $new_progress = $response->progress;
     $progress = progressMerge($progress, $new_progress, 'publishSeriesAndChapters-27');
-    if (!isset($out['files_json'])) {
+    if (!isset($response->files_json)) {
         $new_progress->message = 'No files_json returned from Publish Series. This may be a library';
+        $new_progress->progress = 'undone';
         $progress = progressMerge($progress, $new_progress, 'publishSeriesAndChapters-30');
+        $out = $progress;
+        return $out;
     }
-    $files_json = $out['files_json']; // this starts file for download of series
+    $files_json = $response->files_json; // this starts file for download of series
     $files_in_pages = [];
     // find the list of chapters that are ready to publish
     $series = contentArrayFromRecnum($p['recnum']);
@@ -65,18 +69,10 @@ function publishSeriesAndChapters($p)
                 $p['recnum'] = $data['recnum'];
                 // need to find latest record for recnum
                 $result =  publishPage($p);
-                if (is_array($result)) {
-                    if (isset($result['files_in_page'])) {
-                        $files_in_pages = publishSeriesAndChaptersCombineArrays($files_in_pages, $result['files_in_page']);
-                    }
-                    if (isset($result['progress'])) {
-                        $progress = progressMerge($progress, $result['progress'], 'publishSeriesAndChapters-71');
-                    }
+                if (isset($result->files_in_page)) {
+                    $files_in_pages = publishSeriesAndChaptersCombineArrays($files_in_pages, $result->files_in_page);
                 }
-            } else {
-                $new_progress->message = "No data found for  $chapter->filename in publishSeriesAndChapters";
-                $new_progress->progress = 'error';
-                $progress = progressMerge($progress, $new_progress, 'publishSeriesAndChapters-78');
+                $progress = progressMerge($progress, $result->progress, 'publishSeriesAndChapters-71');
             }
         }
         $cache['sessions_published'][] = $chapter->filename;
@@ -84,7 +80,8 @@ function publishSeriesAndChapters($p)
         updateCache($cache, DESTINATION);
     }
     clearCache($cache, DESTINATION);
-    $out['progress'] = $progress;
+    $out = $progress;
+    writeLogDebug('progress-publishSeriesAndChapters-89', $out);
     return $out;
 }
 

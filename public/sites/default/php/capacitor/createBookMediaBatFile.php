@@ -36,7 +36,7 @@ function createBookMediaBatFile($p)
         ORDER BY recnum DESC LIMIT 1";
     $data = sqlArray($sql);
     if (!isset($data['text'])) {
-        $progress->message = 'Content not found for this series';
+        $progress->message = '<br><br>Content not found for this series';
         $progress->progress = 'undone';
         return $progress;
     }

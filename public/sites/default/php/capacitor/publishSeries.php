@@ -9,6 +9,8 @@ myRequireOnce('publicationCache.php');
 function publishSeries($p)
 {
     $progress = new stdClass;
+    $result = new stdClass;
+    $out = new stdClass;
     // when coming in with only book information the folder_name is not yet set
     if (!isset($p['folder_name'])) {
         if (isset($p['code'])) {
@@ -24,7 +26,7 @@ function publishSeries($p)
         ORDER BY recnum DESC LIMIT 1";
     $data = sqlArray($sql);
     if (!$data) {
-        $progress->message = 'No data found for: ' . $sql;
+        $progress->message = "<br><br>No data found for:  $sql";
         $progress->progress = 'error';
         $p['progress'] = $progress;
         return $p;
@@ -33,9 +35,10 @@ function publishSeries($p)
     if ($text) {
         // create Series
         $result = createSeries($p, $data);
+        $text = $result->text;
+        $files_json = $result->files_json;
         // returns
-        $p = $result['p']; // this gives us $p['files_json']
-        if ($result['text']) {
+        if ($text) {
             // find css
             if (isset($p['recnum'])) {
                 $b['recnum'] = $p['recnum'];
@@ -48,18 +51,20 @@ function publishSeries($p)
             $dir = dirStandard('series', DESTINATION,  $p, $folders = null, $create = false);
             $fname = $dir . ucfirst($p['language_iso']) . ucfirst($p['folder_name']) . 'Index.vue';
             //writeLogAppend('capacitor- publishSeries-70', $fname);
-            $result['text'] .= '<!--- Created by capacitor - publishSeries-->' . "\n";
-            publishFiles($p, $fname, $result['text'],  STANDARD_CSS, $selected_css);
+            $text .= '<!--- Created by capacitor - publishSeries-->' . "\n";
+            publishFiles($p, $fname, $text,  STANDARD_CSS, $selected_css);
             $time = time();
         }
     } else {
-        $progress->message = 'No data found for: ' . $sql;
+        $progress->message = "<br><br>No data found for: $sql";
         $progress->progress = 'error';
         $p['progress'] = $progress;
         return $p;
     }
-    $progress->message = 'Data found for: ' . $sql;
     $progress->progress = 'done';
-    $p['progress'] = $progress;
-    return $p;
+    $out->files_json = $files_json;
+    $out->p = $p;
+    $out->progress = $progress;
+
+    return $out;
 }

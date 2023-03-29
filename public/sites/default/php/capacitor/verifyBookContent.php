@@ -28,7 +28,7 @@ function verifyBookContent($p)
                 $filename = $dir_series .  ucfirst($p['language_iso'])  . ucfirst($chapter->filename) . '.vue';
                 if (!file_exists($filename)) {
                     $progress->progress = 'ready';
-                    $progress->message = $filename . ' not found';
+                    $progress->message = "<br><br>$filename  not found";
                     return $progress;
                 }
             }

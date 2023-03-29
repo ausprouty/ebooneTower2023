@@ -26,7 +26,7 @@ function verifyBookMediaList($p)
         }
     }
     if ($progress->progress == 'error') {
-        $progress->message = "The following media is missing:\n" . $files_missing;
+        $progress->message = "<br><br>The following media is missing:\n" . $files_missing;
     }
     return $progress;
 }

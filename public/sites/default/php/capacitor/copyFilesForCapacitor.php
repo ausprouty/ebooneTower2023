@@ -18,20 +18,20 @@ function copyFilesForCapacitor($from, $to, $called_by)
     $src_guard = ['assets', 'components', 'router', 'views'];
     if (strpos($to, '@') !== false) {
         writeLogError('copyFilesForCapacitor-10', $to);
-        $progress->message = "$to starts with @ in copyFilesForCapacitor";
+        $progress->message = "<br><br>$to starts with @ in copyFilesForCapacitor";
         $progress->progress = 'error';
         return $progress;
     }
     if (strpos($from, '@') !== false) {
         writeLogError('copyFilesForCapacitor-14', $to);
-        $progress->message = "$from starts with @ in copyFilesForCapacitor";
+        $progress->message = "<br><br>$from starts with @ in copyFilesForCapacitor";
         $progress->progress = 'error';
         return $progress;
     }
     $to = str_replace('//', '/', $to);
     if (strpos($to, ROOT_CAPACITOR) === false) {
         writeLogError('copyFilesForCapacitor-18', $to);
-        $progress->message = "Unguarded route of   $parts[2] in  $to in copyFilesForCapacitor";
+        $progress->message = "<br><br>Unguarded route of   $parts[2] in  $to in copyFilesForCapacitor";
         $progress->progress = 'error';
         return $progress;
     }
@@ -42,7 +42,7 @@ function copyFilesForCapacitor($from, $to, $called_by)
         if ($parts[1] == 'src') {
             if (!in_array($parts[2], $src_guard)) {
                 writeLogError('capacitor-copyFilesForCapacitor-34', $parts);
-                $progress->message = "Unguarded route of   $parts[2] in  $to in copyFilesForCapacitor";
+                $progress->message = "<br><br>Unguarded route of   $parts[2] in  $to in copyFilesForCapacitor";
                 $progress->progress = 'error';
                 return $progress;
             }
@@ -52,18 +52,16 @@ function copyFilesForCapacitor($from, $to, $called_by)
             dirMake($to);
             if (!is_dir($to)) {
                 copy($from, $to);
-                $progress->progress = 'done';
-                $progress->message = "Copied $from to  $to  when called by $called_by in copyFilesForCapacitor";
             } else {
-                $progress->message = "Destination  of $to is a directory when called by $called_by in copyFilesForCapacitor";
+                $progress->message = "<br><br>Destination  of $to is a directory when called by $called_by in copyFilesForCapacitor<br>";
                 $progress->progress = 'error';
             }
         } else {
-            $progress->message = "Source file does not exist $from when called by $called_by in copyFilesForCapacitor";
+            $progress->message = "<br><br>Source file does not exist $from when called by $called_by in copyFilesForCapacitor";
             $progress->progress = 'error';
         }
     } else {
-        $progress->message = "Unguarded route of   $parts[1] in  $to in copyFilesForCapacitor";
+        $progress->message = "<br><br>Unguarded route of   $parts[1] in  $to in copyFilesForCapacitor";
         $progress->progress = 'error';
     }
     return $progress;

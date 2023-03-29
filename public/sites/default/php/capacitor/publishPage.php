@@ -13,14 +13,18 @@ myRequireOnce('addVueWrapper.php');
 
 function publishPage($p)
 {
+    $out = new stdClass;
+    $progress = new stdClass;
 
-    $p['files_in_page'] = isset($p['files_in_page']) ? $p['files_in_page'] : [];
+    $files_in_page = isset($p['files_in_page']) ? $p['files_in_page'] : [];
     $rand = random_int(0, 9999);
     $debug = '';
     if (!isset($p['recnum'])) {
-        $message = "in PublishPage no value for recnum ";
-        trigger_error($message, E_USER_ERROR);
-        return ($p);
+        $progress->message = "<br><br>in PublishPage no value for recnum ";
+        $progress->progress = 'undone';
+        $out->progress = $progress;
+        //trigger_error($message, E_USER_ERROR);
+        return $out;
     }
     $sql = 'SELECT * FROM content
         WHERE  recnum  = ' . $p['recnum'];
@@ -36,8 +40,8 @@ function publishPage($p)
     $text  = createPage($p, $data);
     writeLogDebug('Object-PublishPage-37', $text);
 
-    $files_in_page  = publishFilesInPage($text, $p);
-    $p['files_in_page'] = array_merge($p['files_in_page'], $files_in_page);
+    $new_files_in_page  = publishFilesInPage($text, $p);
+    $files_in_page = array_merge($files_in_page, $new_files_in_page);
     // get bookmark for stylesheet
     if (isset($p['recnum'])) {
         $b['recnum'] = $p['recnum'];
@@ -59,14 +63,11 @@ function publishPage($p)
     $text .= '<!--- Created by publishPage-->' . "\n";
     writeLogDebug('publishPage-ZOOM-54', $text);
     $text = addVueWrapperPage($text);
-    //writeLogDebug('capacitor-publishPage-58', DESTINATION );
     $series_dir = dirStandard('series', DESTINATION,  $p, $folders = null, $create = true);
     $fname = $series_dir .  ucfirst($data['language_iso'])  . ucfirst($data['filename']) . '.vue';
-    //writeLogAppend('publishPage-64', $fname);
     // go to publishFiles
-    //writeLogAppend('capacitor-publishPage-81', DESTINATION . '    ' . $fname);
     publishFiles($p, $fname, $text,  STANDARD_CSS, $selected_css);
-    //writeLog ('capacitor-publishPage-72-debug', $debug);//
-    $p['progress'] = $progress;
-    return ($p);
+    $out->progress = $progress;
+    $out->files_in_page = $files_in_page;
+    return $out;
 }
