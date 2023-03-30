@@ -38,53 +38,27 @@
         />
       </div>
 
-      <h3>Languages</h3>
-      <multiselect
-        v-model="$v.capacitor.$model.languages"
-        @input="capacitorSubDir"
-        :options="language_data"
-        :multiple="true"
-        :close-on-select="false"
-        :clear-on-select="false"
-        :preserve-search="true"
-        placeholder="Choose one only"
+      <h3>Language</h3>
+      <v-select
         label="language_name"
-        track-by="language_name"
-        :preselect-first="false"
-      >
-        <template slot="selection" slot-scope="{ values, search, isOpen }"
-          ><span
-            class="multiselect__single"
-            v-if="values.length &amp;&amp; !isOpen"
-            >{{ values.length }} options selected</span
-          ></template
-        >
-      </multiselect>
+        :options="language_options"
+        placeholder="Select"
+        v-model="$v.capacitor.$model.language"
+      />
+      <button class="button" @click="showProgress()">Show Progress</button>
     </div>
     <div class="spacer"></div>
-    <div class="row">
+    <div class="row" v-if="this.show_progress">
       <div class="column">
         <button class="button" @click="verifyCommonFiles()">
           {{ this.common_text }}
         </button>
       </div>
     </div>
-    <div class="row">
-      <div class="column">
-        <button class="button" @click="verifyLanguageIndex()">
-          {{ this.language_text }}
-        </button>
-      </div>
-    </div>
 
-    <button class="button" @click="showProgress()">Show Progress</button>
+    <div  v-if="this.show_progress">
 
-    <div v-if="this.show_progress">
-      <CapacitorBooks
-        v-for="language in capacitor.languages"
-        :key="language.language_iso"
-        :language="language"
-      />
+      <CapacitorBooks :language_iso="capacitor.language" />
 
       <p>The MediaList Files  Media.bat files will be at mc2.media/lists</p>
       <p>After you make the Media List Bat files:</p>
@@ -108,21 +82,20 @@
   </div>
 </template>
 <script>
-import Multiselect from 'vue-multiselect'
 import CapacitorBooks from '@/components/CapacitorBooks.vue'
 import CapacitorService from '@/services/CapacitorService.js'
 import AuthorService from '@/services/AuthorService.js'
 import NavBar from '@/components/NavBarAdmin.vue'
-import axios from 'axios'
-import { authorizeMixin } from '@/mixins/AuthorizeMixin.js'
 import { required } from 'vuelidate/lib/validators'
+import vSelect from 'vue-select'
+import { authorizeMixin } from '@/mixins/AuthorizeMixin.js'
 export default {
   mixins: [authorizeMixin],
   props: ['country_code'],
   components: {
     NavBar,
     CapacitorBooks,
-    Multiselect,
+    'v-select': vSelect,
   },
   data() {
     return {
@@ -140,7 +113,7 @@ export default {
       footers: [],
       bat_text: 'Download Media Batch Files',
       capacitor: {
-        languages: [],
+        language: null,
         footer: null,
         remove_external_links: false,
         action: 'capacitor',
@@ -156,20 +129,18 @@ export default {
   },
   validations: {
     capacitor: {
-      required,
-      $each: {
-        languages: { required },
-        footer: { required },
-        remove_external_links: { required },
-        actions: { required },
-        series: { required },
-        subDirectory: {},
-      },
+      language: { required },
+      footer: { required },
+      remove_external_links: { required },
+      actions: { required },
+      series: { required },
+      subDirectory: {},
     },
   },
   methods: {
     showProgress() {
       this.show_progress = true
+      this.capacitorSubDir()
     },
     async verifyLanguageIndex() {
       this.language_text = 'Verifying'
@@ -197,7 +168,13 @@ export default {
     },
 
     capacitorSubDir() {
-      this.capacitor.subDirectory = this.capacitor.languages[0].language_iso + '/'
+      var selected_language = ''
+      for (var i = 0; i < this.capacitor.language.length; i++){
+        if ( this.capacitor.language[i].language_name == this.capacitor.language){
+          selected_language = this.capacitor.language[i]
+        }
+      }
+      this.capacitor.subDirectory = selected_language.language_iso + '/'
       this.$store.dispatch('setCapacitorSettings', this.capacitor)
       return this.capacitor.subDirectory
     },

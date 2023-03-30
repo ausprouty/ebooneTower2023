@@ -321,7 +321,6 @@ import '@/assets/css/vueSelect.css'
 import './ckeditor/index.js'
 import VueCkeditor from 'vue-ckeditor2'
 import { mapState } from 'vuex'
-
 import { libraryMixin } from '@/mixins/LibraryMixin.js'
 import { libraryUploadMixin } from '@/mixins/library/LibraryUploadMixin.js'
 import { authorizeMixin } from '@/mixins/AuthorizeMixin.js'

@@ -2,7 +2,7 @@
 myRequireOnce('writeLog.php');
 myRequireOnce('videoTemplate.php');
 myRequireOnce('videoFollows.php');
-myRequireOnce('modifyVideoTextAndTime.php')
+myRequireOnce('modifyVideoTextAndTime.php');
 
 
 /*
@@ -97,4 +97,3 @@ function modifyRevealVideo($text, $bookmark, $p)
     }
     return $text;
 }
-

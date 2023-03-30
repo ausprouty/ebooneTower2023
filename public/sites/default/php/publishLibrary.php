@@ -30,7 +30,7 @@ function publishLibrary($p)
         $selected_css = '/sites/default/styles/cardGLOBAL.css';
     }
     $res = createLibrary($p, $text);
-    $body = $res->body
+    $body = $res->body;
     $p['books'] = $res->books;
     $p['progress'] = $res->progress;
 
