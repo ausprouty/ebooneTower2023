@@ -23,7 +23,7 @@ function modifyContentImages($text, $p)
 {
     //define("ROOT_EDIT", '/home/globa544/edit.mc2.online/');
     $destination_dir = publishDestination($p);
-    writeLogDebug(' modifyContentImages-30', $text);
+    //writeLogDebug(' modifyContentImages-30', $text);
     $debug = 'In modifyContentImages' . "\n";
     $debug .= $p['destination'] . "\n";
     $debug .= $text . "\n\n ============ End of Text ==============\n";

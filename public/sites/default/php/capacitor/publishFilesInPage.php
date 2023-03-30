@@ -6,7 +6,6 @@
 //define("ROOT_EDIT", '/home/globa544/edit.mc2.online/');
 myRequireOnce('progressMerge.php');
 myRequireOnce('publishDestination.php');
-myRequireOnce('publishFilesInSDCardPage.php');
 myRequireOnce('writeLog.php');
 myRequireOnce('version2Text.php');
 myRequireOnce('copyFilesForCapacitor.php');

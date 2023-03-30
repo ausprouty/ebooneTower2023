@@ -1,6 +1,6 @@
 <?php
 myRequireOnce('dirMake.php');
-myRequireOnce('getBuild.php');
+
 
 /*
 define("ROOT_EDIT", '/home/globa544/edit.mc2.online/');
@@ -14,27 +14,15 @@ function dirStandard($scope, $destination,  $p, $folders = null, $create = true)
 {
     $dir = '';
     switch ($destination) {
-        case 'apk':
-            $dir = ROOT_APK . getBuild($p) . '/folder/content/';
-            break;
         case 'edit':
             //define("ROOT_EDIT", '/home/globa544/edit.mc2.online/');
             $dir = ROOT_EDIT . '/sites/' . SITE_CODE . '/content/';
-            break;
-        case 'nojs':
-            $dir = ROOT_SDCARD . $p['sdcard_settings']->subDirectory . '/folder/nojs/';
             break;
         case 'staging':
             $dir = ROOT_STAGING . 'content/';
             break;
         case 'website':
             $dir = ROOT_WEBSITE . 'content/';
-            break;
-        case 'sdcard':
-            $dir = ROOT_SDCARD;
-            if (isset($p['sdcard_settings']->subDirectory)) {
-                $dir .= $p['sdcard_settings']->subDirectory . '/views/';
-            }
             break;
         case 'root':
         case 'default':

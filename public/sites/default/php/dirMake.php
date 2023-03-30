@@ -20,7 +20,7 @@ function dirMake($filename)
 	) {
 		$filename = ROOT_EDIT .  $filename;
 	}
-	writeLogAppend('dirMake-23', $filename);
+	//writeLogAppend('dirMake-23', $filename);
 	$file_types = array('.bat', '.html', '.js', '.json', '.mp3', '.mp4', '.wav', '.vue');
 	$parts = explode('/', $filename);
 	if (strpos($filename, '/') === 0) {
@@ -37,7 +37,7 @@ function dirMake($filename)
 		}
 		if ($ok) {
 			$dir .= $part . '/';
-			writeLogAppend('dirMake-41', $dir);
+			//writeLogAppend('dirMake-41', $dir);
 			if (!file_exists($dir)) {
 				mkdir($dir);
 			}
