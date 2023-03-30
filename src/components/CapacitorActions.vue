@@ -148,7 +148,6 @@ export default {
     },
     async checkStatus() {
       var params = this.book
-      params.capacitor_settings = JSON.stringify(this.capacitorSettings)
       params.progress = JSON.stringify(this.progress)
       var response = await CapacitorService.checkStatusBook(params)
       this.progress = response

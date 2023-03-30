@@ -21,29 +21,19 @@
         </p>
       </div>
       <div>
-        <label for="remove_external_links">
-          <h3>Remove External Links</h3>
-        </label>
-        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-        <input
-          type="checkbox"
-          id="remove_external_links"
-          v-model="$v.capacitor.$model.remove_external_links"
-        />
-        <h3>Footer</h3>
-        <BaseSelect
-          v-model="$v.capacitor.$model.footer"
-          :options="footers"
-          class="field"
-        />
-      </div>
-
       <h3>Language</h3>
       <v-select
         label="language_name"
-        :options="language_options"
+        :options="language_data"
         placeholder="Select"
-        v-model="$v.capacitor.$model.language"
+        v-model="$v.capacitor.language.$model"
+        v-on:change="setCapacitorSubDir($v.capacitor.language.$model)"
+      />
+      <h3>Footer</h3>
+        <v-select
+        :options="footers"
+        placeholder="Select"
+        v-model="$v.capacitor.footer.$model"
       />
       <button class="button" @click="showProgress()">Show Progress</button>
     </div>
@@ -140,7 +130,6 @@ export default {
   methods: {
     showProgress() {
       this.show_progress = true
-      this.capacitorSubDir()
     },
     async verifyLanguageIndex() {
       this.language_text = 'Verifying'
@@ -166,17 +155,9 @@ export default {
       this.bat_text = 'Finished'
       this.downloadMediaBatFiles(filename)
     },
-
-    capacitorSubDir() {
-      var selected_language = ''
-      for (var i = 0; i < this.capacitor.language.length; i++){
-        if ( this.capacitor.language[i].language_name == this.capacitor.language){
-          selected_language = this.capacitor.language[i]
-        }
-      }
+    setCapacitorSubDir(selected_language) {
       this.capacitor.subDirectory = selected_language.language_iso + '/'
       this.$store.dispatch('setCapacitorSettings', this.capacitor)
-      return this.capacitor.subDirectory
     },
   },
   async created() {

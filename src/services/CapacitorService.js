@@ -17,18 +17,10 @@ import AuthorService from '@/services/AuthorService.js'
 // I want to export a JSON.stringified of response.data.text
 export default {
   initialize(params) {
-    if (typeof params.capacitor_settings != 'undefined') {
-      if (typeof params.capacitor_settings === 'string') {
-        var temp = JSON.parse(params.capacitor_settings)
-        params.capacitor_settings = temp
-      }
-      if (typeof params.capacitor_settings.language != 'undefined') {
-        params.country_code = params.capacitor_settings.language.country_code
-        params.language_iso = params.capacitor_settings.language.language_iso
-      }
-      var temp1 = JSON.stringify(params.capacitor_settings)
-      params.capacitor_settings = temp1
-    }
+    params.country_code = store.state.capacitorSettings.language.country_code
+    params.language_iso = store.state.capacitorSettings.language.language_iso
+    var temp1 = JSON.stringify(store.state.capacitorSettings)
+    params.capacitor_settings = temp1
     params.site = process.env.VUE_APP_SITE
     params.my_uid = store.state.user.uid
     params.subdirectory = 'capacitor'

@@ -16,13 +16,7 @@
           </button>
         </div>
       </div>
-      <div v-if="this.capacitor">
-        <div>
-          <button class="button" @click="localPublish('capacitor')">
-            {{ this.capacitor_text }}
-          </button>
-        </div>
-      </div>
+     
       <div v-if="this.pdf">
         <div>
           <button class="button" @click="localPublish('pdf')">
@@ -103,14 +97,6 @@ export default {
       prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
       rldir: 'ltr',
       book_style: process.env.VUE_APP_SITE_STYLE,
-      capacitor_settings: {
-        languages: [],
-        footer: null,
-        remove_external_links: false,
-        action: 'capacitor',
-        series: null,
-        subDirectory: this.$route.params.language_iso + '/',
-      },
     }
   },
   methods: {
@@ -209,7 +195,6 @@ export default {
       }
       if (location == 'capacitor') {
         this.capacitor_text = 'Publishing Capacitor Test Page'
-        params.capacitor_settings = this.capacitor_settings
         response = await CapacitorService.publish('page', params)
         this.capacitor_text = 'Published Capacitor Test Page'
       }

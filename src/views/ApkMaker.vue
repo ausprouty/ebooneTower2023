@@ -62,7 +62,7 @@
           />
           <h3>Footer</h3>
           <BaseSelect
-            v-model="$v.apk_settings.$model.langauge_footer"
+            v-model="$v.apk_settings.$model.language_footer"
             :options="footers"
             class="field"
           />
