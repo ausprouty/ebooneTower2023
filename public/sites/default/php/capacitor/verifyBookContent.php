@@ -14,6 +14,7 @@ function verifyBookContent($p)
     $progress = new stdClass;
     $p = verifyBookDir($p);
     $p['scope'] = 'series';
+    writeLogAppend('verifyBookContent-capacitor-17', $p);
     $content = getLatestContent($p);
     $text = json_decode($content['text']);
     $dir_series =  dirStandard('series', DESTINATION,  $p, $folders = null, $create = true);

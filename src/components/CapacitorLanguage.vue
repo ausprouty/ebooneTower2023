@@ -20,7 +20,8 @@ export default {
   },
   methods: {
     async verifyLibraries() {
-      var params = this.language
+      var params = {}
+      params.language = this.language
       //console.log(params)
       this.library_text = 'Publishing'
       this.progress = await CapacitorService.publish('libraries', params)

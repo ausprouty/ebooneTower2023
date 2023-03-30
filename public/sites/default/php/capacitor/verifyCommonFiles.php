@@ -1,61 +1,57 @@
 <?php
 /* Here we copy the files that all capacitors need, but are not sourced from content direcly
-/sites/mc2/images/css ->mc2.capacitor.something/folder/sites/mc2/images/css
-/sites/mc2/images/standard -> mc2.capacitor.something/folder/sites/mc2/images/standard
-/sites/default/capacitor/Cx File Explorer.apk-> mc2.capacitor.something/Cx File Explorer.apk
-/langugage javascript folders
+ROOT_EDIT/sites/SITE_CODE/capacitor-> ROOT_SDCARD/language_iso/
 */
-myRequireOnce('copyDirectory.php');
-myRequireOnce('verifyBookDir.php');
+myRequireOnce('writeLog.php');
+myRequireOnce('createDirectory.php');
 
-function XverifyCommonFiles($p)
+
+function verifyCommonFiles($p)
 {
-  $subdirectory =  _verifyBookClean($p['capacitor_settings']->subDirectory);
-  $p['dir_capacitor'] = ROOT_CAPACITOR . $subdirectory . '/';;
-  // css
-  $source = ROOT_EDIT . 'sites/default/images/css/';
-  $destination = $p['dir_capacitor'] . 'folder/sites/default/images/css/';
-  copyDirectory($source, $destination);
+  writeLog('verifyCommonFiles-capacitor-10', $p);
+  $progress = new stdClass;
+  $progress->common_files->progress = 'ready';
+  $from = ROOT_EDIT . 'sites/' . SITE_CODE . '/capacitor/';
+  $to = ROOT_SDCARD . $p['language_iso'] . '/';
+  writeLog('verifyCommonFiles-capacitor-12', "$from goes $to");
+  $new_progress = verifyCommonFilesCopyFolder($from, $to);
+  return $progress;;
+}
 
-  $source = ROOT_EDIT . 'sites/' . SITE_CODE . '/images/css/';
-  $destination = $p['dir_capacitor'] . 'folder/sites/' . SITE_CODE . '/images/css/';
-  copyDirectory($source, $destination);
+function verifyCommonFilesCopyFolder($from, $to)
+{
+  writeLogAppend('verifyCommonFiles-capacitor-21', "$from to $to");
 
-  // standrd images
-  $source = ROOT_EDIT . 'sites/' . SITE_CODE . '/images/standard/';
-  $destination = $p['dir_capacitor'] . 'folder/sites/' . SITE_CODE . '/images/standard/';
-  copyDirectory($source, $destination);
+  // (A1) SOURCE FOLDER CHECK
+  if (!is_dir($from)) {
+    trigger_error("$from does not exist", E_USER_WARNING);
+    exit;
+  }
+  $guard = ROOT_EDIT . 'sites/' . SITE_CODE . '/capacitor/';
+  if (strpos($from, $guard) != 0) {
+    trigger_error("$from is not a guarded route", E_USER_WARNING);
+    exit;
+  }
 
-  $source = ROOT_EDIT . 'sites/' . SITE_CODE . '/images/menu/';
-  $destination = $p['dir_capacitor'] . 'folder/sites/' . SITE_CODE . '/images/menu/';
-  copyDirectory($source, $destination);
+  // (A2) CREATE DESTINATION FOLDER
+  if (!is_dir($to)) {
+    createDirectory($to);
+    writeLogAppend('verifyCommonFiles-capacitor-42', $to);
+  }
 
-  $source = ROOT_EDIT . 'sites/' . SITE_CODE . '/images/standard/';
-  $destination = $p['dir_capacitor'] . 'folder/sites/' . SITE_CODE . '/images/standard/';
-  copyDirectory($source, $destination);
-
-  $source = ROOT_EDIT . 'sites/' . SITE_CODE . '/content/' . $p['country_code'] . '/images/standard/';
-  $destination = $p['dir_capacitor'] . 'folder/sites/' . SITE_CODE . '/' . $p['country_code'] . '/images/standard/';
-  copyDirectory($source, $destination);
-
-
-  // javascript
-
-  $languages = explode('.',  $subdirectory);
-  foreach ($languages as $language_code) {
-    if ($language_code != '') {
-      $source = ROOT_EDIT . 'sites/' . SITE_CODE . '/content/' . $p['country_code'] . '/' . $language_code . '/javascript/';
-      $destination = $p['dir_capacitor'] . 'folder/content/' . $p['country_code'] . '/' . $language_code . '/javascript/';
-      //writeLogAppend('verifyCommonFiles-50', "$source\n$destination \n\n");
-      copyDirectory($source, $destination);
+  // (A3) COPY FILES + RECURSIVE INTERNAL FOLDERS
+  $dir = opendir($from);
+  writeLogAppend('verifyCommonFiles-capacitor-43', $from);
+  while (($ff = readdir($dir)) !== false) {
+    if ($ff != "." && $ff != "..") {
+      if (is_dir("$from$ff")) {
+        writeLogAppend('verifyCommonFiles-capacitor-47', "$from$ff/  to $to$ff/");
+        verifyCommonFilesCopyFolder("$from$ff/", "$to$ff/");
+      } else {
+        copy("$from$ff", "$to$ff");
+        writeLogAppend('verifyCommonFiles-capacitor-50', "$from$ff copied to $to$ff");
+      }
     }
   }
-  // apk
-
-
-  $source = ROOT_EDIT . 'sites/' . SITE_CODE . '/prototype/capacitor/' .  SITE_CODE . '.html';
-  $destination = $p['dir_capacitor'] . SITE_CODE . '.html';
-  copy($source, $destination);
-
-  return true;
+  closedir($dir);
 }

@@ -32,10 +32,12 @@ export default {
   },
   methods: {},
   async created() {
+    console.log (this.language)
     this.books = []
-    var params = this.language
+    var params = {}
+    params.language = this.language
     this.books = await CapacitorService.getBooks(params)
-    //console.log(this.books)
+    console.log(this.books)
   },
 }
 </script>

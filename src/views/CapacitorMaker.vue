@@ -40,7 +40,10 @@
     <div class="spacer"></div>
     <div class="row" v-if="this.show_progress">
       <div class="column">
-        <button class="button" @click="verifyCommonFiles()">
+        <button 
+        class="button" 
+        v-bind:class="progress.common_files.progress"
+        @click="verifyCommonFiles()">
           {{ this.common_text }}
         </button>
       </div>
@@ -48,7 +51,7 @@
 
     <div  v-if="this.show_progress">
 
-      <CapacitorBooks :language_iso="capacitor.language" />
+      <CapacitorBooks :language="$v.capacitor.language.$model" />
 
       <p>The MediaList Files  Media.bat files will be at mc2.media/lists</p>
       <p>After you make the Media List Bat files:</p>
@@ -110,6 +113,12 @@ export default {
         series: null,
         subDirectory: null,
       },
+      progress: {
+        common_files: {
+          progress: 'undone',
+          message: null,
+        },
+      }
     }
   },
   computed: {
@@ -130,6 +139,7 @@ export default {
   methods: {
     showProgress() {
       this.show_progress = true
+      this.verifyCommonFiles()
     },
     async verifyLanguageIndex() {
       this.language_text = 'Verifying'
@@ -179,5 +189,31 @@ export default {
 <style scoped>
 div.spacer {
   height: 30px;
+}
+.undone {
+  background-color: black;
+  padding: 10px;
+  color: white;
+}
+.error {
+  background-color: red;
+  padding: 10px;
+  color: white;
+}
+.ready {
+  background-color: yellow;
+  padding: 10px;
+  color: black;
+}
+.invisible {
+  background-color: white;
+  padding: 10px;
+  color: white;
+}
+
+.done {
+  background-color: green;
+  padding: 10px;
+  color: white;
 }
 </style>
