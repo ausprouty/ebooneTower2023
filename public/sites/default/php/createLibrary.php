@@ -3,23 +3,21 @@ myRequireOnce('writeLog.php');
 myRequireOnce('dirStandard.php');
 myRequireOnce('decidePublishBook.php');
 myRequireOnce('getLibraryImage.php');
-myRequireOnce('getPrototypeFileLibrary.php';
+myRequireOnce('getPrototypeFileLibrary.php');
 
 
 function createLibrary($p, $text)
 {
 
-    writeLogDebug('createLibrarym- default', $p);
-    $out = [];
+    writeLogDebug('createLibrary-default-12', $p);
+
     /* Return a container for the books in this library.
     This will be used to prototype these books by prototypeLibraryandBooks.
 
     */
 
-    $out = [];
-    $out['books'] = []; // used by publishLibraryAndBooks
-    $debug = "createLibrary\n";
-    $filename =  $p['library_code'];
+    $library = [];
+    $library['books'] = []; // used by publishLibraryAndBooks
     //
     // get bookmark
     //
@@ -41,11 +39,9 @@ function createLibrary($p, $text)
 
     $no_ribbon = isset($text->format->no_ribbon) ? isset($text->format->no_ribbon) : false;
     if ($no_ribbon) {
-        $debug .= 'prototypeLibrary was asked not to set ribbon at top ' . "\n";
         $nav = '';
         $ribbon = '';
     } else {
-        $debug .= 'Ribbon In prototypeLibrary ' . "\n";
         $nav = myGetPrototypeFile('navRibbon.html');
         $ribbon = isset($text->format->back_button) ? $text->format->back_button->image : DEFAULT_BACK_RIBBON;
     }
@@ -59,7 +55,6 @@ function createLibrary($p, $text)
     $library_text = isset($text->text) ? $text->text : null;
     // check to see if image above has text;
     $body = str_replace('{{ library.text }}', $library_text, $body);
-    $root_index = '/content/index.html';
     $navlink = '../index.html';
 
 
@@ -92,9 +87,8 @@ function createLibrary($p, $text)
     $temp = 'bookTitled.html';
     if ($bookmark['language']->titles) {
         $temp = 'bookImage.html';
-        $debug .= 'Using template for bookImage ' . "\n";
     }
-    $book_template = myGetPrototypeFile( $temp);
+    $book_template = myGetPrototypeFile($temp);
     //
     //  replace for values in book templage for each book
     //
@@ -128,9 +122,8 @@ function createLibrary($p, $text)
                     // you will need library code in bookmark
                     $book->library_code =  $b['library_code'];
                     // deal with any duplicates
-                    $out['books'][$code] = $book;
+                    $library['books'][$code] = $book;
                     // create link for series, library or page
-                   
                     if ($book->format == 'series') {
                         $this_link =  $code . '/index.html';
                     } elseif ($book->format == 'library') {
@@ -138,8 +131,6 @@ function createLibrary($p, $text)
                     } else {
                         $this_link = 'pages/' . $code . '.html';
                     }
-                    
-
                     // dealing with legacy data
                     if (isset($book->image->image)) {
                         $book_image =  $book->image->image;
@@ -147,7 +138,6 @@ function createLibrary($p, $text)
                         $country_index =  dirStandard('country', DESTINATION, $p);
                         $book_image =   $country_index .  $bookmark['language']->image_dir . '/' . $book->image;
                     }
-                    writeLogAppend('createLibrary-default- 163', $book_image);
                     $replace = array(
                         $this_link,
                         $book_image,
@@ -159,8 +149,8 @@ function createLibrary($p, $text)
             }
         }
     }
-
-    $out['body'] = str_replace('[[books]]', $books, $body);
-    //writeLog('createLibrary', $debug);
-    return $out;
+    $out = new stdClass;
+    $out->body = str_replace('[[books]]', $books, $body);
+    $out->progress = null;
+    writeLogDebug('createLibrary-default-167', $out);
 }

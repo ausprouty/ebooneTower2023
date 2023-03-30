@@ -16,11 +16,9 @@ function createLibrary($p, $text)
 
     */
     writeLogDebug('capacitor-createLibrary- capacitor', $p);
-    $out = [];
+    $library = [];
     $progress = new stdClass;
-    $out['books'] = []; // used by publishLibraryAndBooks
-    $debug = "createLibrary\n";
-    $filename =  $p['library_code'];
+    $library['books'] = []; // used by publishLibraryAndBooks
     //
     // get bookmark
     //
@@ -36,6 +34,7 @@ function createLibrary($p, $text)
     // get template for library and fill in library details
     //
     $body = getPrototypeFileLibrary($p);
+    writeLogDebug('createLibrary-37', $body);
     //
     //  Format Navigation area;
     //
@@ -129,7 +128,7 @@ function createLibrary($p, $text)
                     // you will need library code in bookmark
                     $book->library_code =  $b['library_code'];
                     // deal with any duplicates
-                    $out['books'][$code] = $book;
+                    $library['books'][$code] = $book;
                     // create link for series, library or page
 
                     if ($book->format == 'series') {
@@ -173,6 +172,6 @@ function createLibrary($p, $text)
     $out = new stdClass;
     $out->body = str_replace('[[books]]', $books, $body);
     $out->progress = $progress;
-    //writeLog('createLibrary', $debug);
+    writeLog('createLibrary-176', $out);
     return $out;
 }
