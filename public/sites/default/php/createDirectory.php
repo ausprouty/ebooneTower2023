@@ -10,6 +10,7 @@ function createDirectory($dir)
     writeLogAppend('createDirectory-all', "\n\n$dir");
     // we can not handle relative 
     if (strpos($dir, './') !== FALSE) {
+        writeLogAppend('createDirectory-all', "ERROR line 13 - $dir");
         writeLogAppend('ERROR-createDirectory', $dir);
         return;
     }
@@ -27,8 +28,10 @@ function createDirectory($dir)
         }
         $path = str_replace('//', '/', $path);
         if (!file_exists($path)) {
-            writeLogAppend('createDirectory-all', $path);
+            writeLogAppend('createDirectory-all', "$path created");
             mkdir($path);
+        } else {
+            writeLogAppend('createDirectory-all', "$path EXISTS");
         }
     }
     return $out;

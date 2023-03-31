@@ -21,6 +21,9 @@ function checkStatusBook($p)
         writeLogError('Capacitor-checkStatusBook-12', $p);
         trigger_error($message, E_USER_ERROR);
     }
+
+    // todo remove this
+    $p['folder_name'] = 'multiply1';
     $p = verifyBookDir($p); // set $p['dir_capacitor']
     $check = [];
     $out = new stdClass;
