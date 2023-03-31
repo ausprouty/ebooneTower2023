@@ -9,6 +9,7 @@ myRequireOnce('createDirectory.php');
 
 function copyDirectory($source, $destination)
 {
+	writeLogAppend('copyDirectory-12', "$source  to $destination");
 	$source = str_replace('//', '/', $source);
 	$destination = str_replace('//', '/', $destination);
 	$debug = '';
@@ -31,6 +32,6 @@ function copyDirectory($source, $destination)
 			}
 		}
 	}
-	writeLogDebug('copyDirectory-33', $debug);
+	writeLogAppend('copyDirectory-33', $debug);
 	return;
 }

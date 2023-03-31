@@ -7,6 +7,7 @@ myRequireOnce('writeLog.php');
 
 function createDirectory($dir)
 {
+    writeLogAppend('createDirectory-all', "\n\n$dir");
     // we can not handle relative 
     if (strpos($dir, './') !== FALSE) {
         writeLogAppend('ERROR-createDirectory', $dir);
@@ -26,7 +27,7 @@ function createDirectory($dir)
         }
         $path = str_replace('//', '/', $path);
         if (!file_exists($path)) {
-            writeLogAppend('createDirectory-27', $path);
+            writeLogAppend('createDirectory-all', $path);
             mkdir($path);
         }
     }
