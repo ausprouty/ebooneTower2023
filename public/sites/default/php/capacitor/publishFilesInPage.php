@@ -61,7 +61,7 @@ function publishFilesInPageFind($find_begin, $text, $p)
                 // I think I want to include html
                 if (!is_dir($from) && strpos($from, '.html') === false) {
                     $new_progress = publishFilesInPageWrite($filename, $p);
-                    $progress = progressMerge($progress, $new_progress, 'publishFilesInPageFind-58');
+                    $progress = progressMergeObjects($progress, $new_progress, 'publishFilesInPageFind-58');
                 }
             } else { // we do not need to copy html files; they may not have been rendered yet.
                 if (strpos($filename, '.html') == false) {
@@ -70,7 +70,7 @@ function publishFilesInPageFind($find_begin, $text, $p)
                             $find = 'localVideoOptions.js';
                             if (strpos($filename, $find)  == false) {
                                 $new_progress =  publishFilesInPageWrite($filename, $p);
-                                $progress = progressMerge($progress, $new_progress, 'publishFilesInPageFind-67');
+                                $progress = progressMergeObjects($progress, $new_progress, 'publishFilesInPageFind-67');
                             }
                         }
                     }

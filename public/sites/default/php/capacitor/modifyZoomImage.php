@@ -51,9 +51,9 @@ function modifyZoomImage($text, $p)
         $regular_image = modifyZoomImageGetImageRegular($source_image, $p);
         $zoom_image = modifyZoomImageGetImageZoom($source_image, $p);
         $new_progress = copyFilesForCapacitor($source_image, $zoom_image, 'modifyZoomImage-53');
-        $progress = progressMerge($progress, $new_progress, ' modifyZoomImage-54');
+        $progress = progressMergeObjects($progress, $new_progress, ' modifyZoomImage-54');
         $new_progress = copyFilesForCapacitor($source_image, $regular_image, 'modifyZoomImage-54');
-        $progress = progressMerge($progress, $new_progress,  'modifyZoomImage-56');
+        $progress = progressMergeObjects($progress, $new_progress,  'modifyZoomImage-56');
         // replace placeholders with values
         $placeholders = array('[regular_image]', '[zoom_image]', '[alt]', '[source_image]');
         $values = array($regular_image, $zoom_image, $alt, $source_image);

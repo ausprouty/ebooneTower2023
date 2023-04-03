@@ -24,14 +24,14 @@ function modifyTextForVue($text, $bookmark, $p)
     $text = str_replace($bad, '', $text);
     $response = (object) modifyTextForImages($text, $p);
     ////writeLogDebug('Object-modifyTextForVue-26', $response);  // object with both text and progress
-    $progress = progressMerge($progress, $response->progress, ' modifyTextForVue-27');
+    $progress = progressMergeObjects($progress, $response->progress, ' modifyTextForVue-27');
     //writeLogDebug('Object-modifyTextForVue-28', $response->progress);
     //writeLogDebug('Object-modifyTextForVue-29', $progress);
 
     $response = (object) modifyTextForVuePopUp($response->text);
     //writeLogDebug('Object-modifyTextForVue-32', $response->progress);
     //writeLogDebug('Object-modifyTextForVue-33', $progress);
-    $progress = progressMerge($progress, $response->progress, ' modifyTextForVue-34');
+    $progress = progressMergeObjects($progress, $response->progress, ' modifyTextForVue-34');
     $response = (object) modifyTextForVueReadMore($response->text, $bookmark);
     $out->text = $response->text;
     $out->progress = $progress;
@@ -64,7 +64,7 @@ function modifyTextForImages($text, $p)
         if (strpos($source, '@') === false) {
             //////writeLogAppend('capacitor-modifyTextForImages-44', $message);
             $new_progress = (object) modifyTextForImagesCopy($source, $p);
-            $progress = progressMerge($progress, $new_progress, 'modifyTextForImages-67');
+            $progress = progressMergeObjects($progress, $new_progress, 'modifyTextForImages-67');
             $new_source = '@/assets/' . $source;
             $new_source = str_replace('//', '/', $new_source);
             $new_div = str_replace($src, $new_source, $img_div);
@@ -73,7 +73,7 @@ function modifyTextForImages($text, $p)
         } else {
             $new_progress->progress = 'error';
             $new_progress->message = "Image $source starts with @ in modifyTextForImages";
-            $progress = progressMerge($progress, $new_progress, 'modifyTextForImages-76');
+            $progress = progressMergeObjects($progress, $new_progress, 'modifyTextForImages-76');
         }
         $pos_start = $img_end;
         ////writeLogDebug('capacitor-modifyTextForImages-61-' . $i, $text);

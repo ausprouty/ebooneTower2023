@@ -25,11 +25,11 @@ function publishSeriesAndChapters($p)
     // first prototype the Series Index
     $response = (object) publishSeries($p);
     writeLogDebug('Progress-publishSeriesandChapters-26', $out);
-    $progress = progressMerge($progress, $response->progress, 'publishSeriesAndChapters-27');
+    $progress = progressMergeObjects($progress, $response->progress, 'publishSeriesAndChapters-27');
     if (!isset($response->files_json)) {
         $new_progress->message = 'No files_json returned from Publish Series. This may be a library';
         $new_progress->progress = 'undone';
-        $progress = progressMerge($progress, $new_progress, 'publishSeriesAndChapters-30');
+        $progress = progressMergeObjects($progress, $new_progress, 'publishSeriesAndChapters-30');
         $out = $progress;
         return $out;
     }
@@ -71,7 +71,7 @@ function publishSeriesAndChapters($p)
                 if (isset($result->files_in_page)) {
                     $files_in_pages = publishSeriesAndChaptersCombineArrays($files_in_pages, $result->files_in_page);
                 }
-                $progress = progressMerge($progress, $result->progress, 'publishSeriesAndChapters-71');
+                $progress = progressMergeObjects($progress, $result->progress, 'publishSeriesAndChapters-71');
             }
         }
         $cache['sessions_published'][] = $chapter->filename;
