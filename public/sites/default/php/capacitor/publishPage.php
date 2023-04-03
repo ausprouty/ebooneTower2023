@@ -47,7 +47,7 @@ function publishPage($p)
     writeLogAppend('Progress-PublishPage-47', $response->files_in_page);
     writeLogAppend('Progress-PublishPage-48', $files_in_page);
     $files_in_page = progressMergeArrays($files_in_page, $response->files_in_page);
-    $progress = progressMergeObjects($progress, $response->progress . 'PublishPage-47');
+    $progress = progressMergeObjects($progress, $response->progress, 'PublishPage-47');
     // get bookmark for stylesheet
     if (isset($p['recnum'])) {
         $b['recnum'] = $p['recnum'];
