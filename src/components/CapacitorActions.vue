@@ -41,6 +41,7 @@
       </div>
   </div>
   <div class="row">
+    <span  v-html="timeout_message"></span>
     <span  v-html="progress.content.message"></span>
    <span  v-html="progress.medialist.message"></span>
    <span  v-html="progress.media_batfile.message"></span>
@@ -82,6 +83,7 @@ export default {
       medialist_text: 'Media List',
       media_batfile_text: 'Media BatFile',
       router_text: 'Router File',
+      timeout_messsage: '',
       content_published: false,
       progress: {
         content: {
@@ -152,12 +154,12 @@ export default {
         }
       }
       if (response == 'error') {
-        console.log('You may have timed out')
+        this.timout_message = 'You may have timed out. Please reload this page.'
         console.log (response)
-        //this.error_count++
-        //if (this.error_count == 1) {
-        //  this.checkStatus()
-        //}
+        this.error_count++
+        if (this.error_count == 1) {
+          this.checkStatus()
+        }
       }
     },
     async checkStatus() {
@@ -167,6 +169,7 @@ export default {
       var response = await CapacitorService.checkStatusBook(params)
       this.progress = response
       this.checkContentPublished()
+
     },
   },
   async created() {
@@ -209,7 +212,7 @@ div.parent {
 .checking {
   background-color: blue;
   padding: 10px;
-  color: black;
+  color: white;
 }
 .ready {
   background-color: yellow;

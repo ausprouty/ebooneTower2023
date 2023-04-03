@@ -6,6 +6,7 @@
 //define("ROOT_EDIT", '/home/globa544/edit.mc2.online/');
 myRequireOnce('progressMerge.php');
 myRequireOnce('publishDestination.php');
+myRequireOnce('progressMerge.php');
 myRequireOnce('writeLog.php');
 myRequireOnce('version2Text.php');
 myRequireOnce('copyFilesForCapacitor.php');
@@ -13,24 +14,24 @@ myRequireOnce('copyFilesForCapacitor.php');
 
 function  publishFilesInPage($text, $p)
 {
+    $progress = new stdClass();
+    $response = new stdClass();
     $files_in_page = [];
     $text = version2Text($text);
     $find_begin = 'src="';
-    $result = publishFilesInPageFind($find_begin, $text, $p);
-    if (is_array($result)) {
-        $files_in_page = array_merge($files_in_page, $result);
-    }
+    $response = publishFilesInPageFind($find_begin, $text, $p);
+    $files_in_page = array_merge($files_in_page, $response->files_in_page);
+    $progress = progressMerge($progress, $response->progress);
+
     $find_begin = 'href="';
-    $result = publishFilesInPageFind($find_begin, $text, $p);
-    if (is_array($result)) {
-        $files_in_page = array_merge($files_in_page, $result);
-    }
-    return  $files_in_page;
+    $response = publishFilesInPageFind($find_begin, $text, $p);
+    $files_in_page = array_merge($files_in_page, $response->files_in_page);
+    $progress = progressMerge($progress, $response->progress);
+    return  $progress;
 }
 
 function publishFilesInPageFind($find_begin, $text, $p)
 {
-    $destination = DESTINATION;
     $progress = new stdClass;
     $new_progress = new stdClass;
     $out = new stdClass;

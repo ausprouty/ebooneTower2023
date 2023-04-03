@@ -11,6 +11,7 @@ myRequireOnce('publicationCache.php');
 
 function publishSeriesAndChapters($p)
 {
+    $progress = new stdClass();
     if (!isset($p['resume'])) {
         $p['resume'] = 'false';
     }

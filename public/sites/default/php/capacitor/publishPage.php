@@ -4,6 +4,7 @@ myRequireOnce('modifyPage.php');
 myRequireOnce('publishDestination.php');
 myRequireOnce('publishFiles.php');
 myRequireOnce('publishFilesInPage.php');
+myRequireOnce('progressMerge.php');
 myRequireOnce('writeLog.php');
 myRequireOnce('addVueWrapper.php');
 
@@ -15,6 +16,7 @@ function publishPage($p)
 {
     $out = new stdClass;
     $progress = new stdClass;
+    $response = new stdClass;
 
     $files_in_page = isset($p['files_in_page']) ? $p['files_in_page'] : [];
     $rand = random_int(0, 9999);
@@ -40,8 +42,9 @@ function publishPage($p)
     $text  = createPage($p, $data);
     writeLogDebug('Object-PublishPage-37', $text);
 
-    $new_files_in_page  = publishFilesInPage($text, $p);
-    $files_in_page = array_merge($files_in_page, $new_files_in_page);
+    $response = publishFilesInPage($text, $p);
+    $files_in_page = array_merge($files_in_page, $response->files_in_page);
+    $progress = progressMerge($progress, $response->progress . 'PublishPage-47');
     // get bookmark for stylesheet
     if (isset($p['recnum'])) {
         $b['recnum'] = $p['recnum'];
@@ -59,7 +62,7 @@ function publishPage($p)
     //
     $response =  modifyPage($text, $p, $data, $bookmark);
     $text = $response->text;
-    $progress = $response->progress;
+    $progress = progressMerge($progress, $response->progress, 'PublishPage-65');
     $text .= '<!--- Created by publishPage-->' . "\n";
     writeLogDebug('publishPage-ZOOM-54', $text);
     $text = addVueWrapperPage($text);

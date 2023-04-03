@@ -8,8 +8,12 @@ myRequireOnce('publicationCache.php');
 myRequireOnce('modifyTextForVue.php');
 myRequireOnce('createBookRouter.php');
 
-function createBookContent($p)
+function XcreateBookContent($p)
+
+// I do not think this is ever called
 {
+    trigger_error('you have stubled into createBookContent.  I think you should be in publishSeriesAndChapters');
+
     $out = new stdClass;
     // when coming in with only book information the folder_name is not yet set
     if (!isset($p['folder_name'])) {
@@ -30,7 +34,9 @@ function createBookContent($p)
     if (!$data) {
         $message = 'No data found for: ' . $sql;
         writeLogError('capacitor-createBookContent-29', $message);
-        return 'undone';
+        $out->message = $message;
+        $out->progress = 'undone';
+        return $out;
     }
     $text = json_decode($data['text']);
     if ($text) {
@@ -60,12 +66,14 @@ function createBookContent($p)
             createBookRouter($p);
             $result['text'] .= '<!--- Created by createBookContent-->' . "\n";
             publishFiles($p, $fname, $result['text'],  STANDARD_CSS, $selected_css);
+            $out->message = $message;
+            $out->progress = 'done';
+            return $out;
         }
     } else {
         $message = 'No text found for ' .  $sql . "\n This may be an index.";
+        $out->progress = 'undone';
+        return $out;
         //writeLogAppend('ERROR- capacitor- createBookContent-63', $message);
     }
-    $out->message = $message;
-    $out->progress = 'undone';
-    return $out;
 }
