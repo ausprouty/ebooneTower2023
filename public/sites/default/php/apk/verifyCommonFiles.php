@@ -6,7 +6,7 @@
 /langugage javascript folders
 */
 myRequireOnce('copyDirectory.php');
-myRequireOnce('getBuild.php');
+myRequireOnce('getBuildD.php');
 myRequireOnce('writeLog.php');
 
 function verifyCommonFiles($p)

@@ -3,9 +3,7 @@
 myRequireOnce('audioMakeRefFileForOffline.php');
 myRequireOnce('dirMake.php');
 myRequireOnce('modifyRevealVideo.php');
-myRequireOnce('videoBibleFindForOffline');
-myRequireOnce('videoFindForOfflineNewName.php');
-myRequireOnce('videoFollows.php');
+myRequireOnce('videoBibleFindForOffline.php');
 myRequireOnce('videoIntroFindForOffline.php');
 myRequireOnce('videoMakeBatFileForOfflineConsiderConcat.php');
 myRequireOnce('videoMakeBatFileForOfflineSingle.php');

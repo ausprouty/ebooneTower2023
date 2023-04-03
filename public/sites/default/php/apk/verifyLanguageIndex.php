@@ -15,7 +15,7 @@ myRequireOnce('writeLog.php');
 myRequireOnce('publishLanguages.php');
 myRequireOnce('dirListFiles.php');
 myRequireOnce('dirMake.php');
-myRequireOnce('getBuild.php');
+myRequireOnce('getBuildB.php');
 
 function verifyLanguageIndex($p)
 {

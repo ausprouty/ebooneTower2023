@@ -33,7 +33,7 @@
 */
 myRequireOnce('videoOfflineNewName.php');
 myRequireOnce('videoReference.php');
-myRequireOnce('mofifyVideoTextAndTime.php');
+myRequireOnce('modifyVideoTextAndTime.php');
 /*
 returns object
 

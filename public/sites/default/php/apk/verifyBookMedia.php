@@ -12,7 +12,7 @@ Looking for
     $p['dir_series'] =  $p['country_code'] .'/'. $p['language_iso'] . '/'. $p['folder_name'];
 */
 myRequireOnce('writeLog.php');
-myRequireOnce('getBuild.php');
+myRequireOnce('getBuildE.php');
 myRequireOnce('dirListFiles.php');
 myRequireOnce('dirMake.php');
 

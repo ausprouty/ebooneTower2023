@@ -43,6 +43,7 @@ function publishPage($p)
     writeLogDebug('Object-PublishPage-37', $text);
 
     $response = publishFilesInPage($text, $p);
+    writeLogDebug('Progress-PublishPage-46', $response);
     $files_in_page = array_merge($files_in_page, $response->files_in_page);
     $progress = progressMerge($progress, $response->progress . 'PublishPage-47');
     // get bookmark for stylesheet
@@ -72,5 +73,6 @@ function publishPage($p)
     publishFiles($p, $fname, $text,  STANDARD_CSS, $selected_css);
     $out->progress = $progress;
     $out->files_in_page = $files_in_page;
+    writeLogDebug('Progress-PublishPage-75', $text);
     return $out;
 }

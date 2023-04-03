@@ -12,6 +12,7 @@ myRequireOnce('publicationCache.php');
 function publishSeriesAndChapters($p)
 {
     $progress = new stdClass();
+    $response = new stdClass();
     if (!isset($p['resume'])) {
         $p['resume'] = 'false';
     }
@@ -70,30 +71,13 @@ function publishSeriesAndChapters($p)
             if ($data) {
                 $p['recnum'] = $data['recnum'];
                 // need to find latest record for recnum
-                $result =  publishPage($p);
-                if (is_array($result)) {
-                    if (isset($result['files_in_page'])) {
-                        $files_in_pages = publishSeriesAndChaptersCombineArrays($files_in_pages, $result['files_in_page']);
-                    }
-                }
+                $response =  publishPage($p);
+                $progress = progressMerge($progress, $response->progress, 'publishSeriesAndChapters-75');
+                $files_in_pages = publishSeriesAndChaptersCombineArrays($files_in_pages,  $response->files_in_page);
             } else {
-                // find file and add to database
-                $series_dir = dirStandard('series', DESTINATION,  $p, $folders = null, $create = false);
-                $file =   $series_dir .  $chapter->filename . '.html';
-                if (file_exists($file)) {
-                    $p['text'] = file_get_contents($file);
-                    $p['filename'] = $chapter->filename;
-                    createContent($p);
-                    $data = sqlArray($sql);
-                    $p['recnum'] = $data['recnum'];
-                    $result =  publishPage($p);
-                    if (is_array($result['files_in_page'])) {
-                        $files_in_pages = publishSeriesAndChaptersCombineArrays($files_in_pages, $result['files_in_page']);
-                    }
-                } else {
-                    $message = 'NO RESULT for ' . $file . "\n";
-                    writeLogError('publishSeriesAndChapters-66', $message);
-                }
+                $response->message = "Record not found for $sql";
+                $progress->progress = 'notdone';
+                return $progress;
             }
         }
 
@@ -103,7 +87,9 @@ function publishSeriesAndChapters($p)
     }
     publishSeriesAndChaptersMakeJsonIndex($files_json, $files_in_pages, $p);
     clearCache($cache, DESTINATION);
-    return true;
+    $progress->message = 'I finished publishSeriesAndChapters';
+    $progress->progress = 'done';
+    return $progress;
 }
 function publishSeriesAndChaptersCombineArrays($files_in_pages, $new_files)
 {

@@ -1,7 +1,7 @@
 <?php
 
 
-myRequireOnce('getBuild.php');
+myRequireOnce('getBuildI.php');
 myRequireOnce('writeLog.php');
 myRequireOnce('findLibraries.php');
 
