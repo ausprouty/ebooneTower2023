@@ -21,56 +21,57 @@
         </p>
       </div>
       <div>
-      <h3>Language</h3>
-      <v-select
-        label="language_name"
-        :options="language_data"
-        placeholder="Select"
-        v-model="$v.capacitor.language.$model"
-        v-on:change="setCapacitorSubDir($v.capacitor.language.$model)"
-      />
-      <h3>Footer</h3>
+        <h3>Language</h3>
         <v-select
-        :options="footers"
-        placeholder="Select"
-        v-model="$v.capacitor.footer.$model"
-      />
-      <button class="button" @click="showProgress()">Show Progress</button>
-    </div>
-    <div class="spacer"></div>
-    <div class="row" v-if="this.show_progress">
-      <div class="column">
-        <button 
-        class="button" 
-        v-bind:class="progress.common_files.progress"
-        @click="verifyCommonFiles()">
-          {{ this.common_text }}
-        </button>
+          label="language_name"
+          :options="language_data"
+          placeholder="Select"
+          v-model="$v.capacitor.language.$model"
+          v-on:change="setCapacitorSubDir($v.capacitor.language.$model)"
+        />
+        <h3>Footer</h3>
+          <v-select
+          :options="footers"
+          placeholder="Select"
+          v-model="$v.capacitor.footer.$model"
+        />
+        <button class="button" @click="showProgress()">Show Progress</button>
       </div>
-    </div>
+      <div class="spacer"></div>
+      <div class="row" v-if="this.show_progress">
+        <div class="column">
+          <h3>Common Files</h3>
+          <button 
+            class="button" 
+            v-bind:class="progress.common_files.progress"
+            @click="verifyCommonFiles()">
+              {{ this.common_text }}
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <span  v-html="progress.common_files.message"></span>
+      </div>
+      <div v-if="this.show_progress">
+        <CapacitorBooks :language="$v.capacitor.language.$model" />
+        <p>The MediaList Files. Media.bat files will be at mc2.media/lists</p>
+        <p>After you make the Media List Bat files:</p>
+        <ul>
+          <li>Correct errors in html and republish</li>
+          <li>Download any missing files</li>
+          <li>Update Reference File</li>
+          <li>
+            Download, move to M:MC2/Media/M2/
+            {{ this.$route.params.country_code }}, unzip and run the bat files -
+            (They take too much processing time to run remotely.)
+          </li>
+          <li>Copy the media files to mc2.media/LANGUAGE_ISO</li>
+          <li>Verify that all media files are in this directory</li>
+        </ul>
+        <p>Router will be found at {{ this.capacitor_root
+            }}/{{ this.capacitor.subDirectory }}/router</p>
 
-    <div  v-if="this.show_progress">
-
-      <CapacitorBooks :language="$v.capacitor.language.$model" />
-
-      <p>The MediaList Files  Media.bat files will be at mc2.media/lists</p>
-      <p>After you make the Media List Bat files:</p>
-      <ul>
-        <li>Note sure why I have this.....Check for Errors in the error log</li>
-        <li>Correct errors in html and republish</li>
-        <li>Download any missing files</li>
-        <li>Update Reference File</li>
-        <li>
-          Download, move to M:MC2/Media/M2/
-          {{ this.$route.params.country_code }}, unzip and run the bat files -
-          (They take too much processing time to run remotely.)
-        </li>
-        <li>Copy the media files to mc2.media/LANGUAGE_ISO</li>
-        <li>Verify that all media files are in this directory</li>
-      </ul>
-      <p>Router will be found at {{ this.capacitor_root
-          }}/{{ this.capacitor.subDirectory }}router</p>
-
+      </div>
     </div>
   </div>
 </template>
@@ -105,6 +106,12 @@ export default {
       language_data: [],
       footers: [],
       bat_text: 'Download Media Batch Files',
+      progress: {
+        common_files: {
+          progress: 'undone',
+          message: null,
+        },
+      },
       capacitor: {
         language: null,
         footer: null,
@@ -113,12 +120,6 @@ export default {
         series: null,
         subDirectory: null,
       },
-      progress: {
-        common_files: {
-          progress: 'undone',
-          message: null,
-        },
-      }
     }
   },
   computed: {
@@ -137,9 +138,9 @@ export default {
     },
   },
   methods: {
-    showProgress() {
+    async showProgress() {
       this.show_progress = true
-      this.verifyCommonFiles()
+      await this.verifyCommonFiles()
     },
     async verifyLanguageIndex() {
       this.language_text = 'Verifying'
@@ -154,7 +155,8 @@ export default {
       var params = this.$route.params
       var response = await CapacitorService.verifyCommonFiles(params)
       console.log(response)
-      this.common_text = 'Verified'
+      this.progress = response
+      this.common_text = 'Checked'
     },
     async zipMediaBatFiles() {
       this.bat_text = 'Downloading'

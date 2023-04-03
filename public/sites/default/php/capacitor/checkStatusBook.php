@@ -14,7 +14,9 @@ $out->media_batfile->message
 */
 
 function checkStatusBook($p)
+
 {
+    writeLogDebug('capacitor-checkStatusBook-19', $p);
     if (!isset($p['capacitor_settings']->subDirectory)) {
         $message = 'p[capacitor_settings]->subDirectory not set';
         writeLogError('Capacitor-checkStatusBook-11', $message);
@@ -23,7 +25,6 @@ function checkStatusBook($p)
     }
 
     // todo remove this
-    $p['folder_name'] = 'multiply1';
     $p = verifyBookDir($p); // set $p['dir_capacitor']
     $check = [];
     $out = new stdClass;

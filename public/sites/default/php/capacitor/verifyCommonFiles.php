@@ -9,14 +9,25 @@ myRequireOnce('copyDirectory.php');
 
 function verifyCommonFiles($p)
 {
-  $progress = new stdClass;
-  $progress->common_files->progress = 'ready';
+
+  class Progress
+  {
+    public $common_files;
+  }
+  class CommonFiles
+  {
+    public $progress;
+    public $message;
+  }
+  $progress = new Progress();
+  $common_files = new CommonFiles();
+  $progress->common_files = $common_files;
   $from = ROOT_EDIT . 'sites/' . SITE_CODE . '/capacitor/';
   $to = ROOT_CAPACITOR . $p['language_iso'] . '/';
-  //copyDirectory($from, $to);
   verifyCommonFilesCopyFolder($from, $to);
-  // writeLog('verifyCommonFiles-capacitor-19', "$from copied to  $to");
-  return $progress;;
+  $progress->common_files->progress = 'done';
+  $progress->common_files->message = 'Finished routine, but did not check to see if files are there.';
+  return $progress;
 }
 
 function verifyCommonFilesCopyFolder($from, $to)

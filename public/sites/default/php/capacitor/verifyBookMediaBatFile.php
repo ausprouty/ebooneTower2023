@@ -2,8 +2,6 @@
 
 function verifyBookMediaBatFile($p)
 {
-    // todo remove this
-    $p['folder_name'] = 'multiply1';
     $progress = new stdClass;
     $progress->progress = 'undone';
     $dir = dirStandard('media_batfile', DESTINATION,  $p, $folders = null, $create = false);
