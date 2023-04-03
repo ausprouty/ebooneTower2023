@@ -76,9 +76,9 @@ function modifyRevealVideoIntro($text, $bookmark, $p)
         $title_phrase =  $word = str_replace('%', $title, $watch_phrase);
         //find url
         $url = modifyVideoRevealFindText($old, 4);
-        if ($p['destination'] == 'website' || $p['destination'] == 'staging') {
+        if (DESTINATION == 'website' || DESTINATION == 'staging') {
             $new = videoTemplateOnline($old, $title_phrase, $url, $bookmark, $i);
-        } elseif ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor'  || $p['destination'] == 'nojs' || $p['destination'] == 'apk') {
+        } else {
             // in these destinations we do NOT cantinate, but we do use high numbers so as not to conflict with Bible
             $new = videoTemplateOffline($title_phrase, $p, $offline_video_count, $bookmark);
             $offline_video_count++;

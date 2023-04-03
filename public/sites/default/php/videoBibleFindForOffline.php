@@ -31,7 +31,7 @@
     <hr /></div>';
 */
 myRequireOnce('videoOfflineNewName.php');
-myRequireOnce('modifyVideoTextAndTime.php');
+myRequireOnce('modifyRevealVideoRoutines.php');
 myRequireOnce('videoReference.php');
 /*
 returns object

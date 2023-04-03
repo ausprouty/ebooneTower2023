@@ -95,4 +95,3 @@ function modifyRevealVideo($text, $bookmark, $p)
     }
     return $text;
 }
-/
