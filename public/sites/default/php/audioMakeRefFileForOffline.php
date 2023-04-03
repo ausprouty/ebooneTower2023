@@ -64,9 +64,9 @@ function audioMakeBatFileForOfflineWrite($text, $p)
 {
     //define("ROOT_EDIT", '/home/vx5ui10wb4ln/public_html/myfriends.edit/');
     $dir =  dirStandard('media_batfile', DESTINATION,  $p, $folders = null, $create = true);
-    $filename =  $p['folder_name'] .  'audio.txt';
+    $filename =  $dir . $p['folder_name'] .  'audio.txt';
     writeLogDebug('audioMakeBatFileForOfflineWrite-67', $filename);
-    $fh = fopen($dir . $filename, 'w');
+    $fh = fopen($filename, 'w');
     fwrite($fh, $text);
     fclose($fh);
     return;
