@@ -11,6 +11,7 @@ myRequireOnce('version2Text.php');
 
 function  publishFilesInPage($text, $p)
 {
+    writeLog('Progress-publishFilesInPage-17', 'I came into this routine in Default');
     $files_in_page = [];
     // we do not copy files for nojs since they are copied by sdcard
     if (isset($p['destination'])) {
@@ -34,6 +35,7 @@ function  publishFilesInPage($text, $p)
 
 function publishFilesInPageFind($find_begin, $text, $p)
 {
+
     $destination = publishDestination($p);
     $files_in_page = [];
     $debug = '';

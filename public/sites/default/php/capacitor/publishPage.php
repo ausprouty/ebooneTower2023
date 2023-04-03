@@ -42,7 +42,7 @@ function publishPage($p)
     $text  = createPage($p, $data);
     writeLogDebug('Object-PublishPage-37', $text);
 
-    $response = publishFilesInPage($text, $p);
+    $response = (object) publishFilesInPage($text, $p);
     writeLogDebug('Progress-PublishPage-46', $response);
     $files_in_page = array_merge($files_in_page, $response->files_in_page);
     $progress = progressMerge($progress, $response->progress . 'PublishPage-47');
@@ -61,7 +61,7 @@ function publishPage($p)
     //
     // modify the page for notes and links
     //
-    $response =  modifyPage($text, $p, $data, $bookmark);
+    $response =  (object) modifyPage($text, $p, $data, $bookmark);
     $text = $response->text;
     $progress = progressMerge($progress, $response->progress, 'PublishPage-65');
     $text .= '<!--- Created by publishPage-->' . "\n";

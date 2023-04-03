@@ -14,22 +14,25 @@ myRequireOnce('copyFilesForCapacitor.php');
 
 function  publishFilesInPage($text, $p)
 {
+    writeLog('Progress-publishFilesInPage-17', 'I came into this routine in Capacitor');
     $progress = new stdClass();
     $response = new stdClass();
     $out = new stdClass();
     $files_in_page = [];
     $text = version2Text($text);
     $find_begin = 'src="';
-    $response = publishFilesInPageFind($find_begin, $text, $p);
+    $response = (object) publishFilesInPageFind($find_begin, $text, $p);
     $files_in_page = array_merge($files_in_page, $response->files_in_page);
     $progress = progressMerge($progress, $response->progress);
 
     $find_begin = 'href="';
-    $response = publishFilesInPageFind($find_begin, $text, $p);
+    $response = (object) publishFilesInPageFind($find_begin, $text, $p);
+    writeLogAppend('Progress-publishFilesInPage-28', $response);
     $files_in_page = array_merge($files_in_page, $response->files_in_page);
     $progress = progressMerge($progress, $response->progress);
     $out->progress = $progress;
-    $out->files_in_page;
+    $out->files_in_page = $files_in_page;
+    writeLogAppend('Progress-publishFilesInPage-33', $out);
     return  $out;
 }
 
@@ -76,7 +79,7 @@ function publishFilesInPageFind($find_begin, $text, $p)
             $text = substr($text, $pos_end);
         }
     }
-    $out->progress = $progress;
+    $out->progress = (object) $progress;
     $out->files_in_page = $files_in_page;
     return $out;
 }

@@ -109,7 +109,6 @@ export default {
     checkContentPublished() {
       if (this.progress.content.progress == 'done') {
         this.content_published = true
-        console.log (this.content_published)
       }
     },
     async localPublish(location) {
@@ -121,7 +120,13 @@ export default {
         this.progress.content.progress = 'checking'
         response = await CapacitorService.createBookContent(params)
         console.log(response)
-        this.progress.content = response
+        if (typeof response == 'string'){
+          this.progress.content.progress = 'error';
+        }
+        else{
+          this.progress.content = response
+        }
+        
         this.checkContentPublished()
         this.content_text = 'Content'
       }

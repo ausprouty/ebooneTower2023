@@ -22,17 +22,17 @@ function modifyTextForVue($text, $bookmark, $p)
         '</form>'
     );
     $text = str_replace($bad, '', $text);
-    $response = modifyTextForImages($text, $p);
+    $response = (object) modifyTextForImages($text, $p);
     ////writeLogDebug('Object-modifyTextForVue-26', $response);  // object with both text and progress
     $progress = progressMerge($progress, $response->progress, ' modifyTextForVue-27');
     //writeLogDebug('Object-modifyTextForVue-28', $response->progress);
     //writeLogDebug('Object-modifyTextForVue-29', $progress);
 
-    $response = modifyTextForVuePopUp($response->text);
+    $response = (object) modifyTextForVuePopUp($response->text);
     //writeLogDebug('Object-modifyTextForVue-32', $response->progress);
     //writeLogDebug('Object-modifyTextForVue-33', $progress);
     $progress = progressMerge($progress, $response->progress, ' modifyTextForVue-34');
-    $response = modifyTextForVueReadMore($response->text, $bookmark);
+    $response = (object) modifyTextForVueReadMore($response->text, $bookmark);
     $out->text = $response->text;
     $out->progress = $progress;
     return $out;
@@ -63,7 +63,7 @@ function modifyTextForImages($text, $p)
         // do not replace any that start with @
         if (strpos($source, '@') === false) {
             //////writeLogAppend('capacitor-modifyTextForImages-44', $message);
-            $new_progress = modifyTextForImagesCopy($source, $p);
+            $new_progress = (object) modifyTextForImagesCopy($source, $p);
             $progress = progressMerge($progress, $new_progress, 'modifyTextForImages-67');
             $new_source = '@/assets/' . $source;
             $new_source = str_replace('//', '/', $new_source);

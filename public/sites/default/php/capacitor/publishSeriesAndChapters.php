@@ -23,10 +23,9 @@ function publishSeriesAndChapters($p)
     }
 
     // first prototype the Series Index
-    $response = publishSeries($p);
+    $response = (object) publishSeries($p);
     writeLogDebug('Progress-publishSeriesandChapters-26', $out);
-    $new_progress = $response->progress;
-    $progress = progressMerge($progress, $new_progress, 'publishSeriesAndChapters-27');
+    $progress = progressMerge($progress, $response->progress, 'publishSeriesAndChapters-27');
     if (!isset($response->files_json)) {
         $new_progress->message = 'No files_json returned from Publish Series. This may be a library';
         $new_progress->progress = 'undone';

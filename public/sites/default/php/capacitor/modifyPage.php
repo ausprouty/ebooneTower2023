@@ -32,7 +32,7 @@ function modifyPage($text, $p, $data, $bookmark)
     //writeLogDebug('capacitor-modifyPage-27', $text);
     $text = version2Text($text);
     //writeLogDebug('capacitor-modifyPage-31', $text);
-    $response = modifyTextForVue($text, $bookmark, $p);
+    $response = (object) modifyTextForVue($text, $bookmark, $p);
     $text = $response->text;
     $progress = $response->progress;
     writeLogDebug('Object - modifyPage', $progress);

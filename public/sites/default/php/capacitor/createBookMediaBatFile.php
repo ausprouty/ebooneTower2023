@@ -44,7 +44,7 @@ function createBookMediaBatFile($p)
             if (!isset($chapter->prototype)) {
                 //writeLogAppennd('videoMakeBatFileForOffline', $chapter);
             } elseif ($chapter->prototype) {
-                $response = videoBibleFindForOffline($p, $chapter->filename);
+                $response = (object) videoBibleFindForOffline($p, $chapter->filename);
                 //writeLogAppend('capacitior-createBookMediaBatFile-45', $response);
                 $message .= $response->message;
                 $bible_videos = $response->chapter_videos;
@@ -58,7 +58,7 @@ function createBookMediaBatFile($p)
                     $output .= videoMakeBatFileForOfflineConsiderConcat($bible_videos,  $p, $chapter->filename, $dir);
                 }
                 // spanish MC2 has intro videos
-                $response = videoIntroFindForOffline($p, $chapter->filename);
+                $response = (object) videoIntroFindForOffline($p, $chapter->filename);
                 $message .= $response->message;
                 $intro_videos = $response->chapter_videos;
                 if (isset($intro_videos[0])) {
