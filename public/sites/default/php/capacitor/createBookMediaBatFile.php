@@ -11,7 +11,6 @@ myRequireOnce('videoMakeBatFileForOfflineConsiderConcat.php');
 myRequireOnce('videoMakeBatFileForOfflineSingle.php');
 myRequireOnce('videoMakeBatFileForOfflineWrite.php');
 myRequireOnce('videoMakeBatFileToCheckSource.php');
-myRequireOnce('videoReference.php');
 myRequireOnce('writeLog.php');
 
 

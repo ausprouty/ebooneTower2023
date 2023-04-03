@@ -28,5 +28,6 @@ function verifyBookMediaList($p)
     if ($progress->progress == 'error') {
         $progress->message = "<br><br>The following media is missing:\n" . $files_missing;
     }
+    writeLogAppend('verifyBookMediaList', $progress);
     return $progress;
 }

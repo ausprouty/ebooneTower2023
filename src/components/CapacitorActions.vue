@@ -10,8 +10,8 @@
           {{ content_text }}
         </button>
       </div>
-      <div class="column">
-        <button
+      <div class="column" v-if ="this.content_published">
+        <button 
           class="button"
           v-bind:class="progress.medialist.progress"
           @click="localPublish('medialist')"
@@ -19,7 +19,8 @@
           {{ medialist_text }}
         </button>
       </div>
-      <div class="column">
+      <div class="column" v-if ="!this.content_published"></div>
+      <div class="column" v-if ="this.content_published">
         <button
           class="button"
           v-bind:class="progress.media_batfile.progress"
@@ -28,6 +29,7 @@
           {{ media_batfile_text }}
         </button>
       </div>
+      <div class="column" v-if ="!this.content_published"></div>
       <div class="column">
         <button
           class="button"
@@ -80,6 +82,7 @@ export default {
       medialist_text: 'Media List',
       media_batfile_text: 'Media BatFile',
       router_text: 'Router File',
+      content_published: false,
       progress: {
         content: {
           progress: 'undone',
@@ -101,25 +104,35 @@ export default {
     }
   },
   methods: {
+    checkContentPublished() {
+      if (this.progress.content.progress == 'done') {
+        this.content_published = true
+        console.log (this.content_published)
+      }
+    },
     async localPublish(location) {
       var response = null
       var params = this.book
       //console.log(params)
       if (location == 'content') {
         this.content_text = 'Publishing'
+        this.progress.content.progress = 'checking'
         response = await CapacitorService.createBookContent(params)
         console.log(response)
         this.progress.content = response
+        this.checkContentPublished()
         this.content_text = 'Content'
       }
       if (location == 'router') {
         this.router_text = 'Publishing'
+        this.progress.router.progress = 'checking'
         response = await CapacitorService.createBookRouter(params)
         this.progress.router = response
         this.router_text = 'Router Published'
       }
       if (location == 'media_batfile') {
         this.media_batfile_text = 'Creating Media BatFile'
+        this.progress.media_batfile.progress = 'checking'
         response = await CapacitorService.createBookMediaBatFile(params)
         console.log(response)
         this.progress.media_batfile = response
@@ -127,6 +140,7 @@ export default {
       }
       if (location == 'medialist') {
         this.medialist_text = 'Publishing'
+        this.progress.medialist.progress = 'checking'
         await CapacitorService.publish('videoMakeBatFileForCapacitor', params)
         response = await CapacitorService.createBookMediaList(params)
         this.progress.medialist = response
@@ -152,6 +166,7 @@ export default {
       params.progress = JSON.stringify(this.progress)
       var response = await CapacitorService.checkStatusBook(params)
       this.progress = response
+      this.checkContentPublished()
     },
   },
   async created() {
@@ -190,6 +205,11 @@ div.parent {
   background-color: red;
   padding: 10px;
   color: white;
+}
+.checking {
+  background-color: blue;
+  padding: 10px;
+  color: black;
 }
 .ready {
   background-color: yellow;

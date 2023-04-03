@@ -19,6 +19,7 @@ myRequireOnce('modifyRevealTrainer.php');
 myRequireOnce('modifyRevealVideo.php');
 myRequireOnce('modifyRevealVideoIntro.php');
 myRequireOnce('modifySendAction.php');
+myRequireOnce('updateProgress.php');
 myRequireOnce('version2Text.php');
 
 myRequireOnce('writeLog.php');
@@ -108,7 +109,9 @@ function modifyPage($text, $p, $data, $bookmark)
     if (strpos($text, 'class="zoom"') !== FALSE) {
         ////writeLogAppend('capacitor-modifyPage-106-Zoom', $p['filename']);
         myRequireOnce('modifyZoomImage.php', $p['destination']);
-        $text = modifyZoomImage($text, $p);
+        $reply = modifyZoomImage($text, $p);
+        $text = $reply->text;
+        $progress = updateProgress($progress, $reply->progress);
     }
     if (strpos($text, '<div class="javascript') !== false) {
         $text  = modifyJavascript($text);

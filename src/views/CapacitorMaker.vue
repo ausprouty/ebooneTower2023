@@ -35,7 +35,9 @@
           placeholder="Select"
           v-model="$v.capacitor.footer.$model"
         />
-        <button class="button" @click="showProgress()">Show Progress</button>
+        <button class="button" 
+        v-if="!this.show_progress"
+        @click="showProgress()">Show Progress</button>
       </div>
       <div class="spacer"></div>
       <div class="row" v-if="this.show_progress">

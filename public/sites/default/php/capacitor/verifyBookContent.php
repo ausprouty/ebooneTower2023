@@ -20,6 +20,7 @@ function verifyBookContent($p)
     $dir_series =  dirStandard('series', DESTINATION,  $p, $folders = null, $create = true);
     if (!file_exists($dir_series)) {
         $progress->progress =  'undone';
+        $progress->message =  'nothing found in output directory';
         return $progress;
     }
     // now see if all items are there
@@ -36,7 +37,9 @@ function verifyBookContent($p)
         }
         $progress->progress =  'done';
         return $progress;
+    } else {
+        $progress->progress =  'error';
+        $progress->message = '$text->chapters not found';
     }
-    $progress->progress =  'undone';
     return $progress;
 }
