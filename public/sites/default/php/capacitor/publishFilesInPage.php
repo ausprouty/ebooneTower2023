@@ -22,14 +22,14 @@ function  publishFilesInPage($text, $p)
     $text = version2Text($text);
     $find_begin = 'src="';
     $response = (object) publishFilesInPageFind($find_begin, $text, $p);
-    $files_in_page = array_merge($files_in_page, $response->files_in_page);
-    $progress = progressMerge($progress, $response->progress);
+    $files_in_page = progressMergeArrays($files_in_page, $response->files_in_page);
+    $progress = progressMergeObjects($progress, $response->progress);
 
     $find_begin = 'href="';
     $response = (object) publishFilesInPageFind($find_begin, $text, $p);
     writeLogAppend('Progress-publishFilesInPage-28', $response);
-    $files_in_page = array_merge($files_in_page, $response->files_in_page);
-    $progress = progressMerge($progress, $response->progress);
+    $files_in_page = progressMergeArrays($files_in_page, $response->files_in_page);
+    $progress = progressMergeObjects($progress, $response->progress);
     $out->progress = $progress;
     $out->files_in_page = $files_in_page;
     writeLogAppend('Progress-publishFilesInPage-33', $out);
@@ -79,8 +79,10 @@ function publishFilesInPageFind($find_begin, $text, $p)
             $text = substr($text, $pos_end);
         }
     }
+    writeLogAppend('Progress-publishFilesInPage-82', $files_in_page);
     $out->progress = (object) $progress;
     $out->files_in_page = $files_in_page;
+    writeLogAppend('Progress-publishFilesInPage-85', $out);
     return $out;
 }
 /*

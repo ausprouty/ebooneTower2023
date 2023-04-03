@@ -1,5 +1,5 @@
 <?php
-function  progressMerge($progress, $new_progress, $source = null)
+function  progressMergeObjects($progress, $new_progress, $source = null)
 {
     $out = new stdClass;
 
@@ -25,4 +25,15 @@ function  progressMerge($progress, $new_progress, $source = null)
     writeLogAppend('progressMerge-24', $progress);
     writeLogAppend('progressMerge-24', "\nNext Record\n");
     return $out;
+}
+function progressMergeArrays($array1, $array2)
+{
+    if (is_array($array1) & is_array($array2)) {
+        return array_merge($array1, $array2);
+    }
+    if (!is_array($array1) & is_array($array2)) {
+        return $array2;
+    } else {
+        return $array2;
+    }
 }

@@ -43,8 +43,10 @@ function publishPage($p)
     writeLogDebug('Object-PublishPage-37', $text);
 
     $response = (object) publishFilesInPage($text, $p);
-    writeLogDebug('Progress-PublishPage-46', $response);
-    $files_in_page = array_merge($files_in_page, $response->files_in_page);
+    writeLogAppend('Progress-PublishPage-46', $response);
+    writeLogAppend('Progress-PublishPage-47', $response->files_in_page);
+    writeLogAppend('Progress-PublishPage-48', $files_in_page);
+    $files_in_page = progressMergeArrays($files_in_page, $response->files_in_page);
     $progress = progressMerge($progress, $response->progress . 'PublishPage-47');
     // get bookmark for stylesheet
     if (isset($p['recnum'])) {
@@ -63,7 +65,7 @@ function publishPage($p)
     //
     $response =  (object) modifyPage($text, $p, $data, $bookmark);
     $text = $response->text;
-    $progress = progressMerge($progress, $response->progress, 'PublishPage-65');
+    $progress = progressMergeObjects($progress, $response->progress, 'PublishPage-65');
     $text .= '<!--- Created by publishPage-->' . "\n";
     writeLogDebug('publishPage-ZOOM-54', $text);
     $text = addVueWrapperPage($text);
