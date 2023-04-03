@@ -16,6 +16,7 @@ function  publishFilesInPage($text, $p)
 {
     $progress = new stdClass();
     $response = new stdClass();
+    $out = new stdClass();
     $files_in_page = [];
     $text = version2Text($text);
     $find_begin = 'src="';
@@ -27,7 +28,9 @@ function  publishFilesInPage($text, $p)
     $response = publishFilesInPageFind($find_begin, $text, $p);
     $files_in_page = array_merge($files_in_page, $response->files_in_page);
     $progress = progressMerge($progress, $response->progress);
-    return  $progress;
+    $out->progress = $progress;
+    $out->files_in_page;
+    return  $out;
 }
 
 function publishFilesInPageFind($find_begin, $text, $p)
