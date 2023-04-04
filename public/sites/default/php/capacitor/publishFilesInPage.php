@@ -30,7 +30,7 @@ myRequireOnce('copyFilesForCapacitor.php');
 
 function  publishFilesInPage($text, $p)
 {
-    writeLog('Progress-publishFilesInPage-17', 'I came into this routine in Capacitor');
+    //writeLog('Progress-publishFilesInPage-17', 'I came into this routine in Capacitor');
     $progress = new stdClass();
     $response = new stdClass();
     $out = new stdClass();
@@ -38,18 +38,29 @@ function  publishFilesInPage($text, $p)
     $text = version2Text($text);
     $find_begin = 'src="';
     $response = (object) publishFilesInPageFind($find_begin, $text, $p);
+    //writeLogAppend('Progress-publishFilesInPage-40', $response);
+    //writeLogAppend('Progress-publishFilesInPage-40', "------");
     $files_in_page = progressMergeArrays($files_in_page, $response->files_in_page);
-    $progress = progressMergeObjects($progress, $response->progress, 'publishFilesInPage-26');
+    //writeLogAppend('Progress-publishFilesInPage-40', $progress);
+    //writeLogAppend('Progress-publishFilesInPage-40', "------");
+    $progress = progressMergeObjects($progress, $response, 'publishFilesInPage-42');
+    //writeLogAppend('Progress-publishFilesInPage-40', $progress);
+    //writeLogAppend('Progress-publishFilesInPage-40', "\n----------------------------------\n");
 
     $find_begin = 'href="';
     $response = (object) publishFilesInPageFind($find_begin, $text, $p);
-    writeLogAppend('Progress-publishFilesInPage-28', $response);
+    //writeLogAppend('Progress-publishFilesInPage-46', $response);
+    //writeLogAppend('Progress-publishFilesInPage-46', "------");
     $files_in_page = progressMergeArrays($files_in_page, $response->files_in_page);
-    $progress = progressMergeObjects($progress, $response->progress, 'publishFilesInPage-32');
+    //writeLogAppend('Progress-publishFilesInPage-46', $progress);
+    //writeLogAppend('Progress-publishFilesInPage-46', "------");
+    $progress = progressMergeObjects($progress, $response, 'publishFilesInPage-46');
+    //writeLogAppend('Progress-publishFilesInPage-46', $progress);
+    //writeLogAppend('Progress-publishFilesInPage-46', "\n----------------------------------\n");
     //$progress->message = 'I was in publishFilesInPage';
     $out = (object) $progress;
     $out->files_in_page = $files_in_page;
-    writeLogAppend('Progress-publishFilesInPage-36', $out);
+    writeLogAppend('Progress-publishFilesInPage-53', $out);
     return  $out;
 }
 
@@ -91,13 +102,13 @@ function publishFilesInPageFind($find_begin, $text, $p)
                 // I think I want to include html
                 if (!is_dir($from) && strpos($from, '.html') === false) {
                     $new_progress = publishFilesInPageWrite($filename, $p);
-                    writeLogAppend('capacitor-publishFilesInPageFind-94', $new_progress);
-                    writeLogAppend('capacitor-publishFilesInPageFind-94', "\n====\n");
-                    writeLogAppend('capacitor-publishFilesInPageFind-94', $progress);
-                    writeLogAppend('capacitor-publishFilesInPageFind-94', "\n====\n");
+                    //writeLogAppend('capacitor-publishFilesInPageFind-94', $new_progress);
+                    //writeLogAppend('capacitor-publishFilesInPageFind-94', "\n====\n");
+                    //writeLogAppend('capacitor-publishFilesInPageFind-94', $progress);
+                    //writeLogAppend('capacitor-publishFilesInPageFind-94', "\n====\n");
                     $progress = progressMergeObjects($progress, $new_progress, 'publishFilesInPageFind-94');
-                    writeLogAppend('capacitor-publishFilesInPageFind-94', $progress);
-                    writeLogAppend('capacitor-publishFilesInPageFind-94', "\n=======================================\n");
+                    //writeLogAppend('capacitor-publishFilesInPageFind-94', $progress);
+                    //writeLogAppend('capacitor-publishFilesInPageFind-94', "\n=======================================\n");
                 }
             } else { // we do not need to copy html files; they may not have been rendered yet.
                 if (strpos($filename, '.html') == false) {
@@ -106,13 +117,13 @@ function publishFilesInPageFind($find_begin, $text, $p)
                             $find = 'localVideoOptions.js';
                             if (strpos($filename, $find)  == false) {
                                 $new_progress =  publishFilesInPageWrite($filename, $p);
-                                writeLogAppend('capacitor-publishFilesInPageFind-107', $new_progress);
-                                writeLogAppend('capacitor-publishFilesInPageFind-107', "\n====\n");
-                                writeLogAppend('capacitor-publishFilesInPageFind-107', $progress);
-                                writeLogAppend('capacitor-publishFilesInPageFind-107', "\n====\n");
+                                //writeLogAppend('capacitor-publishFilesInPageFind-107', $new_progress);
+                                //writeLogAppend('capacitor-publishFilesInPageFind-107', "\n====\n");
+                                //writeLogAppend('capacitor-publishFilesInPageFind-107', $progress);
+                                //writeLogAppend('capacitor-publishFilesInPageFind-107', "\n====\n");
                                 $progress = progressMergeObjects($progress, $new_progress, 'publishFilesInPageFind-107');
                                 writeLogAppend('capacitor-publishFilesInPageFind-107', $progress);
-                                writeLogAppend('capacitor-publishFilesInPageFind-107', "\n=======================================\n");
+                                //writeLogAppend('capacitor-publishFilesInPageFind-107', "\n=======================================\n");
                             }
                         }
                     }
@@ -121,12 +132,12 @@ function publishFilesInPageFind($find_begin, $text, $p)
             $text = substr($text, $pos_end);
         }
     }
-    writeLogAppend('Progress-publishFilesInPage-115', $files_in_page);
+    //writeLogAppend('Progress-publishFilesInPage-115', $files_in_page);
     //$progress->message = 'I was in publishFilesInPageFind';
     $out = (object) $progress;
     $out->files_in_page = $files_in_page;
-    writeLogAppend('Progress-publishFilesInPage-119', $out);
-    writeLogAppend('Progress-publishFilesInPage-119', "\n\n\n---------------------------\n\n\n");
+    writeLogAppend('Progress-publishFilesInPageFind-119', $out);
+    //writeLogAppend('Progress-publishFilesInPage-119', "\n\n\n---------------------------\n\n\n");
     return $out;
 }
 /*

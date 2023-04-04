@@ -40,14 +40,14 @@ function publishPage($p)
     }
     //writeLogError ('capacitor-publishPage-30-debug', $debug);
     $text  = createPage($p, $data);
-    writeLogDebug('Object-PublishPage-37', $text);
+    //writeLogDebug('Object-PublishPage-37', $text);
 
     $response = (object) publishFilesInPage($text, $p);
-    writeLogAppend('Progress-PublishPage-46', $response);
-    writeLogAppend('Progress-PublishPage-47', $response->files_in_page);
-    writeLogAppend('Progress-PublishPage-48', $files_in_page);
+    //writeLogAppend('Progress-PublishPage-46', $response);
+    //writeLogAppend('Progress-PublishPage-47', $response->files_in_page);
+    //writeLogAppend('Progress-PublishPage-48', $files_in_page);
     $files_in_page = progressMergeArrays($files_in_page, $response->files_in_page);
-    $progress = progressMergeObjects($progress, $response->progress, 'PublishPage-47');
+    $progress = progressMergeObjects($progress, $response, 'PublishPage-47');
     // get bookmark for stylesheet
     if (isset($p['recnum'])) {
         $b['recnum'] = $p['recnum'];
@@ -67,14 +67,15 @@ function publishPage($p)
     $text = $response->text;
     $progress = progressMergeObjects($progress, $response->progress, 'PublishPage-65');
     $text .= '<!--- Created by publishPage-->' . "\n";
-    writeLogDebug('publishPage-ZOOM-54', $text);
+    //writeLogDebug('publishPage-ZOOM-54', $text);
     $text = addVueWrapperPage($text);
     $series_dir = dirStandard('series', DESTINATION,  $p, $folders = null, $create = true);
     $fname = $series_dir .  ucfirst($data['language_iso'])  . ucfirst($data['filename']) . '.vue';
     // go to publishFiles
-    publishFiles($p, $fname, $text,  STANDARD_CSS, $selected_css);
+    $response = (object) publishFiles($p, $fname, $text,  STANDARD_CSS, $selected_css);
+    $progress = progressMergeObjects($progress, $response->progress, 'PublishPage-65');
     $out->progress = $progress;
     $out->files_in_page = $files_in_page;
-    writeLogAppend('Progress-PublishPage-75', $out);
+    //writeLogAppend('Progress-PublishPage-75', $out);
     return $out;
 }

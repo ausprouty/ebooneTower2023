@@ -52,7 +52,7 @@ function publishSeries($p)
             $fname = $dir . ucfirst($p['language_iso']) . ucfirst($p['folder_name']) . 'Index.vue';
             //writeLogAppend('capacitor- publishSeries-70', $fname);
             $text .= '<!--- Created by capacitor - publishSeries-->' . "\n";
-            publishFiles($p, $fname, $text,  STANDARD_CSS, $selected_css);
+            $progress = (object) publishFiles($p, $fname, $text,  STANDARD_CSS, $selected_css);
             $time = time();
         }
     } else {
@@ -62,9 +62,8 @@ function publishSeries($p)
         return $p;
     }
     $progress->progress = 'done';
+    $out = $progress;
     $out->files_json = $files_json;
     $out->p = $p;
-    $out->progress = $progress;
-
     return $out;
 }

@@ -24,6 +24,7 @@ myRequireOnce('writeLog.php');
 // destination must be 'staging', 'website', 'pdf'  or 'sdcard'
 function publishFiles($p, $fname, $text, $standard_css, $selected_css)
 {
+    $progress = new stdClass;
 
     $destination = DESTINATION;
     $file_name_parts = explode('/', $fname);
@@ -90,11 +91,13 @@ function publishFiles($p, $fname, $text, $standard_css, $selected_css)
 
     $output = modifyImages($output, $p);
     // make sure  all files are copied to destination directory
-    publishFilesInPage($output, $p);
+    $progress = (object) publishFilesInPage($output, $p);
+    writeLogAppend('capacitor - publishFiles-95',  $progress);
+    writeLogAppend('capacitor - publishFiles-95',  "\n===========\n\n");
 
     //writeLogDebug('capacitor - publishFile-106-ZOOM',  $output);
     $output = makePathsRelative($output, $fname);
-    writeLogDebug('capacitor - publishFile-109-ZOOM',  $output);
+    writeLogAppend('capacitor - publishFile-109',  $progress);
     fileWrite($fname, $output, $p);
-    return $output;
+    return $progress;
 }

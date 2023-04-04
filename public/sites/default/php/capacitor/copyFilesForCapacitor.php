@@ -52,7 +52,7 @@ function copyFilesForCapacitor($from, $to, $called_by)
             dirMake($to);
             if (!is_dir($to)) {
                 copy($from, $to);
-                $progress->message = "<br><br>Copied $from when called by $called_by in copyFilesForCapacitor";
+                // $progress->message = "<br><br>Copied $from when called by $called_by in copyFilesForCapacitor";
             } else {
                 $progress->message = "<br><br>Destination  of $to is a directory when called by $called_by in copyFilesForCapacitor<br>";
                 $progress->progress = 'error';

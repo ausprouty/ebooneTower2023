@@ -13,23 +13,21 @@ myRequireOnce('publicationCache.php');
 function publishSeriesAndChapters($p)
 {
     $progress = new stdClass;
-    $new_progress = new stdClass;
-    $out = new stdClass;
+    $response = new stdClass;
     if (isset($p['progress'])) {
         $progress = $p['progress'];
     }
     if (!isset($p['resume'])) {
         $p['resume'] = 'false';
     }
-
     // first prototype the Series Index
     $response = (object) publishSeries($p);
-    writeLogDebug('Progress-publishSeriesandChapters-26', $out);
+    writeLogDebug('Progress-publishSeriesandChapters-26', $response);
     $progress = progressMergeObjects($progress, $response->progress, 'publishSeriesAndChapters-27');
     if (!isset($response->files_json)) {
-        $new_progress->message = 'No files_json returned from Publish Series. This may be a library';
-        $new_progress->progress = 'undone';
-        $progress = progressMergeObjects($progress, $new_progress, 'publishSeriesAndChapters-30');
+        $response->message = 'No files_json returned from Publish Series. This may be a library';
+        $response->progress = 'undone';
+        $progress = progressMergeObjects($progress, $response, 'publishSeriesAndChapters-30');
         $out = $progress;
         return $out;
     }
@@ -52,8 +50,6 @@ function publishSeriesAndChapters($p)
         if (in_array($chapter->filename, $cache['sessions_published'])) {
             continue;
         }
-        $sql = NULL;
-
         if ($chapter->publish) {
             $sql = "SELECT recnum FROM  content
                 WHERE  country_code = '" . $series['country_code'] . "'
@@ -62,16 +58,17 @@ function publishSeriesAndChapters($p)
                 AND filename = '" . $chapter->filename . "'
                 AND prototype_date IS NOT NULL
                 ORDER BY recnum DESC LIMIT 1";
-
             $data = sqlArray($sql);
             if ($data) {
                 $p['recnum'] = $data['recnum'];
                 // need to find latest record for recnum
-                $result =  publishPage($p);
-                if (isset($result->files_in_page)) {
-                    $files_in_pages = publishSeriesAndChaptersCombineArrays($files_in_pages, $result->files_in_page);
+                $response =  (object) publishPage($p);
+                writeLogAppend('progress-publishSeriesAndChapters-71', $response);
+                if (isset($response->files_in_page)) {
+                    $files_in_pages = publishSeriesAndChaptersCombineArrays($files_in_pages, $response->files_in_page);
                 }
-                $progress = progressMergeObjects($progress, $result->progress, 'publishSeriesAndChapters-71');
+                $progress = progressMergeObjects($progress, $response, 'publishSeriesAndChapters-71');
+                writeLogAppend('progress-publishSeriesAndChapters-75', $progress);
             }
         }
         $cache['sessions_published'][] = $chapter->filename;
@@ -79,9 +76,8 @@ function publishSeriesAndChapters($p)
         updateCache($cache, DESTINATION);
     }
     clearCache($cache, DESTINATION);
-    $out = $progress;
-    writeLogDebug('progress-publishSeriesAndChapters-89', $out);
-    return $out;
+    writeLogDebug('progress-publishSeriesAndChapters-89', $progress);
+    return $progress;
 }
 
 
