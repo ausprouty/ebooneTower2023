@@ -25,7 +25,7 @@ function verifyContentIndexRoot($p)
 {
   $template_file = ROOT_EDIT . 'sites/' . SITE_CODE . '/prototype/apk/rootIndex.html';
   if (!file_exists($template_file)) {
-    writeLogError('verifyContentIndexRoot' . $template_file);
+    writeLogError('verifyContentIndexRoot', $template_file);
   }
   $text = file_get_contents($template_file);
   $find = [

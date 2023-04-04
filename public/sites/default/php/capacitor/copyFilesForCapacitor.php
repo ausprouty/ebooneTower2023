@@ -31,7 +31,7 @@ function copyFilesForCapacitor($from, $to, $called_by)
     $to = str_replace('//', '/', $to);
     if (strpos($to, ROOT_CAPACITOR) === false) {
         writeLogError('copyFilesForCapacitor-18', $to);
-        $progress->message = "<br><br>Unguarded route of   $parts[2] in  $to in copyFilesForCapacitor";
+        $progress->message = "<br><br>Unguarded route of   $to in  $to in copyFilesForCapacitor";
         $progress->progress = 'error';
         return $progress;
     }
