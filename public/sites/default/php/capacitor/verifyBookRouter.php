@@ -3,7 +3,7 @@ myRequireOnce('writeLog.php');
 
 function verifyBookRouter($p)
 {
-    writeLogAppend('capacitor-verifyBookRouter', $p);
+    //writeLogAppend('capacitor-verifyBookRouter', $p);
     $progress = new stdClass;
     $dir = dirStandard('router', DESTINATION,  $p);
     $filename = 'routes' . ucfirst($p['language_iso'])  . ucfirst($p['folder_name'] . '.js');

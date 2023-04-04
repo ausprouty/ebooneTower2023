@@ -9,7 +9,7 @@ myRequireOnce('createSeriesNavlink.php');
 
 function createSeries($p, $data)
 {
-    writeLogDebug('capacitor-createSeries-12', $p);
+    //writeLogDebug('capacitor-createSeries-12', $p);
     $text = json_decode($data['text']);
     // get language footer in prototypeOEpublish.php
     $footer = createLanguageFooter($p); // returns $footer
@@ -84,7 +84,7 @@ function createSeries($p, $data)
         $p['version'],
         $footer
     );
-    // writeLogDebug('createSeries-94', $this_template);
+    // //writeLogDebug('createSeries-94', $this_template);
     $this_template = str_replace($placeholders, $replace, $this_template);
 
     //
@@ -161,6 +161,6 @@ function createSeries($p, $data)
     $out = new stdClass;
     $out->text = str_replace('[[chapters]]', $chapters_text, $this_template);
     $out->files_json = $files_json;
-    writeLogDebug('capacitor-createSeries-161', $out);
+    //writeLogDebug('capacitor-createSeries-161', $out);
     return $out;
 }

@@ -32,7 +32,7 @@ function verifyCommonFiles($p)
 
 function verifyCommonFilesCopyFolder($from, $to)
 {
-  // writeLogAppend('verifyCommonFiles-capacitor-21', "$from to $to");
+  // //writeLogAppend('verifyCommonFiles-capacitor-21', "$from to $to");
 
   // (A1) SOURCE FOLDER CHECK
   if (!is_dir($from)) {
@@ -49,22 +49,22 @@ function verifyCommonFilesCopyFolder($from, $to)
 
   // (A2) CREATE DESTINATION FOLDER
   if (!is_dir($to)) {
-    // writeLogAppend('verifyCommonFiles-capacitor-42', "creating folder $to");
+    // //writeLogAppend('verifyCommonFiles-capacitor-42', "creating folder $to");
     createDirectory($to);
   }
 
   // (A3) COPY FILES + RECURSIVE INTERNAL FOLDERS
   $dir = opendir($from);
-  // writeLogAppend('verifyCommonFiles-capacitor-43', $from);
+  // //writeLogAppend('verifyCommonFiles-capacitor-43', $from);
   while (($ff = readdir($dir)) !== false) {
     if ($ff != "." && $ff != "..") {
       if (is_dir("$from$ff")) {
-        // writeLogAppend('verifyCommonFiles-capacitor-47', "$from$ff/  to $to$ff/");
+        // //writeLogAppend('verifyCommonFiles-capacitor-47', "$from$ff/  to $to$ff/");
         verifyCommonFilesCopyFolder("$from$ff/", "$to$ff/");
       } else {
         createDirectory("$to$ff");
         copy("$from$ff", "$to$ff");
-        // writeLogAppend('verifyCommonFiles-capacitor-50', "$from$ff copied to $to$ff");
+        // //writeLogAppend('verifyCommonFiles-capacitor-50', "$from$ff copied to $to$ff");
       }
     }
   }

@@ -16,7 +16,7 @@ $out->media_batfile->message
 function checkStatusBook($p)
 
 {
-    writeLogDebug('capacitor-checkStatusBook-19', $p);
+    //writeLogDebug('capacitor-checkStatusBook-19', $p);
     if (!isset($p['capacitor_settings']->subDirectory)) {
         $message = 'p[capacitor_settings]->subDirectory not set';
         writeLogError('Capacitor-checkStatusBook-11', $message);
@@ -53,6 +53,6 @@ function checkStatusBook($p)
             default:
         }
     }
-    writeLogDebug('capacitor-checkStatusBook-45', $out);
+    //writeLogDebug('capacitor-checkStatusBook-45', $out);
     return $out;
 }

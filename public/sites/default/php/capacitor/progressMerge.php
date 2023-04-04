@@ -21,12 +21,12 @@ function  progressMergeObjects($progress, $new_progress, $source = null)
     if (isset($progress->message)) {
         $out->message = $progress->message;
     }
-    writeLogAppend('progressMerge-24', "\n\n----IN---\n");
-    writeLogAppend('progressMerge-24', "\n$source\n");
-    writeLogAppend('progressMerge-24', $progress);
-    writeLogAppend('progressMerge-24', "\n----OUT---\n");
-    writeLogAppend('progressMerge-24', $out);
-    writeLogAppend('progressMerge-24', "\n-------Next Record-------\n\n\n");
+    //writeLogAppend('progressMerge-24', "\n\n----IN---\n");
+    //writeLogAppend('progressMerge-24', "\n$source\n");
+    //writeLogAppend('progressMerge-24', $progress);
+    //writeLogAppend('progressMerge-24', "\n----OUT---\n");
+    //writeLogAppend('progressMerge-24', $out);
+    //writeLogAppend('progressMerge-24', "\n-------Next Record-------\n\n\n");
     return $out;
 }
 function progressMergeArrays($array1, $array2)

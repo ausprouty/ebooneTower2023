@@ -15,7 +15,7 @@ function createLibrary($p, $text)
     This will be used to prototype these books by prototypeLibraryandBooks.
 
     */
-    writeLogDebug('capacitor-createLibrary- capacitor', $p);
+    //writeLogDebug('capacitor-createLibrary- capacitor', $p);
     $library = [];
     $progress = new stdClass;
     $library['books'] = []; // used by publishLibraryAndBooks
@@ -34,7 +34,7 @@ function createLibrary($p, $text)
     // get template for library and fill in library details
     //
     $body = getPrototypeFileLibrary($p);
-    writeLogDebug('createLibrary-37', $body);
+    //writeLogDebug('createLibrary-37', $body);
     //
     //  Format Navigation area;
     //

@@ -195,7 +195,7 @@ function videoFindForCapacitor($p, $filename)
         return $chapter_videos;
     }
     $text = $data['text'];
-    ////writeLog('videoFindForCapacitor-76-'. $filename, $text);
+    //writeLog('videoFindForCapacitor-76-'. $filename, $text);
     $find = '<div class="reveal film">';
     $count = substr_count($text, $find);
     //writeLog('videoFindForCapacitor-140-count', $count);
@@ -212,11 +212,11 @@ function videoFindForCapacitor($p, $filename)
         //find url
         $url = modifyVideoRevealFindText($old, 4);
         $arc = 'api.arclight.org';
-        ////writeLog('videoFindForCapacitor-95-'. $filename . $count, $url . "\n" . $find);
+        //writeLog('videoFindForCapacitor-95-'. $filename . $count, $url . "\n" . $find);
 
         if (strpos($url, $arc)) {
             $url = str_ireplace('https://api.arclight.org/videoPlayerUrl?refId=', '', $url);
-            ////writeLog('videoFindForCapacitor-99-'. $filename . $count, $url);
+            //writeLog('videoFindForCapacitor-99-'. $filename . $count, $url);
             $start = strpos($url, '-') + 1;
             $url = substr($url, $start);
             if (isset($videoReference[$url])) {

@@ -22,8 +22,8 @@ function publishSeriesAndChapters($p)
     }
     // first prototype the Series Index
     $response = (object) publishSeries($p);
-    writeLogDebug('Progress-publishSeriesandChapters-26', $response);
-    $progress = progressMergeObjects($progress, $response->progress, 'publishSeriesAndChapters-27');
+    //writeLogDebug('Progress-publishSeriesandChapters-26', $response);
+    $progress = progressMergeObjects($progress, $response, 'publishSeriesAndChapters-27');
     if (!isset($response->files_json)) {
         $response->message = 'No files_json returned from Publish Series. This may be a library';
         $response->progress = 'undone';
@@ -63,12 +63,12 @@ function publishSeriesAndChapters($p)
                 $p['recnum'] = $data['recnum'];
                 // need to find latest record for recnum
                 $response =  (object) publishPage($p);
-                writeLogAppend('progress-publishSeriesAndChapters-71', $response);
+                //writeLogAppend('progress-publishSeriesAndChapters-71', $response);
                 if (isset($response->files_in_page)) {
                     $files_in_pages = publishSeriesAndChaptersCombineArrays($files_in_pages, $response->files_in_page);
                 }
                 $progress = progressMergeObjects($progress, $response, 'publishSeriesAndChapters-71');
-                writeLogAppend('progress-publishSeriesAndChapters-75', $progress);
+                //writeLogAppend('progress-publishSeriesAndChapters-75', $progress);
             }
         }
         $cache['sessions_published'][] = $chapter->filename;
@@ -76,7 +76,7 @@ function publishSeriesAndChapters($p)
         updateCache($cache, DESTINATION);
     }
     clearCache($cache, DESTINATION);
-    writeLogDebug('progress-publishSeriesAndChapters-89', $progress);
+    //writeLogDebug('progress-publishSeriesAndChapters-89', $progress);
     return $progress;
 }
 

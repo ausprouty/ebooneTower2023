@@ -65,7 +65,7 @@ function publishPage($p)
     //
     $response =  (object) modifyPage($text, $p, $data, $bookmark);
     $text = $response->text;
-    $progress = progressMergeObjects($progress, $response->progress, 'PublishPage-65');
+    $progress = progressMergeObjects($progress, $response, 'PublishPage-65');
     $text .= '<!--- Created by publishPage-->' . "\n";
     //writeLogDebug('publishPage-ZOOM-54', $text);
     $text = addVueWrapperPage($text);
@@ -73,8 +73,8 @@ function publishPage($p)
     $fname = $series_dir .  ucfirst($data['language_iso'])  . ucfirst($data['filename']) . '.vue';
     // go to publishFiles
     $response = (object) publishFiles($p, $fname, $text,  STANDARD_CSS, $selected_css);
-    $progress = progressMergeObjects($progress, $response->progress, 'PublishPage-65');
-    $out->progress = $progress;
+    $progress = progressMergeObjects($progress, $response, 'PublishPage-65');
+    $out = $progress;
     $out->files_in_page = $files_in_page;
     //writeLogAppend('Progress-PublishPage-75', $out);
     return $out;

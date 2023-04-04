@@ -58,8 +58,11 @@ function copyFilesForCapacitor($from, $to, $called_by)
                 $progress->progress = 'error';
             }
         } else {
-            $progress->message = "<br><br>Source file does not exist $from when called by $called_by in copyFilesForCapacitor";
-            $progress->progress = 'error';
+            $to = str_replace('/assets/assets/', '/assets/', $to);
+            if (!file_exists($to)) {
+                $progress->message = "<br><br>Source and Destination files do not exist.<br> Source: $from <br>Destination: $to <br>called by $called_by in copyFilesForCapacitor";
+                $progress->progress = 'error';
+            }
         }
     } else {
         $progress->message = "<br><br>Unguarded route of   $parts[1] in  $to in copyFilesForCapacitor";

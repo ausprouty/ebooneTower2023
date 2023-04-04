@@ -24,7 +24,6 @@ function writeLogAppend($filename, $content)
 	}
 	$fh = ROOT_LOG .  'APPEND-' . $filename . '.txt';
 	file_put_contents($fh, $text,  FILE_APPEND | LOCK_EX);
-	fclose($fh);
 }
 
 function writeLogDebug($filename, $content)
@@ -43,9 +42,8 @@ function writeLogError($filename, $content)
 	if (!file_exists(ROOT_LOG)) {
 		mkdir(ROOT_LOG);
 	}
-	$fh = fopen(ROOT_LOG . 'ERROR-' . $filename . '.txt', 'w');
+	$fh = ROOT_LOG . 'ERROR-' . $filename . '.txt';
 	file_put_contents($fh, $text,  FILE_APPEND | LOCK_EX);
-	fclose($fh);
 }
 function var_dump_ret($mixed = null)
 {

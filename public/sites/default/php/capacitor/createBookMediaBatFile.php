@@ -69,11 +69,11 @@ function createBookMediaBatFile($p)
             }
         }
     }
-    writeLogDebug('capacitior-createBookMediaBatFile-69', $output);
+    //writeLogDebug('capacitior-createBookMediaBatFile-69', $output);
     videoMakeBatFileForOfflineWrite($output, $p);
     $progress->message = $message;
     $progress->progress = 'done';
-    writeLogDebug('capacitior-createBookMediaBatFile-76', $progress);
+    //writeLogDebug('capacitior-createBookMediaBatFile-76', $progress);
 
     return $progress;
 }

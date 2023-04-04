@@ -42,9 +42,9 @@ function XcreateBookContent($p)
     if ($text) {
         $message = 'Text found for ' .  $sql . "\n";
         // create Series Index
-        // writeLogDebug('capacitor-createBookContent-48', 'I am going to createSeries');
+        // //writeLogDebug('capacitor-createBookContent-48', 'I am going to createSeries');
         $result = createSeries($p, $data);
-        writeLogDebug('ProgressCreateBookContent-39', $result);
+        //writeLogDebug('ProgressCreateBookContent-39', $result);
         //writeLogDebug('capacitor-createBookContent-50', 'I returned from  createSeries');
         $p = $result['p']; // this gives us $p['files_json']
         if ($result['text']) {
@@ -59,7 +59,7 @@ function XcreateBookContent($p)
             $selected_css = isset($bookmark['book']->style) ? $bookmark['book']->style : STANDARD_CSS;
             $dir = dirStandard('series', DESTINATION,  $p, $folders = null, $create = false);
             $fname = $dir . ucfirst($p['language_iso']) . ucfirst($p['folder_name']) . 'Index.vue';
-            writeLogDebug('capacitor-createBookContent-50', $fname);
+            //writeLogDebug('capacitor-createBookContent-50', $fname);
             //$fname = str_replace('mc2.capacitor/M2/', 'mc2.capacitor/views/M2/', $fname);
             $result['text'] = modifyTextForVue($result['text'], $bookmark, $p);
             //writeLogDebug('capacitor-createBookContent-capacitor-78', $result['text']);

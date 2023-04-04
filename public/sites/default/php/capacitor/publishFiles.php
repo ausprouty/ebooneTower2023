@@ -30,7 +30,7 @@ function publishFiles($p, $fname, $text, $standard_css, $selected_css)
     $file_name_parts = explode('/', $fname);
     $fsname = array_pop($file_name_parts);
     $fsname = str_replace('.html', '', $fsname);
-    //// //writeLogDebug('capacitor - publishFile-24-'. $fsname, $text);
+    // //writeLogDebug('capacitor - publishFile-24-'. $fsname, $text);
     // some libary indexes have a name of meet.html with then gets appended with another html
     if (strpos($fname, '.html.html') !== false) {
         $fname = str_replace('.html.html', '.html', $fname);
@@ -92,12 +92,12 @@ function publishFiles($p, $fname, $text, $standard_css, $selected_css)
     $output = modifyImages($output, $p);
     // make sure  all files are copied to destination directory
     $progress = (object) publishFilesInPage($output, $p);
-    writeLogAppend('capacitor - publishFiles-95',  $progress);
-    writeLogAppend('capacitor - publishFiles-95',  "\n===========\n\n");
+    //writeLogAppend('capacitor - publishFiles-95',  $progress);
+    //writeLogAppend('capacitor - publishFiles-95',  "\n===========\n\n");
 
     //writeLogDebug('capacitor - publishFile-106-ZOOM',  $output);
     $output = makePathsRelative($output, $fname);
-    writeLogAppend('capacitor - publishFile-109',  $progress);
+    //writeLogAppend('capacitor - publishFile-109',  $progress);
     fileWrite($fname, $output, $p);
     return $progress;
 }

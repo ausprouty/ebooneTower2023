@@ -60,7 +60,7 @@ function  publishFilesInPage($text, $p)
     //$progress->message = 'I was in publishFilesInPage';
     $out = (object) $progress;
     $out->files_in_page = $files_in_page;
-    writeLogAppend('Progress-publishFilesInPage-53', $out);
+    //writeLogAppend('Progress-publishFilesInPage-53', $out);
     return  $out;
 }
 
@@ -122,7 +122,7 @@ function publishFilesInPageFind($find_begin, $text, $p)
                                 //writeLogAppend('capacitor-publishFilesInPageFind-107', $progress);
                                 //writeLogAppend('capacitor-publishFilesInPageFind-107', "\n====\n");
                                 $progress = progressMergeObjects($progress, $new_progress, 'publishFilesInPageFind-107');
-                                writeLogAppend('capacitor-publishFilesInPageFind-107', $progress);
+                                //writeLogAppend('capacitor-publishFilesInPageFind-107', $progress);
                                 //writeLogAppend('capacitor-publishFilesInPageFind-107', "\n=======================================\n");
                             }
                         }
@@ -136,7 +136,7 @@ function publishFilesInPageFind($find_begin, $text, $p)
     //$progress->message = 'I was in publishFilesInPageFind';
     $out = (object) $progress;
     $out->files_in_page = $files_in_page;
-    writeLogAppend('Progress-publishFilesInPageFind-119', $out);
+    //writeLogAppend('Progress-publishFilesInPageFind-119', $out);
     //writeLogAppend('Progress-publishFilesInPage-119', "\n\n\n---------------------------\n\n\n");
     return $out;
 }

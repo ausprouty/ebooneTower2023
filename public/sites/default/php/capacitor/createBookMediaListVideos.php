@@ -10,7 +10,7 @@ function createBookMediaListVideos($text)
     $out = [];
     $find = '<button';
     $count = substr_count($text, $find);
-    ////writeLogAppend('capacitor-createBookMediaListVideos-33', $count);
+    //writeLogAppend('capacitor-createBookMediaListVideos-33', $count);
     $pos_start = 0;
     for ($i = 0; $i < $count; $i++) {
         $pos_button_start = strpos($text, $find, $pos_start);

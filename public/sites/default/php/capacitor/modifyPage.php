@@ -35,7 +35,7 @@ function modifyPage($text, $p, $data, $bookmark)
     $response = (object) modifyTextForVue($text, $bookmark, $p);
     $text = $response->text;
     $progress = $response->progress;
-    writeLogDebug('Object - modifyPage', $progress);
+    //writeLogDebug('Object - modifyPage', $progress);
     //writeLogDebug('capacitor-modifyPage-33', $text);
     /* you must modify reveal video and audio before modifying external links
        reveal_big is used by site generations
@@ -107,7 +107,7 @@ function modifyPage($text, $p, $data, $bookmark)
     }
     //writeLogDebug('capacitor-modifyPage-104', $text);
     if (strpos($text, 'class="zoom"') !== FALSE) {
-        ////writeLogAppend('capacitor-modifyPage-106-Zoom', $p['filename']);
+        //writeLogAppend('capacitor-modifyPage-106-Zoom', $p['filename']);
         myRequireOnce('modifyZoomImage.php', $p['destination']);
         $reply = modifyZoomImage($text, $p);
         $text = $reply->text;
