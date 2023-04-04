@@ -142,6 +142,8 @@ This needs to come later in the process
     //writeLogDebug('capacitor-modifyPage-120', $text);
     //trigger_error('check ModifyPage', E_USER_ERROR);
     $out->text = $text;
+    //$progress->message = 'I visited modify page';
     $out->progress = $progress;
+
     return $out;
 }

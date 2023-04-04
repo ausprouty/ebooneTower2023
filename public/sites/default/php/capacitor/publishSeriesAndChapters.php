@@ -79,8 +79,6 @@ function publishSeriesAndChapters($p)
         updateCache($cache, DESTINATION);
     }
     clearCache($cache, DESTINATION);
-    $progress->message = 'I finished publishSeriesAndChapters';
-    $progress->progress = 'done';
     $out = $progress;
     writeLogDebug('progress-publishSeriesAndChapters-89', $out);
     return $out;

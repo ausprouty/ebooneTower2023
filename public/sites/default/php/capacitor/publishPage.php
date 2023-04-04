@@ -75,6 +75,6 @@ function publishPage($p)
     publishFiles($p, $fname, $text,  STANDARD_CSS, $selected_css);
     $out->progress = $progress;
     $out->files_in_page = $files_in_page;
-    writeLogDebug('Progress-PublishPage-75', $text);
+    writeLogAppend('Progress-PublishPage-75', $out);
     return $out;
 }

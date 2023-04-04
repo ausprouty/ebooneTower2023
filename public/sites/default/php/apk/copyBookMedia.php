@@ -1,6 +1,6 @@
 <?php
 
-myRequireOnce('getBuildH.php');
+myRequireOnce('getBuild.php');
 myRequireOnce('verifyBook.php');
 myRequireOnce('dirListSubdir.php');
 myRequireOnce('copyDirectory.php');

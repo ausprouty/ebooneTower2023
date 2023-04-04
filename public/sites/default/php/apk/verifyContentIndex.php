@@ -1,5 +1,5 @@
 <?php
-myRequireOnce('getBuildC.php');
+myRequireOnce('getBuild.php');
 myRequireOnce('writeLog.php');
 myRequireOnce('publishLibrary.php');
 myRequireOnce('findLibraries.php');

@@ -1,6 +1,22 @@
 <?php
 /*
-  I only want to list files that are in the content directory
+  I only want to list files that are in the content directory but this will return all files now
+
+  returns:
+
+  object(stdClass)#802 (1) {
+  ["files_in_page"]=>
+  array(4) {
+    [0]=>
+    string(36) "sites/mc2/images/ribbons/mc2back.png"
+    [1]=>
+    string(39) "sites/mc2/images/standard/look-back.png"
+    [2]=>
+    string(37) "sites/mc2/images/standard/look-up.png"
+    [3]=>
+    string(42) "sites/mc2/images/standard/look-forward.png"
+  }
+}
 */
 
 //define("ROOT_EDIT", '/home/globa544/edit.mc2.online/');
@@ -23,18 +39,32 @@ function  publishFilesInPage($text, $p)
     $find_begin = 'src="';
     $response = (object) publishFilesInPageFind($find_begin, $text, $p);
     $files_in_page = progressMergeArrays($files_in_page, $response->files_in_page);
-    $progress = progressMergeObjects($progress, $response->progress);
+    $progress = progressMergeObjects($progress, $response->progress, 'publishFilesInPage-26');
 
     $find_begin = 'href="';
     $response = (object) publishFilesInPageFind($find_begin, $text, $p);
     writeLogAppend('Progress-publishFilesInPage-28', $response);
     $files_in_page = progressMergeArrays($files_in_page, $response->files_in_page);
-    $progress = progressMergeObjects($progress, $response->progress);
-    $out->progress = $progress;
+    $progress = progressMergeObjects($progress, $response->progress, 'publishFilesInPage-32');
+    //$progress->message = 'I was in publishFilesInPage';
+    $out = (object) $progress;
     $out->files_in_page = $files_in_page;
-    writeLogAppend('Progress-publishFilesInPage-33', $out);
+    writeLogAppend('Progress-publishFilesInPage-36', $out);
     return  $out;
 }
+
+/* returns:
+
+object(stdClass)#294 (3) {
+  ["progress"]=>
+  string(5) "error"
+  ["message"]=>
+  string(682) "<br><br>Source file does not exist /home/globa544/edit.mc2.online/assets/sites/mc2/images/ribbons/mc2back.png when called by publishFilesInPage in copyFilesForCapacitor<br><br>
+  ["files_in_page"]=>
+  array(0) {
+  }
+}
+*/
 
 function publishFilesInPageFind($find_begin, $text, $p)
 {
@@ -61,7 +91,13 @@ function publishFilesInPageFind($find_begin, $text, $p)
                 // I think I want to include html
                 if (!is_dir($from) && strpos($from, '.html') === false) {
                     $new_progress = publishFilesInPageWrite($filename, $p);
-                    $progress = progressMergeObjects($progress, $new_progress, 'publishFilesInPageFind-58');
+                    writeLogAppend('capacitor-publishFilesInPageFind-94', $new_progress);
+                    writeLogAppend('capacitor-publishFilesInPageFind-94', "\n====\n");
+                    writeLogAppend('capacitor-publishFilesInPageFind-94', $progress);
+                    writeLogAppend('capacitor-publishFilesInPageFind-94', "\n====\n");
+                    $progress = progressMergeObjects($progress, $new_progress, 'publishFilesInPageFind-94');
+                    writeLogAppend('capacitor-publishFilesInPageFind-94', $progress);
+                    writeLogAppend('capacitor-publishFilesInPageFind-94', "\n=======================================\n");
                 }
             } else { // we do not need to copy html files; they may not have been rendered yet.
                 if (strpos($filename, '.html') == false) {
@@ -70,7 +106,13 @@ function publishFilesInPageFind($find_begin, $text, $p)
                             $find = 'localVideoOptions.js';
                             if (strpos($filename, $find)  == false) {
                                 $new_progress =  publishFilesInPageWrite($filename, $p);
-                                $progress = progressMergeObjects($progress, $new_progress, 'publishFilesInPageFind-67');
+                                writeLogAppend('capacitor-publishFilesInPageFind-107', $new_progress);
+                                writeLogAppend('capacitor-publishFilesInPageFind-107', "\n====\n");
+                                writeLogAppend('capacitor-publishFilesInPageFind-107', $progress);
+                                writeLogAppend('capacitor-publishFilesInPageFind-107', "\n====\n");
+                                $progress = progressMergeObjects($progress, $new_progress, 'publishFilesInPageFind-107');
+                                writeLogAppend('capacitor-publishFilesInPageFind-107', $progress);
+                                writeLogAppend('capacitor-publishFilesInPageFind-107', "\n=======================================\n");
                             }
                         }
                     }
@@ -79,18 +121,23 @@ function publishFilesInPageFind($find_begin, $text, $p)
             $text = substr($text, $pos_end);
         }
     }
-    writeLogAppend('Progress-publishFilesInPage-82', $files_in_page);
-    $out->progress = (object) $progress;
+    writeLogAppend('Progress-publishFilesInPage-115', $files_in_page);
+    //$progress->message = 'I was in publishFilesInPageFind';
+    $out = (object) $progress;
     $out->files_in_page = $files_in_page;
-    writeLogAppend('Progress-publishFilesInPage-85', $out);
+    writeLogAppend('Progress-publishFilesInPage-119', $out);
+    writeLogAppend('Progress-publishFilesInPage-119', "\n\n\n---------------------------\n\n\n");
     return $out;
 }
 /*
-sites/mc2/images/ribbons/back-ribbon-mc2.png
-sites/mc2/content/M2/eng/images/standard/TransferableConcepts.png
-sites/mc2/images/menu/languages.png
-sites/mc2/images/standard/android.png
-sites/mc2/images/standard/Share.png
+returns 
+
+object(stdClass)#93 (2) {
+  ["progress"]=>
+  string(6) "undone"
+  ["message"]=>
+  string(174) "<br><br>Copied /home/globa544/edit.mc2.online/sites/mc2/content/M2/images/standard/Stories-of-the-Prophets.png when called by publishFilesInPageWrite in copyFilesForCapacitor"
+}
 */
 function publishFilesInPageWrite($filename, $p)
 {
@@ -101,6 +148,9 @@ function publishFilesInPageWrite($filename, $p)
     $to = $dir . $filename;
     $to = str_replace('//', '/', $to);
     //writeLogAppend('capacitor-publishFilesInPageWrite-81', "$from -> $to");
-    $progress = copyFilesForCapacitor($from, $to,  'publishFilesInPage');
+    $progress  = copyFilesForCapacitor($from, $to,  'publishFilesInPageWrite');
+    //writeLogAppend('capacitor-publishFilesInPageWrite-81', "\n====\n");
+    //writeLogAppend('capacitor-publishFilesInPageWrite-81', $progress);
+    //writeLogAppend('capacitor-publishFilesInPageWrite-81', "\n============================\n");
     return $progress;
 }

@@ -6,7 +6,7 @@ define("ROOT_SDCARD", ROOT . 'mc2.sdcard');
 
 
 */
-myRequireOnce('getBuildK.php');
+
 
 function publishDestination($p)
 {
@@ -21,15 +21,6 @@ function publishDestination($p)
     return ROOT_SDCARD . _publishDestinationSDCard($p)  . '/folder/';
   } elseif ($destination == 'pdf') {
     return ROOT_SDCARD . _publishDestinationSDCard($p)  . '/folder/';
-  } elseif ($destination == 'apk') {
-    $build = getBuild($p);
-    if (isset($p['filename'])) {
-      $find = ROOT_APK . $build . '/index.html';
-      if ($p['filename'] == $find) {
-        return ROOT_APK . $build;
-      }
-    }
-    return ROOT_APK . $build  . '/folder/';
   }
   $message = 'In publishDestination invalid destination:  ' . $destination;
   writeLogError('publishDestination-30', $p);
