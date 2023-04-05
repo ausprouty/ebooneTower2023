@@ -104,7 +104,7 @@ function revert($p)
         } else {
             if ($p['scope'] == 'library') {
                 $debug .= 'NOTE: USING DEFAULT LIBRARY  FROM LIBRARY.json' . "\n";
-                $out['text'] =  myGetPrototypeFile('library.json';
+                $out['text'] =  myGetPrototypeFile('library.json');
             } else {
                 $debug .= 'No default ' . "\n";
                 $out =  null;

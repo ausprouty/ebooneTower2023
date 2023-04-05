@@ -26,7 +26,13 @@ function verifyBookMediaList($p)
         }
     }
     if ($progress->progress == 'error') {
-        $progress->message = "<br><br>The following media is missing:\n" . $files_missing;
+        $progress->message = "<br><br>The following Videos are  is missing.<br>
+            <ol><li>Download files</li>
+            <li>Update videoReference.php</li>
+            <li>Reduce videos to 480px wide (maybe use the newly created MediaBat file</li>
+            <li>Reduce audio files to something</li>
+            <li>Add files to ROOT_MEDIA</li>
+            </ol><br>Files Missing: <br> " . $files_missing;
     }
     //writeLogAppend('verifyBookMediaList', $progress);
     return $progress;

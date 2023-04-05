@@ -141,6 +141,7 @@ function checkBookmarkLibraries($b)
 function checkBookmarkLibrary($b)
 {
     $out = null;
+    $response = new stdClass();
     if ($b['library_code'] !== 'index') {
         $b['scope'] = 'library';
     } else {
@@ -156,7 +157,6 @@ function checkBookmarkLibrary($b)
     if (isset($library->books)) {
         $response = $library;
     } else {
-        $response = new stdClass();
         $response->books = $library;
     }
     $out  = $response;

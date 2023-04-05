@@ -33,7 +33,7 @@
 */
 myRequireOnce('videoOfflineNewName.php');
 myRequireOnce('videoReference.php');
-myRequireOnce('modifyVideoTextAndTime.php');
+myRequireOnce('modifyRevealVideoRoutines.php');
 /*
 returns object
 
@@ -128,7 +128,6 @@ function videoIntroFindForOffline($p, $filename)
         $video['new_name'] = $new_name . '-' . $intro_count;
         $chapter_videos[] = $video;
     }
-
     $out->chapter_videos = $chapter_videos;
     $out->message = $message;
     writeLog('capacitor - videoIntroFindForOffline-124', $out);
