@@ -39,7 +39,7 @@ function videoReference()
     $link['Acts7333-0-0'] = 'acts/TheSendingofBarnabasandSaul.mp4';
     $link['Acts7334-0-0'] = 'acts/MinistryOnCyprus.mp4';
     $link['Acts7335-0-0'] = 'acts/PaulsMinistryInPisidianAntioch.mp4';
-    $link['Acts7336-0-0'] = 'acts/Paul&BarnabaspreachInIconium.mp4';
+    $link['Acts7336-0-0'] = 'acts/PaulAndBarnabaspreachInIconium.mp4';
     $link['Acts7337-0-0'] = 'acts/MistakenIdentityInLystra.mp4';
     $link['Acts7338-0-0'] = 'acts/TheReturntoAntiochinSyria.mp4';
     $link['Acts7339-0-0'] = 'acts/TheCouncilatJerusalem.mp4';
@@ -127,7 +127,7 @@ function videoReference()
     $link['GOMatt2514'] = 'lumo/LUMOMatthew18101930.mp4';
     $link['GOMatt2522'] = 'lumo/LUMOMatthew263675.mp4';
     $link['GOMatt2524'] = 'lumo/LUMOMatthew27322820.mp4';
-    $link['vimeo-286515674'] = 'vimeo/La Question Fascinante-286515674.mp4';
+    $link['vimeo-286515674'] = 'vimeo/LaQuestionFascinante-286515674.mp4';
     $link['vimeo-162977296'] = 'vimeo/TheAmazingQuestionEnglish-162977296.mp4';
     $link['vimeo-162982206'] = 'vimeo/MyStoryEnglish-162982206.mp4';
     $link['youtube-biTh0SIiHWQ'] = 'youtube/biTh0SIiHWQ.mp4';

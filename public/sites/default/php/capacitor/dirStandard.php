@@ -19,6 +19,9 @@ function dirStandard($scope, $destination,  $p, $folders = null, $create = true)
         case 'assets':
             $dir .=  $p['language_iso'] . '/src/assets/';
             break;
+        case 'library':
+            $dir .=  $p['language_iso'] . '/src/views/' . $p['country_code']  . '/' . $p['language_iso']  . '/';
+            break;
         case 'media_batfile':
             $dir = ROOT_MEDIA . 'batfiles/' . $p['country_code']  . '/' .  $p['language_iso'] . '/';
             break;

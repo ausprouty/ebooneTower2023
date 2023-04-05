@@ -23,9 +23,10 @@ export default {
       var params = {}
       params.language = this.language
       //console.log(params)
-      this.library_text = 'Publishing'
+      this.library_text = 'Publishing Library'
       this.progress = await CapacitorService.publish('libraries', params)
-      this.library_text = 'Published'
+      console.log (this.progress)
+      this.library_text = 'Published Library'
     },
   },
 }

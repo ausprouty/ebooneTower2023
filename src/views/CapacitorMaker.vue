@@ -56,22 +56,22 @@
       </div>
       <div v-if="this.show_progress">
         <CapacitorBooks :language="$v.capacitor.language.$model" />
-        <p>The MediaList Files. Media.bat files will be at mc2.media/lists</p>
+        <p>The MediaList Files. Media.bat files will be at mc2.media/batfiles</p>
         <p>After you make the Media List Bat files:</p>
         <ul>
           <li>Correct errors in html and republish</li>
           <li>Download any missing files</li>
-          <li>Update Reference File</li>
+          <li>Update videoReference.phpe</li>
           <li>
             Download, move to M:MC2/Media/M2/
             {{ this.$route.params.country_code }}, unzip and run the bat files -
-            (They take too much processing time to run remotely.)
+            (They take too much processing time to run on the web.)
           </li>
-          <li>Copy the media files to mc2.media/LANGUAGE_ISO</li>
+          <li>Copy the media files to mc2.media/MC2/LANGUAGE_ISO</li>
           <li>Verify that all media files are in this directory</li>
         </ul>
         <p>Router will be found at {{ this.capacitor_root
-            }}/{{ this.capacitor.subDirectory }}/router</p>
+            }}/{{ this.capacitor.subDirectory }}/src/router</p>
 
       </div>
     </div>
