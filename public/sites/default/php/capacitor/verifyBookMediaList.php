@@ -27,7 +27,9 @@ function verifyBookMediaList($p)
     }
     if ($progress->progress == 'error') {
         $progress->message = "<br><br>The following Videos are  is missing.<br>
-            <ol><li>Download files</li>
+            <ol>
+            <ol>Look in the indicated lesson to see which video is being referenced</li>
+            <li>Download files</li>
             <li>Update videoReference.php</li>
             <li>Reduce videos to 480px wide (maybe use the newly created MediaBat file</li>
             <li>Reduce audio files to something</li>
