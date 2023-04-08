@@ -1,0 +1,7 @@
+{
+  "name": "MC2SDMakerSQL",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
