@@ -1,14 +1,16 @@
 <?php
 myRequireOnce('bookmark.php');
-myRequireOnce('publishFiles.php');
 myRequireOnce('writeLog.php');
 myRequireOnce('myGetPrototypeFile.php');
 myRequireOnce('createSeriesNavlink.php');
+myRequireOnce('modifyTextForVue.php');
+myRequireOnce('progressMerge.php');
 
 
 
 function createSeries($p, $data)
 {
+    $progress = new stdClass;
     //writeLogDebug('capacitor-createSeries-12', $p);
     $text = json_decode($data['text']);
     // get language footer in prototypeOEpublish.php
@@ -159,8 +161,9 @@ function createSeries($p, $data)
         }
     }
     $out = new stdClass;
-    $out->text = str_replace('[[chapters]]', $chapters_text, $this_template);
-    $out->files_json = $files_json;
+    $text = str_replace('[[chapters]]', $chapters_text, $this_template);
+    $progress =  modifyTextForVue($text, $bookmark, $p);
+    $progress->files_json = $files_json;
     //writeLogDebug('capacitor-createSeries-161', $out);
-    return $out;
+    return $progress;
 }

@@ -41,11 +41,9 @@ function createLibrary($p, $text)
 
     $no_ribbon = isset($text->format->no_ribbon) ? isset($text->format->no_ribbon) : false;
     if ($no_ribbon) {
-        $debug .= 'prototypeLibrary was asked not to set ribbon at top ' . "\n";
         $nav = '';
         $ribbon = '';
     } else {
-        $debug .= 'Ribbon In prototypeLibrary ' . "\n";
         $nav = myGetPrototypeFile('navRibbon.html');
         $ribbon = isset($text->format->back_button) ? $text->format->back_button->image : DEFAULT_BACK_RIBBON;
     }
@@ -92,7 +90,6 @@ function createLibrary($p, $text)
     $temp = 'bookTitled.html';
     if ($bookmark['language']->titles) {
         $temp = 'bookImage.html';
-        $debug .= 'Using template for bookImage ' . "\n";
     }
     $book_template = myGetPrototypeFile($temp);
     //
@@ -170,8 +167,8 @@ function createLibrary($p, $text)
         }
     }
     $out = new stdClass;
+    $out = $progress;
     $out->body = str_replace('[[books]]', $books, $body);
-    $out->progress = $progress;
     writeLog('createLibrary-176', $out);
     return $out;
 }

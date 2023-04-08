@@ -25,6 +25,7 @@ myRequireOnce('writeLog.php');
 function publishFiles($p, $fname, $text, $standard_css, $selected_css)
 {
     $progress = new stdClass;
+    writeLogDebug('capacitor - publishFiles-28',  $text);
 
     $destination = DESTINATION;
     $file_name_parts = explode('/', $fname);

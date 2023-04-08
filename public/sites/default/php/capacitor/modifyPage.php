@@ -4,7 +4,6 @@ myRequireOnce('createPage.php');
 myRequireOnce('getTitle.php');
 myRequireOnce('modifyBibleLinks.php');
 myRequireOnce('modifyExternalJavascript.php');
-myRequireOnce('modifyHeaders.php');
 myRequireOnce('modifyJavascript.php');
 myRequireOnce('modifyLinks.php');
 myRequireOnce('modifyNextSteps.php');

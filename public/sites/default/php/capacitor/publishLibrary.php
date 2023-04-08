@@ -3,12 +3,16 @@ myRequireOnce('writeLog.php');
 myRequireOnce('createLibrary.php');
 myRequireOnce('publishDestination.php');
 myRequireOnce('publishFiles.php');
+myRequireOnce('modifyTextForVue.php');
+myRequireOnce('bookmark.php');
 
 
 function publishLibrary($p)
 {
 
-    $debug = 'In publishLibrary ' . "\n";
+    $progress = new stdClass();
+    $response = new stdClass();
+    $bookmark = bookmark($p);
     //
     // get data for current library
     //
@@ -19,7 +23,6 @@ function publishLibrary($p)
         AND folder_name = '' AND filename = '$filename'
         AND prototype_date IS NOT NULL
         ORDER BY recnum DESC LIMIT 1";
-    $debug .= $sql . "\n";
     $data = sqlArray($sql);
     $text = json_decode($data['text']);
     $p['recnum'] = $data['recnum'];
@@ -29,11 +32,9 @@ function publishLibrary($p)
     } else {
         $selected_css = '/sites/default/styles/cardGLOBAL.css';
     }
-    $res = createLibrary($p, $text);
-    writeLogDebug('publishLibrary-default-33', $res);
-    $body = $res->body;
-    $p['books'] = $res->books;
-    $p['progress'] = $res->progress;
+    $progress = createLibrary($p, $text);
+    writeLogDebug('publishLibrary-default-33', $progress);
+    $body = $progress->body;
 
     //
     // write file
@@ -49,8 +50,12 @@ function publishLibrary($p)
     writeLogDebug('publishLibrary-capacitor-50', $fname);
     $body = publishLibraryAdjustText($body);
     $body .= '<!--- Created by publishLibrary-->' . "\n";
-    publishFiles($p, $fname, $body, STANDARD_CARD_CSS, $selected_css);
-    return $p;
+    $response = modifyTextForVue($body, $bookmark, $p);
+    $progress = progressMergeObjects($progress, $response, $source = 'publishLibrary-55');
+    $body = $response->text;
+    $response = publishFiles($p, $fname, $body, STANDARD_CARD_CSS, $selected_css);
+    $progress = progressMergeObjects($progress, $response, $source = 'publishLibrary-58');
+    return $progress;
 }
 /* Change navigation links in edit to navigation in production
   '/preview/series/AU/eng/family/youth-basics'

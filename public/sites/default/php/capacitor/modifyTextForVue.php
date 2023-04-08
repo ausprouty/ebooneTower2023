@@ -78,8 +78,9 @@ function modifyTextForImages($text, $p)
         $pos_start = $img_end;
         //writeLogDebug('capacitor-modifyTextForImages-61-' . $i, $text);
     }
+    $out = $progress;
     $out->text = $text;
-    $out->progress = $progress;
+
     return $out;
 }
 function modifyTextForImagesCopy($source, $p)

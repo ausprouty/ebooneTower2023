@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>{{ language.language_name }}</h2>
+    <h2>{{ language.language_name }} Index</h2>
 
     <CapacitorLanguage v-bind:language="language" />
 
