@@ -28,6 +28,12 @@ function copyFilesForCapacitor($from, $to, $called_by)
         $progress->progress = 'error';
         return $progress;
     }
+    if ((strpos($from, '/assets/assets/') !== false) || (strpos($to, '/assets/assets/') !== false)) {
+        writeLogError('copyFilesForCapacitor-32', "$from => $to called by $called_by");
+        $progress->message = "<br><br>$from => $to contains /assets/assets/ in copyFilesForCapacitor thanks to $called_by";
+        $progress->progress = 'error';
+        return $progress;
+    }
     $to = str_replace('//', '/', $to);
     if (strpos($to, ROOT_CAPACITOR) === false) {
         writeLogError('copyFilesForCapacitor-18', $to);

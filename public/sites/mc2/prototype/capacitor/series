@@ -24,7 +24,7 @@ export default {
   },
   mounted() {
     useRevealMedia()
-    localStorage.setItem("returnpage", this.$route.name)
+    localStorage.setItem("lastpage", this.$route.name)
   }
 }
 </script>

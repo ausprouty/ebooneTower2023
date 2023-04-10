@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import notFound from "@/views/NotFound.vue";
+import returnToLastPage from "@/views/ReturnToLastPage.vue";
 // see    https://stackoverflow.com/questions/46590760/vue-js-2-multiple-routing-files
 import routesEngHope from "./routesEngHope.js";
 import routesEngMultiply1 from "./routesEngMultiply1.js";
@@ -22,7 +23,7 @@ const router = createRouter({
         name: "home",
         component: function () {
           return import(
-            "../views/M2/eng/index.vue"
+            "../views/returnToLastPage.vue"
           );
         }
     },

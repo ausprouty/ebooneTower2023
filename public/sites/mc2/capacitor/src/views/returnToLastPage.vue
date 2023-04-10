@@ -1,11 +1,11 @@
 <template>
-  <h1>Oops, it looks like the page you're looking for doesn't exist.</h1>
-</template>
-<script>
-export default{
-  beforeCreate() {
+ </template>
+ <script>
+ export default{
+    beforeCreate() {
     var returnTo = '/index'
     if (localStorage.getItem("lastpage")){
+        returnTo = localStorage.getItem("lastpage")
         localStorage.removeItem("lastpage")
     }
     this.$router.push({
@@ -14,4 +14,6 @@ export default{
   },
 }
  
-</script>
+ </script>
+ 
+  
