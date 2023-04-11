@@ -2,6 +2,7 @@
 myRequireOnce('bookmark.php');
 myRequireOnce('writeLog.php');
 myRequireOnce('myGetPrototypeFile.php');
+myRequireOnce('createPageNavlink.php');
 
 //content is an array of one record content data
 // called by Publish Page
@@ -30,7 +31,7 @@ function createPage($p, $content)
         $nav = myGetPrototypeFile('navRibbon.html');
         $this_template = str_replace('[[nav]]', $nav, $this_template);
         $ribbon = isset($bookmark['library']->format->back_button) ? $bookmark['library']->format->back_button->image : DEFAULT_BACK_RIBBON;
-        $navlink = 'index.html';
+        $navlink = createPageNavlink($p);
     }
     // values for page that is not part of a series
     if ($bookmark['book']->format == 'page') {
@@ -40,16 +41,7 @@ function createPage($p, $content)
         $this_template = str_replace('[[nav]]', $nav, $this_template);
         $ribbon = isset($bookmark['library']->format->back_button->image) ? $bookmark['library']->format->back_button->image : DEFAULT_BACK_RIBBON;
         // this will work if there is no special library index.
-        $index = 'index.html';
-        if ($p['library_code'] != 'library') {
-
-            $index = $p['library_code'] . '.html';
-        }
-        $navlink = '../' . $index;
-        if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor') {
-            $navlink =   $bookmark['language']->iso .  '-' . $p['library_code'] . '-index';
-        }
-
+        $navlink = createPageNavlink($p);
         $page_text_value = $content['text'];
     }
     //writeLog('createPage-103-debug', $debug);

@@ -146,7 +146,7 @@ export default {
 
 		var noteSource = localStorage.getItem('mc2NoteSource')
 		if (!noteSource){
-			noteSource= await createDataStore()
+			noteSource= await this.createDataStore()
 		}
 		return noteSource
 	},

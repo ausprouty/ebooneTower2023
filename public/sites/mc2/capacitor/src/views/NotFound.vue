@@ -4,12 +4,12 @@
 <script>
 export default{
   beforeCreate() {
-    var returnTo = '/index'
+    var returnTo = 'eng-index'
     if (localStorage.getItem("lastpage")){
         localStorage.removeItem("lastpage")
     }
     this.$router.push({
-        path:returnTo,
+        name:returnTo,
     })
   },
 }

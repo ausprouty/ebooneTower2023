@@ -56,14 +56,6 @@ function modifyPage($text, $p, $data, $bookmark)
     //
     if (strpos($text, '"note-area"')  !== false) {
         $text =  modifyNoteArea($text, $bookmark, $p);
-        if ($p['destination'] !== 'sdcard') {
-            //add markers used by javascript
-            $page = $p['country_code'] . '-' . $p['language_iso'] . '-' . $p['folder_name'] . '-' . $data['filename'] . '.html';
-            $note_form_begin = '<form>' . "\n";
-            $note_page =  '<input type="hidden" name ="notes_page"  id ="notes_page" value="' . $page . '">' . "\n";
-            $note_form_end = '</form>';
-            $text .= $note_form_begin . $note_page .  $note_form_end;
-        }
     }
     if (strpos($text, '-step-area"')  !== false) {
         $text =  modifyNextSteps($text, $bookmark, $p);
