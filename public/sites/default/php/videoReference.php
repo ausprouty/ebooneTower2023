@@ -139,5 +139,8 @@ function videoReference()
     $link['youtube-f91qmWKSsjo'] = 'youtube/f91qmWKSsjo.mp4';
     $link['youtube-y2AECMIp38'] = 'youtube/Yy2AECMIp38.mp4';
     $link['youtube-xItcassfEaY'] = 'youtube/xItcassfEaY.mp4';
+    $link['youtube-3doLFxX49ZQ'] = 'youtube/3doLFxX49ZQ.mp4';
+    $link['youtube-Yy2AECMIp38'] = 'youtube/Yy2AECMIp38.mp4';
+
     return $link;
 }

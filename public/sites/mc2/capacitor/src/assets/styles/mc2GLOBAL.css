@@ -247,10 +247,10 @@ div.block-quote {
   padding: 20px;
 }
 div.zoom-image{
-      border: 2px;
-      color:var(--color-blue-mc2);
-      padding: 3px;
-      border-style: solid;
+  border: 2px;
+  color:var(--color-blue-mc2);
+  padding:3px;
+  border-style: solid;
 }
 
 img {
@@ -384,6 +384,7 @@ p.bible {
   background-image: url('../images/css/quote_open.gif');
   background-position: 10px top;
   background-repeat: no-repeat;
+  background-size: 25px;
   color: #085276;
   font-style: italic;
   font-weight: bold;
@@ -604,6 +605,10 @@ li.nobreak-final-final {
 .popup {
   color: green;
   font-style: italic;
+}
+.popup-link {
+  color: var(--color-blue-mc2);
+  text-decoration: underline;
 }
 .action,
 .external-dbt-movie,

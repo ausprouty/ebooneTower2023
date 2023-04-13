@@ -68,28 +68,32 @@ function modifyZoomImage($text, $p)
 }
 
 /*
-  input: https://launch-prototype.sent67.com/sites/launch/content/U1/eng/images/standard/FourFields.png
-
-  output: /images/zoom/standard/FourFields.png
+  input: @/assets/sites/mc2/content/M2/eng/multiply2/Period1.png 
+  output: /images/zoom/sites/mc2/content/M2/eng/multiply2/Period1.png"
       also copy this to 
 */
 
 function  modifyZoomImageGetImageRegular($image, $p)
 {
-    //writeLogDebug('capacitor-modifyZoomImageGetImageRegular-69', $image);
-    $find = '/images/';
+    $find = '@/assets/';
     $pos_start = strpos($image, $find) + strlen($find);
-    $raw = substr($image, $pos_start);
-    $dir_zoom = dirStandard('zoom_root', DESTINATION,  $p, $folders = null, $create = true);
-    $to = $dir_zoom . $raw;
+    $raw = substr($image, $pos_start); //   sites/mc2/content/M2/eng/multiply2/Period1.png 
+    $to = '/images/zoom/' . $raw;
+    writeLogAppend('capacitor-modifyZoomImageGetImageRegular-82', " $image => $to");
+    $source = ROOT_EDIT . $raw;
+    $dir = dirStandard('zoom_root', DESTINATION,  $p, $folders = null, $create = true);
+
+    $destination = $dir . $raw;
+    writeLogAppend('capacitor-modifyZoomImageGetImageRegular-86', " $source => $destination");
+    copyFilesForCapacitor($source, $destination, 'modifyZoomImageGetImageRegular');
     return $to;
 }
 function   modifyZoomImageGetImageZoom($image, $p)
 {
-    $find = '/images/';
+    $find = '@/assets/';
     $pos_start = strpos($image, $find) + strlen($find);
     $raw = substr($image, $pos_start);
-    $dir_zoom = dirStandard('zoom_root', DESTINATION,  $p, $folders = null, $create = true);
-    $output = $dir_zoom . $raw;
-    return $output;
+    $to = '/images/zoom/' . $raw;
+    // writeLogAppend('capacitor-modifyZoomImageGetImageRegular-85', " $image => $to");
+    return $to;
 }

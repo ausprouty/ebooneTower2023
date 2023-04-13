@@ -101,19 +101,21 @@ function videoIntroFindForOffline($p, $filename)
             }
         } else {
             $youtube = 'https://www.youtube.com/watch?v=';
-            if (strpos($url, $youtube)) {
+            if (strpos($url, $youtube) !== FALSE) {
                 $url = str_replace($youtube, 'youtube-', $url);
             }
             $vimeo = 'https://vimeo.com/';
-            if (strpos($url, $vimeo)) {
+            if (strpos($url, $vimeo) !== FALSE) {
                 $url = str_replace($vimeo, 'vimeo-', $url);
             }
             if (isset($videoReference[$url])) {
                 $video['download_name'] = $videoReference[$url];
             } else {
                 $video['download_name'] = NULL;
-                $message .= "Download name not found for $url in $filename  in 
-                videoIntroFindForOffline line 107.  Check videoReferenceFile.\n";
+                $message .= "videoReference[$url] not found for $url referenced in $filename  in 
+                videoIntroFindForOffline line 116.  
+                Consider modifying and addingthe following line to VideoReference.php.<br>
+                link['$url'] = '$url.mp4';<br><br>";
             }
         }
         $video['url'] = $url;

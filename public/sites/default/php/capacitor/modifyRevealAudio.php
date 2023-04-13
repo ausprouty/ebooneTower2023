@@ -58,9 +58,7 @@ function modifyRevealAudio($text, $bookmark, $p)
         $title_phrase =  $word = str_replace('%', $title, $listen_phrase);
         //find url
         $url = modifyRevealAudioFindText($old, 4);
-        $debug .=  "url is | $url |\n";
         $audio_text = modifyRevealAudioFindText($old, 6);
-        $debug .=  "audio_text is | $audio_text |\n";
         $new = $local_template;
         $url = modifyRevealAudioSDCardUrl($url);
         // make replacements
@@ -68,7 +66,6 @@ function modifyRevealAudio($text, $bookmark, $p)
         $new = str_replace('[title_phrase]', $title_phrase, $new);
         $new = str_replace('[url]', $url, $new);
         $new = str_replace('[audio_text]', $audio_text, $new);
-        $debug .=  "new is | $new |\n";
         // replace old
         // from https://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match
         $length = $pos_end - $pos_start + 6;  // add 6 because last item is 6 long
