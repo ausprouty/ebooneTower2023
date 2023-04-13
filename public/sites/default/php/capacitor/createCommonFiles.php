@@ -24,49 +24,46 @@ function createCommonFiles($p)
   $progress->common_files = $common_files;
   $from = ROOT_EDIT . 'sites/' . SITE_CODE . '/capacitor/';
   $to = ROOT_CAPACITOR . $p['language_iso'] . '/';
-  createCommonFilesCopyFolder($from, $to);
-  $progress->common_files->progress = 'done';
-  $progress->common_files->message = 'Finished routine, but did not check to see if files are there.';
+  $progress = createCommonFilesCopyFolder($from, $to, $progress);
   return $progress;
 }
 
-function createCommonFilesCopyFolder($from, $to)
+function createCommonFilesCopyFolder($from, $to, $progress)
 {
   // //writeLogAppend('createCommonFiles-capacitor-21', "$from to $to");
 
   // (A1) SOURCE FOLDER CHECK
   if (!is_dir($from)) {
-    // writeLog('ERROR- createCommonFiles-capacitor-17', "$from does not exist");
-    trigger_error("$from does not exist", E_USER_WARNING);
-    exit;
+    $progress->common_files->progress = 'error';
+    $progress->common_files->message = "$from does not exist";
+    return $progress;
   }
   $guard = ROOT_EDIT . 'sites/' . SITE_CODE . '/capacitor/';
   if (strpos($from, $guard) != 0) {
-    // writeLog('ERROR- createCommonFiles-capacitor-17', "$from is not a guarded route");
-    trigger_error("$from is not a guarded route", E_USER_WARNING);
-    exit;
+    $progress->common_files->progress = 'error';
+    $progress->common_files->message = "$from is not a guarded route";
+    return $progress;
   }
 
   // (A2) CREATE DESTINATION FOLDER
   if (!is_dir($to)) {
-    // //writeLogAppend('createCommonFiles-capacitor-42', "creating folder $to");
     createDirectory($to);
   }
 
   // (A3) COPY FILES + RECURSIVE INTERNAL FOLDERS
   $dir = opendir($from);
-  // //writeLogAppend('createCommonFiles-capacitor-43', $from);
   while (($ff = readdir($dir)) !== false) {
     if ($ff != "." && $ff != "..") {
       if (is_dir("$from$ff")) {
-        // //writeLogAppend('createCommonFiles-capacitor-47', "$from$ff/  to $to$ff/");
-        createCommonFilesCopyFolder("$from$ff/", "$to$ff/");
+        $progress = createCommonFilesCopyFolder("$from$ff/", "$to$ff/", $progress);
       } else {
         createDirectory("$to$ff");
         copy("$from$ff", "$to$ff");
-        // //writeLogAppend('createCommonFiles-capacitor-50', "$from$ff copied to $to$ff");
       }
     }
   }
   closedir($dir);
+  $progress->common_files->progress = 'done';
+  $progress->common_files->message = "No errors";
+  return $progress;
 }

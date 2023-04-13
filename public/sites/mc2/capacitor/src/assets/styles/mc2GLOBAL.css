@@ -606,7 +606,8 @@ li.nobreak-final-final {
   color: green;
   font-style: italic;
 }
-.popup-link {
+.popup-link,
+.internal-link {
   color: var(--color-blue-mc2);
   text-decoration: underline;
 }
