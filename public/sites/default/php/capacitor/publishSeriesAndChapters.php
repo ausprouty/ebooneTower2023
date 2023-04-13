@@ -12,6 +12,8 @@ myRequireOnce('publicationCache.php');
 
 function publishSeriesAndChapters($p)
 {
+    writeLogDebug('Progress-publishSeriesandChapters-15a', $p['capacitor_settings']->remove_external_links);
+    //todo: remove return;
     $progress = new stdClass;
     $response = new stdClass;
     if (isset($p['progress'])) {
@@ -22,7 +24,7 @@ function publishSeriesAndChapters($p)
     }
     // first prototype the Series Index
     $response = (object) publishSeries($p);
-    //writeLogDebug('Progress-publishSeriesandChapters-26', $response);
+
     $progress = progressMergeObjects($progress, $response, 'publishSeriesAndChapters-27');
     if (!isset($response->files_json)) {
         $response->message = 'No files_json returned from Publish Series. This may be a library';

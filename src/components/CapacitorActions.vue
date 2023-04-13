@@ -121,12 +121,10 @@ export default {
         response = await CapacitorService.createBookContent(params)
         console.log(response)
         if (typeof response == 'string'){
-          this.progress.content.progress = 'error';
-        }
-        else{
+          this.progress.content.progress = 'error'
+        } else{
           this.progress.content = response
         }
-        
         this.checkContentPublished()
         this.content_text = 'Content'
       }
