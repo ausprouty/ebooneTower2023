@@ -17,7 +17,7 @@ function publishDestination($p)
     } elseif ($destination == 'capacitor') {
         if (!isset($p['capacitor_settings'])) {
             $message = 'No Capacitor Settings';
-            writeLogError('_publishDestinationCapacitor-p ', $p);
+            //writeLogError('_publishDestinationCapacitor-p ', $p);
             trigger_error($message, E_USER_ERROR);
         }
         if (isset($p['capacitor_settings']->subDirectory)) {
@@ -27,6 +27,6 @@ function publishDestination($p)
         return ROOT_CAPACITOR . $clean;
     }
     $message = 'In publishDestination invalid destination:  ' . $destination;
-    writeLogError('capacitor-publishDestination-30', $p);
+    //writeLogError('capacitor-publishDestination-30', $p);
     trigger_error($message, E_USER_ERROR);
 }

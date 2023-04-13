@@ -81,7 +81,7 @@ function videoFollowsChangeVideoTitle($previous_title_phrase, $text, $bookmark)
     $find = 'reveal bible">';
     $pos_read_start = strpos($text, $find);
     if ($pos_read_start === FALSE) {
-        writeLogError('videoFollowsChangeVideoTitle-84', $find);
+        //writeLogError('videoFollowsChangeVideoTitle-84', $find);
         return $text;
     }
     $pos_read_start = $pos_read_start + strlen($find);

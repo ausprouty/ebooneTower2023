@@ -169,6 +169,6 @@ function createLibrary($p, $text)
     $out = new stdClass;
     $out = $progress;
     $out->body = str_replace('[[books]]', $books, $body);
-    writeLog('createLibrary-176', $out);
+    //writeLog('createLibrary-176', $out);
     return $out;
 }

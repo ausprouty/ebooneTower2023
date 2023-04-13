@@ -191,7 +191,7 @@ function videoFindForCapacitor($p, $filename)
         ORDER BY recnum DESC LIMIT 1";
     $data = sqlArray($sql);
     if (!isset($data['text'])) {
-        writeLogError('videoFindForCapacitor -' . $filename, $sql);
+        //writeLogError('videoFindForCapacitor -' . $filename, $sql);
         return $chapter_videos;
     }
     $text = $data['text'];
@@ -224,7 +224,7 @@ function videoFindForCapacitor($p, $filename)
             } else {
                 $video['download_name'] = NULL;
                 $message = "Download name not found for  $url in videoFindForCapacitor line 226\n";
-                writeLogError('videoFindForCapacitor-216-' . $p['language_iso'] . '-' . $filename, $message);
+                //writeLogError('videoFindForCapacitor-216-' . $p['language_iso'] . '-' . $filename, $message);
             }
         } else {
             if (isset($videoReference[$url])) {
@@ -232,7 +232,7 @@ function videoFindForCapacitor($p, $filename)
             } else {
                 $video['download_name'] = NULL;
                 $message = "Download name not found for  $url in videoFindForCapacitor line 234\n";
-                writeLogError('videoFindForCapacitor-226-' . $p['language_iso'] . '-' .  $filename, $message);
+                //writeLogError('videoFindForCapacitor-226-' . $p['language_iso'] . '-' .  $filename, $message);
             }
         }
         $video['url'] = $url;

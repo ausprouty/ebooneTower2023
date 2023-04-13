@@ -50,7 +50,7 @@ function  modifyLinksInternal($text, $find, $p)
             $return,
         );
         $new_template = str_replace($old, $new, $template);
-        writeLogAppend(' modifyLinksInternal-capacitor-141', $new_template);
+        //writeLogAppend(' modifyLinksInternal-capacitor-141', $new_template);
         $text = substr_replace($text, $new_template, $pos_link_start, $length);
         $pos_start = $pos_words_end + 4;
     }

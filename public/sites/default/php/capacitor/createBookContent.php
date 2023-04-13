@@ -33,7 +33,7 @@ function XcreateBookContent($p)
     $data = sqlArray($sql);
     if (!$data) {
         $message = 'No data found for: ' . $sql;
-        writeLogError('capacitor-createBookContent-29', $message);
+        //writeLogError('capacitor-createBookContent-29', $message);
         $out->message = $message;
         $out->progress = 'undone';
         return $out;

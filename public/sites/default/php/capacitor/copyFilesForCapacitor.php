@@ -17,26 +17,26 @@ function copyFilesForCapacitor($from, $to, $called_by)
     $top_guard = ['src', 'public'];
     $src_guard = ['assets', 'components', 'router', 'views'];
     if (strpos($to, '@') !== false) {
-        writeLogError('copyFilesForCapacitor-10', $to);
+        //writeLogError('copyFilesForCapacitor-10', $to);
         $progress->message = "<br><br>$to starts with @ in copyFilesForCapacitor";
         $progress->progress = 'error';
         return $progress;
     }
     if (strpos($from, '@') !== false) {
-        writeLogError('copyFilesForCapacitor-14', $to);
+        //writeLogError('copyFilesForCapacitor-14', $to);
         $progress->message = "<br><br>$from starts with @ in copyFilesForCapacitor";
         $progress->progress = 'error';
         return $progress;
     }
     if ((strpos($from, '/assets/assets/') !== false) || (strpos($to, '/assets/assets/') !== false)) {
-        writeLogError('copyFilesForCapacitor-32', "$from => $to called by $called_by");
+        //writeLogError('copyFilesForCapacitor-32', "$from => $to called by $called_by");
         $progress->message = "<br><br>$from => $to contains /assets/assets/ in copyFilesForCapacitor thanks to $called_by";
         $progress->progress = 'error';
         return $progress;
     }
     $to = str_replace('//', '/', $to);
     if (strpos($to, ROOT_CAPACITOR) === false) {
-        writeLogError('copyFilesForCapacitor-18', $to);
+        //writeLogError('copyFilesForCapacitor-18', $to);
         $progress->message = "<br><br>Unguarded route of   $to in  $to in copyFilesForCapacitor";
         $progress->progress = 'error';
         return $progress;
@@ -47,7 +47,7 @@ function copyFilesForCapacitor($from, $to, $called_by)
     if (in_array($parts[1], $top_guard)) {
         if ($parts[1] == 'src') {
             if (!in_array($parts[2], $src_guard)) {
-                writeLogError('capacitor-copyFilesForCapacitor-34', $parts);
+                //writeLogError('capacitor-copyFilesForCapacitor-34', $parts);
                 $progress->message = "<br><br>Unguarded route of   $parts[2] in  $to in copyFilesForCapacitor";
                 $progress->progress = 'error';
                 return $progress;

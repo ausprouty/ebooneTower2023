@@ -17,7 +17,7 @@ function createBookMediaListVideos($text)
         $pos_button_end = strpos($text, '</button>', $pos_button_start);
         $length = $pos_button_end - $pos_button_start;  // add 6 because last item is 6 long
         $button_text = substr($text, $pos_button_start, $length);
-        writeLogAppend('capacitor-createBookMediaListVideos-40', "$button_text\n|\n");
+        //writeLogAppend('capacitor-createBookMediaListVideos-40', "$button_text\n|\n");
         if (strpos($button_text, 'external-movie') !== false) {
             $pos_id_start = strpos($button_text, 'id="') + 4;
             $pos_id_end = strpos($button_text, '"', $pos_id_start);

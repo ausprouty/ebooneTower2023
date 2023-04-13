@@ -19,8 +19,8 @@ function checkStatusBook($p)
     //writeLogDebug('capacitor-checkStatusBook-19', $p);
     if (!isset($p['capacitor_settings']->subDirectory)) {
         $message = 'p[capacitor_settings]->subDirectory not set';
-        writeLogError('Capacitor-checkStatusBook-11', $message);
-        writeLogError('Capacitor-checkStatusBook-12', $p);
+        //writeLogError('Capacitor-checkStatusBook-11', $message);
+        //writeLogError('Capacitor-checkStatusBook-12', $p);
         trigger_error($message, E_USER_ERROR);
     }
 

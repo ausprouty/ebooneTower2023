@@ -33,7 +33,7 @@ function publishLibrary($p)
         $selected_css = '/sites/default/styles/cardGLOBAL.css';
     }
     $progress = createLibrary($p, $text);
-    writeLogDebug('publishLibrary-default-33', $progress);
+    //writeLogDebug('publishLibrary-default-33', $progress);
     $body = $progress->body;
 
     //
@@ -47,7 +47,7 @@ function publishLibrary($p)
     }
     $filetype = '.vue';
     $fname = $dir . $filename . $filetype;
-    writeLogDebug('publishLibrary-capacitor-50', $fname);
+    //writeLogDebug('publishLibrary-capacitor-50', $fname);
     $body = publishLibraryAdjustText($body);
     $body .= '<!--- Created by publishLibrary-->' . "\n";
     $response = modifyTextForVue($body, $bookmark, $p);

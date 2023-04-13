@@ -21,7 +21,7 @@ function modifyNoteArea($text,  $bookmark, $p)
 {
     $template = myGetPrototypeFile('note.html');
     //writeLogDebug('modifyNoteArea-14', $p['destination']);
-    writeLogDebug('modifyNoteArea-capacitor-24', $template);
+    //writeLogDebug('modifyNoteArea-capacitor-24', $template);
     $count = substr_count($text, '<div class="note-area"');
     for ($i = 1; $i <= $count; $i++) {
         $pos_start = strpos($text, '<div class="note-area"');

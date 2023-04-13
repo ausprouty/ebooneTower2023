@@ -94,6 +94,6 @@ function   modifyZoomImageGetImageZoom($image, $p)
     $pos_start = strpos($image, $find) + strlen($find);
     $raw = substr($image, $pos_start);
     $to = '/images/zoom/' . $raw;
-    // writeLogAppend('capacitor-modifyZoomImageGetImageRegular-85', " $image => $to");
+    // //writeLogAppend('capacitor-modifyZoomImageGetImageRegular-85', " $image => $to");
     return $to;
 }

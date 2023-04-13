@@ -29,15 +29,28 @@
           v-model="$v.capacitor.language.$model"
           v-on:change="setCapacitorSubDir($v.capacitor.language.$model)"
         />
+        <label for="remove_external_links">
+          <h3>Remove External Links</h3>
+        </label>
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        <input
+          type="checkbox"
+          id="remove_external_links"
+          v-model="$v.capacitor.remove_external_links.$model"
+        />
         <h3>Footer</h3>
-          <v-select
+        <v-select
           :options="footers"
           placeholder="Select"
           v-model="$v.capacitor.footer.$model"
         />
-        <button class="button" 
-        v-if="!this.show_progress"
-        @click="showProgress()">Show Progress</button>
+        <button
+          class="button"
+          v-if="!this.show_progress"
+          @click="showProgress()"
+          >
+          Show Progress
+        </button>
       </div>
       <div class="spacer"></div>
       <div class="row" v-if="this.show_progress">
