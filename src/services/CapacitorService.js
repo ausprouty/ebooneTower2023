@@ -83,6 +83,13 @@ export default {
     console.log(response)
     return response
   },
+  async createCommonFiles(params) {
+    params = this.initialize(params)
+    params.page = 'createCommonFiles'
+    params.action = 'createCommonFiles'
+    var res = await AuthorService.aReturnContent(params)
+    return res
+  },
 
   async getBooks(params) {
     params = this.initialize(params)

@@ -79,12 +79,12 @@ function  modifyZoomImageGetImageRegular($image, $p)
     $pos_start = strpos($image, $find) + strlen($find);
     $raw = substr($image, $pos_start); //   sites/mc2/content/M2/eng/multiply2/Period1.png 
     $to = '/images/zoom/' . $raw;
-    writeLogAppend('capacitor-modifyZoomImageGetImageRegular-82', " $image => $to");
+    //writeLogAppend('capacitor-modifyZoomImageGetImageRegular-82', " $image => $to");
     $source = ROOT_EDIT . $raw;
     $dir = dirStandard('zoom_root', DESTINATION,  $p, $folders = null, $create = true);
 
     $destination = $dir . $raw;
-    writeLogAppend('capacitor-modifyZoomImageGetImageRegular-86', " $source => $destination");
+    //writeLogAppend('capacitor-modifyZoomImageGetImageRegular-86', " $source => $destination");
     copyFilesForCapacitor($source, $destination, 'modifyZoomImageGetImageRegular');
     return $to;
 }

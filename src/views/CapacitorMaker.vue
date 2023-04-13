@@ -46,7 +46,7 @@
           <button 
             class="button" 
             v-bind:class="progress.common_files.progress"
-            @click="verifyCommonFiles()">
+            @click="createCommonFiles()">
               {{ this.common_text }}
           </button>
         </div>
@@ -151,7 +151,6 @@ export default {
       console.log(response)
       this.language_text = 'Verified'
     },
-
     async verifyCommonFiles() {
       this.common_text = 'Verifying'
       var params = this.$route.params
@@ -159,6 +158,14 @@ export default {
       console.log(response)
       this.progress = response
       this.common_text = 'Checked'
+    },
+    async createCommonFiles() {
+      this.common_text = 'Creating'
+      var params = this.$route.params
+      var response = await CapacitorService.createCommonFiles(params)
+      console.log(response)
+      this.progress = response
+      this.common_text = 'Created'
     },
     async zipMediaBatFiles() {
       this.bat_text = 'Downloading'
