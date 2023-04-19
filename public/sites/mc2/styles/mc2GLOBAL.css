@@ -640,7 +640,8 @@ li.nobreak-final-final {
   background-position: 8px 15px;
   background-repeat: no-repeat;
 }
-.collapsible.bible {
+.collapsible.bible,
+.bible.collapsible {
   background: var(--color-blue-mc2) url(../images/css/bible.png);
   background-position: 8px 8px;
   background-repeat: no-repeat;

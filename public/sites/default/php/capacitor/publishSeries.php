@@ -50,7 +50,7 @@ function publishSeries($p)
             $selected_css = isset($bookmark['book']->style) ? $bookmark['book']->style : STANDARD_CSS;
             $dir = dirStandard('series', DESTINATION,  $p, $folders = null, $create = false);
             $fname = $dir . ucfirst($p['language_iso']) . ucfirst($p['folder_name']) . 'Index.vue';
-            //writeLogAppend('capacitor- publishSeries-70', $fname);
+            writeLogAppend('capacitor- publishSeries-70', $fname);
             $text .= '<!--- Created by capacitor - publishSeries-->' . "\n";
             $progress = (object) publishFiles($p, $fname, $text,  STANDARD_CSS, $selected_css);
             $time = time();
