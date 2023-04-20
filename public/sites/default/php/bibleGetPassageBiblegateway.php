@@ -76,8 +76,9 @@ function bibleGetPassageBiblegateway($p)
 	curl_setopt($ch, CURLOPT_URL, $url);
 	$string = curl_exec($ch);  // grab URL and pass it to the variable.
 	// see https://code.tutsplus.com/tutorials/html-parsing-and-screen-scraping-with-the-simple-html-dom-library--net-11856
-
+	writeLogDebug('bibleGetPassageBiblegateway-79', $string);
 	$html = str_get_html($string);
+	writeLogDebug('bibleGetPassageBiblegateway-81', $html);
 	$e = $html->find('.dropdown-display-text', 0);
 	$reference = $e->innertext;
 	$passages = $html->find('.passage-text');
@@ -91,7 +92,7 @@ function bibleGetPassageBiblegateway($p)
 	// now we are working just with Bible text
 	//
 	$html = str_get_html($bible);
-	writeLogDebug('bibleGetPassageBiblegateway-92', $bible);
+	writeLogDebug('bibleGetPassageBiblegateway-95', $bible);
 	$ret = $html->find('span');
 	foreach ($ret as $span) {
 		$span->outertext = $span->innertext;
