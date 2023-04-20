@@ -111,4 +111,9 @@ export default {
     params.action = 'bibleBrainGetVideo'
     return await AuthorService.aReturnContent(params)
   },
+  async removeBiblePopupsAndBlocks(params) {
+    params.page = 'removeBiblePopupsAndBlocks'
+    params.action = 'removeBiblePopupsAndBlocks'
+    return await AuthorService.aReturnContent(params)
+  },
 }

@@ -68,6 +68,11 @@
               Insert Bible Links
             </button>
             &nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="button green" @click="removeBiblePopupsAndBlocks">
+              Remove Bible Popups and Blocks
+            </button>
+          </div>
+          <div>
             <button class="button green" @click="revertPage">
               Revert to Previous Edition
             </button>
@@ -265,6 +270,14 @@ export default {
         this.pageText = temp.replace('[Reference]', bible.reference)
         this.reference = ''
       }
+    },
+    async removeBiblePopupsAndBlocks(){
+      var params = {}
+      params.text = ContentService.validate(this.pageText)
+      params.route = JSON.stringify(this.$route.params)
+      await BibleService.removeBiblePopupsAndBlocks(params)
+      await this.showPage()
+
     },
     async revertPage() {
       var params = {}
