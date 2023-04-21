@@ -1,11 +1,22 @@
-function addNote(noteId) {
+/* see https://github.com/dannyconnell/localbase
+  we will store data in localbase the same way we store them in localStorage
+  The page will be the key and the data will be a json object of all the notes on the page.
+
+*/
+
+async function addNote(noteId) {
   console.log(' I am adding note ' + noteId)
-  // resize note
+  noteResize(noteId)
+  var notes = notesCollect()
+  await saveNotes(notes)
+}
+// resize the note area on the page
+function noteResize(noteId) {
   var noteIdText = document.getElementById(noteId).value
   document.getElementById(noteId).style.height = calcHeight(noteIdText) + 'px'
-  // save notes
-  var notesPage = document.getElementById('notes_page').value
-  // find ids of all textareas
+}
+// collect all notes on this page
+function notesCollect() {
   var txtAreas = document.getElementsByTagName('textarea')
   var len = txtAreas.length
   var ids = new Array()
@@ -20,37 +31,91 @@ function addNote(noteId) {
     entry.value = note.value
     notes[i] = entry
   }
-  saveNote(notesPage, JSON.stringify(notes)) //put the object back
+  return JSON.stringify(notes)
 }
-async function saveNote(key, value) {
-  console.log('I am saving note ' + key)
+async function saveNotes(notes) {
+  // collect notes on page
+  var dataSource = await selectDataSource()
+  var notesPage = document.getElementById('notes_page').value
+  if (dataSource == 'database') {
+    await addNoteDatabase(notesPage, notes)
+  } else {
+    addNoteLocalStorage(notesPage, notes)
+  }
+}
+function addNoteLocalStorage(notesPage, notes) {
+  localStorage.setItem(notesPage, notes) //put the object back
+}
+async function addNoteDatabase(key, value) {
+  console.log('I am saving note in database ' + key)
   let db = new Localbase('db')
   db.collection('notes').doc(key).set({
     notes: value,
   })
+  localStorage.removeItem(key)
+}
+async function selectDataSource() {
+  return 'database'
 }
 async function showNotes(page) {
-  console.log('I am showing notes')
+  var dataSource = await selectDataSource()
+  console.log('showNotes says dataSource is ' + dataSource)
+  if (dataSource == 'database') {
+    showNotesDatabase(page)
+  } else {
+    showNotesLocalStorage(page)
+  }
+}
+async function showNotesDatabase(page) {
+  console.log('I am showing notes from Database')
   let db = new Localbase('db')
   db.collection('notes')
     .doc(page)
     .get()
     .then((result) => {
-      var notes = JSON.parse(result.notes)
-      console.log(notes)
-      var len = notes.length
-      var notePlace = null
-      for (var i = 0; i < len; i++) {
-        // sometimes people change the number of notes on a page after we publish
-        notePlace = document.getElementById(notes[i].key)
-        if (notePlace) {
-          document.getElementById(notes[i].key).value = notes[i].value
-          document.getElementById(notes[i].key).style.height =
-            calcHeight(notes[i].value) + 'px'
+      if (result != null) {
+        console.log('showing notes from database.')
+        console.log(result)
+        var notes = JSON.parse(result.notes)
+        console.log(notes)
+        var len = notes.length
+        var notePlace = null
+        for (var i = 0; i < len; i++) {
+          // sometimes people change the number of notes on a page after we publish
+          notePlace = document.getElementById(notes[i].key)
+          if (notePlace) {
+            document.getElementById(notes[i].key).value = notes[i].value
+            document.getElementById(notes[i].key).style.height =
+              calcHeight(notes[i].value) + 'px'
+          }
         }
+      } else {
+        console.log('no notes to show in database. Try localstorage')
+        showNotesLocalStorage(page)
       }
       return
     })
+}
+function showNotesLocalStorage(page) {
+  console.log('showNotes from LocalStorage' + page)
+  var response = localStorage.getItem(page)
+  if (!response) {
+    return
+  }
+  var notes = JSON.parse(response)
+  var len = notes.length
+  var notePlace = null
+  for (var i = 0; i < len; i++) {
+    // sometimes people change the number of notes on a page after we publish
+    notePlace = document.getElementById(notes[i].key)
+    if (notePlace) {
+      document.getElementById(notes[i].key).value = notes[i].value
+      document.getElementById(notes[i].key).style.height =
+        calcHeight(notes[i].value) + 'px'
+    }
+  }
+
+  return
 }
 
 // Dealing with Textarea Height
