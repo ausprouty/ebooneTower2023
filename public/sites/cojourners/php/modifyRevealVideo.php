@@ -1,8 +1,6 @@
 <?php
 myRequireOnce('writeLog.php');
-myRequireOnce('videoFindForSDCardNewName.php');
 myRequireOnce('videoTemplate.php');
-myRequireOnce('videoFollows.php');
 myRequireOnce('modifyRevealVideoRoutines.php');
 /*
 Input is:
@@ -96,7 +94,6 @@ NO JS:
 */
 function modifyRevealVideo($text, $bookmark, $p)
 {
-
     $debug = '';
     $previous_title_phrase = '';
     $watch_phrase = videoTemplateWatchPhrase($bookmark);
@@ -116,85 +113,64 @@ function modifyRevealVideo($text, $bookmark, $p)
         $title_phrase =  $word = str_replace('%', $title, $watch_phrase);
         //find url
         $url = modifyVideoRevealFindText($old, 4);
-        // in these destinations we concantinate sequential videos (Acts#1 and Acts #2)
-        if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor'  || $p['destination'] == 'nojs' || $p['destination'] == 'apk') {
-            $follows = videoFollows($previous_url, $url);
-            $previous_url = $url;
-            if ($follows) {
-                $new = '';
-                $text = videoFollowsChangeVideoTitle($previous_title_phrase, $text, $bookmark);
-            } else {
-                $new = videoTemplateLink($bookmark, $url);
-                $filename = $bookmark['page']->filename;
-                $video = '/media/' . $p['country_code'] . '/' . $p['language_iso'] . '/video/' .  $p['folder_name'] . '/' . videoFindForSDCardNewName($filename);
-                if ($apk_video_count > 0) {
-                    $video .= '-' . $apk_video_count;
-                }
-                $video .= '.mp4';
-                $video_type = 'file';
-                $apk_video_count++;
+
+        $new = videoTemplateLink($bookmark, $url);
+        // find start and end times
+        $start_time = modifyVideoRevealFindTime($old, 7);
+
+        $end_time = modifyVideoRevealFindTime($old, 9);
+        $duration = ($end_time - $start_time) * 1000;
+        // find type of video and trim url
+        if (strpos($url, 'api.arclight.org/videoPlayerUrl?') != FALSE) {
+            $new .=  $template_options; // JESUS project videos are available in many languages
+            //https://api.arclight.org/videoPlayerUrl?refId=6_529-GOMatt2512
+            $url = str_ireplace('https://api.arclight.org/videoPlayerUrl?refId=', '', $url); //6_529-GOMatt2512
+            $video_type_string = substr($url, 0, 1); //6
+            switch ($video_type_string) {
+                case 1:
+                    $video_type = 'jfilm';
+                    break;
+                case 2:
+                    $video_type = 'acts';
+                    break;
+                case 6:
+                    $video_type = 'lumo';
+                    break;
+                default:
+                    $video_type = $video_type_string;
             }
-            $previous_title_phrase = $title_phrase;
-        } else { //website or staging
-            $new = videoTemplateLink($bookmark, $url);
-            // find start and end times
-            $start_time = modifyVideoRevealFindTime($old, 7);
-
-            $end_time = modifyVideoRevealFindTime($old, 9);
-            $duration = ($end_time - $start_time) * 1000;
-
-
-            // find type of video and trim url
-            if (strpos($url, 'api.arclight.org/videoPlayerUrl?') != FALSE) {
-                $new .=  $template_options; // JESUS project videos are available in many languages
-                //https://api.arclight.org/videoPlayerUrl?refId=6_529-GOMatt2512
-                $url = str_ireplace('https://api.arclight.org/videoPlayerUrl?refId=', '', $url); //6_529-GOMatt2512
-                $video_type_string = substr($url, 0, 1); //6
-                switch ($video_type_string) {
-                    case 1:
-                        $video_type = 'jfilm';
-                        break;
-                    case 2:
-                        $video_type = 'acts';
-                        break;
-                    case 6:
-                        $video_type = 'lumo';
-                        break;
-                    default:
-                        $video_type = $video_type_string;
-                }
-                if (strpos($url, '-') !== FALSE) {
-                    $dash = strpos($url, '-');
-                    $url = substr($url, $dash);
-                }
-                if ($start_time || $end_time) {
-                    $url .= '&start=' . $start_time . '&end=' . $end_time;
-                }
-            } elseif (strpos($url, 'https://vimeo.com/') !== FALSE) {  //https://vimeo.com/162977296
-                $video_type = 'vimeo';
-                $url = str_ireplace('https://vimeo.com/', '', $url); //162977296
-            } elseif (strpos($url, 'https://www.youtube.com/watch?v=') !== FALSE) {  //https://www.youtube.com/watch?v=I7ks0udfjOw
-                $video_type = 'youtube';
-                $url = str_ireplace('https://www.youtube.com/watch?v=', '', $url); //I7ks0udfjOw
-                if ($start_time || $end_time) {
-                    $url .= '?start=' . $start_time . '&end=' . $end_time;
-                }
-            } elseif (strpos($url, 'https://youtu.be/') !== FALSE) {  //https://youtu.be/I7ks0udfjOw?t=732
-                $video_type = 'youtube';
-                $url = str_ireplace('https://youtu.be/', '', $url); //I7ks0udfjOwt=732
-                if ($start_time || $end_time) {
-                    $url .= '?start=' . $start_time . '&end=' . $end_time;
-                }
-            } elseif (strpos($url, 'https://4.dbt.io') !== FALSE) {  //https://youtu.be/I7ks0udfjOw?t=732
-                $video_type = 'dbt';
-                $url = str_ireplace('https://4.dbt.io/api/bible/filesets/', '', $url); //I7ks0udfjOwt=732
-                writeLogDebug('modifyRevealVideo-196', $url);
-            } else {
-                $video_type = 'url';
+            if (strpos($url, '-') !== FALSE) {
+                $dash = strpos($url, '-');
+                $url = substr($url, $dash);
             }
-            // make replacements
-            $video = '[' . $video_type . ']' . $url; //[lumo]-GOMatt2512
+            if ($start_time || $end_time) {
+                $url .= '&start=' . $start_time . '&end=' . $end_time;
+            }
+        } elseif (strpos($url, 'https://vimeo.com/') !== FALSE) {  //https://vimeo.com/162977296
+            $video_type = 'vimeo';
+            $url = str_ireplace('https://vimeo.com/', '', $url); //162977296
+        } elseif (strpos($url, 'https://www.youtube.com/watch?v=') !== FALSE) {  //https://www.youtube.com/watch?v=I7ks0udfjOw
+            $video_type = 'youtube';
+            $url = str_ireplace('https://www.youtube.com/watch?v=', '', $url); //I7ks0udfjOw
+            if ($start_time || $end_time) {
+                $url .= '?start=' . $start_time . '&end=' . $end_time;
+            }
+        } elseif (strpos($url, 'https://youtu.be/') !== FALSE) {  //https://youtu.be/I7ks0udfjOw?t=732
+            $video_type = 'youtube';
+            $url = str_ireplace('https://youtu.be/', '', $url); //I7ks0udfjOwt=732
+            if ($start_time || $end_time) {
+                $url .= '?start=' . $start_time . '&end=' . $end_time;
+            }
+        } elseif (strpos($url, 'https://4.dbt.io') !== FALSE) {  //https://youtu.be/I7ks0udfjOw?t=732
+            $video_type = 'dbt';
+            $url = str_ireplace('https://4.dbt.io/api/bible/filesets/', '', $url); //I7ks0udfjOwt=732
+            writeLogDebug('modifyRevealVideo-196', $url);
+        } else {
+            $video_type = 'url';
         }
+        // make replacements
+        $video = '[' . $video_type . ']' . $url; //[lumo]-GOMatt2512
+
         $new = str_replace('[video]', $video, $new);
         $new = str_replace('[video_type]', $video_type, $new);
         $new = str_replace('[id]', $i, $new);

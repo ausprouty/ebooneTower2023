@@ -10,6 +10,17 @@ async function addNote(noteId) {
   var notes = notesCollect()
   await saveNotes(notes)
 }
+async function getNotes(notesPage) {
+  var notes = []
+  var dataSource = await selectDataSource()
+  if (dataSource == 'database') {
+    notes = await getNotesDatabase(notesPage)
+  } else {
+    notes = await getNotesLocalStorage(notesPage)
+  }
+  console.log(notes)
+  return notes
+}
 // resize the note area on the page
 function noteResize(noteId) {
   var noteIdText = document.getElementById(noteId).value
@@ -47,7 +58,7 @@ function addNoteLocalStorage(notesPage, notes) {
   localStorage.setItem(notesPage, notes) //put the object back
 }
 async function addNoteDatabase(key, value) {
-  console.log('I am saving note in database ' + key)
+  //console.log('I am saving note in database ' + key)
   let db = new Localbase('db')
   db.collection('notes').doc(key).set({
     notes: value,
@@ -59,50 +70,62 @@ async function selectDataSource() {
 }
 async function showNotes(page) {
   var dataSource = await selectDataSource()
-  console.log('showNotes says dataSource is ' + dataSource)
+  // console.log('showNotes says dataSource is ' + dataSource)
   if (dataSource == 'database') {
     showNotesDatabase(page)
   } else {
     showNotesLocalStorage(page)
   }
 }
-async function showNotesDatabase(page) {
-  console.log('I am showing notes from Database')
+async function getNotesDatabase(page) {
+  console.log('getNotesDatabase for ' + page)
+  var notes = []
   let db = new Localbase('db')
-  db.collection('notes')
+  await db
+    .collection('notes')
     .doc(page)
     .get()
     .then((result) => {
       if (result != null) {
-        console.log('showing notes from database.')
-        console.log(result)
-        var notes = JSON.parse(result.notes)
+        console.log('getNotesDatabase found notes for ' + page)
+        notes = JSON.parse(result.notes)
         console.log(notes)
-        var len = notes.length
-        var notePlace = null
-        for (var i = 0; i < len; i++) {
-          // sometimes people change the number of notes on a page after we publish
-          notePlace = document.getElementById(notes[i].key)
-          if (notePlace) {
-            document.getElementById(notes[i].key).value = notes[i].value
-            document.getElementById(notes[i].key).style.height =
-              calcHeight(notes[i].value) + 'px'
-          }
-        }
-      } else {
-        console.log('no notes to show in database. Try localstorage')
-        showNotesLocalStorage(page)
       }
-      return
     })
+  return notes
+}
+async function showNotesDatabase(page) {
+  var notes = await getNotesDatabase(page)
+  console.log(notes)
+  if (notes != null) {
+    var len = notes.length
+    var notePlace = null
+    for (var i = 0; i < len; i++) {
+      // sometimes people change the number of notes on a page after we publish
+      notePlace = document.getElementById(notes[i].key)
+      if (notePlace) {
+        document.getElementById(notes[i].key).value = notes[i].value
+        document.getElementById(notes[i].key).style.height =
+          calcHeight(notes[i].value) + 'px'
+      }
+    }
+  } else {
+    console.log('no notes to show in database. Try localstorage')
+    showNotesLocalStorage(page)
+  }
+  return
+}
+function getNotesLocalStorage(page) {
+  var response = localStorage.getItem(page)
+  var notes = JSON.parse(response)
+  return notes
 }
 function showNotesLocalStorage(page) {
   console.log('showNotes from LocalStorage' + page)
-  var response = localStorage.getItem(page)
-  if (!response) {
+  var notes = getNotesLocalStorage(page)
+  if (!notes) {
     return
   }
-  var notes = JSON.parse(response)
   var len = notes.length
   var notePlace = null
   for (var i = 0; i < len; i++) {

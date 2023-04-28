@@ -23,27 +23,26 @@ myRequireOnce('getElementsByClass.php');
 myRequireOnce('simple_html_dom.php', 'libraries/simplehtmldom_1_9_1');
 myRequireOnce('writeLog.php');
 
-
+// returns array (and I have no idea why both verse and reference; why k.
+//1 =>
+//array (
+//  'verse' =>
+//  array (
+//    1 => 'John 14:15-26',
+//  ),
+//  'k' =>
+//  array (
+//    1 => '<h3>Jesus Promises the Holy Spirit</h3><p><sup>15 </sup>&#8220;If you love'
+//  'bible' => '<h3>Jesus Promises the Holy Spirit</h3><p><sup>15 </sup>&#8220;If you love me, keep my commands.  you of everything I have said to you.</p>
+//
+//<p><strong><a href="http://mobile.biblegateway.com/versions/New-International-Version-NIV-Bible/">New International Version</a> (NIV)</strong> <p>Holy Bible, New International Version®, NIV® Copyright ©  1973, 1978, 1984, 2011 by <a href="http://www.biblica.com/">Biblica, Inc.®</a> Used by permission. All rights reserved worldwide.</p>',
+//   'reference' => 'John 14:15-26',
+// ),
 
 function bibleGetPassageBiblegateway($p)
 {
 	$output = array();
 	$output['debug'] = '';
-	// returns array (and I have no idea why both verse and reference; why k.
-	//1 =>
-	//array (
-	//  'verse' =>
-	//  array (
-	//    1 => 'John 14:15-26',
-	//  ),
-	//  'k' =>
-	//  array (
-	//    1 => '<h3>Jesus Promises the Holy Spirit</h3><p><sup>15 </sup>&#8220;If you love'
-	//  'bible' => '<h3>Jesus Promises the Holy Spirit</h3><p><sup>15 </sup>&#8220;If you love me, keep my commands.  you of everything I have said to you.</p>
-	//
-	//<p><strong><a href="http://mobile.biblegateway.com/versions/New-International-Version-NIV-Bible/">New International Version</a> (NIV)</strong> <p>Holy Bible, New International Version®, NIV® Copyright ©  1973, 1978, 1984, 2011 by <a href="http://www.biblica.com/">Biblica, Inc.®</a> Used by permission. All rights reserved worldwide.</p>',
-	//   'reference' => 'John 14:15-26',
-	// ),
 	$parse = array();
 	// it seems that Chinese does not always like the way we enter things.
 	$reference_shaped = str_replace($p['bookLookup'], $p['bookId'], $p['entry']); // try this and see if it works/
@@ -53,8 +52,6 @@ function bibleGetPassageBiblegateway($p)
 	$reffer = 'http://biblegateway.com//passage/?search=' . $reference_shaped . '&version=' . $p['version_code']; // URL
 	$POSTFIELDS = null;
 	$cookie_file_path = null;
-
-
 	$ch = curl_init();	// Initialize a CURL conversation.
 	// The URL to fetch. You can also set this when initializing a conversation with curl_init().
 	curl_setopt($ch, CURLOPT_USERAGENT, $agent); // The contents of the "User-Agent: " header to be used in a HTTP request.
@@ -70,17 +67,16 @@ function bibleGetPassageBiblegateway($p)
 	curl_setopt($ch, CURLOPT_LOW_SPEED_LIMIT, 90); // Wait 30 seconds for download
 	curl_setopt($ch, CURLOPT_LOW_SPEED_TIME, 90); // Wait 30 seconds for download
 	curl_setopt($ch, CURLOPT_TIMEOUT, 90); // Wait 30 seconds for download
-
 	$url = 'https://biblegateway.com/passage/?search=' . $reference_shaped . '&version=' . $p['version_code']; // URL
 	$output['link'] = $url;
 	curl_setopt($ch, CURLOPT_URL, $url);
 	$string = curl_exec($ch);  // grab URL and pass it to the variable.
 	// see https://code.tutsplus.com/tutorials/html-parsing-and-screen-scraping-with-the-simple-html-dom-library--net-11856
-	writeLogDebug('bibleGetPassageBiblegateway-79', $string);
+	//writeLogDebug('bibleGetPassageBiblegateway-79', $string);
 	$html = str_get_html($string);
-	writeLogDebug('bibleGetPassageBiblegateway-81', $html);
 	$e = $html->find('.dropdown-display-text', 0);
 	$reference = $e->innertext;
+	writeLogAppend('bibleGetPassageBiblegateway-83', $reference);
 	$passages = $html->find('.passage-text');
 	$bible = '';
 	foreach ($passages as $passage) {
@@ -88,11 +84,30 @@ function bibleGetPassageBiblegateway($p)
 	}
 	$html->clear();
 	unset($html);
-	//
+	if ($bible) {
+		$bible = bibleGetPassageBiblegatewayClean($bible);
+		$output['bible'] =   "\n" . '<!-- begin bible -->' . $bible;
+		$output['bible'] .=  "\n" . '<!-- end bible -->' . "\n";
+	} else {
+		$output['bible'] = null;
+	}
+	$output['content'] = [
+		'reference' =>  $reference,
+		'text' => $output['bible'],
+		'link' => $output['link']
+	];
+	//writeLogDebug('bibleGetPassageBiblegateway-110', $output);
+	return $output;
+}
+
+function  bibleGetPassageBiblegatewayClean($bible)
+{
+
 	// now we are working just with Bible text
 	//
+	//writeLogDebug('bibleGetPassageBiblegateway-95', $bible);
 	$html = str_get_html($bible);
-	writeLogDebug('bibleGetPassageBiblegateway-95', $bible);
+
 	$ret = $html->find('span');
 	foreach ($ret as $span) {
 		$span->outertext = $span->innertext;
@@ -155,14 +170,5 @@ function bibleGetPassageBiblegateway($p)
 		$bible = str_ireplace('</div>', '', $bible);
 		$bible = str_ireplace('<div class="passage-other-trans">', '', $bible);
 	}
-	$output['bible'] =   "\n" . '<!-- begin bible -->' . $bible;
-	$output['bible'] .=  "\n" . '<!-- end bible -->' . "\n";
-	$output['content'] = [
-		'reference' =>  $reference,
-		'text' => $output['bible'],
-		'link' => $output['link']
-	];
-	//writeLogDebug('bibleGetPassageBiblegateway-110', $output);
-
-	return $output;
+	return $bible;
 }

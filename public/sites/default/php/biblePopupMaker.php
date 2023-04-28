@@ -37,6 +37,10 @@ function biblePopupMaker($p)
     $text = str_ireplace('"bible-text-error"', '"bible-link"', $text);
     $highest_existing = biblePopupFindExisting($text);
     $count = substr_count($text, '"bible-link"');
+    //TODO:  Remove this limit
+    if ($count > 5) {
+        $count = 5;
+    }
     $pos_end = 0;
     for ($i = 1; $i <= $count; $i++) {
         $pos_start = $pos_end;
@@ -51,7 +55,7 @@ function biblePopupMaker($p)
             $span_length = $pos_end - $pos_start + 7;
             $span = substr($text, $pos_start, $span_length); //<span class="bible-link">Matthew 5:14</span>
             $p['entry'] = html_entity_decode($reference);
-            $message = $p['entry'] . "  $reference ";
+
             $p['passage'] = $p['entry'];
             $id = $i + $highest_existing;
             $dbt = createBibleDbtArray($p);
@@ -63,7 +67,7 @@ function biblePopupMaker($p)
                 $dbt['version_ot'] = $ot;
                 $dbt['version_nt'] = $nt;
                 $bible = bibleGetPassage($dbt);
-                if (!isset($bible['text'])) {
+                if ($bible['text'] == null) {
                     writeLogAppend('ERROR-biblePopupMaker-63', $dbt);
                     $popup = str_replace('[reference]', $reference, $template_text_not_found);
                 } else {
