@@ -48,12 +48,8 @@ function modifyPage($text, $p, $data, $bookmark)
     //
     if (strpos($text, '"note-area"')  !== false) {
         $text =  modifyNoteArea($text, $bookmark, $p);
-
         $page = $p['country_code'] . '-' . $p['language_iso'] . '-' . $p['folder_name'] . '-' . $data['filename'] . '.html';
-        $text .= noteForm($page);
-        //add markers used by javascript
-
-
+        $text .= noteForm($page); // neededd for Javascript
     }
     if (strpos($text, '-step-area"')  !== false) {
         $text =  modifyNextSteps($text, $bookmark, $p);

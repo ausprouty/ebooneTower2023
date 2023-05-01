@@ -19,6 +19,7 @@ myRequireOnce('publishCSS.php');
 myRequireOnce('writeLog.php');
 myRequireOnce('myGetPrototypeFile.php');
 myRequireOnce('languageSpecificJavascripts.php');
+myRequireOnce('onLoadJS.php');
 
 // destination must be 'staging', 'website', 'pdf'  or 'sdcard'
 function publishFiles($p, $fname, $text, $standard_css, $selected_css)
@@ -35,13 +36,14 @@ function publishFiles($p, $fname, $text, $standard_css, $selected_css)
     }
     // start with header
     $output = myGetPrototypeFile('header.html');
-    // add onload only if files are here
+    // add onload only if notes  are here
     $onload_note_js = '';
     if (strpos($text, '<form') !== false) {
         $pos = strrpos($fname, '/') + 1;
         $filename = substr($fname, $pos);
         $note_index = $p['country_code'] . '-' . $p['language_iso'] . '-' . $p['folder_name'] . '-' . $filename;
-        $onload_note_js = ' onLoad= "showNotes(\'' . $note_index . '\')" ';
+        $onload_note_js = onLoadJS($note_index);
+
         $output .= '<!--- publishFiles added onLoad -->' . "\n";
     }
     if (strpos($text, '<div class="header') !== false) {
