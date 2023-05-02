@@ -13,7 +13,7 @@ Change
 
     */
 myRequireOnce('removeBiblePopups.php');
-myRequireOnce('create.php');
+myRequireOnce('create.php');66]\
 myRequireOnce('getLatestContent.php');
 
 function removeBiblePopupsAndBlocks($p)

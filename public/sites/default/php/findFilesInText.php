@@ -1,9 +1,8 @@
 <?php
 
-function findFilesinText($find_begin, $text, $p)
+function findFilesinText($find_begin, $text, $p, $files_in_page = [])
 {
     $destination = publishDestination($p);
-    $files_in_page = [];
     $debug = '';
     $find_end = '"';
     $intial_text = $text;
@@ -22,8 +21,8 @@ function findFilesinText($find_begin, $text, $p)
             if (file_exists($from)) {
                 // creating list of files to include in download for pwa
                 $bad = 'sites/' . SITE_CODE . '/content/';
-                $clean_filename = str_replace($bad, 'content/', $filename);
-                $files_in_page[] = '/' . $clean_filename;
+                $clean_filename = '/' .  str_replace($bad, 'content/', $filename);
+                $files_in_page[$clean_filename] = $clean_filename;
                 // I think I want to include html
                 if (!is_dir($from) && strpos($from, '.html') === false) {
                     if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor') {
