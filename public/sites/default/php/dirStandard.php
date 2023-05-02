@@ -14,6 +14,9 @@ function dirStandard($scope, $destination,  $p, $folders = null, $create = true)
 {
     $dir = '';
     switch ($destination) {
+        case 'content':
+            $dir = '/content/';
+            break;
         case 'edit':
             //define("ROOT_EDIT", '/home/globa544/edit.mc2.online/');
             $dir = ROOT_EDIT . '/sites/' . SITE_CODE . '/content/';

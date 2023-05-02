@@ -2,12 +2,14 @@
 myRequireOnce('create.php');
 myRequireOnce('dirMake.php');
 myRequireOnce('fileWrite.php');
+myRequireOnce('progressMerge.php');
+myRequireOnce('publicationCache.php');
 myRequireOnce('publishJsonSeriesIndex.php');
 myRequireOnce('publishFiles.php');
 myRequireOnce('publishSeries.php');
 myRequireOnce('publishPage.php');
 myRequireOnce('writeLog.php');
-myRequireOnce('publicationCache.php');
+
 
 
 function publishSeriesAndChapters($p)
@@ -61,7 +63,7 @@ function publishSeriesAndChapters($p)
                 $p['recnum'] = $data['recnum'];
                 // need to find latest record for recnum
                 $response =  publishPage($p);
-                $progress = progressMerge($progress, $response->progress, 'publishSeriesAndChapters-75');
+                $progress = progressMergeObjects($progress, $response->progress, 'publishSeriesAndChapters-75');
             } else {
                 $response->message = "Record not found for $sql";
                 $progress->progress = 'notdone';
@@ -91,29 +93,4 @@ function publishSeriesAndChaptersCombineArrays($files_in_pages, $new_files)
     }
     //writeLogAppend('publishSeriesAndChaptersCombineArrays-109', $files_in_pages);
     return $files_in_pages;
-}
-
-function publishSeriesAndChaptersMakeJsonIndex($files_json, $files_in_pages, $p)
-{
-    //
-    // Create files.json with list of files to download of offline use.
-    //list of html files is created in createSeries near line 125
-    // this routine gets rid of duplicates
-    $clean_files_in_pages = [];
-    foreach ($files_in_pages as $f) {
-        if ($f != '/') {
-            $clean_files_in_pages[$f] = $f;
-        }
-    }
-    foreach ($clean_files_in_pages as $json) {
-        $files_json .= '{"url":"' . $json . '"},' . "\n";
-    }
-    $files_json = substr($files_json, 0, -2) . "\n" . ']' . "\n";
-    // json file needs to be in sites/mc2/content/M2/eng/multiply1
-    //writeLogDebug('publishSeriesAndChapters-92', DESTINATION);
-    $json_series_dir = dirStandard('json_series', DESTINATION,  $p, $folders = null);
-    //writeLogDebug('publishSeriesAndChapters-94', $p);
-    $filename =  $json_series_dir . 'files.json';
-    //writeLogDebug('publishSeriesAndChapters-96', $filename);
-    fileWrite($filename, $files_json, $p);
 }
