@@ -2,6 +2,7 @@
 myRequireOnce('create.php');
 myRequireOnce('dirMake.php');
 myRequireOnce('fileWrite.php');
+myRequireOnce('publishJsonSeriesIndex.php');
 myRequireOnce('publishFiles.php');
 myRequireOnce('publishSeries.php');
 myRequireOnce('publishPage.php');
@@ -18,14 +19,6 @@ function publishSeriesAndChapters($p)
     }
     // first prototype the Series Index
     $out = publishSeries($p);
-    if (!isset($out['files_json'])) {
-        $message = 'No files_json returned from Publish Series';
-        writeLogError('publishSeriesAndChapters-17', $message);
-        writeLogError('publishSeriesAndChapters-18', $p);
-        // this will happen if you have a sublibrary
-    }
-    $files_json = $out['files_json']; // this starts file for download of series
-    //writeLogDebug('publishSeriesAndChapters-21', $files_json);
     $files_in_pages = [];
     // find the list of chapters that are ready to publish
     $series = contentArrayFromRecnum($p['recnum']);
@@ -33,23 +26,19 @@ function publishSeriesAndChapters($p)
     // restore cache from previous publication attempt
     $cache = getCache($p);
     //writeLogAppend('publishSeriesAndChapters-30', $cache);
-    $files_in_pages =  $cache['files_included'];
     $chapters = $text->chapters;
     writeLogDebug('publishSeriesAndChapters-33', $p);
     foreach ($chapters as $chapter) {
         // it is possible that the server has finished the previous task and has
         // deleted the cache.  You do not want to do everything over again.
         if (count($cache['sessions_published']) < 1 && $p['resume'] !== 'false') {
-            // writeLogAppend('publishSeriesAndChapters-39', $chapter->filename);
             continue;
         }
         // skip if in cache 
         if (in_array($chapter->filename, $cache['sessions_published'])) {
-            //writeLogAppend('publishSeriesAndChapters-45', $chapter->filename);
             continue;
         }
         $sql = NULL;
-        // writeLogAppend('publishSeriesAndChapters-49', $chapter->filename);
         if (DESTINATION == 'staging' && $chapter->prototype) {
             $sql = "SELECT recnum FROM  content
                 WHERE  country_code = '" . $series['country_code'] . "'
@@ -73,7 +62,6 @@ function publishSeriesAndChapters($p)
                 // need to find latest record for recnum
                 $response =  publishPage($p);
                 $progress = progressMerge($progress, $response->progress, 'publishSeriesAndChapters-75');
-                $files_in_pages = publishSeriesAndChaptersCombineArrays($files_in_pages,  $response->files_in_page);
             } else {
                 $response->message = "Record not found for $sql";
                 $progress->progress = 'notdone';
@@ -85,7 +73,7 @@ function publishSeriesAndChapters($p)
         $cache['files_included'] = $files_in_pages;
         updateCache($cache, DESTINATION);
     }
-    publishSeriesAndChaptersMakeJsonIndex($files_json, $files_in_pages, $p);
+    publishJsonSeriesIndex($p);
     clearCache($cache, DESTINATION);
     $progress->message = 'I finished publishSeriesAndChapters';
     $progress->progress = 'done';

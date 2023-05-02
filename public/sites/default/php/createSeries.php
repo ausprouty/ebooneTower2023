@@ -56,7 +56,6 @@ function createSeries($p, $data)
     $description = isset($text->description) ? $text->description : NULL;
     $ribbon = isset($bookmark['library']->format->back_button) ? $bookmark['library']->format->back_button->image : DEFAULT_BACK_RIBBON;
     $language_dir = '/content/' . $data['country_code'] . '/' . $data['language_iso'] . '/' . $data['folder_name'] . '/';
-    $p['files_json'] = '[{"url":"' .  $language_dir . 'files.json"},' . "\n"; // rest to be filled in with chapters
     // dealing with legacy data
     if (isset($bookmark['book']->image->image)) {
         $book_image = $bookmark['book']->image->image;
@@ -117,14 +116,6 @@ function createSeries($p, $data)
             }
             //_write_series_log($p, $chapter);
             if ($status  == true) { // we only want to process those with this as true
-                $filename = $language_dir . $chapter->filename . '.html';
-                /* we need to replace
-                /sites/sent67/content/U1/eng/hope/hope01.html
-                with
-                /content/U1/eng/hope/hope01.html
-                */
-                $filename = str_ireplace('/sites/' . SITE_CODE, '', $filename);
-                $p['files_json'] .= '{"url":"' . $filename . '"},' . "\n";
                 $image = null;
                 if (isset($chapter->image)) {
                     if ($chapter->image != '') {

@@ -5,9 +5,6 @@ myRequireOnce('dirStandard.php');
 myRequireOnce('publishFiles.php');
 myRequireOnce('publicationCache.php');
 
-
-
-// returns $p[files_json] for use by publishSeriesandChapters
 function publishSeries($p)
 {
     // when coming in with only book information the folder_name is not yet set
@@ -33,22 +30,18 @@ function publishSeries($p)
             AND prototype_date IS NOT NULL
             ORDER BY recnum DESC LIMIT 1";
     }
-    // $debug .= $sql. "\n";
     $data = sqlArray($sql);
     if (!$data) {
         $message = 'No data found for: ' . $sql;
         writeLogError('publishSeries-29', $message);
         return $p;
     }
-    //$debug .= $data['text'] . "\n";
     $text = json_decode($data['text']);
-
     if ($text) {
         // create Series
         writeLogDebug('publishSeries-48', 'I am going to createSeries');
         $result = createSeries($p, $data);
         writeLogDebug('publishSeries-50', 'I returned from  createSeries');
-        $p = $result['p']; // this gives us $p['files_json']
         if ($result['text']) {
             // find css
             if (isset($p['recnum'])) {
