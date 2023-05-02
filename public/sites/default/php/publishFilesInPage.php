@@ -4,7 +4,7 @@
 */
 
 //define("ROOT_EDIT", '/home/globa544/edit.mc2.online/');
-myRequireOnce('findFilesinText.php');
+myRequireOnce('findFilesInText.php');
 myRequireOnce('publishDestination.php');
 myRequireOnce('writeLog.php');
 myRequireOnce('version2Text.php');
@@ -22,14 +22,8 @@ function  publishFilesInPage($text, $p)
     }
     $text = version2Text($text);
     $find_begin = 'src="';
-    $result = findFilesinText($find_begin, $text, $p);
-    if (is_array($result)) {
-        $files_in_page = array_merge($files_in_page, $result);
-    }
+    $files_in_page = findFilesinText($find_begin, $text, $p, $files_in_page);
     $find_begin = 'href="';
-    $result = findFilesinText($find_begin, $text, $p);
-    if (is_array($result)) {
-        $files_in_page = array_merge($files_in_page, $result);
-    }
+    $files_in_page = findFilesinText($find_begin, $text, $p, $files_in_page);
     return  $files_in_page;
 }

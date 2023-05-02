@@ -42,19 +42,25 @@ function dirStandard($scope, $destination,  $p, $folders = null, $create = true)
         case 'library':
             $dir .= $p['country_code']  . '/' . $p['language_iso'] . '/' . $p['library_code'] . '/';
             break;
+        case 'json_series':
         case 'series':
             $dir .= $p['country_code']  . '/' . $p['language_iso'] . '/' . $p['folder_name'] . '/';
             break;
-        case 'json_series':
+        case 'xjson_series':
             $good = '/sites/' . SITE_CODE . '/content/' . $p['country_code']  . '/' . $p['language_iso'] . '/' . $p['folder_name'] . '/';
             $bad = '/content/';
             $dir = str_replace($bad, $good, $dir);
+            writeLogDebug('dirStandard-52', $dir);
             break;
         case 'default':
     }
-    $dir .= $folders;
+    if ($folders) {
+        $dir .= $folders;
+    }
     if ($create) {
-        $dir = dirMake($dir);
+        $dir2 = dirMake($dir);
+        writeLogAppend('dirStandard-60', "$dir  |  $dir2");
+        $dir = $dir2;
     }
     $debug = array(
         'dir' => $dir,
@@ -62,6 +68,6 @@ function dirStandard($scope, $destination,  $p, $folders = null, $create = true)
         'destination' => $destination,
         'folder' => $folders
     );
-    writeLogAppend('dirCreate-60', $debug);
+    writeLogAppend('dirStandard-70', $debug);
     return $dir;
 }

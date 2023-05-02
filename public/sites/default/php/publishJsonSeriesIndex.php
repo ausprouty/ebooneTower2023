@@ -46,47 +46,27 @@ function publishJsonSeriesIndex($p)
                 $chapter_name =  $series_dir_short .  $chapter->filename . '.html';
                 $files_in_pages[$chapter_name] = $chapter_name;
                 $file_name = $series_dir_full . $chapter->filename . '.html';
-                writeLogAppend('publishJsonSeriesIndex-49', $file_name);
                 $text = file_get_contents($file_name);
                 $find_begin = 'src="';
-                $files_in_pages = findFilesinText($find_begin, $text, $p, $files_in_pages);
+                $files_in_pages = findFilesInText($find_begin, $text, $p, $files_in_pages);
                 $find_begin = 'href="';
-                $files_in_pages = findFilesinText($find_begin, $text, $p, $files_in_pages);
+                $files_in_pages = findFilesInText($find_begin, $text, $p, $files_in_pages);
             }
         }
     }
-    writeLogDebug('publishJsonSeriesIndex-54', $files_in_pages);
     $json_text = '[';
     foreach ($files_in_pages as $page) {
-        $page = str_replace('//', '/', $page);
-        $json_text .= '{"url":"/' . $page . '"},' . "\n";
+        if (strpos($page, '/')  != 0) {
+            $page = '/' . $page;
+        }
+        if ($page != "") {
+            $json_text .= '{"url":"' . $page . '"},' . "\n";
+        }
     }
     $json_text = substr($json_text, 0, -2);
     $json_text .= ']';
-    writeLogDebug('publishJsonSeriesIndex-60', $json_text);
-}
-
-function publishSeriesAndChaptersMakeJsonIndex($files_json, $files_in_pages, $p)
-{
-    //
-    // Create files.json with list of files to download of offline use.
-    //list of html files is created in createSeries near line 125
-    // this routine gets rid of duplicates
-    $clean_files_in_pages = [];
-    foreach ($files_in_pages as $f) {
-        if ($f != '/') {
-            $clean_files_in_pages[$f] = $f;
-        }
-    }
-    foreach ($clean_files_in_pages as $json) {
-        $files_json .= '{"url":"' . $json . '"},' . "\n";
-    }
-    $files_json = substr($files_json, 0, -2) . "\n" . ']' . "\n";
-    // json file needs to be in sites/mc2/content/M2/eng/multiply1
-    //writeLogDebug('publishSeriesAndChapters-92', DESTINATION);
+    writeLogDebug('publishJsonSeriesIndex-68', $json_text);
     $json_series_dir = dirStandard('json_series', DESTINATION,  $p, $folders = null);
-    //writeLogDebug('publishSeriesAndChapters-94', $p);
     $filename =  $json_series_dir . 'files.json';
-    //writeLogDebug('publishSeriesAndChapters-96', $filename);
-    fileWrite($filename, $files_json, $p);
+    fileWrite($filename, $json_text, $p);
 }

@@ -4,6 +4,10 @@ myRequireOnce('writeLog.php');
 function dirMake($filename)
 {
 	$filename = rtrim($filename);
+	if (strlen($filename) < 2) {
+		writeLogAppend('ERROR-dirMake-8', $filename);
+		return;
+	}
 	if (strpos($filename, '//') !== FALSE) {
 		$filename = str_ireplace('//', '/', $filename);
 	}
