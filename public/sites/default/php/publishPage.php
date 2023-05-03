@@ -51,7 +51,7 @@ function publishPage($p)
     //
     $text = modifyPage($text, $p, $data, $bookmark);
     $text .= '<!--- Created by publishPage-->' . "\n";
-    writeLogDebug('publishPage-ZOOM-54', $text);
+    //writeLogDebug('publishPage-ZOOM-54', $text);
 
     // write file
     $root_folder = array(
@@ -69,7 +69,7 @@ function publishPage($p)
     $fname = $series_dir . $data['filename'] . '.html';
 
 
-    writeLogDebug('publishPage-ZOOM-79', $text);
+    //writeLogDebug('publishPage-ZOOM-79', $text);
     // go to publishFiles
     // writeLogAppend('publishPage-81', DESTINATION . '    '. $fname);
     publishFiles($p, $fname, $text,  STANDARD_CSS, $selected_css);

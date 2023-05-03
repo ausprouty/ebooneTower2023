@@ -31,6 +31,7 @@
 
     <hr /></div>';
 */
+myRequireOnce('videoFollows.php');
 myRequireOnce('videoOfflineNewName.php');
 myRequireOnce('videoReference.php');
 myRequireOnce('modifyRevealVideoRoutines.php');

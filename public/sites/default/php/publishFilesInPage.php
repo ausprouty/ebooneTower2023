@@ -12,7 +12,7 @@ myRequireOnce('version2Text.php');
 
 function  publishFilesInPage($text, $p)
 {
-    writeLog('Progress-publishFilesInPage-17', 'I came into this routine in Default');
+    writeLog('publishFilesInPage-17', 'I came into this routine in Default');
     $files_in_page = [];
     // we do not copy files for nojs since they are copied by sdcard
     if (isset($p['destination'])) {
@@ -22,8 +22,8 @@ function  publishFilesInPage($text, $p)
     }
     $text = version2Text($text);
     $find_begin = 'src="';
-    $files_in_page = findFilesinText($find_begin, $text, $p, $files_in_page);
+    $files_in_page = findFilesInText($find_begin, $text, $p, $files_in_page);
     $find_begin = 'href="';
-    $files_in_page = findFilesinText($find_begin, $text, $p, $files_in_page);
+    $files_in_page = findFilesInText($find_begin, $text, $p, $files_in_page);
     return  $files_in_page;
 }

@@ -46,6 +46,9 @@ function dirStandard($scope, $destination,  $p, $folders = null, $create = true)
         case 'series':
             $dir .= $p['country_code']  . '/' . $p['language_iso'] . '/' . $p['folder_name'] . '/';
             break;
+        case 'page':
+            $dir .= $p['country_code']  . '/' . $p['language_iso'] . '/pages/';
+            break;
         case 'xjson_series':
             $good = '/sites/' . SITE_CODE . '/content/' . $p['country_code']  . '/' . $p['language_iso'] . '/' . $p['folder_name'] . '/';
             $bad = '/content/';
