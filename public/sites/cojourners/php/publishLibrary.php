@@ -31,7 +31,7 @@ function publishLibrary($p)
         $selected_css = '/sites/default/styles/cardGLOBAL.css';
     }
     $res = createLibrary($p, $text);
-    writeLogDebug('publishLibrary-default-33', $res);
+    writeLogDebug('publishLibrary-cojourners-33', $res);
     $body = $res->body;
     $p['books'] = $res->books;
     $p['progress'] = $res->progress;
@@ -53,7 +53,7 @@ function publishLibrary($p)
         $filetype = '.vue';
     }
     $fname = $dir . $filename . $filetype;
-    //writeLogDebug('publishLibrary-default-55', $fname);
+    //writeLogDebug('publishLibrary-cojourners-55', $fname);
     $body = publishLibraryAdjustText($body);
     $body .= '<!--- Created by publishLibrary-->' . "\n";
     publishFiles($p, $fname, $body, STANDARD_CARD_CSS, $selected_css);

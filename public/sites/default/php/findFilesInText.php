@@ -1,6 +1,6 @@
 <?php
 
-
+myRequireOnce('dirStandard.php');
 
 function findFilesInText($find_begin, $text, $p, $files_in_page = [])
 {
@@ -17,6 +17,12 @@ function findFilesInText($find_begin, $text, $p, $files_in_page = [])
             $pos_end = strpos($text, $find_end) - 1;
             $filename = substr($text, 1, $pos_end);
             // filename = /sites/mc2/images/standard/look-back.png
+            //               or
+            //          resource.html
+            if (strpos($filename, '/' != 0)) {
+                $dir = dirStandard('content', DESTINATION,  $p, $folders = null, $create = false);
+                $filename = $dir . $filename;
+            }
             $from = ROOT_EDIT . $filename;
             $from = str_replace('//', '/', $from);
             $debug .= "from is $from\n";

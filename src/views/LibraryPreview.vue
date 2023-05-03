@@ -171,11 +171,6 @@ export default {
         response = await PublishService.publish('library', params)
         this.publish_text = 'Finished Publishing'
       }
-      if (location == 'sdcard') {
-        this.sdcard_text = 'Publishing SDCard'
-        response = await SDCardService.publish('library', params)
-        this.sdcard_text = 'Finished Publishing'
-      }
       if (!response['error']) {
         //  this.UnsetBookmarks()
         this.recnum = null
