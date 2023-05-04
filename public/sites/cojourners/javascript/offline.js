@@ -37,47 +37,38 @@ window.addEventListener('appinstalled', (event) => {
   window.deferredPrompt = null
 })
 
-document.addEventListener('DOMContentLoaded', offlineRequestCheck)
+document.addEventListener('DOMContentLoaded', offlineReadyCheck)
 document.addEventListener('DOMContentLoaded', homescreenCheck)
 
-function offlineRequestCheck() {
-  var series = document.getElementById('offline-request')
-  //console.log(series)
-  if (series !== null) {
-    offlineSeriesCheck(series.dataset.json)
-  }
-}
-function offlineSeriesCheck(series) {
-  //console.log(series + ' series is being checked')
+function offlineReadyCheck() {
+  console.log('in offlneReadyCheck')
   // set ios prompt if needed
   //https://www.netguru.co/codestories/few-tips-that-will-make-your-pwa-on-ios-feel-like-native
-
   if (navigator.onLine) {
-    //console.log('I am ONline')
+    var link = ''
+    console.log('I am ONline')
     var swWorking = localStorage.getItem('swWorking')
     if ('serviceWorker' in navigator && swWorking == 'TRUE') {
-      //console.log('I have a service worker')
-      inLocalStorage('offline', series).then(function (result) {
-        //console.log(result + ' is value')
-        var link = ''
-        if (result == '') {
-          //console.log(series + ' not offline')
-          link = document.getElementById('offline-request')
-          link.style.visibility = 'visible'
-        } else {
-          link = document.getElementById('offline-ready')
-          link.style.visibility = 'visible'
-        }
-      })
+      var offlineReady = localStorage.getItem('offline')
+      console.log(offlineReady)
+      if (!offlineReady) {
+        console.log('app can not be offline')
+        link = document.getElementById('offline-request')
+        link.style.visibility = 'visible'
+      } else {
+        console.log('app CAN be offline')
+        link = document.getElementById('offline-ready')
+        link.style.visibility = 'visible'
+      }
     } else {
-      //console.log('I do NOT have a service worker')
-      var link = document.getElementById('offline-request')
+      console.log('I do NOT have a service worker')
+      link = document.getElementById('offline-request')
       link.style.display = 'none'
       //var link = document.getElementById('offline-already');
       //link.style.display = 'none';
     }
   } else {
-    //console.log('I am offline')
+    console.log('I am offline')
     offlineItemsHide()
   }
 }
@@ -197,6 +188,7 @@ if (el) {
     .addEventListener('click', function (event) {
       event.preventDefault()
       //console.log('button pressed')
+      el.style.background = '#FF9700'
       var id = this.dataset.json
       var ajaxPromise = fetch(id)
         .then(function (response) {
@@ -213,35 +205,15 @@ if (el) {
           })
         })
         .then(function () {
-          // store that series is available for offline use
-          //console.log(id + ' Series ready for offline use')
-          var offline = []
-          var already
-          if (
-            typeof localStorage.offline != 'undefined' &&
-            localStorage.offline
-          ) {
-            offline = JSON.parse(localStorage.offline) //get existing values
-          }
-          offline.forEach(function (array_value) {
-            if (array_value == id) {
-              //console.log('stored locally')
-              already = 'Y'
-            }
-          })
-          //console.log(already + ' is already')
-          if (already != 'Y') {
-            offline.push(id)
-            //console.log(offline)
-          }
-          localStorage.setItem('offline', JSON.stringify(offline)) //put the object back
+          console.log('store that content is available for offline use')
+          let today = Date.now()
+          localStorage.setItem('offline', today)
           var ready = document.getElementById('offline-ready').innerHTML
-          document.getElementById('offline-request').innerHTML = ready
-          document.getElementById('offline-request').style.background =
-            '#00693E'
+          el.innerHTML = ready
+          el.style.background = '#717073'
         })
         .catch(function (err) {
-          //console.log(err)
+          console.log(err)
         })
     })
 }
