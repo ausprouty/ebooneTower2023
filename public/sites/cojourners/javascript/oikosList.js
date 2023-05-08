@@ -1,28 +1,41 @@
-let fields = ['id', 'name', 'non', 'believer', 'follower', 'leader']
+let fields = ['remove', 'id', 'name', 'non', 'believer', 'follower', 'leader']
 let db = new Localbase('db')
+let goal = 20 // number of lines
 
 async function showOikosList() {
   console.log('showing Oikos List')
-
+  var count = 0
   await db
     .collection('oikosData')
-    // .orderBy('name')
+    .orderBy('name')
     .get()
     .then((result) => {
-      console.log(result)
-      var count = 0
       var table = document.getElementById('oikos-table')
       for (var i = 0; i < result.length; i++) {
         let row = table.insertRow()
-        for (key in fields) {
+        for (var j = 0; j < fields.length; j++) {
+          var key = fields[j]
           let cell = row.insertCell()
+          if (key == 'delete') {
+            let checkbox = document.createElement('input')
+            checkbox.type = 'checkbox'
+            checkbox.name = key
+            checkbox.className = 'checkbox'
+            checkbox.value = 1
+            var checkboxId = 'remove' + i
+            checkbox.id = checkboxId
+            cell.appendChild(checkbox)
+            if (result[i][key] == 1) {
+              document.getElementById(checkboxId).checked = true
+            }
+          }
           if (key == 'id') {
             let text = document.createElement('input')
             text.type = 'hidden'
             text.name = 'id'
             text.value = result[i].id
             text.className = 'flex'
-            var inputId = result[i].id + '-' + key
+            var inputId = 'id' + i
             text.id = inputId
             cell.appendChild(text)
           } else if (key == 'name') {
@@ -31,7 +44,7 @@ async function showOikosList() {
             text.name = 'name'
             text.className = 'flex'
             text.value = result[i].name
-            var inputId = result[i].id + '-' + key
+            var inputId = 'name' + i
             text.id = inputId
             cell.appendChild(text)
           } else {
@@ -40,25 +53,22 @@ async function showOikosList() {
             checkbox.name = key
             checkbox.className = 'checkbox'
             checkbox.value = 1
-            var checkboxId = result[i].id + '-' + key
+            var checkboxId = fields[j] + i
             checkbox.id = checkboxId
             cell.appendChild(checkbox)
-            if (element[key] == 1) {
+            if (result[i][key] == 1) {
               document.getElementById(checkboxId).checked = true
             }
           }
-        
-        console.log(result[i].name)
+        }
         count++
       }
+      console.log(count)
+      if (count < goal) {
+        appendTable(count, goal)
+      }
+      document.addEventListener('change', saveOikos)
     })
-  }
-
-  console.log(count)
-  if (count < 20) {
-    appendTable(count, 20)
-  }
-  document.addEventListener('change', saveOikos)
 }
 
 function appendTable(count, goal) {
@@ -70,10 +80,10 @@ function appendTable(count, goal) {
       if (fields[j] == 'id') {
         let text = document.createElement('input')
         text.type = 'hidden'
-        text.name = 'id'
+        text.name = 'row' + i
         text.value = i
         text.className = 'flex'
-        var inputId = i + '-' + fields[j]
+        var inputId = 'id' + i
         text.id = inputId
         cell.appendChild(text)
       } else if (fields[j] == 'name') {
@@ -82,7 +92,7 @@ function appendTable(count, goal) {
         text.name = 'name'
         text.value = ''
         text.className = 'flex'
-        var inputId = i + '-' + fields[j]
+        var inputId = 'name' + i
         text.id = inputId
         cell.appendChild(text)
       } else {
@@ -91,7 +101,7 @@ function appendTable(count, goal) {
         checkbox.name = fields[j]
         checkbox.value = 1
         checkbox.className = 'checkbox'
-        var checkboxId = i + '-' + fields[j]
+        var checkboxId = fields[j] + i
         checkbox.id = checkboxId
         cell.appendChild(checkbox)
       }
@@ -99,53 +109,80 @@ function appendTable(count, goal) {
   }
 }
 
-function saveOikos() {
-  var table = document.getElementById('oikos-table')
-  let checked = new Array()
-  var rows = table.rows.length - 1
-  for (var i = 0; i < rows; i++) {
-    var id = document.getElementById(i + '-id').value
-    if (document.getElementById(i + '-name').value) {
+async function saveOikos() {
+  var checked = []
+  const table = document.getElementById('oikos-table') // Get the table element by its ID
+  const rows = table.getElementsByTagName('tr') // Get all the rows in the table
+  console.log(rows.length)
+  var dataRows = rows.length - 1
+  for (let i = 0; i < dataRows; i++) {
+    var removePerson = document.getElementById('remove' + i).checked
+    var id = document.getElementById('id' + i).value
+    var name = document.getElementById('name' + i).value
+    if (name) {
       for (var j = 1; j < 5; j++) {
         checked[j] = 0
       }
-      if (document.getElementById(i + '-non').checked) {
+      if (document.getElementById('non' + i).checked) {
         checked[1] = 1
       }
-      if (document.getElementById(i + '-believer').checked) {
+      if (document.getElementById('believer' + i).checked) {
         checked[2] = 1
       }
-      if (document.getElementById(i + '-follower').checked) {
+      if (document.getElementById('follower' + i).checked) {
         checked[3] = 1
       }
-      if (document.getElementById(i + '-leader').checked) {
+      if (document.getElementById('leader' + i).checked) {
         checked[4] = 1
       }
-      var person = {
-        id: id,
-        name: document.getElementById(i + '-name').value,
-        non: checked[1],
-        believer: checked[2],
-        follower: checked[3],
-        leader: checked[4],
-      }
-      console.log(person)
-
-      db.collection('users').doc('mykey-1').set({
-        id: 1,
-        name: 'Bill',
-        age: 47,
-      })
-      db.collection('oikosData')
-        .doc(id)
-        .set({
+      if (!removePerson) {
+        await db.collection('oikosData').doc(id).set({
           id: id,
-          name: document.getElementById(i + '-name').value,
+          name: name,
           non: checked[1],
           believer: checked[2],
           follower: checked[3],
           leader: checked[4],
         })
+      }
+      if (removePerson) {
+        await db.collection('oikosData').doc({ id: id }).delete()
+        refreshScreen()
+      }
     }
   }
+}
+
+async function refreshScreen() {
+  await db
+    .collection('oikosData')
+    .orderBy('name')
+    .get()
+    .then((result) => {
+      var maxId = 0
+      for (var i = 0; i < result.length; i++) {
+        if (result[i].id > maxId) {
+          maxId = result[i].id
+        }
+        document.getElementById('remove' + i).checked = 0
+        document.getElementById('id' + i).value = result[i].id
+        document.getElementById('name' + i).value = result[i].name
+        document.getElementById('non' + i).checked = result[i].non
+        document.getElementById('believer' + i).checked = result[i].believer
+        document.getElementById('follower' + i).checked = result[i].follower
+        document.getElementById('leader' + i).checked = result[i].leader
+      }
+      i++
+      maxId++
+      for (i = result.length; i < goal; i++) {
+        document.getElementById('remove' + i).checked = 0
+        var newId = maxId + i
+        document.getElementById('id' + i).value = newId
+        document.getElementById('name' + i).value = ''
+        document.getElementById('non' + i).checked = 0
+        document.getElementById('believer' + i).checked = 0
+        document.getElementById('follower' + i).checked = 0
+        document.getElementById('leader' + i).checked = 0
+      }
+    })
 }

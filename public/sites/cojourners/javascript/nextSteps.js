@@ -214,12 +214,13 @@ async function getNextStepNextId() {
   return nextId
 }
 
-function shareStep(id) {
-  //console.log('share Step ' + id)
-  var action = document.getElementById('next-step-text' + id)
+async function shareStep(id) {
+  // you can NOT pass the email of the person through here.
+  var action = document.getElementById('next-step-text' + id).innerHTML
+  console.log(action)
   var complete = document.getElementById('next-step-complete' + id)
   let myTitle = 'My Next Step'
-  let myText = 'My next step is: ' + action
+  let myText = 'My next step Is: ' + action
   if (complete == true) {
     myText = 'I have completed by next step: ' + action
   }

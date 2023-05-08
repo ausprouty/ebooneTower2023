@@ -6,6 +6,6 @@ function createPageNavlink($p)
     if ($p['library_code'] != 'library') {
         $index = $p['library_code'] . '.html';
     }
-    $navlink = '../' . $index;
+    $navlink = $index;
     return $navlink;
 }

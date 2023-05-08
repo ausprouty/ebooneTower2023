@@ -1,0 +1,15 @@
+function getFirstCellValues(tableId) {
+  const table = document.getElementById(tableId); // Get the table element by its ID
+  const rows = table.getElementsByTagName('tr'); // Get all the rows in the table
+  
+  const firstCellValues = []; // Initialize an array to store the first cell values
+  
+  // Loop through each row and get the value of the first cell
+  for (let i = 0; i < rows.length; i++) {
+    const firstCell = rows[i].getElementsByTagName('td')[0]; // Get the first cell in the row
+    const firstCellValue = firstCell.innerHTML.trim(); // Get the value of the first cell and remove any leading/trailing whitespace
+    firstCellValues.push(firstCellValue); // Add the value to the array
+  }
+  
+  return firstCellValues; // Return the array of first cell values
+}
