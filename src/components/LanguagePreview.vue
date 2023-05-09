@@ -4,7 +4,7 @@
       class="app-card -shadow"
       v-bind:class="{
         notpublished: !language.publish,
-        custom: language.custom
+        custom: language.custom,
       }"
     >
       <div class="language">

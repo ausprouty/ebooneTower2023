@@ -13,20 +13,20 @@
 import { mapState } from 'vuex'
 export default {
   props: {
-    language: Object
+    language: Object,
   },
   computed: mapState([]),
   methods: {
-    showPage: function(language) {
+    showPage: function (language) {
       localStorage.setItem('lastPage', 'languages')
       this.$router.push({
         name: language.library,
         params: {
           country_code: language.country_code,
-          language_iso: language.language_iso
-        }
+          language_iso: language.language_iso,
+        },
       })
-    }
-  }
+    },
+  },
 }
 </script>

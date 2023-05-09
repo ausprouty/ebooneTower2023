@@ -110,7 +110,6 @@
         </label>
         <hr />
 
-
         <h2>Common Terms</h2>
         <BaseInput
           v-model="language.download.$model"

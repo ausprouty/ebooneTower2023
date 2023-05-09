@@ -3,8 +3,8 @@
     <div class="user">
       <router-link :to="'/user/' + user.uid">
         {{ user.firstname }} {{ user.lastname }}
-      </router-link> ----
-      {{ this.scope_countries }} ({{ user.scope_languages }})
+      </router-link>
+      ---- {{ this.scope_countries }} ({{ user.scope_languages }})
     </div>
   </div>
 </template>

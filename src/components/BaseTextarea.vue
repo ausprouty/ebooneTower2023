@@ -16,22 +16,22 @@ export default {
   props: {
     label: {
       type: String,
-      default: ''
+      default: '',
     },
-    value: [String, Number]
+    value: [String, Number],
   },
   computed: {
     listeners() {
       return {
         ...this.$listeners,
-        input: this.updateValue
+        input: this.updateValue,
       }
-    }
+    },
   },
   methods: {
     updateValue(event) {
       this.$emit('input', event.target.value)
-    }
-  }
+    },
+  },
 }
 </script>

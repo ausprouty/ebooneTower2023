@@ -132,7 +132,10 @@ export default {
     if (this.administrator) {
       this.menu[4].show = true
       this.menu[5].show = true
-      if (process.env.VUE_APP_MAKE_SDCARD == 'TRUE' &&  this.$route.params.country_code) {
+      if (
+        process.env.VUE_APP_MAKE_SDCARD == 'TRUE' &&
+        this.$route.params.country_code
+      ) {
         this.menu[6].show = true
         this.menu[7].show = true
         this.menu[8].show = true
@@ -211,7 +214,7 @@ export default {
             },
           })
           break
-          case 'capacitorMaker':
+        case 'capacitorMaker':
           this.$router.push({
             name: 'capacitorMaker',
             params: {

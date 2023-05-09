@@ -107,7 +107,7 @@ import { authorizeMixin } from '@/mixins/AuthorizeMixin.js'
 
 export default {
   props: {},
-  mixins: [ authorizeMixin],
+  mixins: [authorizeMixin],
   components: {
     'v-select': vSelect,
   },

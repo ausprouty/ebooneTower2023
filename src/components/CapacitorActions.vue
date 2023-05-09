@@ -10,8 +10,8 @@
           {{ content_text }}
         </button>
       </div>
-      <div class="column" v-if ="this.content_published">
-        <button 
+      <div class="column" v-if="this.content_published">
+        <button
           class="button"
           v-bind:class="progress.medialist.progress"
           @click="localPublish('medialist')"
@@ -19,8 +19,8 @@
           {{ medialist_text }}
         </button>
       </div>
-      <div class="column" v-if ="!this.content_published"></div>
-      <div class="column" v-if ="this.content_published">
+      <div class="column" v-if="!this.content_published"></div>
+      <div class="column" v-if="this.content_published">
         <button
           class="button"
           v-bind:class="progress.media_batfile.progress"
@@ -29,7 +29,7 @@
           {{ media_batfile_text }}
         </button>
       </div>
-      <div class="column" v-if ="!this.content_published"></div>
+      <div class="column" v-if="!this.content_published"></div>
       <div class="column">
         <button
           class="button"
@@ -39,14 +39,14 @@
           {{ router_text }}
         </button>
       </div>
+    </div>
+    <div class="row">
+      <span v-html="timeout_message"></span>
+      <span v-html="progress.content.message"></span>
+      <span v-html="progress.medialist.message"></span>
+      <span v-html="progress.media_batfile.message"></span>
+    </div>
   </div>
-  <div class="row">
-    <span  v-html="timeout_message"></span>
-    <span  v-html="progress.content.message"></span>
-   <span  v-html="progress.medialist.message"></span>
-   <span  v-html="progress.media_batfile.message"></span>
-  </div>
-</div>
 </template>
 
 <script>
@@ -120,9 +120,9 @@ export default {
         this.progress.content.progress = 'checking'
         response = await CapacitorService.createBookContent(params)
         console.log(response)
-        if (typeof response == 'string'){
+        if (typeof response == 'string') {
           this.progress.content.progress = 'error'
-        } else{
+        } else {
           this.progress.content = response
         }
         this.checkContentPublished()
@@ -149,16 +149,16 @@ export default {
         await CapacitorService.publish('videoMakeBatFileForCapacitor', params)
         response = await CapacitorService.createBookMediaList(params)
         this.progress.medialist = response
-        if (this.progress.medialist.progress == 'done'){
+        if (this.progress.medialist.progress == 'done') {
           this.medialist_text = 'Media All Present'
         }
-        if (this.progress.medialist.progress == 'error'){
+        if (this.progress.medialist.progress == 'error') {
           this.medialist_text = 'Missing Media'
         }
       }
       if (response == 'error') {
         this.timout_message = 'You may have timed out. Please reload this page.'
-        console.log (response)
+        console.log(response)
         this.error_count++
         if (this.error_count == 1) {
           this.checkStatus()
@@ -172,7 +172,6 @@ export default {
       var response = await CapacitorService.checkStatusBook(params)
       this.progress = response
       this.checkContentPublished()
-
     },
   },
   async created() {

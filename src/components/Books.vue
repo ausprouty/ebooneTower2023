@@ -7,7 +7,9 @@
       </button>
       <button class="button" @click="publishAll">Select ALL to publish</button>
 
-      <button class="button" @click="prototypeNone">Do NOT prototype ANY</button>
+      <button class="button" @click="prototypeNone">
+        Do NOT prototype ANY
+      </button>
       <button class="button" @click="publishNone">Do NOT publish ANY</button>
     </div>
     <div v-for="(book, id) in $v.books.$each.$iter" :key="id" :book="book">
@@ -248,5 +250,4 @@
     </div>
   </div>
 </template>
-<script>
-</script>
+<script></script>

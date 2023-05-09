@@ -204,6 +204,6 @@ div.parent {
 .done {
   background-color: green;
   padding: 10px;
-   color: white;
+  color: white;
 }
 </style>

@@ -25,7 +25,7 @@ export default {
       //console.log(params)
       this.library_text = 'Publishing Library'
       this.progress = await CapacitorService.publish('libraries', params)
-      console.log (this.progress)
+      console.log(this.progress)
       this.library_text = 'Published Library'
     },
   },

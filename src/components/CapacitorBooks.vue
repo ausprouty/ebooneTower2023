@@ -32,7 +32,7 @@ export default {
   },
   methods: {},
   async created() {
-    console.log (this.language)
+    console.log(this.language)
     this.books = []
     var params = {}
     params.language = this.language

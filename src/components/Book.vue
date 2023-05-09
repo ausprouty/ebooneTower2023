@@ -59,7 +59,6 @@ export default {
           },
         })
       } else if (book.format == 'page') {
-
         LogService.consoleLogMessage('BOOK - this is a NOT a series')
         this.$router.push({
           name: 'page',
@@ -72,7 +71,6 @@ export default {
           },
         })
       } else if (book.format == 'library') {
-
         LogService.consoleLogMessage('BOOK - this is a LIBRARY')
         this.$router.push({
           name: 'previewLibrary2',
