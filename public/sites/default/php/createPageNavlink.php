@@ -2,10 +2,13 @@
 
 function createPageNavlink($p)
 {
-    $index = 'index.html';
+    $navlink = 'index.html';
     if ($p['library_code'] != 'library') {
-        $index = $p['library_code'] . '.html';
+        $navlink = $p['library_code'] . '.html';
     }
-    $navlink = $index;
+    if ($p['library_code'] == 'library' && $p['folder_name'] == 'pages') {
+        $navlink  = '../index.html';
+    }
+    writeLogDebug('createPageNavlink-10', $p);
     return $navlink;
 }

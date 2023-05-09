@@ -85,7 +85,7 @@ async function shareTestimony(version) {
   var subject = 'Here is my story'
   var testimonies = 'U1-eng-pages-testimony.html'
   console.log('I am looking for ' + testimonies)
-  var notes = await getNotes(testimonies)
+  var notes = await notesGet(testimonies)
   console.log(notes)
   if (notes) {
     var length = notes.length

@@ -165,12 +165,12 @@ function notesShowLocalStorage(page) {
   return
 }
 async function notesVersionTransition(noteVersion) {
-  // localStorage.setItem('notesVersion', noteVersion)
+  localStorage.setItem('notesVersion', noteVersion)
   var oldTestimonyPage = 'U1-eng-resource-resource03.html'
   var newTestimonyPage = 'U1-eng-pages-testimony.html'
   var notes = await notesGet(oldTestimonyPage)
   console.log(notes)
-  if (notes) {
+  if (notes.length > 2) {
     var jsonNotes = JSON.stringify(notes)
     var dataSource = await notesSelectDataSource()
     if (dataSource == 'database') {
