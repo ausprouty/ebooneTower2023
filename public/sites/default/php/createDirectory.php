@@ -10,8 +10,7 @@ function createDirectory($dir)
     //writeLogAppend('createDirectory-all', "\n\n$dir");
     // we can not handle relative 
     if (strpos($dir, './') !== FALSE) {
-        writeLogAppend('createDirectory-all', "ERROR line 13 - $dir");
-        writeLogAppend('ERROR-createDirectory', $dir);
+        writeLogAppend('ERROR-createDirectory-default-13', $dir);
         return;
     }
     $out = null;

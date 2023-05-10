@@ -14,8 +14,8 @@ function findFilesInText($find_begin, $text, $p, $files_in_page = [])
             $count++;
             $pos_begin = strpos($text, $find_begin);
             $text = substr($text, $pos_begin + strlen($find_begin));
-            $pos_end = strpos($text, $find_end) - 1;
-            $filename = substr($text, 1, $pos_end);
+            $pos_end = strpos($text, $find_end);
+            $filename = substr($text, 0, $pos_end);
             // filename = /sites/mc2/images/standard/look-back.png
             //               or
             //          resource.html
@@ -40,17 +40,28 @@ function findFilesInText($find_begin, $text, $p, $files_in_page = [])
                         //writeLogAppend('publishFilesInPageFind-65', $message);
                     }
                 }
-            } else {
-                if (strpos($filename, 'void(0)') == false && strpos($filename, '://') == false) {
-                    if (strpos($filename, 'script:popUp') == false) { // no need to copy from popups
-                        $find = 'localVideoOptions.js';
-                        if (strpos($filename, $find)  == false) {
-                            if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor') {
-                                publishFilesInSDCardPage($filename, $p, $destination);
-                            } else {
-                                $message = "$from not found";
-                                //writeLogAppend('ERRORS-PublishFilesInPage-72', $message);
-                            }
+            } elseif (strpos($from, '#') === false) {
+                /* "/home2/citylead/public_html/cojourners-edit/favicon-16x16.png not found"
+                    /home2/citylead/public_html/cojourners-edit/sites/cojourners/root/favicon-16x16.png may be found
+
+                */
+                $dir = dirStandard('root', DESTINATION,  $p, $folders = null, $create = false);
+                $from = $dir . $filename;
+                $from = str_replace('//', '/', $from);
+                if (file_exists($from)) {
+                    if ($p['destination'] == 'sdcard' || $p['destination'] == 'capacitor') {
+                        if (strpos($filename, 'localVideoOptions.js')  == false) { // no video options in capacitor
+                            publishFilesInSDCardPage($filename, $p, $destination);
+                        }
+                    } else {
+                        $files_in_page[$filename] = $filename;
+                    }
+                } else {
+                    if (strpos($filename, 'void(0)') == false && strpos($filename, '://') == false) {
+                        if (strpos($filename, 'script:popUp') == false) { // no need to copy from popups
+                            $source = $p['filename'];
+                            $message = "$filename found in  $source";
+                            writeLogAppend('ERRORS-findFilesInText-68', $message);
                         }
                     }
                 }

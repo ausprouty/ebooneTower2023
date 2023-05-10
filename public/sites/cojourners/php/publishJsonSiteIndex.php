@@ -7,7 +7,7 @@ myRequireOnce('publishJsonSiteIndex.php');
 
 function publishJsonSiteIndex($p)
 {
-    writeLogDebug('publishJsonSeriesIndex-cojourners-9', 'entered');
+    writeLogDebug('publishJsonSeriesIndex-cojourners-9', DESTINATION);
     $files_in_pages = [];
     $library = publishJsonSiteIndexGetLibrary($p);
     foreach ($library->books as $book) {
@@ -27,12 +27,18 @@ function publishJsonSiteIndex($p)
                     $status = $chapter->publish;
                 }
                 if ($status  == true) {
+                    $p['filename'] = $chapter->filename;
                     $chapter_name =  $series_dir_short .  $chapter->filename . '.html';
                     $files_in_pages[$chapter_name] = $chapter_name;
                     $file_name = $series_dir_full . $chapter->filename . '.html';
                     $text = file_get_contents($file_name);
                     $find_begin = 'src="';
                     $files_in_pages = findFilesInText($find_begin, $text, $p, $files_in_pages);
+                    if ($chapter->filename == 'resource07') {
+                        writeLogDebug('publishJsonSiteIndex-36', $file_name);
+                        writeLogDebug('publishJsonSiteIndex-37', $text);
+                        writeLogDebug('publishJsonSiteIndex-38', $files_in_pages);
+                    }
                     $find_begin = 'href="';
                     $files_in_pages = findFilesInText($find_begin, $text, $p, $files_in_pages);
                 }
@@ -47,10 +53,11 @@ function publishJsonSiteIndex($p)
                 $status = $book->publish;
             }
             if ($status  == true) {
+                $p['filename'] = $book->code;
                 $page_dir_full =  dirStandard('page', DESTINATION,  $p, $folders = null, $create = false);
                 $page_dir_short =  dirStandard('page', 'content',  $p, $folders = null, $create = false);
                 $page_name =  $page_dir_short .  $book->code . '.html';
-                writeLogAppend('publishJsonSiteIndexAppend', $page_name);
+
                 $files_in_pages[$page_name] = $page_name;
                 $file_name = $page_dir_full . $book->code . '.html';
                 $text = file_get_contents($file_name);

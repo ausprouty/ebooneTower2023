@@ -49,6 +49,9 @@ function dirStandard($scope, $destination,  $p, $folders = null, $create = true)
         case 'page':
             $dir .= $p['country_code']  . '/' . $p['language_iso'] . '/pages/';
             break;
+        case 'root':
+            $dir = ROOT_EDIT . '/sites/' . SITE_CODE . '/root/';
+            break;
         case 'xjson_series':
             $good = '/sites/' . SITE_CODE . '/content/' . $p['country_code']  . '/' . $p['language_iso'] . '/' . $p['folder_name'] . '/';
             $bad = '/content/';

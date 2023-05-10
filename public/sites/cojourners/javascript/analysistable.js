@@ -1,57 +1,12 @@
-function makePdfTable() {
-  var today = new Date()
-  var dd = String(today.getDate()).padStart(2, '0')
-  var mm = String(today.getMonth() + 1).padStart(2, '0')
-  var yyyy = today.getFullYear()
-  var dateTaken = mm + '/' + dd + '/' + yyyy
-  var content = '<div id= "pdfTableDiv">'
-  content +=
-    '<h5>An Outcomes-based Analysis ( ' +
-    dateTaken +
-    ') from cojourners.sent67.com/analysis</h5>'
-  content += '<table id="pdfTable"><tbody>'
-  var rows = planningFormRowLabels()
+async function analysisTableCreateTable() {
+  var content = analysisTableFormHeader()
+  var rows = analysisTableFormRowLabels()
   for (var i = 0; i < rows.length; i++) {
     if (rows[i].type == 'heading') {
-      content += pdfRowHeader(rows[i])
+      content += analysisTableRowHeader(rows[i])
     }
     if (rows[i].type == 'row') {
-      content += pdfRowData(rows[i])
-    }
-  }
-  content += `</tbody>
-</table>
-</div>`
-  return content
-}
-
-function shareEvangelisticMovementAnalysis() {
-  document.getElementById('pdfTableDiv').innerHTML = makePdfTable()
-  let pdf = new jsPDF('p', 'pt', 'letter')
-  let srcwidth = document.getElementById('pdfTableDiv').scrollWidth
-  pdf.html(document.getElementById('pdfTableDiv'), {
-    html2canvas: {
-      scale: 595.26 / srcwidth,
-      scrollY: 0,
-    },
-    x: 5,
-    y: 5,
-    callback: function (pdf) {
-      pdf.save('Outcomes-based Analysis.pdf')
-      document.getElementById('pdfTableDiv').innerHTML = ''
-    },
-  })
-}
-
-function createAnalysisTable() {
-  var content = planningFormHeader()
-  var rows = planningFormRowLabels()
-  for (var i = 0; i < rows.length; i++) {
-    if (rows[i].type == 'heading') {
-      content += rowHeader(rows[i])
-    }
-    if (rows[i].type == 'row') {
-      content += rowData(rows[i])
+      content += await analysisTableRowData(rows[i])
     }
   }
   content += `</tbody>
@@ -59,7 +14,7 @@ function createAnalysisTable() {
   return content
 }
 
-function rowHeader(row) {
+function analysisTableRowHeader(row) {
   var content =
     '<tr class="analysis-section" id="tableSection' + row.section + '">' + '\n'
   content += '<td colspan="8" >' + row.text + '</td>' + '\n'
@@ -67,20 +22,9 @@ function rowHeader(row) {
   return content
 }
 
-function pdfRowHeader(row) {
-  var content =
-    '<tr class="analysis-section" id="pdfTableSection' +
-    row.section +
-    '">' +
-    '\n'
-  content += '<td colspan="2" >' + row.text + '</td>' + '\n'
-  content += `</tr>` + '\n'
-  return content
-}
-
-function rowData(row) {
+async function analysisTableRowData(row) {
   const template = `<td class="colC"><input id= "rR-C" name="rowR" type="radio" value="C" checked onclick="updateTable(R,C);" /></td>`
-  var chosen = getValueForRow(row.row)
+  var chosen = await analysisTableGetValueForRow(row.row)
   var content = '<tr>' + '\n'
   content +=
     '<td id="row' +
@@ -103,27 +47,27 @@ function rowData(row) {
   content += '</tr>' + '\n'
   return content
 }
-
-function pdfRowData(row) {
-  const labels = [
-    'Unknown',
-    'Absent',
-    'Very Weak',
-    'Somewhat Week',
-    'Minimally Acceptable',
-    'Somewhat Strong',
-    'Very Strong',
-    'Fully Developed',
-  ]
-  var chosen = getValueForRow(row.row)
-  var content = '<tr>' + '\n'
-  content += '<td class= "col' + chosen + '">' + row.text + '</td>' + '\n'
-  content += '<td class= "col' + chosen + '">' + labels[chosen] + '</td>' + '\n'
-  content += '</tr>' + '\n'
-  return content
+async function analysisTableGetValueForRow(row) {
+  var value = 0
+  if (localStorage.getItem('evangelisticMovementAnalysis')) {
+    var storage = localStorage.getItem('evangelisticMovementAnalysis')
+    var data = JSON.parse(storage)
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].row == row) {
+        value = data[i].value
+      }
+    }
+  } else {
+    //console.log('I am saving note in database ' + key)
+    let db = new Localbase('db')
+    await db.collection('analysisTable').doc(row).get({
+      value: note,
+    })
+  }
+  return value
 }
 
-function updateTable(row, newValue) {
+function analysisTableUpdateTable(row, newValue) {
   let selected = {
     row: row,
     value: newValue,
@@ -149,25 +93,122 @@ function updateTable(row, newValue) {
   localStorage.setItem('evangelisticMovementAnalysis', JSON.stringify(stored))
   document.getElementById('row' + row).className = 'col' + newValue
 }
-function getValueForRow(row) {
-  var value = 0
 
-  var storage = localStorage.getItem('evangelisticMovementAnalysis')
-
-  if (storage) {
-    var data = JSON.parse(storage)
-
-    for (var i = 0; i < data.length; i++) {
-      if (data[i].row == row) {
-        value = data[i].value
-      }
-    }
-  }
-  console.log(value)
-  return value
+async function getValuesForAllRows() {
+  var notes = null
+  let db = new Localbase('db')
+  await db
+    .collection('analysisTable')
+    .get()
+    .then((notes) => {
+      console.log(notes)
+    })
+  return notes
 }
 
-function planningFormHeader() {
+async function analysisTableSaveRow(row, data) {
+  //console.log('I am saving note in database ' + key)
+  let db = new Localbase('db')
+  db.collection('analysisTable').doc().set({
+    value: notes,
+  })
+}
+
+function analysisTableGetCanvas() {
+  form.width(a4[0] * 1.33333 - 80).css('max-width', 'none')
+  return html2canvas(form, {
+    imageTimeout: 2000,
+    removeContainer: true,
+  })
+}
+
+function analysisTableShare() {
+  document.getElementById('pdfTableDiv').innerHTML = analysisTableMakePdfTable()
+  let pdf = new jsPDF('p', 'pt', 'letter')
+  let srcwidth = document.getElementById('pdfTableDiv').scrollWidth
+  pdf.html(document.getElementById('pdfTableDiv'), {
+    html2canvas: {
+      scale: 595.26 / srcwidth,
+      scrollY: 0,
+    },
+    x: 5,
+    y: 5,
+    callback: function (pdf) {
+      pdf.save('Outcomes-based Analysis.pdf')
+      document.getElementById('pdfTableDiv').innerHTML = ''
+    },
+  })
+}
+
+async function analysisTablePdfRowData(row) {
+  const labels = [
+    'Unknown',
+    'Absent',
+    'Very Weak',
+    'Somewhat Week',
+    'Minimally Acceptable',
+    'Somewhat Strong',
+    'Very Strong',
+    'Fully Developed',
+  ]
+  var chosen = await analysisTableGetValueForRow(row.row)
+  var content = '<tr>' + '\n'
+  content += '<td class= "col' + chosen + '">' + row.text + '</td>' + '\n'
+  content += '<td class= "col' + chosen + '">' + labels[chosen] + '</td>' + '\n'
+  content += '</tr>' + '\n'
+  return content
+}
+function analysisTablecreatePDF() {
+  getCanvas().then(function (canvas) {
+    var img = canvas.toDataURL('image/png'),
+      doc = new jsPDF({
+        unit: 'px',
+        format: 'a4',
+      })
+    doc.addImage(img, 'JPEG', 20, 20)
+    doc.save('htmlTOpdf.pdf')
+    form.width(cache_width)
+  })
+}
+
+function analysisTablePdfRowHeader(row) {
+  var content =
+    '<tr class="analysis-section" id="pdfTableSection' +
+    row.section +
+    '">' +
+    '\n'
+  content += '<td colspan="2" >' + row.text + '</td>' + '\n'
+  content += `</tr>` + '\n'
+  return content
+}
+function analysisTablePDFFormat() {
+  var today = new Date()
+  var dd = String(today.getDate()).padStart(2, '0')
+  var mm = String(today.getMonth() + 1).padStart(2, '0')
+  var yyyy = today.getFullYear()
+  var dateTaken = mm + '/' + dd + '/' + yyyy
+  var content = '<div id= "pdfTableDiv">'
+  content +=
+    '<h5>An Outcomes-based Analysis ( ' +
+    dateTaken +
+    ') from cojourners.sent67.com/analysis</h5>'
+  content += '<table id="pdfTable"><tbody>'
+  var rows = analysisTableFormRowLabels()
+  for (var i = 0; i < rows.length; i++) {
+    if (rows[i].type == 'heading') {
+      content += analysisTablePdfRowHeader(rows[i])
+    }
+    if (rows[i].type == 'row') {
+      content += analysisTablePdfRowData(rows[i])
+    }
+  }
+  content += `</tbody>
+</table>
+</div>`
+  return content
+}
+
+function analysisTableFormHeader() {
   return `<table id="analysis-table">
  <tbody>
   <tr id="tableSection0">
@@ -182,7 +223,7 @@ function planningFormHeader() {
   </tr>`
 }
 
-function planningFormRowLabels() {
+function analysisTableFormRowLabels() {
   const data = [
     {
       type: 'heading',
@@ -296,23 +337,4 @@ function planningFormRowLabels() {
     },
   ]
   return data
-}
-function createPDF() {
-  getCanvas().then(function (canvas) {
-    var img = canvas.toDataURL('image/png'),
-      doc = new jsPDF({
-        unit: 'px',
-        format: 'a4',
-      })
-    doc.addImage(img, 'JPEG', 20, 20)
-    doc.save('htmlTOpdf.pdf')
-    form.width(cache_width)
-  })
-}
-function getCanvas() {
-  form.width(a4[0] * 1.33333 - 80).css('max-width', 'none')
-  return html2canvas(form, {
-    imageTimeout: 2000,
-    removeContainer: true,
-  })
 }
