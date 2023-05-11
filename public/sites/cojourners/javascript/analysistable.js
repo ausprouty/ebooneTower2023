@@ -1,4 +1,9 @@
+let db = new Localbase('db')
+
 async function analysisTableCreateTable() {
+  if (localStorage.getItem('evangelisticMovementAnalysis')) {
+    await analysisTableDataMoveToDatabase()
+  }
   var content = analysisTableFormHeader()
   var rows = analysisTableFormRowLabels()
   for (var i = 0; i < rows.length; i++) {
@@ -51,38 +56,43 @@ async function analysisTableRowData(row) {
   content += '</tr>' + '\n'
   return content
 }
-async function analysisTableGetValueForRow(row) {
-  var value = 0
-  if (localStorage.getItem('evangelisticMovementAnalysis')) {
-    var storage = localStorage.getItem('evangelisticMovementAnalysis')
-    var data = JSON.parse(storage)
-    for (var i = 0; i < data.length; i++) {
-      await analysisTableSaveRow(row, data[i].value)
-      if (data[i].row == row) {
-        value = data[i].value
-      }
-    }
-    console.log(row + ' => ' + value)
-  } else {
-    console.log('I am looking in database for row  ' + row)
+async function analysisTableDataMoveToDatabase() {
+  var storage = localStorage.getItem('evangelisticMovementAnalysis')
+  var data = JSON.parse(storage)
+  console.log(data)
+  console.log(data.length)
+  for (var i = 0; i < data.length; i++) {
+    var row = data[i].row
+    var value = data[i].value
+    console.log(row + ' ==> ' + value)
     let db = new Localbase('db')
-    await db
-      .collection('analysisTable')
-      .doc(row)
-      .get((value) => {
-        console.log(value)
-      })
+    db.collection('analysisTable').doc(row).add({
+      value: value,
+    })
   }
-  console.log(value)
+  return 'check data'
+}
+async function analysisTableGetValueForRow(row) {
+  var value = []
+  console.log('I am looking in database for row  ' + row)
+  let db = new Localbase('db')
+  await db
+    .collection('analysisTable')
+    .doc(row)
+    .get()
+    .then((value) => {
+      console.log(value)
+    })
   return value
 }
 
 async function analysisTableSaveRow(row, value) {
-  console.log('I am saving note in database ' + row)
+  console.log('I am saving note  ' + row + ' with value ' + value)
   let db = new Localbase('db')
-  db.collection('analysisTable').doc(row).set({
+  await db.collection('analysisTable').doc(row).set({
     value: value,
   })
+  console.log('I SAVED note in database ' + row)
   return 'saved'
 }
 
@@ -113,7 +123,7 @@ function analysisTableUpdateTable(row, newValue) {
   document.getElementById('row' + row).className = 'col' + newValue
 }
 
-async function getValuesForAllRows() {
+async function analysisTableGetValuesForAllRows() {
   var notes = null
   let db = new Localbase('db')
   await db

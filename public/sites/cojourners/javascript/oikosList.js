@@ -1,11 +1,11 @@
 let fields = ['remove', 'id', 'name', 'non', 'believer', 'follower', 'leader']
-let db = new Localbase('db')
+let dbOikos = new Localbase('db')
 let goal = 20 // number of lines
 
 async function showOikosList() {
   console.log('showing Oikos List')
   var count = 0
-  await db
+  await dbOikos
     .collection('oikosData')
     .orderBy('name')
     .get()
@@ -136,7 +136,7 @@ async function saveOikos() {
         checked[4] = 1
       }
       if (!removePerson) {
-        await db.collection('oikosData').doc(id).set({
+        await dbOikos.collection('oikosData').doc(id).set({
           id: id,
           name: name,
           non: checked[1],
@@ -146,7 +146,7 @@ async function saveOikos() {
         })
       }
       if (removePerson) {
-        await db.collection('oikosData').doc({ id: id }).delete()
+        await dbOikos.collection('oikosData').doc({ id: id }).delete()
         refreshScreen()
       }
     }
@@ -154,7 +154,7 @@ async function saveOikos() {
 }
 
 async function refreshScreen() {
-  await db
+  await dbOikos
     .collection('oikosData')
     .orderBy('name')
     .get()
