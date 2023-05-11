@@ -1,5 +1,8 @@
-let db = new Localbase('db')
-
+async function analysisTableShow() {
+  var content = await analysisTableCreateTable()
+  document.getElementById('tableData').innerHTML = content
+  return
+}
 async function analysisTableCreateTable() {
   if (localStorage.getItem('evangelisticMovementAnalysis')) {
     await analysisTableDataMoveToDatabase()
@@ -18,7 +21,6 @@ async function analysisTableCreateTable() {
   }
   content += `</tbody>
 </table>`
-  console.log(content)
   return content
 }
 
@@ -31,9 +33,8 @@ function analysisTableRowHeader(row) {
 }
 
 async function analysisTableRowData(row) {
-  const template = `<td class="colC"><input id= "rR-C" name="rowR" type="radio" value="C" checked onclick="updateTable(R,C);" /></td>`
+  const template = `<td class="colC"><input id= "rR-C" name="rowR" type="radio" value="C" checked onclick="analysisTableUpdateTable(R,C);" /></td>`
   var chosen = await analysisTableGetValueForRow(row.row)
-  console.log(chosen)
   var content = '<tr>' + '\n'
   content +=
     '<td id="row' +
@@ -59,14 +60,11 @@ async function analysisTableRowData(row) {
 async function analysisTableDataMoveToDatabase() {
   var storage = localStorage.getItem('evangelisticMovementAnalysis')
   var data = JSON.parse(storage)
-  console.log(data)
-  console.log(data.length)
   for (var i = 0; i < data.length; i++) {
-    var row = data[i].row
+    var key = 'row' + data[i].row
     var value = data[i].value
-    console.log(row + ' ==> ' + value)
-    let db = new Localbase('db')
-    db.collection('analysisTable').doc(row).add({
+    let dbAnalysis = new Localbase('db')
+    dbAnalysis.collection('analysis').doc(key).set({
       value: value,
     })
   }
@@ -74,60 +72,34 @@ async function analysisTableDataMoveToDatabase() {
 }
 async function analysisTableGetValueForRow(row) {
   var value = []
-  console.log('I am looking in database for row  ' + row)
-  let db = new Localbase('db')
-  await db
-    .collection('analysisTable')
-    .doc(row)
+  let dbAnalysis = new Localbase('db')
+  var key = 'row' + row
+  await dbAnalysis
+    .collection('analysis')
+    .doc(key)
     .get()
-    .then((value) => {
-      console.log(value)
+    .then((result) => {
+      if (result) {
+        value = result.value
+      }
     })
   return value
 }
 
 async function analysisTableSaveRow(row, value) {
-  console.log('I am saving note  ' + row + ' with value ' + value)
-  let db = new Localbase('db')
-  await db.collection('analysisTable').doc(row).set({
+  let dbAnalysis = new Localbase('db')
+  var key = 'row' + row
+  await dbAnalysis.collection('analysis').doc(key).set({
     value: value,
   })
-  console.log('I SAVED note in database ' + row)
   return 'saved'
-}
-
-function analysisTableUpdateTable(row, newValue) {
-  let selected = {
-    row: row,
-    value: newValue,
-  }
-  var found = false
-  var stored = []
-  var storage = localStorage.getItem('evangelisticMovementAnalysis')
-  if (storage) {
-    stored = JSON.parse(storage)
-    if (stored !== null) {
-      for (var i = 0; i < stored.length; i++) {
-        if (stored[i].row == row) {
-          stored[i].value = newValue
-
-          found = true
-        }
-      }
-    }
-  }
-  if (found == false) {
-    stored.push(selected)
-  }
-  localStorage.setItem('evangelisticMovementAnalysis', JSON.stringify(stored))
-  document.getElementById('row' + row).className = 'col' + newValue
 }
 
 async function analysisTableGetValuesForAllRows() {
   var notes = null
-  let db = new Localbase('db')
-  await db
-    .collection('analysisTable')
+  let dbAnalysis = new Localbase('db')
+  await dbAnalysis
+    .collection('analysis')
     .get()
     .then((notes) => {
       console.log(notes)
@@ -143,8 +115,9 @@ function analysisTableGetCanvas() {
   })
 }
 
-function analysisTableShare() {
-  document.getElementById('pdfTableDiv').innerHTML = analysisTableMakePdfTable()
+async function analysisTableShare() {
+  document.getElementById('pdfTableDiv').innerHTML =
+    await analysisTablePDFFormat()
   let pdf = new jsPDF('p', 'pt', 'letter')
   let srcwidth = document.getElementById('pdfTableDiv').scrollWidth
   pdf.html(document.getElementById('pdfTableDiv'), {
@@ -156,9 +129,35 @@ function analysisTableShare() {
     y: 5,
     callback: function (pdf) {
       pdf.save('Outcomes-based Analysis.pdf')
-      document.getElementById('pdfTableDiv').innerHTML = ''
+      //document.getElementById('pdfTableDiv').innerHTML = ''
     },
   })
+}
+async function analysisTablePDFFormat() {
+  var today = new Date()
+  var dd = String(today.getDate()).padStart(2, '0')
+  var mm = String(today.getMonth() + 1).padStart(2, '0')
+  var yyyy = today.getFullYear()
+  var dateTaken = mm + '/' + dd + '/' + yyyy
+  var content = '<div id= "pdfTableDiv">'
+  content +=
+    '<h5>An Outcomes-based Analysis ( ' +
+    dateTaken +
+    ') from cojourners.sent67.com/analysis</h5>'
+  content += '<table id="pdfTable"><tbody>'
+  var rows = analysisTableFormRowLabels()
+  for (var i = 0; i < rows.length; i++) {
+    if (rows[i].type == 'heading') {
+      content += analysisTablePdfRowHeader(rows[i])
+    }
+    if (rows[i].type == 'row') {
+      content += await analysisTablePdfRowData(rows[i])
+    }
+  }
+  content += `</tbody>
+</table>
+</div>`
+  return content
 }
 
 async function analysisTablePdfRowData(row) {
@@ -166,7 +165,7 @@ async function analysisTablePdfRowData(row) {
     'Unknown',
     'Absent',
     'Very Weak',
-    'Somewhat Week',
+    'Somewhat Weak',
     'Minimally Acceptable',
     'Somewhat Strong',
     'Very Strong',
@@ -200,32 +199,6 @@ function analysisTablePdfRowHeader(row) {
     '\n'
   content += '<td colspan="2" >' + row.text + '</td>' + '\n'
   content += `</tr>` + '\n'
-  return content
-}
-function analysisTablePDFFormat() {
-  var today = new Date()
-  var dd = String(today.getDate()).padStart(2, '0')
-  var mm = String(today.getMonth() + 1).padStart(2, '0')
-  var yyyy = today.getFullYear()
-  var dateTaken = mm + '/' + dd + '/' + yyyy
-  var content = '<div id= "pdfTableDiv">'
-  content +=
-    '<h5>An Outcomes-based Analysis ( ' +
-    dateTaken +
-    ') from cojourners.sent67.com/analysis</h5>'
-  content += '<table id="pdfTable"><tbody>'
-  var rows = analysisTableFormRowLabels()
-  for (var i = 0; i < rows.length; i++) {
-    if (rows[i].type == 'heading') {
-      content += analysisTablePdfRowHeader(rows[i])
-    }
-    if (rows[i].type == 'row') {
-      content += analysisTablePdfRowData(rows[i])
-    }
-  }
-  content += `</tbody>
-</table>
-</div>`
   return content
 }
 
