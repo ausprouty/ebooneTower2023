@@ -6,11 +6,14 @@ async function analysisTableCreateTable() {
       content += analysisTableRowHeader(rows[i])
     }
     if (rows[i].type == 'row') {
-      content += await analysisTableRowData(rows[i])
+      var row = await analysisTableRowData(rows[i])
+      //console.log(row)
+      content += row
     }
   }
   content += `</tbody>
 </table>`
+  console.log(content)
   return content
 }
 
@@ -25,6 +28,7 @@ function analysisTableRowHeader(row) {
 async function analysisTableRowData(row) {
   const template = `<td class="colC"><input id= "rR-C" name="rowR" type="radio" value="C" checked onclick="updateTable(R,C);" /></td>`
   var chosen = await analysisTableGetValueForRow(row.row)
+  console.log(chosen)
   var content = '<tr>' + '\n'
   content +=
     '<td id="row' +
@@ -53,18 +57,33 @@ async function analysisTableGetValueForRow(row) {
     var storage = localStorage.getItem('evangelisticMovementAnalysis')
     var data = JSON.parse(storage)
     for (var i = 0; i < data.length; i++) {
+      await analysisTableSaveRow(row, data[i].value)
       if (data[i].row == row) {
         value = data[i].value
       }
     }
+    console.log(row + ' => ' + value)
   } else {
-    //console.log('I am saving note in database ' + key)
+    console.log('I am looking in database for row  ' + row)
     let db = new Localbase('db')
-    await db.collection('analysisTable').doc(row).get({
-      value: note,
-    })
+    await db
+      .collection('analysisTable')
+      .doc(row)
+      .get((value) => {
+        console.log(value)
+      })
   }
+  console.log(value)
   return value
+}
+
+async function analysisTableSaveRow(row, value) {
+  console.log('I am saving note in database ' + row)
+  let db = new Localbase('db')
+  db.collection('analysisTable').doc(row).set({
+    value: value,
+  })
+  return 'saved'
 }
 
 function analysisTableUpdateTable(row, newValue) {
@@ -104,14 +123,6 @@ async function getValuesForAllRows() {
       console.log(notes)
     })
   return notes
-}
-
-async function analysisTableSaveRow(row, data) {
-  //console.log('I am saving note in database ' + key)
-  let db = new Localbase('db')
-  db.collection('analysisTable').doc().set({
-    value: notes,
-  })
 }
 
 function analysisTableGetCanvas() {

@@ -41,34 +41,34 @@ document.addEventListener('DOMContentLoaded', offlineReadyCheck)
 document.addEventListener('DOMContentLoaded', homescreenCheck)
 
 function offlineReadyCheck() {
-  console.log('in offlneReadyCheck')
+  //console.log('in offlneReadyCheck')
   // set ios prompt if needed
   //https://www.netguru.co/codestories/few-tips-that-will-make-your-pwa-on-ios-feel-like-native
   if (navigator.onLine) {
     var link = ''
-    console.log('I am ONline')
+    //console.log('I am ONline')
     var swWorking = localStorage.getItem('swWorking')
     if ('serviceWorker' in navigator && swWorking == 'TRUE') {
       var offlineReady = localStorage.getItem('offline')
-      console.log(offlineReady)
+      //console.log(offlineReady)
       if (!offlineReady) {
-        console.log('app can not be offline')
+        //console.log('app can not be offline')
         link = document.getElementById('offline-request')
         link.style.visibility = 'visible'
       } else {
-        console.log('app CAN be offline')
+        //console.log('app CAN be offline')
         link = document.getElementById('offline-ready')
         link.style.visibility = 'visible'
       }
     } else {
-      console.log('I do NOT have a service worker')
+      //console.log('I do NOT have a service worker')
       link = document.getElementById('offline-request')
       link.style.display = 'none'
       //var link = document.getElementById('offline-already');
       //link.style.display = 'none';
     }
   } else {
-    console.log('I am offline')
+    //console.log('I am offline')
     offlineItemsHide()
   }
 }
