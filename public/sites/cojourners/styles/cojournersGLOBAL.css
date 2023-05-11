@@ -261,7 +261,7 @@ button {
   font-weight: bold;
   border-radius: 6px;
   text-align: center;
-  padding: 0 40px;
+  padding: 7px 40px;
 }
 .button.red {
   background-color: var(--color-grey-cojourners);
@@ -861,6 +861,7 @@ th {
   margin-right: 3px;
 }
 #pdfTable {
+  border-collapse: collapse;
   width: 98%;
   margin-left: 10px;
   margin-right: 10px;
@@ -879,16 +880,21 @@ th {
 
 #pdfTable td,
 #pdfTable th{
-  border: 1px solid #ddd;
+  border: 1px solid #000;
   text-align: left;
-  padding: 3px;
+  padding: 2px;
   font-size:10px;
+}
+td.analysis_text{
+  width: 80%;
+}
+td.analysis_mark{
+  width: 20%;
 }
 
 
 .analysis-section{
-  background-color: var(--color-grey-cojourners);
-  color: var(--color-yellow-cojourners);
+  color: black;
 }
 .col1{
   background-color:#ec2d13 ;
@@ -909,7 +915,8 @@ th {
   background-color:#64c987 ;
 }
 .col7{
-  background-color:#00889a ;
+  
+  background-color:#83b858 ;
 }
 .vertical{
   writing-mode: vertical-rl;

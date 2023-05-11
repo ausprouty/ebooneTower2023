@@ -1,6 +1,9 @@
 async function analysisTableShow() {
+  console.log('started analysisTableShow')
   var content = await analysisTableCreateTable()
+  console.log('we have content')
   document.getElementById('tableData').innerHTML = content
+  console.log('assigned content')
   return
 }
 async function analysisTableCreateTable() {
@@ -33,7 +36,7 @@ function analysisTableRowHeader(row) {
 }
 
 async function analysisTableRowData(row) {
-  const template = `<td class="colC"><input id= "rR-C" name="rowR" type="radio" value="C" checked onclick="analysisTableUpdateTable(R,C);" /></td>`
+  const template = `<td class="colC"><input id= "rR-C" name="rowR" type="radio" value="C" checked onclick="analysisTableUpdate(R,C);" /></td>`
   var chosen = await analysisTableGetValueForRow(row.row)
   var content = '<tr>' + '\n'
   content +=
@@ -57,6 +60,11 @@ async function analysisTableRowData(row) {
   content += '</tr>' + '\n'
   return content
 }
+
+async function analysisTableUpdate(row, newValue) {
+  await analysisTableSaveRow(row, newValue)
+  document.getElementById('row' + row).className = 'col' + newValue
+}
 async function analysisTableDataMoveToDatabase() {
   var storage = localStorage.getItem('evangelisticMovementAnalysis')
   var data = JSON.parse(storage)
@@ -68,6 +76,7 @@ async function analysisTableDataMoveToDatabase() {
       value: value,
     })
   }
+  localStorage.removeItem('evangelisticMovementAnalysis')
   return 'check data'
 }
 async function analysisTableGetValueForRow(row) {
@@ -89,6 +98,7 @@ async function analysisTableGetValueForRow(row) {
 async function analysisTableSaveRow(row, value) {
   let dbAnalysis = new Localbase('db')
   var key = 'row' + row
+  console.log('saving ' + value + ' for row ' + row)
   await dbAnalysis.collection('analysis').doc(key).set({
     value: value,
   })
@@ -129,7 +139,7 @@ async function analysisTableShare() {
     y: 5,
     callback: function (pdf) {
       pdf.save('Outcomes-based Analysis.pdf')
-      //document.getElementById('pdfTableDiv').innerHTML = ''
+      document.getElementById('pdfTableDiv').innerHTML = ''
     },
   })
 }
@@ -173,8 +183,15 @@ async function analysisTablePdfRowData(row) {
   ]
   var chosen = await analysisTableGetValueForRow(row.row)
   var content = '<tr>' + '\n'
-  content += '<td class= "col' + chosen + '">' + row.text + '</td>' + '\n'
-  content += '<td class= "col' + chosen + '">' + labels[chosen] + '</td>' + '\n'
+  content +=
+    '<td class= "analysis_text col' + chosen + '">' + row.text + '</td>' + '\n'
+  content +=
+    '<td class= "analysis_mark col' +
+    chosen +
+    '">' +
+    labels[chosen] +
+    '</td>' +
+    '\n'
   content += '</tr>' + '\n'
   return content
 }

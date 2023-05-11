@@ -1,4 +1,4 @@
-var CACHE_DYNAMIC_NAME = 'content-1'
+var CACHE_DYNAMIC_NAME = 'workbox-runtime'
 
 importScripts(
   'https://storage.googleapis.com/workbox-cdn/releases/3.5.0/workbox-sw.js'
