@@ -1,6 +1,9 @@
 <?php
 function myRequireOnce($filename, $subdirectory = null)
 {
+    //if (!isset(DESTINATION)) {
+    //     define("DESTINATION",  'staging');
+    // }
     //_appendmyRequireOnce ('myRequireOnce', "\n\n$subdirectory/$filename\n");
     $new_name = null;
     $filename = _cleanMyRequireOnceFile($filename);
@@ -14,10 +17,6 @@ function myRequireOnce($filename, $subdirectory = null)
     }
     if (!$new_name) {
         $new_name = myRequireOnceDirectories($filename);
-    }
-    if ($new_name) {
-        //_appendmyRequireOnce ('myRequireOnce', "$new_name\n");
-        require_once($new_name);
     } else {
         _appendmyRequireOnce('ERROR-myRequireOnce', "\n\n$subdirectory/$filename with destination of " . DESTINATION . "\n");
         _appendmyRequireOnce('ERROR-myRequireOnce', "NOT FOUND\n");

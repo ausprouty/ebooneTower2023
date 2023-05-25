@@ -19,7 +19,7 @@ function findFilesInText($find_begin, $text, $p, $files_in_page = [])
             // filename = /sites/mc2/images/standard/look-back.png
             //               or
             //          resource.html
-            if (strpos($filename, '/' != 0)) {
+            if (strpos($filename, '/') != 0) {
                 $dir = dirStandard('content', DESTINATION,  $p, $folders = null, $create = false);
                 $filename = $dir . $filename;
             }

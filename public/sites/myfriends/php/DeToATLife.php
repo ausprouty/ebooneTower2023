@@ -1,14 +1,12 @@
 <?php
 echo 'in LifE   ';
+define("DESTINATION",  'staging');
 require_once('/home/myfriends/edit.myfriends.network/sites/myfriends/.env.api.remote.php');
-echo ROOT_LOG . '<br>';
 require_once('/home/myfriends/edit.myfriends.network/sites/default/php/myRequireOnce.php');
-echo   'RequireOnce<br>';
 require_once('/home/myfriends/edit.myfriends.network/sites/default/php/sql.php');
 require_once('/home/myfriends/edit.myfriends.network/sites/default/php/writeLog.php');
-myRequireOnce('getLatestContent.php');
+require_once('/home/myfriends/edit.myfriends.network/sites/default/php/getLatestContent.php');
 myRequireOnce('create.php');
-
 echo 'after use';
 
 $fixing = 'life';
@@ -22,7 +20,8 @@ $sql = 'SELECT DISTINCT filename FROM content
     ORDER BY filename';
 $query  = sqlMany($sql);
 while ($data = $query->fetch_array()) {
-    $debug .= $data['filename'] . "<br>\n";
+    $filename = $data['filename'];
+    echo (" $filename <br>\n");
     $p = array(
         'scope' => 'page',
         'country_code' => 'DE',
@@ -34,9 +33,10 @@ while ($data = $query->fetch_array()) {
     $new = $res['content'];
     $new['country_code'] = 'AT';
     $new['my_uid'] = 996; // done by computer
-    //createContent($new);
+    _writeThisLog($data['filename'], $new);
+    createContent($new);
 }
-echo ($debug);
+echo ('finished');
 return;
 
 
