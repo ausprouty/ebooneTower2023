@@ -85,6 +85,7 @@ async function getStepWritten(stepId) {
 }
 
 async function saveStepWritten(id) {
+  nextStepsShowShareButton(id)
   nextStepsChangeHeight(id)
   considerShowNewStepButton()
   let db = new Localbase('db')
@@ -95,6 +96,9 @@ async function saveStepWritten(id) {
       text: document.getElementById('next-step-text' + id).value,
       complete: document.getElementById('next-step-complete' + id).checked,
     })
+}
+function nextStepsShowShareButton(id) {
+  document.getElementById('shareStep' + id).classList.remove('hidden')
 }
 function deleteStepWritten(id) {
   let db = new Localbase('db')
@@ -164,9 +168,9 @@ async function stepTemplate(written) {
 
 	<div class="action-progress">
 	<div><input id="next-step-complete#" type="checkbox" {checked} onclick="saveStepWritten('#')" /> <label> Finished</label></div>
-  <div><input id="next-step-delete#" type="checkbox" {checked} onclick="deleteStepWritten('#')" /> <label> Delete</label></div>
+  <div><input id="next-step-delete#" type="checkbox"  onclick="deleteStepWritten('#')" /> <label> Delete</label></div>
 
-	<div><button onclick="shareStep(#)">Share</button></div>
+	<div><button id="shareStep#" class="{show}" onclick="shareStep(#)">Share</button></div>
 
 	</div>
 	</form>
@@ -174,12 +178,14 @@ async function stepTemplate(written) {
   var id = 0
   var text = ''
   var checked = 'unchecked'
+  var show = 'hidden'
   //console.log(written)
   if (written !== null) {
     //console.log('I am assigning next step id')
     id = written.id
     if (typeof written.text !== 'undefined') {
       text = written.text
+      show = 'visible'
     }
     if (written.complete == true) {
       checked = 'checked'
@@ -194,7 +200,9 @@ async function stepTemplate(written) {
   let temp = template.replace(/#/g, id)
   var temp2 = temp.replace('{written}', text)
   template = temp2.replace('{checked}', checked)
-  return template
+  temp2 = template.replace('{show}', show)
+
+  return temp2
 }
 async function getNextStepNextId() {
   var nextId = 1

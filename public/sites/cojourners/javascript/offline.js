@@ -179,41 +179,41 @@ function offlineItemsHide() {
   }
 }
 
-// this stores series for offline use
+// this stores saite for offline use
 // https://developers.google.com/web/ilt/pwa/caching-files-with-service-worker
 var el = document.getElementById('offline-request')
 if (el) {
   document
     .getElementById('offline-request')
-    .addEventListener('click', function (event) {
-      event.preventDefault()
-      //console.log('button pressed')
+    .addEventListener('click', async () => {
+      localStorage.setItem('installedPWA', today)
       el.style.background = '#FF9700'
-      var id = this.dataset.json
-      var ajaxPromise = fetch(id)
-        .then(function (response) {
-          //get-series-urls returns a JSON-encoded array of
-          // resource URLs that a given series depends on
-          return response.json()
-        })
-        .then(function (jsonFile) {
-          jsonFile.forEach(function (element) {
-            //console.log(element.url)
-            caches.open(CACHE_DYNAMIC_NAME).then(function (cache) {
-              cache.add(element.url)
-            })
-          })
-        })
-        .then(function () {
-          console.log('store that content is available for offline use')
-          let today = Date.now()
-          localStorage.setItem('offline', today)
-          var ready = document.getElementById('offline-ready').innerHTML
-          el.innerHTML = ready
-          el.style.background = '#717073'
-        })
-        .catch(function (err) {
-          console.log(err)
-        })
+      var id = el.dataset.json
+      offlineDownloadFiles(id)
     })
+}
+
+async function offlineDownloadFiles(id) {
+  var file = await fetch(id)
+  let jsonFile = await file.json()
+  for (var i = 0; i < jsonFile.length; i++) {
+    var resource = jsonFile[i].url
+    await offlineAddToCache(resource)
+  }
+  alert('store that content is available for offline use')
+  let today = Date.now()
+  localStorage.setItem('offline', today)
+  var ready = document.getElementById('offline-ready').innerHTML
+  var el = document.getElementById('offline-request')
+  el.innerHTML = ready
+  el.style.background = '#717073'
+}
+async function offlineAddToCache(resource) {
+  //console.log(resource)
+  var cache = await caches.open(CACHE_DYNAMIC_NAME)
+  try {
+    var success = await cache.add(resource)
+  } catch (error) {
+    console.log('unable to locate ' + resource)
+  }
 }

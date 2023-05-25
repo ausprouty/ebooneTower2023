@@ -7,7 +7,7 @@ function clearCache(cacheName) {
 }
 
 function clearCaches() {
-  console.log('I want to clear ALL caches and Local Storage')
+  console.log('I want to clear ALL caches and some of Local Storage')
   clearLocalStorage()
   // All the Cache Storage API methods return Promises. If you're not familiar
   // with them, see http://www.html5rocks.com/en/tutorials/es6/promises/
@@ -28,12 +28,18 @@ function clearCaches() {
         })
     })
   })
-  location.href =
-    'https://cojourners.sent67.com/content/U1/eng/index.html'
+  location.href = 'https://cojourners.sent67.com/content/U1/eng/index.html'
 }
 
 function clearLocalStorage() {
-  localStorage.clear()
+  localStorage.removeItem('lastpage')
+  localStorage.removeItem('installedPWA')
+  localStorage.removeItem('swWorking')
+  localStorage.removeItem('lastSeenPrompt')
+  localStorage.removeItem('mc2VideoPreferences')
+  localStorage.removeItem('dynamic-cache')
+
+  //localStorage.clear()
 }
 
 function listCaches() {
