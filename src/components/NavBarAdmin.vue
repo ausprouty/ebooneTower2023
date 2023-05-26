@@ -99,6 +99,12 @@ export default {
           show: false,
         },
         {
+          value: 'Copy Series',
+          link: 'seriesCopy',
+          index: 10,
+          show: false,
+        },
+        {
           value: 'Logout',
           link: 'logout',
           index: 9,
@@ -132,6 +138,10 @@ export default {
     if (this.administrator) {
       this.menu[4].show = true
       this.menu[5].show = true
+      if (this.$route.params.folder_name) {
+        this.menu[10].show = true
+      }
+
       if (
         process.env.VUE_APP_MAKE_SDCARD == 'TRUE' &&
         this.$route.params.country_code

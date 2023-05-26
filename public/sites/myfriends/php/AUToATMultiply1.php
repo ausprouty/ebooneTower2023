@@ -14,9 +14,9 @@ $fixing = 'life';
 
 
 $sql = 'SELECT DISTINCT filename FROM content 
-    WHERE language_iso = "deu"
-    AND country_code = "DE"
-    AND folder_name = "life"
+    WHERE language_iso = "eng"
+    AND country_code = "AU"
+    AND folder_name = "multiply"
     AND filename != "index"
     ORDER BY filename';
 $query  = sqlMany($sql);
@@ -25,15 +25,16 @@ while ($data = $query->fetch_array()) {
     echo (" $filename <br>\n");
     $p = array(
         'scope' => 'page',
-        'country_code' => 'DE',
-        'language_iso' => 'deu',
-        'folder_name' => 'life',
+        'country_code' => 'AU',
+        'language_iso' => 'eng',
+        'folder_name' => 'multiply',
         'filename' => $data['filename']
     );
     $res = getLatestContent($p);
     $new = $res;
-    $new['text'] = recodeGerman($res['text']);
+    // $new['text'] = recodeGerman($res['text']);
     $new['country_code'] = 'AT';
+    $new['language_iso'] = 'deu';
     $new['my_uid'] = 996; // done by computer
     _writeThisLog($data['filename'], $new);
     createContent($new);

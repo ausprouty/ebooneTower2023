@@ -1,5 +1,5 @@
 <?php
-echo 'in LifE   ';
+echo 'in Basics   ';
 define("DESTINATION",  'staging');
 require_once('/home/myfriends/edit.myfriends.network/sites/myfriends/.env.api.remote.php');
 require_once('/home/myfriends/edit.myfriends.network/sites/default/php/myRequireOnce.php');
@@ -10,13 +10,13 @@ myRequireOnce('create.php');
 myRequireOnce('correctEncoding.php');
 echo 'after use';
 
-$fixing = 'life';
+$fixing = 'basics';
 
 
 $sql = 'SELECT DISTINCT filename FROM content 
     WHERE language_iso = "deu"
     AND country_code = "DE"
-    AND folder_name = "life"
+    AND folder_name = "basics"
     AND filename != "index"
     ORDER BY filename';
 $query  = sqlMany($sql);
@@ -27,7 +27,7 @@ while ($data = $query->fetch_array()) {
         'scope' => 'page',
         'country_code' => 'DE',
         'language_iso' => 'deu',
-        'folder_name' => 'life',
+        'folder_name' => 'basics',
         'filename' => $data['filename']
     );
     $res = getLatestContent($p);

@@ -236,6 +236,16 @@ export default new Router({
       },
     },
     {
+      path: '/seriesCopy/:country_code/:library_code/:folder_name',
+      name: 'seriesCopy',
+      beforeEnter: guardMyroute,
+      component: function () {
+        return import(
+          /* webpackChunkName: "sortCountries" */ './views/SeriesCopy.vue'
+        )
+      },
+    },
+    {
       path: '/sort/countries',
       name: 'sortCountries',
       beforeEnter: guardMyroute,
