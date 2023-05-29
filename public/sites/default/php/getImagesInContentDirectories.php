@@ -24,7 +24,7 @@ function getImagesInContentDirectories($p)
 			while ($mfile = readdir($handler)) {
 				if ($mfile != '.' && $mfile != '..' &&  $mfile != '') {
 					writeLogAppend('getImagesInContentDirectories-25', $mfile);
-					if (strpos(chr($mfile), $html) == FALSE && strpos(chr($mfile), $json == FALSE)) {
+					if (strpos(chr($mfile), $html) == FALSE && strpos(chr($mfile), $json) == FALSE) {
 						$out[] =  $directory . '/' .  $mfile;
 					}
 				}
