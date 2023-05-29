@@ -7,7 +7,7 @@
       <div v-if="this.publish">
         <button
           class="button"
-          :class="{ warning: publishIncomplete}"
+          :class="{ warning: publishIncomplete }"
           @click="localPublish('website')"
         >
           {{ this.publish_text }}
@@ -17,23 +17,23 @@
         <div>
           <button
             class="button"
-            :class="{ warning: prototypeIncomplete}"
-          @click="localPublish('prototype')"
+            :class="{ warning: prototypeIncomplete }"
+            @click="localPublish('prototype')"
           >
             {{ this.prototype_text }}
           </button>
         </div>
         <div v-if="this.sdcard">
           <div>
-            <button 
-              class="button" 
-              :class="{ warning: sdcardIncomplete}"
+            <button
+              class="button"
+              :class="{ warning: sdcardIncomplete }"
               @click="localPublish('sdcard')"
             >
               {{ this.sdcard_text }}
             </button>
           </div>
-          <div >
+          <div>
             <button class="button" @click="localPublish('video_list')">
               {{ this.videolist_text }}
             </button>
@@ -45,6 +45,11 @@
               {{ this.pdf_text }}
             </button>
           </div>
+        </div>
+        <div>
+          <button class="button" @click="localPublish('restore')">
+            {{ this.restore_text }}
+          </button>
         </div>
       </div>
       <div>
@@ -142,6 +147,7 @@ export default {
       publish_text: 'Publish Series and Chapters',
       sdcard_text: 'Publish Series and Chapters to SD Card',
       pdf_text: 'Publish Series and Chapters to PDF',
+      restore_text: 'Restore Series and Chapters from Website',
       videolist_text: null,
       prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
       download_ready: '',
@@ -219,6 +225,11 @@ export default {
         response = await PublishService.publish('seriesAndChapters', params)
         this.publish_text = 'Published'
       }
+      if (location == 'restore') {
+        this.restore_text = 'Restoring'
+        response = await PublishService.restore('chapters', params)
+        this.restore_text = 'Restored'
+      }
       if (location == 'sdcard') {
         console.log('location is sdcard')
         this.sdcard_text = 'Publishing'
@@ -251,13 +262,13 @@ export default {
       param.library_code = this.$route.params.library_code
       var bm = await PrototypeService.publish('bookmark', param)
       LogService.consoleLogMessage('localBookmark')
-      LogService.consoleLogMessage (bm)
+      LogService.consoleLogMessage(bm)
     },
     async checkPublish() {
       if (this.prototype_date) {
         this.publish = this.mayPublishSeries()
         if (this.publish) {
-          this.sdcard = true;
+          this.sdcard = true
           if (this.publish_date) {
             this.publish_text = 'Publish Series and Chapters Again'
           } else {
@@ -288,7 +299,7 @@ export default {
         params.destination = 'staging'
         var cache = await AuthorService.checkCache(params)
         console.log(cache)
-        if (cache == 'staging'){
+        if (cache == 'staging') {
           this.prototypeIncomplete = true
           this.prototype_text = 'Resume Prototyping Series and Chapters'
         }
@@ -299,7 +310,7 @@ export default {
         this.publish = this.mayPublishSeries()
         if (this.publish) {
           if (this.publish_date) {
-            this.sdcard = true;
+            this.sdcard = true
             this.sdcard_text = 'Publish to SDCard'
             var params = {}
             params.route = JSON.stringify(this.$route.params)

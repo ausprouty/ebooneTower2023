@@ -20,6 +20,7 @@ function myRequireOnce($filename, $subdirectory = null)
     }
     if ($new_name) {
         require_once($new_name);
+        writeLogAppend('myRequireOnce', "$filename => $new_name");
     } else {
         _appendmyRequireOnce('ERROR-myRequireOnce', "\n\n$subdirectory/$filename with destination of " . DESTINATION . "\n");
         _appendmyRequireOnce('ERROR-myRequireOnce', "NOT FOUND\n");

@@ -16,7 +16,7 @@
           </button>
         </div>
       </div>
-     
+
       <div v-if="this.pdf">
         <div>
           <button class="button" @click="localPublish('pdf')">
@@ -25,6 +25,11 @@
         </div>
       </div>
       <div v-if="this.write">
+        <div>
+          <button class="button" @click="localPublish('restore')">
+            {{ this.restore_text }}
+          </button>
+        </div>
         <button class="button" @click="editPage">Edit</button>
       </div>
       <img
@@ -93,6 +98,7 @@ export default {
     return {
       prototype_text: 'Prototype',
       publish_text: 'Publish',
+      restore_text: 'Restore',
       capacitor_text: 'Capacitor Test Page',
       prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
       rldir: 'ltr',
@@ -192,6 +198,11 @@ export default {
         this.publish_text = 'Publishing'
         response = await PublishService.publish('page', params)
         this.publish_text = 'Published'
+      }
+      if (location == 'restore') {
+        this.publish_text = 'Restoring'
+        response = await PublishService.restore('page', params)
+        this.publish_text = 'Restored'
       }
       if (location == 'capacitor') {
         this.capacitor_text = 'Publishing Capacitor Test Page'

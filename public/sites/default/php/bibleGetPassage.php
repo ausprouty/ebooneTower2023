@@ -69,5 +69,11 @@ function bibleGetPassage($p)
         $out = bibleGetPassageBibleBrain($p);
         return $out;
     }
+    if ($data['source']  == 'bible_server') {
+        myRequireOnce('bibleGetPassageBibleServer.php');
+        $p['version_code'] = $data['version_code'];
+        $out = bibleGetPassageBibleServer($p);
+        return $out;
+    }
     return $out;
 }

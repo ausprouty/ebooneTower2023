@@ -108,6 +108,40 @@ export default {
     }
   },
 
+  async restore(scope, params) {
+    var action = null
+    params.site = process.env.VUE_APP_SITE
+    params.location = process.env.VUE_APP_SITE_LOCATION
+    params.my_uid = store.state.user.uid
+    params.token = store.state.user.token
+    params.destination = 'website'
+    switch (scope) {
+      case 'chapters':
+        action = 'AuthorApi.php?page=restoreChapters&action=restoreChapters'
+        break
+      case 'page':
+      case 'default':
+        action = 'AuthorApi.php?page=restorePage&action=restorePage'
+        break
+    }
+    try {
+      var content = []
+      var complete_action =
+        action + '&site=' + apiSite + '&location=' + apiLocation
+      var contentForm = this.toFormData(params)
+      var response = await apiSECURE.post(complete_action, contentForm)
+      if (response.data) {
+        content = response.data
+      }
+      return content
+    } catch (error) {
+      this.error = error.toString() + '' + action
+      //console.log(this.error)
+      //console.log(action)
+      return 'error'
+    }
+  },
+
   toFormData(obj) {
     var form_data = new FormData()
     for (var key in obj) {

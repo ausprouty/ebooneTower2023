@@ -39,24 +39,22 @@ myRequireOnce('writeLog.php');
 //   'reference' => 'John 14:15-26',
 // ),
 
-function bibleGetPassageBiblegateway($p)
+function bibleGetPassageBibleServer($p)
 {
 	$output = array();
 	$output['debug'] = '';
 	$parse = array();
 	// it seems that Chinese does not always like the way we enter things.
-	$reference_shaped = str_replace($p['bookLookup'], $p['bookId'], $p['entry']); // try this and see if it works/
+	$reference_shaped = $p['entry']; // try this and see if it works/
 	$reference_shaped = str_replace(' ', '%20', $reference_shaped);
 
 	$agent = 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30)';
-	$reffer = 'http://biblegateway.com/passage/?search=' . $reference_shaped . '&version=' . $p['version_code']; // URL
-	$POSTFIELDS = null;
+	$reffer = 'https://bibleserver.com/' . $p['version_code'] . '/' . $reference_shaped; // URL
 	$cookie_file_path = null;
 	$ch = curl_init();	// Initialize a CURL conversation.
 	// The URL to fetch. You can also set this when initializing a conversation with curl_init().
 	curl_setopt($ch, CURLOPT_USERAGENT, $agent); // The contents of the "User-Agent: " header to be used in a HTTP request.
 	curl_setopt($ch, CURLOPT_POST, 1); //TRUE to do a regular HTTP POST. This POST is the normal application/x-www-form-urlencoded kind, most commonly used by HTML forms.
-	curl_setopt($ch, CURLOPT_POSTFIELDS, $POSTFIELDS); //The full data to post in a HTTP "POST" operation.
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);  // TRUE to return the transfer as a string of the return value of curl_exec() instead of outputting it out directly.
 	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1); // TRUE to follow any "Location: " header that the server sends as part of the HTTP header (note this is recursive, PHP will follow as many "Location: " headers that it is sent, unless CURLOPT_MAXREDIRS is set).
 	curl_setopt($ch, CURLOPT_REFERER, $reffer); //The contents of the "Referer: " header to be used in a HTTP request.
@@ -67,12 +65,14 @@ function bibleGetPassageBiblegateway($p)
 	curl_setopt($ch, CURLOPT_LOW_SPEED_LIMIT, 90); // Wait 30 seconds for download
 	curl_setopt($ch, CURLOPT_LOW_SPEED_TIME, 90); // Wait 30 seconds for download
 	curl_setopt($ch, CURLOPT_TIMEOUT, 90); // Wait 30 seconds for download
-	$url = 'https://biblegateway.com/passage/?search=' . $reference_shaped . '&version=' . $p['version_code']; // URL
+	$url = 'https://bibleserver.com/' . $p['version_code'] . '/' . $reference_shaped; // URL
 	$output['link'] = $url;
+	writeLogDebug('bibleGetPassageBibleServer-70', $url);
 	curl_setopt($ch, CURLOPT_URL, $url);
 	$string = curl_exec($ch);  // grab URL and pass it to the variable.
 	// see https://code.tutsplus.com/tutorials/html-parsing-and-screen-scraping-with-the-simple-html-dom-library--net-11856
-	//writeLogDebug('bibleGetPassageBiblegateway-79', $string);
+	writeLogDebug('bibleGetPassageBibleServer-73', $string);
+	return;
 	$html = str_get_html($string);
 	$e = $html->find('.dropdown-display-text', 0);
 	$reference = $e->innertext;
@@ -100,7 +100,7 @@ function bibleGetPassageBiblegateway($p)
 	return $output;
 }
 
-function  bibleGetPassageBiblegatewayClean($bible)
+function  bibleGetPassageBibleServerClean($bible)
 {
 
 	// now we are working just with Bible text
