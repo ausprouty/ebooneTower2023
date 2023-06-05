@@ -54,7 +54,7 @@ function createContent($p)
 		$result = $conn->query($sql);
 		if (!$result) {
 			$message = "Could not add Content";
-			writeLogError('createContent-38', $sql);
+			writeLogError('createContent-57', $sql);
 		} else {
 			$message = "Success";
 		}

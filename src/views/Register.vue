@@ -133,7 +133,7 @@ export default {
   mixins: [authorizeMixin, countriesMixin],
   data() {
     return {
-      default_start_page: '/preview/languages/M2',
+      default_start_page: '/preview/',
       firstname: null,
       lastname: null,
       scope: null,

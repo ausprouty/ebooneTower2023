@@ -91,6 +91,7 @@ export default new Vuex.Store({
     },
     LOGOUT_USER(state) {
       state.user = {}
+      localStorage.removeItem('user')
     },
     SET_USER_DATA(state, userData) {
       state.user = userData

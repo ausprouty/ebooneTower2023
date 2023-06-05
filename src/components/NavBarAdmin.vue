@@ -108,7 +108,7 @@ export default {
           value: 'Logout',
           link: 'logout',
           index: 9,
-          show: false,
+          show: true,
         },
       ],
     }
