@@ -18,6 +18,7 @@ export const authorizeMixin = {
       }
       // if you did not follow the router you can restore by using localStorage
       if (typeof store.state.user.scope_countries == 'undefined') {
+        alert('I am restoring user state from localstorage')
         if (localStorage.getItem('user')) {
           var user = JSON.parse(localStorage.getItem('user'))
           if (user != 'error') {
@@ -42,8 +43,8 @@ export const authorizeMixin = {
       }
       // can edit anything
       if (
-        store.state.user.scope_countries == '*' &&
-        store.state.user.scope_languages == '*'
+        store.state.user.scope_countries == '|*|' &&
+        store.state.user.scope_languages == '|*|'
       ) {
         if (reason != 'readonly') {
           return true
@@ -60,20 +61,25 @@ export const authorizeMixin = {
       }
       // check for legacy errors
       if (typeof store.state.user.scope_countries === 'undefined') {
+        alert('I am reassigning scope countries')
         store.state.user.scope_countries = 'undefined'
       }
       if (typeof store.state.user.scope_languages === 'undefined') {
         store.state.user.scope_languages = 'undefined'
+        alert('I am reassigning scope languages')
       }
       // check authority
       if (reason == 'read') {
         return true
       }
+      console.log(store.state.user)
+      console.log(route)
       // can edit this langauge in this country
       if (
         store.state.user.scope_countries.includes(route.country_code) &&
         store.state.user.scope_languages.includes(route.language_iso)
       ) {
+        console.log('Can edit this language in this country')
         if (reason != 'readonly') {
           return true
         } else {
@@ -85,13 +91,26 @@ export const authorizeMixin = {
         store.state.user.scope_countries.includes(route.country_code) &&
         store.state.user.scope_languages == '*'
       ) {
+        console.log('Can edit anything in this country')
         if (reason != 'readonly') {
           return true
         } else {
           return false
         }
       }
-
+      // can edit anything in this language
+      if (
+        (store.state.user.scope_countries =
+          '*' && store.state.user.scope_languages.includes(route.language_iso))
+      ) {
+        console.log('Can edit anything in this language')
+        if (reason != 'readonly') {
+          return true
+        } else {
+          return false
+        }
+      }
+      console.log('Fell through to bottom')
       // can only read
       if (reason == 'readonly') {
         return true

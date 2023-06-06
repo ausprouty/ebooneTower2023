@@ -87,6 +87,7 @@ export default new Vuex.Store({
       state.capacitorSettings = value
     },
     LOGIN_USER(state, value) {
+      console.log (value[0])
       state.user = value[0]
     },
     LOGOUT_USER(state) {

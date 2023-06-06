@@ -79,9 +79,10 @@ export default {
           params.username = this.username
           params.password = this.password
           let res = await AuthorService.login(params)
-          //console.log(res)
-          var stringified = JSON.stringify(res)
-          if (stringified != 'error') {
+          console.log(res)
+          if (res.authorized == 'authorized') {
+            var stringified = JSON.stringify(res)
+            console.log(stringified)
             this.$store.dispatch('loginUser', [res])
             localStorage.setItem('user', stringified)
             var start_page = process.env.VUE_APP_SITE_START_PAGE
