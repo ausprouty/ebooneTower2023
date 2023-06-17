@@ -160,10 +160,14 @@ export default {
   },
 
   methods: {
+    getAuthorizer() {
+      var user = JSON.parse(localStorage.getItem('user'))
+      return user.uid
+    },
     async saveUserForm() {
       try {
         var params = {}
-        params.authorizer = store.state.user.uid
+        params.authorizer = this.getAuthorizer()
         params.firstname = this.firstname
         params.lastname = this.lastname
         // format scope

@@ -27,10 +27,11 @@ export default {
           store.state.capacitorSettings.language.language_iso
       }
     }
+    var user = JSON.parse(localStorage.getItem('user'))
     params.site = process.env.VUE_APP_SITE
-    params.my_uid = store.state.user.uid
+    params.my_uid = user.uid
     params.subdirectory = 'capacitor'
-    params.token = store.state.user.token
+    params.token = user.token
     if (typeof params.destination == 'undefined') {
       params.destination = 'capacitor'
     }

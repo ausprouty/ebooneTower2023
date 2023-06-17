@@ -67,8 +67,9 @@ export default {
       LogService.consoleLog(test, response)
     },
     setupParams(){
-        var params = {}
-        params.my_uid = store.state.user.uid
+      var params = {}
+      var user = JSON.parse(localStorage.getItem('user'))
+        params.my_uid = user.uid
         return params
     },
     async testBibleABSUpdate() {

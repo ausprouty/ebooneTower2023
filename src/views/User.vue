@@ -159,6 +159,10 @@ export default {
       temp = formatted.replace(/\|\|/g, '|')
       return temp
     },
+    getAuthorizer() {
+      var user = JSON.parse(localStorage.getItem('user'))
+      return user.uid
+    },
     async saveForm() {
       try {
         var params = this.member
@@ -178,13 +182,9 @@ export default {
         }
         params.start_page = this.$v.member.start_page.$model
         params.member_uid = this.member.uid
-        params.authorizer = store.state.user.uid
-        LogService.consoleLogMessage('params for SaveForm')
-        LogService.consoleLogMessage(params)
+        params.authorizer = this.getAuthorizer
         let res = null
         res = await AuthorService.updateUser(params)
-        LogService.consoleLogMessage('res from Author Service')
-        LogService.consoleLogMessage(res)
         if (res.data.error) {
           this.registered = false
           this.error_message = res.data.message
@@ -201,14 +201,10 @@ export default {
     async deleteForm() {
       try {
         var params = {}
-        params.authorizer = store.state.user.uid
+        params.authorizer = this.getAuthorizer()
         params.member_uid = this.member.uid
         params.member_username = this.member.username
-        LogService.consoleLogMessage('params from DeleteForm')
-        LogService.consoleLogMessage(params)
         let res = await AuthorService.deleteUser(params)
-        LogService.consoleLogMessage('res from Author Service')
-        LogService.consoleLogMessage(res)
         if (res.data.error) {
           this.registered = false
           this.error_message = res.data.message
