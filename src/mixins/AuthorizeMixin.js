@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import store from '@/store/store.js'
-//import { mapState } from 'vuex'
+import { mapState } from 'vuex'
 //import { timeout } from 'q'
 Vue.use(Vuex)
 
@@ -12,10 +12,9 @@ export const authorizeMixin = {
       if (this.$route.path == '/login') {
         return true
       }
-      if (!localStorage.getItem('user')) {
+      if (typeof store.state.user === 'undefined') {
         this.$router.push({ name: 'login' })
       }
-      var user = JSON.parse(localStorage.getItem('user'))
       if (typeof route == 'undefined') {
         alert('no route')
         return false
@@ -23,11 +22,11 @@ export const authorizeMixin = {
       // check if expired
       var date = new Date()
       var timestamp = date.getTime() / 1000
-      if (user.expires < timestamp) {
+      if (store.state.user.expires < timestamp) {
         this.$router.push({ name: 'login' })
       }
       // can edit anything
-      if (user.scope_countries == '|*|' && user.scope_languages == '|*|') {
+      if (store.state.user.scope_countries == '|*|' && store.state.user.scope_languages == '|*|') {
         if (reason != 'readonly') {
           return true
         } else {
@@ -45,12 +44,12 @@ export const authorizeMixin = {
       if (reason == 'read') {
         return true
       }
-      console.log(user)
+      console.log(store.state.user)
       console.log(route)
       // can edit this langauge in this country
       if (
-        user.scope_countries.includes(route.country_code) &&
-        user.scope_languages.includes(route.language_iso)
+        store.state.user.scope_countries.includes(route.country_code) &&
+        store.state.user.scope_languages.includes(route.language_iso)
       ) {
         console.log('Can edit this language in this country')
         if (reason != 'readonly') {
@@ -61,8 +60,8 @@ export const authorizeMixin = {
       }
       // can edit anything in country
       if (
-        user.scope_countries.includes(route.country_code) &&
-        user.scope_languages == '|*|'
+        store.state.user.scope_countries.includes(route.country_code) &&
+        store.state.user.scope_languages == '|*|'
       ) {
         console.log('Can edit anything in this country')
         if (reason != 'readonly') {
@@ -73,8 +72,8 @@ export const authorizeMixin = {
       }
       // can edit anything in this language
       if (
-        (user.scope_countries =
-          '|*|' && user.scope_languages.includes(route.language_iso))
+        (store.state.user.scope_countries =
+          '|*|' && store.state.user.scope_languages.includes(route.language_iso))
       ) {
         console.log('Can edit anything in this language')
         if (reason != 'readonly') {

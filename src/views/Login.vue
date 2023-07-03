@@ -82,8 +82,8 @@ export default {
           if (res.authorized == 'authorized') {
             var stringified = JSON.stringify(res)
             console.log(stringified)
-            // this.$store.dispatch('loginUser', [res])
-            localStorage.setItem('user', stringified)
+            this.$store.dispatch('loginUser', [res])
+            //localStorage.setItem('user', stringified)
             var start_page = process.env.VUE_APP_SITE_START_PAGE
             if (typeof res.start_page !== 'undefined') {
               start_page = res.start_page

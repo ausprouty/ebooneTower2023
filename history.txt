@@ -1,0 +1,18 @@
+nvm use 16.18.1
+npm run build-myfriends
+
+
+installed nvm by going to https://github.com/coreybutler/nvm-windows
+You need to restart the machine for nvm to be seen.
+
+Installed nodejs 18.12.1 (as per ampp)
+Installed nodejs 16.18.1 (as per xamp73)
+npx browserslist@latest --update-db
+
+Extensions:
+    eslint
+    flat ui
+    prettier
+    Vetur
+    Volar
+
