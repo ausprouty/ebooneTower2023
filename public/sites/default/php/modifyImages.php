@@ -89,7 +89,7 @@ function copySiteImages($text, $p)
                 if (!is_dir($from) && strpos($to, '.html') === false) {
                     copy($from, $to);
                     $message = ' copySiteImages copied ' . $filename . ' from' . $from . ' to ' . $to . "\n";
-                    writeLogAppend('modifyContentImages-96', $message);
+                   // writeLogAppend('modifyContentImages-96', $message);
                 }
             } else {
                 writeLogAppend('ERROR- copySiteImages', $from);

@@ -120,7 +120,7 @@ function modifyRevealSummary($text, $p)
             $word,
             $tag_close
         );
-        writeLogAppend('modifyRevealSummary-123', $template);
+        //writeLogAppend('modifyRevealSummary-123', $template);
         $new = str_replace($old, $new, $template);
         $debug .= $new;
         $pos_end = strpos($text, $tag_close, $pos_start);
