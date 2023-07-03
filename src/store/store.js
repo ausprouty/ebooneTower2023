@@ -87,10 +87,11 @@ export default new Vuex.Store({
       state.capacitorSettings = value
     },
     LOGIN_USER(state, value) {
+      state.user = value[0]
       console.log(value[0])
     },
     LOGOUT_USER(state) {
-      localStorage.removeItem('user')
+      state.user = {}
     },
     SET_USER_DATA(state, userData) {
       state.user = userData
