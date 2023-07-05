@@ -5,7 +5,8 @@
     <div v-if="this.publish">
       <button class="button" @click="countryPublish('website')">
         {{ this.country_publish_text }}
-      </button>  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+      </button> 
+       &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
       <button class="button" @click="languagePublish('website')">
         {{ this.language_publish_text }}
       </button>
@@ -15,8 +16,9 @@
         <button class="button" @click="countryPublish('prototype')">
           {{ this.country_prototype_text }}
         </button>
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
         <button class="button" @click="languagePublish('prototype')">
-          {{ this.languge_prototype_text }}
+          {{ this.language_prototype_text }}
         </button>
       </div>
       <div v-if="this.sdcard">
@@ -91,7 +93,7 @@ export default {
   methods: {
     showPreview() {
       var root = process.env.VUE_APP_PROTOTYPE_CONTENT_URL
-      var link = root + 'languages.html'
+      var link = root + 'index.html'
       window.open(link, '_blank')
     },
     editCountries() {
@@ -113,15 +115,15 @@ export default {
       params.recnum = this.recnum
       params.route = JSON.stringify(this.$route.params)
       if (location == 'prototype') {
-        this.counry_prototype_text = 'Prototyping'
+        this.counry_prototype_text = 'Prototyping Countries'
         response = await PrototypeService.publish('countries', params)
-        this.country_prototype_text = 'Prototyped'
+        this.country_prototype_text = 'Prototyped Countries'
       }
 
       if (location == 'website') {
-        this.country_publish_text = 'Publishing'
+        this.country_publish_text = 'Publishing Countries'
         response = await PublishService.publish('countries', params)
-        this.country_publish_text = 'Published'
+        this.country_publish_text = 'Published Countries'
       }
       if (response['error']) {
         this.error = response['message']
@@ -141,15 +143,15 @@ export default {
       params.recnum = this.recnum
       params.route = JSON.stringify(this.$route.params)
       if (location == 'prototype') {
-        this.language_prototype_text = 'Prototyping'
+        this.language_prototype_text = 'Prototyping Languages'
         response = await PrototypeService.publish('languages', params)
-        this.language_prototype_text = 'Prototyped'
+        this.language_prototype_text = 'Prototyped Languages'
       }
 
       if (location == 'website') {
-        this.language_publish_text = 'Publishing'
+        this.language_publish_text = 'Publishing Languages'
         response = await PublishService.publish('languages', params)
-        this.language_publish_text = 'Published'
+        this.language_publish_text = 'Published Languages'
       }
       if (response['error']) {
         this.error = response['message']

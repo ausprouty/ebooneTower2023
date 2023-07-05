@@ -36,12 +36,10 @@ function publishCountries($p){
     $main_template = str_replace('{{ site }}', SITE_CODE, $main_template);
     // get sub template and do some replacing
     $sub_template = myGetPrototypeFile('country.html');
-    $debug .=  $sub_template . "\n";
     $countries = json_decode($data['text']);
     $country_template = '';
     foreach ($countries as $country) {
         if (publishReady($country, DESTINATION)) {
-            $debug .=  $country->code . "\n";
             $image = '/' . DIR_DEFAULT_SITE . 'images/country/' . $country->image;
             $link =  publishCountryLink($country->code, $p['destination']);
             $placeholders = ['{{ link }}', '{{ country.image }}', '{{ country.name }}', '{{ country.english }}'];
@@ -50,11 +48,11 @@ function publishCountries($p){
         }
     }
     // add sub template content
-    $debug .=  $country_template . "\n";
     $main_template = str_replace('[[countries]]', $country_template, $main_template);
-
+    writeLogDebug('publishCountries-52', $main_template);
     // write countries file in content folder (so we can use root for javascript to return to last page)
     $fname = publishDestination($p)  . 'content/index.html';
+    writeLogDebug('publishCountries-55', $fname);
     $main_template .= '<!--- Created by prototypeCountries-->' . "\n";
     publishFiles($p, $fname, $main_template,   STANDARD_CSS,  $selected_css);
 
@@ -96,8 +94,17 @@ function publishCountryLink($country_code, $destination)
     $count = 0;
     foreach ($languages->languages as $language) {
         if (publishReady($language, $destination)) {
+            /*
+                "/sites/myfriends/content/AU/eng/index.html" 
+                   needs to be reduced to 
+                "/content/AU/eng/index.html" 
+            */
             $link = $language->folder . '/index.html';
-            $count++;
+            $pos = strpos($link, '/content');
+            if ($pos){
+                $link = substr($link, $pos);
+                $count++;
+            }
         }
     }
     if ($count != 1) {

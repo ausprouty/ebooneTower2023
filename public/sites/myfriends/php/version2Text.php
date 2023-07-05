@@ -16,7 +16,7 @@ function version2Text($text){
   $text = str_ireplace('"/sites/myfriends/sites/myfriends/', '"/sites/myfriends/', $text);
   $text = str_ireplace('"/content/ZZ/styles/', '"/sites/myfriends/styles/', $text);
   $text = str_ireplace('"/images/', '"/sites/default/images/', $text);
-  $text = str_ireplace('"/content/', '"/sites/myfriends/content/', $text);
+ // $text = str_ireplace('"/content/', '"/sites/myfriends/content/', $text);
   $text = str_ireplace('data-json="/sites/myfriends/content/', 'data-json="/content/', $text);
   $text= str_ireplace ('/sites/default/images/gospel','/sites/myfriends/images/gospel', $text);
   $text= str_ireplace ('/sites/default/images/firststeps','/sites/myfriends/images/firststeps', $text);
