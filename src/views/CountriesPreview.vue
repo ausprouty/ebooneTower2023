@@ -39,7 +39,12 @@
         <img class="help-icon" src="/sites/default/images/icons/help.png" />
       </a>
       <img
-        @click="showPreview()"
+        @click="showPreview('countries')"
+        class="help-icon"
+        src="/sites/default/images/icons/preview.png"
+      />
+      <img
+        @click="showPreview('languages')"
         class="help-icon"
         src="/sites/default/images/icons/preview.png"
       />
@@ -91,9 +96,13 @@ export default {
   computed: mapState(['user']),
 
   methods: {
-    showPreview() {
-      var root = process.env.VUE_APP_PROTOTYPE_CONTENT_URL
-      var link = root + 'index.html'
+    showPreview(destination) {
+      var link = process.env.VUE_APP_PROTOTYPE_CONTENT_URL
+      if (destination == 'countries') {
+        link += 'index.html'
+      } else {
+        link += 'languages.html'
+      }
       window.open(link, '_blank')
     },
     editCountries() {
@@ -144,13 +153,13 @@ export default {
       params.route = JSON.stringify(this.$route.params)
       if (location == 'prototype') {
         this.language_prototype_text = 'Prototyping Languages'
-        response = await PrototypeService.publish('languages', params)
+        response = await PrototypeService.publish('languagesAvailable', params)
         this.language_prototype_text = 'Prototyped Languages'
       }
 
       if (location == 'website') {
         this.language_publish_text = 'Publishing Languages'
-        response = await PublishService.publish('languages', params)
+        response = await PublishService.publish('languagesAvailable', params)
         this.language_publish_text = 'Published Languages'
       }
       if (response['error']) {

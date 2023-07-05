@@ -1,16 +1,13 @@
 <?php
 myRequireOnce('dirStandard.php');
-
 myRequireOnce('publishFiles.php');
 myRequireOnce('myGetPrototypeFile.php');
 
 
 function publishLanguagesAvailable($p)
 {
-
+    writeLogDebug('publishLanguagesAvailable-9', "started \n");
     $available = [];
-
-    $debug = 'in  publishLanguagesAvailable ' . "\n";
     $selected_css = 'sites/default/styles/cardGLOBAL.css';
     $footer  = '';
     // flags
@@ -44,7 +41,6 @@ function publishLanguagesAvailable($p)
             return ($p);
         }
         // look for flag
-
         $flag = 'unknown';
         if (is_array($countries_array)) {
             foreach ($countries_array as $country_object) {
@@ -54,8 +50,6 @@ function publishLanguagesAvailable($p)
             }
             $debug .= "$flag is flag for " .  $country['country_code'] . " \n";
         }
-
-
         foreach ($text->languages as $language) {
             if (isset($language->publish)) {
                 if ($language->publish) {
@@ -91,10 +85,8 @@ function publishLanguagesAvailable($p)
     $body = str_replace('[[languages]]', $temp,  $main_template);
     // write file
     //
-    $fname =  '/content/' . SITE_CODE . '/' .  $p['country_code'] . '/' . 'languages.html';
-    $fname =  dirStandard('country', DESTINATION, $p) . 'languages.html';
-
-    $debug .= "Copied Languages available to $fname \n";
+    $fname =  '/content/languages.html';
+    writeLogDebug('publishLanguagesAvailable-88', "Copied Languages available to $fname \n");
     $body .= '<!--- Created by publishLanguagesAvailable-->' . "\n";
     publishFiles($p, $fname, $body, STANDARD_CSS, $selected_css);
     return $p;

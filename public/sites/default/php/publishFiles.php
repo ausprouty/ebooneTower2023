@@ -25,7 +25,6 @@ myRequireOnce('onLoadJS.php');
 function publishFiles($p, $fname, $text, $standard_css, $selected_css)
 {
 
-    writeLogDebug('publishFile-28',  $text);
     $destination = DESTINATION;
     $file_name_parts = explode('/', $fname);
     $fsname = array_pop($file_name_parts);
@@ -54,7 +53,6 @@ function publishFiles($p, $fname, $text, $standard_css, $selected_css)
     } else {
         $headers = ' ';
     }
-    writeLogDebug('publishFile-57',  $text);
     if ($destination != 'staging') {
         // class="nobreak" need to be changed to class="nobreak-final" so color is correct
         $text = str_ireplace("nobreak", "nobreak-final", $text);
@@ -95,17 +93,16 @@ function publishFiles($p, $fname, $text, $standard_css, $selected_css)
     writeLogDebug('publishFile-95',  $output);
     // remove dupliate CSS
     $output = publishCSS($output, $p);
-    writeLogDebug('publishFile-98',  $output);
-    // append footer
+ 
     $footer = 'footer.html';
     $output .= myGetPrototypeFile($footer,  $p['language_iso'],);
     // copy all images and styles to the publish directory
     //$response = publishCopyImagesAndStyles($output, $destination);
-    writeLogDebug('publishFile-102',  $output);
+
     $output = modifyImages($output, $p);
     // make sure  all files are copied to destination directory
     publishFilesInPage($output, $p);
-    writeLogDebug('publishFile-105',  $output);
+
     fileWrite($fname, $output, $p);
     return $output;
 }

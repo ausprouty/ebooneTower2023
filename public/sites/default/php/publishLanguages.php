@@ -7,6 +7,7 @@ myRequireOnce('publishLanguagesAvailable.php');
 
 function publishLanguages($p, $allowed = ['all'])
 {
+    writeLogDebug('publishLanguages-10', "started \n");
     $publishDestination = publishDestination($p);
 
     $creator =   "\n" . '&nbsp; <!--- Created by publishLanguages -->&nbsp; ' .  "\n";
