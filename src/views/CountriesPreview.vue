@@ -3,20 +3,26 @@
     <NavBar called_by="country" />
 
     <div v-if="this.publish">
-      <button class="button" @click="localPublish('website')">
-        {{ this.publish_text }}
+      <button class="button" @click="countryPublish('website')">
+        {{ this.country_publish_text }}
+      </button>  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+      <button class="button" @click="languagePublish('website')">
+        {{ this.language_publish_text }}
       </button>
     </div>
     <div v-if="this.prototype">
       <div>
-        <button class="button" @click="localPublish('prototype')">
-          {{ this.prototype_text }}
+        <button class="button" @click="countryPublish('prototype')">
+          {{ this.country_prototype_text }}
+        </button>
+        <button class="button" @click="languagePublish('prototype')">
+          {{ this.languge_prototype_text }}
         </button>
       </div>
       <div v-if="this.sdcard">
         <div>
-          <button class="button" @click="localPublish('sdcard')">
-            {{ this.sdcard_text }}
+          <button class="button" @click="languagePublish('sdcard')">
+            {{ this.language_sdcard_text }}
           </button>
         </div>
       </div>
@@ -72,8 +78,11 @@ export default {
     return {
       authorized: false,
       publish: false,
-      prototype_text: 'Prototype Languages',
-      publish_text: 'Publish Languages',
+      language_prototype_text: 'Prototype Languages',
+      language_publish_text: 'Publish Languages',
+      country_prototype_text: 'Prototype Countries',
+      counry_publish_text: 'Publish Countries',
+      language_sdcard_text: 'Publish Languages to SD Card',
       prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
     }
   },
@@ -98,21 +107,21 @@ export default {
     goBack() {
       window.history.back()
     },
-    async localPublish(location) {
+    async countryPublish(location) {
       var response = null
       var params = {}
       params.recnum = this.recnum
       params.route = JSON.stringify(this.$route.params)
       if (location == 'prototype') {
-        this.prototype_text = 'Prototyping'
+        this.counry_prototype_text = 'Prototyping'
         response = await PrototypeService.publish('countries', params)
-        this.prototype_text = 'Prototyped'
+        this.country_prototype_text = 'Prototyped'
       }
 
       if (location == 'website') {
-        this.publish_text = 'Publishing'
+        this.country_publish_text = 'Publishing'
         response = await PublishService.publish('countries', params)
-        this.publish_text = 'Published'
+        this.country_publish_text = 'Published'
       }
       if (response['error']) {
         this.error = response['message']
@@ -126,23 +135,37 @@ export default {
         await this.loadView()
       }
     },
-    /*
-    async localBookmark(recnum) {
-      var param = {}
-      param.recnum = recnum
-      param.library_code = this.$route.params.library_code
-      var bm = await PrototypeService.publish('bookmark', param)
-      LogService.consoleLogMessage('localBookmark')
-      LogService.consoleLogMessage(bm)
+    async languagePublish(location) {
+      var response = null
+      var params = {}
+      params.recnum = this.recnum
+      params.route = JSON.stringify(this.$route.params)
+      if (location == 'prototype') {
+        this.language_prototype_text = 'Prototyping'
+        response = await PrototypeService.publish('languages', params)
+        this.language_prototype_text = 'Prototyped'
+      }
+
+      if (location == 'website') {
+        this.language_publish_text = 'Publishing'
+        response = await PublishService.publish('languages', params)
+        this.language_publish_text = 'Published'
+      }
+      if (response['error']) {
+        this.error = response['message']
+        this.loaded = false
+      } else {
+        //this.UnsetBookmarks()
+        this.recnum = null
+        this.loaded = false
+        this.loading = true
+        this.publish = false
+        await this.loadView()
+      }
     },
-    */
     async loadView() {
       try {
         await this.getCountries()
-        /* if (this.recnum) {
-          this.localBookmark(this.recnum)
-        }
-        */
         this.authorized = this.authorize('write', this.$route.params)
         // authorize for prototype and publish
         this.publish = false
@@ -150,7 +173,8 @@ export default {
         if (this.recnum && !this.prototype_date) {
           this.prototype = this.mayPrototypeCountries
           if (this.prototype) {
-            this.prototype_text = 'Prototype Languages'
+            this.language_prototype_text = 'Prototype Languages'
+            this.country_prototype_text = 'Prototype Countries'
           }
         }
         if (this.recnum && this.prototype_date) {
@@ -159,9 +183,11 @@ export default {
           if (this.publish) {
             LogService.consoleLogMessage('I can publish and prototype again')
             this.prototype = true
-            this.prototype_text = 'Prototype Languages Again'
+            this.language_prototype_text = 'Prototype Languages Again'
+            this.countries_prototype_text = 'Prototype Countrties Again'
             if (this.publish_date) {
-              this.publish_text = 'Publish Languages Again'
+              this.language_publish_text = 'Publish Languages Again'
+              this.country_publish_text = 'Publish Countries Again'
             }
           }
         }
@@ -173,19 +199,6 @@ export default {
         )
       }
     },
-    /*toFormData(obj) {
-      var form_data = new FormData()
-      for (var key in obj) {
-        form_data.append(key, obj[key])
-      }
-      LogService.consoleLogMessage('form_data')
-      // Display the key/value pairs
-      for (var pair of form_data.entries()) {
-        LogService.consoleLogMessage(pair[0] + ', ' + pair[1])
-      }
-      return form_data
-    },
-    */
   },
   beforeCreate() {
     this.$route.params.version = 'latest'

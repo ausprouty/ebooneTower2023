@@ -111,7 +111,7 @@ function getParameters()
         $debug .= "p['" . $key . "'] = " . $value . "\n";
     }
     $p['debug'] = $debug;
-    $p['destination'] = myDestination($p);  // set destination
+    myDestination($p);  // set DESTINATION
     writeLogDebug('ContentSetParameters-p', $p);
     return $p;
 }

@@ -94,6 +94,7 @@ export default {
       var content = []
       var complete_action =
         action + '&site=' + apiSite + '&location=' + apiLocation
+      console.log (params)
       var contentForm = this.toFormData(params)
       var response = await apiSECURE.post(complete_action, contentForm)
       //console.log(response)

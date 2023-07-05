@@ -122,7 +122,7 @@ function setParameters($post)
 		$p['version'] = VERSION;
 	}
 	$p['site'] =  $_GET['site'];
-	$p['destination'] = myDestination($p);  // set destination
+	myDestination($p);  // set DESTINATION
 	writeLogDebug('AuthorSetParameters-p', $p);
 	return $p;
 }

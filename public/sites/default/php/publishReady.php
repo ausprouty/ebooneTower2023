@@ -5,15 +5,17 @@ function publishReady($item, $destination)
 {
 
     switch ($destination) {
-        case "prototype":
+        case "staging":
             if ($item->prototype) {
                 return true;
             } else {
                 return false;
             }
+        case "apk":
+        case "capacitor":
         case "nojs":
-        case "publish":
         case "sdcard":
+            case "website":
             if ($item->publish) {
                 return true;
             } else {

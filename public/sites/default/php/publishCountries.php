@@ -12,9 +12,8 @@ myRequireOnce('myGetPrototypeFile.php');
     if more than one language is authorized for publishing:   CountryCode/languages.html
     if only one language is authorized for publishing:  CountryCode/LanguageIso/index.html
 */
-function publishCountries($p)
-{
-    $debug = 'in publish Countries' . "\n";
+function publishCountries($p){
+
     // declare variables
     $selected_css = STANDARD_CARD_CSS;
     //
@@ -25,6 +24,7 @@ function publishCountries($p)
     $debug .= $sql . "\n";
     $data = sqlArray($sql);
     if (!$data) {
+        writeLogAppend('ERROR- publishCountries-29', $p);
         return $p;
     }
     //
@@ -40,10 +40,10 @@ function publishCountries($p)
     $countries = json_decode($data['text']);
     $country_template = '';
     foreach ($countries as $country) {
-        if (publishReady($country, $p['destination'])) {
+        if (publishReady($country, DESTINATION)) {
             $debug .=  $country->code . "\n";
-            $image = DIR_DEFAULT_SITE . 'images/country/' . $country->image;
-            $link = DIR_SITE . 'content/' . publishCountryLink($country->code, $p['destination']);
+            $image = '/' . DIR_DEFAULT_SITE . 'images/country/' . $country->image;
+            $link =  publishCountryLink($country->code, $p['destination']);
             $placeholders = ['{{ link }}', '{{ country.image }}', '{{ country.name }}', '{{ country.english }}'];
             $replace = [$link, $image, $country->name, $country->english];
             $country_template .= str_replace($placeholders, $replace, $sub_template);
@@ -53,8 +53,8 @@ function publishCountries($p)
     $debug .=  $country_template . "\n";
     $main_template = str_replace('[[countries]]', $country_template, $main_template);
 
-    // write countries file
-    $fname = publishDestination($p)  . 'index.html';
+    // write countries file in content folder (so we can use root for javascript to return to last page)
+    $fname = publishDestination($p)  . 'content/index.html';
     $main_template .= '<!--- Created by prototypeCountries-->' . "\n";
     publishFiles($p, $fname, $main_template,   STANDARD_CSS,  $selected_css);
 
@@ -63,14 +63,14 @@ function publishCountries($p)
     //
     $time = time();
     $sql = null;
-    if ($p['destination'] == 'website') {
+    if (DESTINATION == 'website') {
         $sql = "UPDATE content
             SET publish_date = '$time', publish_uid = '" . $p['my_uid'] . "'
             WHERE  filename = 'countries'
             AND prototype_date IS NOT NULL
             AND publish_date IS NULL";
     }
-    if ($p['destination'] == 'staging') {
+    if (DESTINATION == 'staging') {
         $sql = "UPDATE content
             SET prototype_date = '$time', prototype_uid = '" . $p['my_uid'] . "'
             WHERE  filename = 'countries'
