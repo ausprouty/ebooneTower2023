@@ -4,6 +4,8 @@ myRequireOnce('dirStandard.php');
 myRequireOnce('myGetPrototypeFile.php');
 myRequireOnce('writeLog.php');
 
+//creates languages for country
+
 function createLanguages($p, $data, $allowed = ['all'])
 {
     $text = json_decode($data['text']);
@@ -44,8 +46,13 @@ function createLanguages($p, $data, $allowed = ['all'])
         if ($status  == true) {
             //sd cards may want to limit the languages offered
             if ($allowed[0] == 'all' || in_array($language->iso, $allowed)) {
+                $link =  $language->folder . '/index.html';
+                $pos = strpos($link, '/content/');
+                if ($pos){
+                    $link = substr($link, $pos);
+                }
                 $replace = array(
-                    '/content/' . $p['country_code']  . '/' . $language->folder . '/index.html',
+                    $link,
                     $language->name
                 );
                 $temp .= str_replace($placeholders, $replace, $sub_template);
@@ -53,6 +60,6 @@ function createLanguages($p, $data, $allowed = ['all'])
         }
     }
     $text = str_replace('[[languages]]', $temp,  $main_template);
-    //writeLogDebug('createLanguages-68', $text);
+    writeLogDebug('createLanguages-68', $text);
     return $text;
 }

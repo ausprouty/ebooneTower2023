@@ -37,6 +37,11 @@ function publishCountries($p){
     // get sub template and do some replacing
     $sub_template = myGetPrototypeFile('country.html');
     $countries = json_decode($data['text']);
+    writeLogDebug('publishCountries-40', $countries);
+    usort($countries, function($a, $b) {
+        return $a->name <=> $b->name;
+    });
+    writeLogDebug('publishCountries-44', $countries);
     $country_template = '';
     foreach ($countries as $country) {
         if (publishReady($country, DESTINATION)) {
@@ -49,10 +54,8 @@ function publishCountries($p){
     }
     // add sub template content
     $main_template = str_replace('[[countries]]', $country_template, $main_template);
-    writeLogDebug('publishCountries-52', $main_template);
     // write countries file in content folder (so we can use root for javascript to return to last page)
     $fname = publishDestination($p)  . 'content/index.html';
-    writeLogDebug('publishCountries-55', $fname);
     $main_template .= '<!--- Created by prototypeCountries-->' . "\n";
     publishFiles($p, $fname, $main_template,   STANDARD_CSS,  $selected_css);
 

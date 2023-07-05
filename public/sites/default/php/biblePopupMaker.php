@@ -4,6 +4,7 @@ myRequireOnce('create.php');
 myRequireOnce('bibleDbtArray.php');
 myRequireOnce('bibleGetPassage.php');
 myRequireOnce('getLatestContent.php');
+myRequireOnce('myGetPrototypeFie.php');
 myRequireOnce('writeLog.php');
 /* This routine changes bible-link into bible-popup
 
@@ -29,8 +30,8 @@ function biblePopupMaker($p)
     $nt = $bookmark->language->bible_nt;
     $template = '<a href="javascript:popUp(\'pop[id]\')">[reference]</a>
     <div class="popup" id="pop[id]">[text]</div>';
-    $template_book_not_found = '<span class="bible-book-error">[reference]</span>';
-    $template_text_not_found = '<span class="bible-text-error">[reference]</span>';
+    $template_book_not_found = myGetPrototypeFie('biblePopupBookNotFound.html');
+    $template_text_not_found = myGetPrototypeFie('biblePopupTextNotFound.html');
     $text = $p['text'];
     // clean text from error spans added by this routine in the previous pass
     $text = str_ireplace('"bible-book-error"', '"bible-link"', $text);
@@ -42,6 +43,11 @@ function biblePopupMaker($p)
         $count = 5;
     }
     $pos_end = 0;
+    $old = array(
+        '[id]',
+        '[reference]',
+        '[text]',
+    );
     for ($i = 1; $i <= $count; $i++) {
         $pos_start = $pos_end;
         // sometimes a verse may appear more than once on a page.
@@ -61,26 +67,31 @@ function biblePopupMaker($p)
             $dbt = createBibleDbtArray($p);
             if (!$dbt) {
                 writeLogAppend('ERROR-biblePopupMaker-55', $p);
-                $popup = str_replace('[reference]', $reference, $template_book_not_found);
+                $new = array(
+                    $id,
+                    $reference,
+                    null,
+                );
+                $popup = str_replace($old, $new, $template_book_not_found);
             }
             if ($dbt) {
                 $dbt['version_ot'] = $ot;
                 $dbt['version_nt'] = $nt;
                 $bible = bibleGetPassage($dbt);
                 if ($bible['text'] == null) {
+                    $new = array(
+                        $id,
+                        $reference,
+                        null,
+                    );
                     writeLogAppend('ERROR-biblePopupMaker-63', $dbt);
-                    $popup = str_replace('[reference]', $reference, $template_text_not_found);
+                    $popup = str_replace($old, $new, $template_text_not_found);
                 } else {
                     $bible_text = $bible['text'];
                     // remove any headers
                     if (strpos($bible_text, '<h3>') !== FALSE) {
                         $bible_text = _removeH3($bible_text);
                     }
-                    $old = array(
-                        '[id]',
-                        '[reference]',
-                        '[text]',
-                    );
                     $new = array(
                         $id,
                         $reference,

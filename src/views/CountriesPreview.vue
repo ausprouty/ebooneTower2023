@@ -88,7 +88,7 @@ export default {
       language_prototype_text: 'Prototype Languages',
       language_publish_text: 'Publish Languages',
       country_prototype_text: 'Prototype Countries',
-      counry_publish_text: 'Publish Countries',
+      country_publish_text: 'Publish Countries',
       language_sdcard_text: 'Publish Languages to SD Card',
       prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
     }
@@ -195,7 +195,7 @@ export default {
             LogService.consoleLogMessage('I can publish and prototype again')
             this.prototype = true
             this.language_prototype_text = 'Prototype Languages Again'
-            this.countries_prototype_text = 'Prototype Countrties Again'
+            this.country_prototype_text = 'Prototype Countrties Again'
             if (this.publish_date) {
               this.language_publish_text = 'Publish Languages Again'
               this.country_publish_text = 'Publish Countries Again'

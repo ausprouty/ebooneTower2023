@@ -6,9 +6,9 @@ myRequireOnce('myGetPrototypeFile.php');
 
 function publishLanguagesAvailable($p)
 {
-    writeLogDebug('publishLanguagesAvailable-9', "started \n");
+
     $available = [];
-    $selected_css = 'sites/default/styles/cardGLOBAL.css';
+    $selected_css = '/sites/default/styles/cardGLOBAL.css';
     $footer  = '';
     // flags
     $sql = "SELECT * FROM content
@@ -34,10 +34,12 @@ function publishLanguagesAvailable($p)
             AND filename = 'languages'  AND publish_date != ''
             ORDER BY recnum DESC LIMIT 1";
         $data = sqlArray($sql);
+        //writeLogAppend('publishLanguagesAvailable-37', $data['recnum']);
         $text = json_decode($data['text']);
+        //writeLogAppend('publishLanguagesAvailable-38', $text);
         if (!isset($text->languages)) {
             $message = '$text->languages not published for ' . $country['country_code'];
-            writeLogError('publishLanguagesAvailable', $message);
+            //writeLogError('publishLanguagesAvailable', $message);
             return ($p);
         }
         // look for flag
@@ -45,7 +47,7 @@ function publishLanguagesAvailable($p)
         if (is_array($countries_array)) {
             foreach ($countries_array as $country_object) {
                 if ($country_object->code == $country['country_code']) {
-                    $flag = '../images/country/' . $country_object->image;
+                    $flag = '/sites/default/images/country/' . $country_object->image;
                 }
             }
             $debug .= "$flag is flag for " .  $country['country_code'] . " \n";
@@ -53,18 +55,30 @@ function publishLanguagesAvailable($p)
         foreach ($text->languages as $language) {
             if (isset($language->publish)) {
                 if ($language->publish) {
+                    $pos = strpos($language->folder, '/content');
+                    if ($pos){
+                        $folder = substr($language->folder, $pos);
+                    }
+                    else{
+                        $folder = $language->folder;
+                    }
                     $available[] = array(
                         'language_iso' => $language->iso,
                         'language_name' => $language->name,
                         'country_name' => $country['country_code'],
-                        'folder' => $language->folder,
+                        'folder' => $folder,
                         'flag' => $flag
                     );
                 }
             }
         }
-        usort($available, '_sortByIso');
+       
     }
+    //writeLogDebug('publishLanguagesAvailable-75', $available);
+    usort($available, function($a, $b) {
+        return $a['language_name'] <=> $b['language_name'];
+    });
+    //writeLogDebug('publishLanguagesAvailable-77', $available);
     // get language template
     $sub_template = myGetPrototypeFile('languageAvailable.html');
     $placeholders = array(
@@ -75,7 +89,7 @@ function publishLanguagesAvailable($p)
     $temp = '';
     foreach ($available  as $show) {
         $replace = array(
-            '/content/' . $show['folder'],
+            $show['folder'],
             $show['flag'],
             $show['language_name']
         );
@@ -86,7 +100,7 @@ function publishLanguagesAvailable($p)
     // write file
     //
     $fname =  '/content/languages.html';
-    writeLogDebug('publishLanguagesAvailable-88', "Copied Languages available to $fname \n");
+    //writeLogDebug('publishLanguagesAvailable-88', "Copied Languages available to $fname \n");
     $body .= '<!--- Created by publishLanguagesAvailable-->' . "\n";
     publishFiles($p, $fname, $body, STANDARD_CSS, $selected_css);
     return $p;
@@ -106,13 +120,4 @@ function _flag($country_code)
     }
     return $flag;
 }
-function _sortByIso($a, $b)
-{
-    if ($a['language_iso'] = $b['language_iso']) {
-        return 0;
-    }
-    if ($a['language_iso'] > $b['language_iso']) {
-        return 1;
-    }
-    return -1;
-}
+
