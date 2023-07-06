@@ -11,7 +11,7 @@ function createLanguages($p, $data, $allowed = ['all'])
     $text = json_decode($data['text']);
     if (!isset($text->languages)) {
         $message = "in createLanguages and  no value for text->languages ";
-        writeLogError('createLanguages-10-message', $message);
+        writeLogAppend('ERROR-createLanguages-14', $data);
         trigger_error($message, E_USER_ERROR);
         return null;
     }

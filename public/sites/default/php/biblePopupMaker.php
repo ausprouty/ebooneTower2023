@@ -4,7 +4,7 @@ myRequireOnce('create.php');
 myRequireOnce('bibleDbtArray.php');
 myRequireOnce('bibleGetPassage.php');
 myRequireOnce('getLatestContent.php');
-myRequireOnce('myGetPrototypeFie.php');
+myRequireOnce('myGetPrototypeFile.php');
 myRequireOnce('writeLog.php');
 /* This routine changes bible-link into bible-popup
 
@@ -30,8 +30,8 @@ function biblePopupMaker($p)
     $nt = $bookmark->language->bible_nt;
     $template = '<a href="javascript:popUp(\'pop[id]\')">[reference]</a>
     <div class="popup" id="pop[id]">[text]</div>';
-    $template_book_not_found = myGetPrototypeFie('biblePopupBookNotFound.html');
-    $template_text_not_found = myGetPrototypeFie('biblePopupTextNotFound.html');
+    $template_book_not_found = myGetPrototypeFile('biblePopupBookNotFound.html');
+    $template_text_not_found = myGetPrototypeFile('biblePopupTextNotFound.html');
     $text = $p['text'];
     // clean text from error spans added by this routine in the previous pass
     $text = str_ireplace('"bible-book-error"', '"bible-link"', $text);
