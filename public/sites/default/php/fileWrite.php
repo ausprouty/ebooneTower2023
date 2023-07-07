@@ -44,7 +44,9 @@ function fileWrite($filename, $text, $p)
         $output = fileWritePDF($filename, $text);
         return $output;
     }
-    //writeLogAppend('fileWrite-43', $filename);
+    if (strpos($filename, 'index')){
+        writeLogAppend('WATCH-fileWrite-43', $filename);
+    }
     $fh = fopen($filename, 'w');
     if ($fh) {
         fwrite($fh, $text);

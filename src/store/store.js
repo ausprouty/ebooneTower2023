@@ -216,8 +216,9 @@ export default new Vuex.Store({
     unsetBookmark({ commit }, [mark]) {
       commit('UNSET_BOOKMARK', [mark])
     },
-    loginUser({ commit }, [mark]) {
-      commit('LOGIN_USER', [mark])
+    loginUser({ commit }, [value]) {
+      console.log (value)
+      commit('LOGIN_USER', [value])
     },
     setLanguages({ commit }, [value]) {
       commit('SET_LANGUAGES', [value])
