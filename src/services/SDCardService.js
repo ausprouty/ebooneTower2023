@@ -18,7 +18,6 @@ import AuthorService from '@/services/AuthorService.js'
 // I want to export a JSON.stringified of response.data.text
 export default {
   initialize(params) {
-    //var user = JSON.parse(localStorage.getItem('user'))
     params.site = process.env.VUE_APP_SITE
     params.my_uid = store.state.user.uid
     params.sdcard = JSON.stringify(store.state.sdCardSettings)

@@ -29,7 +29,6 @@ export default {
       var temp1 = JSON.stringify(params.apk_settings)
       params.apk_settings = temp1
     }
-    //var user = JSON.parse(localStorage.getItem('user'))
     params.site = process.env.VUE_APP_SITE
     params.my_uid = store.state.user.uid
     params.subdirectory = 'apk'

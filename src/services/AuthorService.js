@@ -244,7 +244,6 @@ export default {
   async createDirectoryMenu(country, language) {
     if (this.isFilename(language)) {
       var params = {}
-      //var user = JSON.parse(localStorage.getItem('user'))
       params.language_iso = language
       params.country_code = country
       params.token = store.state.user.token
@@ -567,7 +566,7 @@ export default {
   },
 
   toAuthorizedFormData(params) {
-    //var user = JSON.parse(localStorage.getItem('user'))
+
     params.my_uid = store.state.user.uid
     params.token = store.state.user.token
     params.site = apiSite

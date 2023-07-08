@@ -5,17 +5,21 @@ import { saveStatePlugin } from '@/utils.js' // <-- Import saveStatePlugin
 Vue.config.devtools = true
 Vue.use(Vuex)
 
-//const bookmark = JSON.parse(localStorage.getItem('bookmark')) || defaultBookmark
-//const user = JSON.parse(localStorage.getItem('user')) || defaultUser
-//const bookmark = defaultBookmark
-//const user = defaultUser
+
 export default new Vuex.Store({
   plugins: [saveStatePlugin], // <-- Use
   state: {
     bookmark: {},
     user: {
-      uid: null,
+      authorized: false,
       expires: 0,
+      firstname: null,
+      lastname: null,
+      scope_countries: null,
+      scope_languages: null,
+      start_page: null,
+      token: null,
+      uid: null,
     },
     sdCardSettings: {
       languages: [],
@@ -87,8 +91,8 @@ export default new Vuex.Store({
       state.capacitorSettings = value
     },
     LOGIN_USER(state, value) {
-      state.user = value[0]
-      console.log(value[0])
+      state.user = value
+      console.log(value)
     },
     LOGOUT_USER(state) {
       state.user = {}
@@ -216,9 +220,9 @@ export default new Vuex.Store({
     unsetBookmark({ commit }, [mark]) {
       commit('UNSET_BOOKMARK', [mark])
     },
-    loginUser({ commit }, [value]) {
+    loginUser({ commit }, value) {
       console.log (value)
-      commit('LOGIN_USER', [value])
+      commit('LOGIN_USER', value)
     },
     setLanguages({ commit }, [value]) {
       commit('SET_LANGUAGES', [value])

@@ -161,7 +161,7 @@ export default {
 
   methods: {
     getAuthorizer() {
-      var user = JSON.parse(localStorage.getItem('user'))
+      var user = store.state.user.uid
       return user.uid
     },
     async saveUserForm() {

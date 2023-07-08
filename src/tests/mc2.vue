@@ -85,7 +85,7 @@ export default {
     },
     setupParams() {
       var params = {}
-      var user = JSON.parse(localStorage.getItem('user'))
+      var user = store.state.user
       params.my_uid = user.uid
       return params
     },
