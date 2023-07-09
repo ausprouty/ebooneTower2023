@@ -13,13 +13,13 @@ export default new Vuex.Store({
     user: {
       authorized: false,
       expires: 0,
-      firstname: null,
-      lastname: null,
-      scope_countries: null,
-      scope_languages: null,
-      start_page: null,
-      token: null,
-      uid: null,
+      firstname: '',
+      lastname: '',
+      scope_countries: '',
+      scope_languages: '',
+      start_page: '',
+      token: '',
+      uid: '',
     },
     sdCardSettings: {
       languages: [],
@@ -92,7 +92,6 @@ export default new Vuex.Store({
     },
     LOGIN_USER(state, value) {
       state.user = value
-      console.log(value)
     },
     LOGOUT_USER(state) {
       state.user = {}
@@ -221,7 +220,6 @@ export default new Vuex.Store({
       commit('UNSET_BOOKMARK', [mark])
     },
     loginUser({ commit }, value) {
-      console.log (value)
       commit('LOGIN_USER', value)
     },
     setLanguages({ commit }, [value]) {

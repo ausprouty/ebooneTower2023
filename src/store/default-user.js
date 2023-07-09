@@ -1,6 +1,7 @@
 export default {
   uid: '',
-  scope: '',
+  scope_countries: '',
+  scope_languages: '',
   firstname: '',
   lastname: '',
   token: ''

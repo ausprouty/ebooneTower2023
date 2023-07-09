@@ -88,6 +88,28 @@ function sqlMany($sql)
     $conn->close();
     return $output;
 }
+function sqlFetchObject($sql, $update = NULL)
+{
+    $conn = new mysqli(HOST, USER, PASS, DATABASE_CONTENT, DATABASE_PORT);
+    if ($conn->connect_error) {
+        die("Connection has failed: " . $conn->connect_error);
+    }
+    $query = $conn->query($sql);
+    if (!$update) {
+        if ($query) {
+            $output =  $query->fetch_object();
+            $conn->close();
+            return $output;
+        } else {
+            $conn->close();
+            return null;
+        }
+    } else {
+        $output =  $query;
+        $conn->close();
+        return $output;
+    }
+}
 function sqlText($sql, $update = NULL)
 {
     $conn = new mysqli(HOST, USER, PASS, DATABASE_CONTENT, DATABASE_PORT);

@@ -44,8 +44,7 @@ export const authorizeMixin = {
       if (reason == 'read') {
         return true
       }
-      console.log(store.state.user)
-      console.log(route)
+
       // can edit this langauge in this country
       if (
         store.state.user.scope_countries.includes(route.country_code) &&
@@ -70,11 +69,9 @@ export const authorizeMixin = {
           return false
         }
       }
+
       // can edit anything in this language
-      if (
-        (store.state.user.scope_countries =
-          '|*|' && store.state.user.scope_languages.includes(route.language_iso))
-      ) {
+      if (store.state.user.scope_countries == '|*|' && store.state.user.scope_languages.includes(route.language_iso) ) {
         console.log('Can edit anything in this language')
         if (reason != 'readonly') {
           return true

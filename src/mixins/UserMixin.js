@@ -6,13 +6,13 @@ export const userMixin = {
   data() {
     return {
       member: {
-        firstname: null,
-        lastname: null,
-        scope_countries: null,
-        scope_languages: null,
-        start_page: null,
-        username: null,
-        password: null,
+        firstname: '',
+        lastname: '',
+        scope_countries: '',
+        scope_languages: '',
+        start_page: '',
+        username: '',
+        password: '',
       },
       country_options: [],
       language_options: [],
@@ -37,6 +37,7 @@ export const userMixin = {
         { display: 'Global', code: '|*|' },
         { display: 'English', code: '|eng|' },
         { display: 'French', code: '|fra|' },
+        { display: 'German', code: '|deu|' },
         { display: 'Simplifed Chinese', computed: '|cmn|' },
       ]
       this.language_options = options

@@ -452,7 +452,9 @@ export default {
 
   async login(params) {
     params.action = 'login'
-    return this.aReturnData(params)
+    var check = this.aReturnData(params)
+    console.log (check)
+    return check
   },
   async prototype(params) {
     params.page = 'prototype'

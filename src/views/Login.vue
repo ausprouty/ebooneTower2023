@@ -61,13 +61,13 @@ export default {
       user: {
         authorized: false,
         expires: 0,
-        firstname: null,
-        lastname: null,
-        scope_countries: null,
-        scope_languages: null,
-        start_page: null,
-        token: null,
-        uid: null,
+        firstname: '',
+        lastname: '',
+        scope_countries: 'xyzzy',
+        scope_languages: '',
+        start_page: '',
+        token: '',
+        uid: '',
       },
     }
   },
@@ -89,20 +89,8 @@ export default {
           params.username = this.username
           params.password = this.password
           let res = await AuthorService.login(params)
-          console.log(res['scope_countries'])
           if (res.authorized == 'authorized') {
-            this.user.authorized = res['authorized']
-            this.user.expires = res['expires']
-            this.user.firstname = res['firstname']
-            this.user.lastname = res['lastname']
-            this.user.scope_countries = res['scope_countries']
-            this.user.scope_languages = res['scope_languages']
-            this.user.start_page = res['start_page']
-            this.user.token = res['token']
-            this.user.uid = res['uid']
-            console.log (this.user.scope_countries)
-            this.$store.dispatch('loginUser', this.user)
-
+            this.$store.dispatch('loginUser', res)
             var start_page = process.env.VUE_APP_SITE_START_PAGE
             if (typeof res.start_page !== 'undefined') {
               start_page = res.start_page
