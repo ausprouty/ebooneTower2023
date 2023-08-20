@@ -70,13 +70,15 @@ export const countriesMixin = {
           'There was an error with ContentService.getCountries of CountriesMixin:',
           error
         )
+        console.log ('error line 73');
         this.$router.push({
-          name: 'login',
+          name: 'login2',
 
         })
       }
     },
     async showPage(country) {
+      console.log ('show Page line 81');
       localStorage.setItem('lastPage', 'countries')
       this.$route.params.country_code = country.code
       var link = ''
@@ -88,6 +90,7 @@ export const countriesMixin = {
           link = 'previewLibrary'
         }
         var language = response[0]
+        console.log ('show Page line 93');
         this.$router.push({
           name: link,
           params: {
@@ -97,6 +100,7 @@ export const countriesMixin = {
           },
         })
       } else {
+        console.log ('show Page line 102');
         link = 'languages'
         if (this.$route.params.version == 'latest') {
           link = 'previewLanguages'

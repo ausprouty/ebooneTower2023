@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import store from '@/store/store.js'
 import CountriesPreview from './views/CountriesPreview.vue'
 import Login from './views/Login.vue'
 import NotFoundComponent from './views/NotFound.vue'
@@ -8,19 +7,15 @@ import NotFoundComponent from './views/NotFound.vue'
 Vue.use(Router)
 
 function guardMyroute(to, from, next) {
-  var isAuthenticated = false
-  if (typeof store.state.user.expires !== 'undefined'){
-    // check if expired
-    var date = new Date()
-    var timestamp = date.getTime() / 1000
-    if (store.state.user.expires > timestamp){
-      isAuthenticated = true
-    }
-  }
-  if (isAuthenticated) {
+  var sessionExpires = localStorage.getItem('sessionExpires', 0)
+  var date = new Date()
+  var timestamp = date.getTime() / 1000
+  if (sessionExpires > timestamp) {
+    console.log ('passed guard')
     next() // allow to enter route
   } else {
-    next('/login') // go to '/login';
+    console.log ('failed guard')
+    next('/login2') // go to '/login';
   }
 }
 

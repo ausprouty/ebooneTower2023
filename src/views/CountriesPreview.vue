@@ -177,8 +177,11 @@ export default {
     },
     async loadView() {
       try {
+        console.log ('loading Countries')
         await this.getCountries()
+        console.log ('loaded Countries')
         this.authorized = this.authorize('write', this.$route.params)
+        console.log ('my authorization value is  ' + this.authorized)
         // authorize for prototype and publish
         this.publish = false
         this.prototype = false
@@ -203,6 +206,7 @@ export default {
             }
           }
         }
+        console.log (' I have loaded view')
         // end authorization for prototype and publish
       } catch (error) {
         LogService.consoleLogError(
@@ -210,6 +214,7 @@ export default {
           error
         )
       }
+      console.log (' I have loaded ALL OF view')
     },
   },
   beforeCreate() {
@@ -217,6 +222,7 @@ export default {
   },
   created() {
     this.loadView()
+    console.log ('end of created')
   },
 }
 </script>

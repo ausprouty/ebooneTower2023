@@ -82,12 +82,12 @@ export default {
             localStorage.setItem('scopeLanguages', res.scope_languages)
             localStorage.setItem('token', res.token)
             localStorage.setItem('uid', res.uid)
-            localStorage.setItem('expires', res.expires)
+            localStorage.setItem('sessionExpires', res.expires)
             var start_page = process.env.VUE_APP_SITE_START_PAGE
             if (typeof res.start_page !== 'undefined') {
               start_page = res.start_page
             }
-            //console.log(start_page)
+            console.log(start_page)
             this.$router.push(start_page)
           } else {
             alert('Login was not successful. Try again') //
