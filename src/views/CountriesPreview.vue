@@ -85,6 +85,7 @@ export default {
     return {
       authorized: false,
       publish: false,
+      sdcard: false,
       language_prototype_text: 'Prototype Languages',
       language_publish_text: 'Publish Languages',
       country_prototype_text: 'Prototype Countries',

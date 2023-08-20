@@ -79,7 +79,6 @@ import NavBar from '@/components/NavBarAdmin.vue'
 import LogService from '@/services/LogService.js'
 import PrototypeService from '@/services/PrototypeService.js'
 import PublishService from '@/services/PublishService.js'
-import SDCardService from '@/services/SDCardService.js'
 
 import { mapState } from 'vuex'
 

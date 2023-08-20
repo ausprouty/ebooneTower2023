@@ -78,3 +78,6 @@ function removeServiceWorker() {
     })
   }
 }
+function clearLocalStorage() {
+  localStorage.clear();
+}

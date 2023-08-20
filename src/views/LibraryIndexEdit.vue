@@ -55,7 +55,6 @@
         <div class="version">
           <p class="version">Version 2.05</p>
         </div>
-        <Books v-bind:format="books" />
         <button class="button red" @click="saveForm">Save Changes</button>
       </div>
       <div v-if="!this.authorized">

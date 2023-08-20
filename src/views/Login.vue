@@ -58,17 +58,6 @@ export default {
       password: null,
       submitted: false,
       wrong: null,
-      user: {
-        authorized: false,
-        expires: 0,
-        firstname: '',
-        lastname: '',
-        scope_countries: 'xyzzy',
-        scope_languages: '',
-        start_page: '',
-        token: '',
-        uid: '',
-      },
     }
   },
   computed: mapState(['user']),
@@ -76,9 +65,7 @@ export default {
     username: { required },
     password: { required },
   },
-  created() {
-    localStorage.clear()
-  },
+  
   methods: {
     async saveForm() {
       if (this.submitted == false) {
@@ -89,6 +76,7 @@ export default {
           params.username = this.username
           params.password = this.password
           let res = await AuthorService.login(params)
+          console.log (res)
           if (res.authorized == 'authorized') {
             this.$store.dispatch('loginUser', res)
             var start_page = process.env.VUE_APP_SITE_START_PAGE

@@ -68,6 +68,19 @@ export default {
           show: false,
         },
         {
+          value: 'With Friends',
+          link: 'library/friends',
+          index: 11,
+          show: false,
+        },
+        {
+          value: 'Meet Jesus',
+          link: 'library/meet',
+          index: 12,
+          show: false,
+        },
+
+        {
           value: 'Editors',
           link: 'register',
           index: 4,
@@ -114,6 +127,7 @@ export default {
     }
   },
   created() {
+    this.myfriends = true
     this.authorized = this.authorize('read', this.$route.params)
     this.administrator = this.authorize('register', this.$route.params)
     LogService.consoleLogMessage('I finished authorization')
@@ -132,6 +146,10 @@ export default {
       // library
       if (this.$route.params.language_iso && this.called_by !== 'library') {
         this.menu[3].show = true
+        if (this.myfriends){
+          this.menu[11].show = true
+          this.menu[12].show = true
+        }
       }
       this.menu[9].show = true
     }
@@ -200,6 +218,26 @@ export default {
               country_code: this.$route.params.country_code,
               language_iso: this.$route.params.language_iso,
               library_code: this.$route.params.library_code,
+            },
+          })
+          break
+        case 'library/friends':
+          this.$router.push({
+            name: 'previewLibrary',
+            params: {
+              country_code: this.$route.params.country_code,
+              language_iso: this.$route.params.language_iso,
+              library_code: 'friends',
+            },
+          })
+          break
+        case 'library/meet':
+          this.$router.push({
+            name: 'previewLibrary',
+            params: {
+              country_code: this.$route.params.country_code,
+              language_iso: this.$route.params.language_iso,
+              library_code: 'meet',
             },
           })
           break

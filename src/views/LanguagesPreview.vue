@@ -95,6 +95,8 @@ export default {
       write: false,
       prototype: false,
       publish: false,
+      sdcard: false,
+      ZZ: true,
       publishable: false,
       prototype_text: 'Prototype',
       publish_text: 'Publish',
