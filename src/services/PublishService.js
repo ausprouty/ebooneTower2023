@@ -20,8 +20,8 @@ export default {
     var action = null
     params.site = process.env.VUE_APP_SITE
     params.location = process.env.VUE_APP_SITE_LOCATION
-    params.my_uid = store.state.user.uid
-    params.token = store.state.user.token
+    params.my_uid = localStorage.getItem('uid')
+    params.token = localStorage.getItem('token')
     params.destination = 'website'
 
     switch (scope) {
@@ -110,8 +110,8 @@ export default {
     var action = null
     params.site = process.env.VUE_APP_SITE
     params.location = process.env.VUE_APP_SITE_LOCATION
-    params.my_uid = store.state.user.uid
-    params.token = store.state.user.token
+    params.my_uid = localStorage.getItem('uid')
+    params.token = localStorage.getItem('token')
     params.destination = 'website'
     switch (scope) {
       case 'chapters':

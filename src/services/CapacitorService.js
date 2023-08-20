@@ -28,9 +28,9 @@ export default {
       }
     }
     params.site = process.env.VUE_APP_SITE
-    params.my_uid = store.state.user.uid
+    params.my_uid = localStorage.getItem('uid')
     params.subdirectory = 'capacitor'
-    params.token = store.state.user.token
+    params.token = localStorage.getItem('token')
     if (typeof params.destination == 'undefined') {
       params.destination = 'capacitor'
     }

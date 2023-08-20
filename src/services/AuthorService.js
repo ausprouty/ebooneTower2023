@@ -246,7 +246,7 @@ export default {
       var params = {}
       params.language_iso = language
       params.country_code = country
-      params.token = store.state.user.token
+      params.token = localStorage.getItem('token')
       params.page = 'create'
       params.action = 'createDirectoryMenu'
       return await this.aReturnResponse(params)
@@ -569,8 +569,9 @@ export default {
 
   toAuthorizedFormData(params) {
 
-    params.my_uid = store.state.user.uid
-    params.token = store.state.user.token
+    params.my_uid = localStorage.getItem('uid')
+    params.token = localStorage.getItem('token')
+    params.expires = localStorage.getItem('expires')
     params.site = apiSite
     var form_data = new FormData()
     for (var key in params) {

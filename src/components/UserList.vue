@@ -4,7 +4,7 @@
       <router-link :to="'/user/' + user.uid">
         {{ user.firstname }} {{ user.lastname }}
       </router-link>
-      ---- {{ this.scope_countries }} ({{ store.state.user.scope_languages }})
+      ---- {{ this.scope_countries }} ({{ localStorage.scope_languages }})
     </div>
   </div>
 </template>
@@ -35,16 +35,16 @@ export default {
     },
   },
   async created() {
-    if (store.state.user.scope_countries == '|*|') {
+    if (localStorage.scope_countries == '|*|') {
       this.scope_countries = 'Global'
     } else {
       await this.getCountries()
       LogService.consoleLogMessage('scope_countries')
-      LogService.consoleLogMessage(store.state.user.scope_countries)
-      var country_count = store.state.user.scope_countries.length
+      LogService.consoleLogMessage(localStorage.scope_countries)
+      var country_count = localStorage.scope_countries.length
       var c = 0
       this.scope = ''
-      var user_scope = store.state.user.scope_countries.split('|')
+      var user_scope = localStorage.scope_countries.split('|')
       var length = user_scope.length
       LogService.consoleLogMessage(length)
       for (var i = 0; i < length; i++) {

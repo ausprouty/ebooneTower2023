@@ -21,9 +21,9 @@ export default {
 
     params.site = process.env.VUE_APP_SITE
     params.location = process.env.VUE_APP_LOCATION
-    params.my_uid = store.state.user.uid
+    params.my_uid = localStorage.getItem('uid')
     params.sdcard = JSON.stringify(store.state.sdCardSettings)
-    params.token = store.state.user.token
+    params.token = localStorage.getItem('token')
     params.destination = 'nojs'
     switch (scope) {
       case 'bookmark':

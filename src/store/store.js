@@ -4,8 +4,6 @@ import axios from 'axios'
 import { saveStatePlugin } from '@/utils.js' // <-- Import saveStatePlugin
 Vue.config.devtools = true
 Vue.use(Vuex)
-
-
 export default new Vuex.Store({
   plugins: [saveStatePlugin], // <-- Use
   state: {
@@ -89,12 +87,6 @@ export default new Vuex.Store({
     },
     SET_CAPACITOR_SETTINGS(state, value) {
       state.capacitorSettings = value
-    },
-    LOGIN_USER(state, value) {
-      state.user = value
-    },
-    LOGOUT_USER(state) {
-      state.user = {}
     },
     SET_USER_DATA(state, userData) {
       state.user = userData
@@ -219,9 +211,6 @@ export default new Vuex.Store({
     unsetBookmark({ commit }, [mark]) {
       commit('UNSET_BOOKMARK', [mark])
     },
-    loginUser({ commit }, value) {
-      commit('LOGIN_USER', value)
-    },
     setLanguages({ commit }, [value]) {
       commit('SET_LANGUAGES', [value])
     },
@@ -233,9 +222,6 @@ export default new Vuex.Store({
     },
     setApk({ commit }, value) {
       commit('SET_APK', value)
-    },
-    logoutUser({ commit }) {
-      commit('LOGOUT_USER')
     },
   },
 })

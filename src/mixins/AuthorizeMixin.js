@@ -8,7 +8,10 @@ Vue.use(Vuex)
 export const authorizeMixin = {
   //computed: mapState(['user']),
   methods: {
+  
     authorize(reason, route) {
+      var scopeCountries = localStorage.getItem('scopeCountries');
+      var scopeLanguages = localStorage.getItem('scopeLanguages');
       if (this.$route.path == '/login') {
         return true
       }
@@ -26,7 +29,7 @@ export const authorizeMixin = {
         this.$router.push({ name: 'login' })
       }
       // can edit anything
-      if (store.state.user.scope_countries == '|*|' && store.state.user.scope_languages == '|*|') {
+      if (scopeCountries == '|*|' && scopeLanguages == '|*|') {
         if (reason != 'readonly') {
           return true
         } else {
@@ -47,8 +50,8 @@ export const authorizeMixin = {
 
       // can edit this langauge in this country
       if (
-        store.state.user.scope_countries.includes(route.country_code) &&
-        store.state.user.scope_languages.includes(route.language_iso)
+        scopeCountries.includes(route.country_code) &&
+        scopeLanguages.includes(route.language_iso)
       ) {
         console.log('Can edit this language in this country')
         if (reason != 'readonly') {
@@ -59,8 +62,8 @@ export const authorizeMixin = {
       }
       // can edit anything in country
       if (
-        store.state.user.scope_countries.includes(route.country_code) &&
-        store.state.user.scope_languages == '|*|'
+        scopeCountries.includes(route.country_code) &&
+        scopeLanguages == '|*|'
       ) {
         console.log('Can edit anything in this country')
         if (reason != 'readonly') {
@@ -71,7 +74,8 @@ export const authorizeMixin = {
       }
 
       // can edit anything in this language
-      if (store.state.user.scope_countries == '|*|' && store.state.user.scope_languages.includes(route.language_iso) ) {
+      if (scopeCountries == '|*|' 
+         && scopeLanguages.includes(route.language_iso) ) {
         console.log('Can edit anything in this language')
         if (reason != 'readonly') {
           return true

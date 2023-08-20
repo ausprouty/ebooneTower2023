@@ -78,7 +78,11 @@ export default {
           let res = await AuthorService.login(params)
           console.log (res)
           if (res.authorized == 'authorized') {
-            this.$store.dispatch('loginUser', res)
+            localStorage.setItem('scopeCountries', res.scope_countries)
+            localStorage.setItem('scopeLanguages', res.scope_languages)
+            localStorage.setItem('token', res.token)
+            localStorage.setItem('uid', res.uid)
+            localStorage.setItem('expires', res.expires)
             var start_page = process.env.VUE_APP_SITE_START_PAGE
             if (typeof res.start_page !== 'undefined') {
               start_page = res.start_page
