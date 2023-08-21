@@ -7,15 +7,17 @@ import NotFoundComponent from './views/NotFound.vue'
 Vue.use(Router)
 
 function guardMyroute(to, from, next) {
+  var isAuthenticated = false
   var sessionExpires = localStorage.getItem('sessionExpires', 0)
   var date = new Date()
   var timestamp = date.getTime() / 1000
-  if (sessionExpires > timestamp) {
-    console.log ('passed guard')
+  if (sessionExpires > timestamp){
+    isAuthenticated = true
+  }
+  if (isAuthenticated) {
     next() // allow to enter route
   } else {
-    console.log ('failed guard')
-    next('/login2') // go to '/login';
+    next('/login') // go to '/login';
   }
 }
 
@@ -153,7 +155,7 @@ export default new Router({
     {
       path: '/preview',
       name: 'previewCountries',
-      beforeEnter: guardMyroute,
+      //beforeEnter: guardMyroute,
       component: function () {
         return import(
           /* webpackChunkName: "previewCountries" */ './views/CountriesPreview.vue'

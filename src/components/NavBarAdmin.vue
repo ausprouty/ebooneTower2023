@@ -193,7 +193,7 @@ export default {
           })
           break
         case 'logout':
-          this.logout
+          localStorage.clear()
           this.$router.push({
             name: 'login',
           })

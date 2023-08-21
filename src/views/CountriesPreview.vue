@@ -222,7 +222,7 @@ export default {
   },
   created() {
     this.loadView()
-    console.log ('end of created')
+    console.log('end of created')
   },
 }
 </script>

@@ -1,21 +1,19 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import store from '@/store/store.js'
-import { mapState } from 'vuex'
 //import { timeout } from 'q'
 Vue.use(Vuex)
 
 export const authorizeMixin = {
   //computed: mapState(['user']),
   methods: {
-  
     authorize(reason, route) {
       var scopeCountries = localStorage.getItem('scopeCountries');
       var scopeLanguages = localStorage.getItem('scopeLanguages');
       if (this.$route.path == '/login') {
         return true
       }
-      if (typeof store.state.user === 'undefined') {
+      var user = localStorage.getItem('uid', null)
+      if (!user) {
         this.$router.push({ name: 'login' })
       }
       if (typeof route == 'undefined') {
@@ -24,8 +22,9 @@ export const authorizeMixin = {
       }
       // check if expired
       var date = new Date()
+      var sessionExpires = localStorage.getItem('sessionExpires', 0)
       var timestamp = date.getTime() / 1000
-      if (store.state.user.expires < timestamp) {
+      if (sessionExpires < timestamp) {
         this.$router.push({ name: 'login' })
       }
       // can edit anything
