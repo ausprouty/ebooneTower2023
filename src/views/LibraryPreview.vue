@@ -142,14 +142,19 @@ export default {
       if (this.$route.params.library_code == 'library') {
         page = 'index'
       }
-      var link =
+      var link = ''
+      var lin =
         root +
         this.$route.params.country_code +
         '/' +
         this.$route.params.language_iso +
         '/' +
-        page +
-        '.html'
+        page
+      if (page.includes('.html')) {
+        link = lin
+      } else {
+        link = lin + '.html'
+      }
       //console.log('I want to go to ' + link)
       window.open(link, '_blank')
     },

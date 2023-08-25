@@ -126,28 +126,6 @@ export default {
             },
           })
           break
-        case 'children':
-          this.$router.push({
-            name: 'previewSeries',
-            params: {
-              country_code: this.$route.params.country_code,
-              language_iso: this.$route.params.language_iso,
-              library_code: 'family',
-              folder_name: 'youth-basics',
-            },
-          })
-          break
-        case 'covid':
-          this.$router.push({
-            name: 'previewSeries',
-            params: {
-              country_code: this.$route.params.country_code,
-              language_iso: this.$route.params.language_iso,
-              library_code: 'current',
-              folder_name: 'current',
-            },
-          })
-          break
         case 'meet':
           this.$router.push({
             name: 'previewLibrary',

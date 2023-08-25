@@ -152,6 +152,5 @@ function createLibrary($p, $text)
     $out = new stdClass;
     $out->body = str_replace('[[books]]', $books, $body);
     $out->progress = null;
-    writeLogDebug('createLibrary-default-167', $out);
     return $out;
 }

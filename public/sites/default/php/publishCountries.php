@@ -37,11 +37,9 @@ function publishCountries($p){
     // get sub template and do some replacing
     $sub_template = myGetPrototypeFile('country.html');
     $countries = json_decode($data['text']);
-    writeLogDebug('publishCountries-40', $countries);
     usort($countries, function($a, $b) {
         return $a->name <=> $b->name;
     });
-    writeLogDebug('publishCountries-44', $countries);
     $country_template = '';
     foreach ($countries as $country) {
         if (publishReady($country, DESTINATION)) {

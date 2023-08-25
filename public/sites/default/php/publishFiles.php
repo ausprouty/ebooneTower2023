@@ -24,8 +24,6 @@ myRequireOnce('onLoadJS.php');
 // destination must be 'staging', 'website', 'pdf'  or 'sdcard'
 function publishFiles($p, $fname, $text, $standard_css, $selected_css)
 {
-
-    $destination = DESTINATION;
     $file_name_parts = explode('/', $fname);
     $fsname = array_pop($file_name_parts);
     $fsname = str_replace('.html', '', $fsname);
@@ -53,7 +51,7 @@ function publishFiles($p, $fname, $text, $standard_css, $selected_css)
     } else {
         $headers = ' ';
     }
-    if ($destination != 'staging') {
+    if ( DESTINATION != 'staging') {
         // class="nobreak" need to be changed to class="nobreak-final" so color is correct
         $text = str_ireplace("nobreak", "nobreak-final", $text);
     }
@@ -90,7 +88,7 @@ function publishFiles($p, $fname, $text, $standard_css, $selected_css)
     //// //writeLogDebug('publishFile-82-'. $fsname, $output);
     // insert text
     $output .= $text;
-    writeLogDebug('publishFile-95',  $output);
+
     // remove dupliate CSS
     $output = publishCSS($output, $p);
  
