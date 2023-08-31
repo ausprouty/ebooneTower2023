@@ -88,6 +88,6 @@ function createLanguageFooter($p)
     );
     $footer  = str_replace($placeholders, $values, $footer);
     $footer .= languageSpecificJavascripts($p);
-    // writeLogDebug('createLanguageFooter-75', $footer);
+    // //writeLogDebug('createLanguageFooter-75', $footer);
     return $footer;
 }

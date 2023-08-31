@@ -3,7 +3,7 @@ myRequireOnce('copyFilesForSDApp.php');
 
 function publishFilesInSDCardPage($filename, $p, $destination)
 {
-    writeLogDebug('sdcard-publishFilesInSDCardPage-5', $p);
+    //writeLogDebug('sdcard-publishFilesInSDCardPage-5', $p);
     if (strpos($filename,  myString('/assets/images')) !== false) {
         /*
             if this file is not found:
@@ -16,7 +16,7 @@ function publishFilesInSDCardPage($filename, $p, $destination)
         $old_dir = '/assets/images/' . $p['language_iso'];
         $new_dir = 'sites/' . SITE_CODE . '/content/' . $p['country_code'] . '/' . $p['language_iso']; // mc2/content/M2/eng/images
         $to = $destination . substr($filename, 1); // getting rid of intital '/'
-        writeLogDebug('sdcard-publishFilesInSDCardPage-18', ROOT_EDIT);
+        //writeLogDebug('sdcard-publishFilesInSDCardPage-18', ROOT_EDIT);
         $from =  ROOT_EDIT  . str_replace($old_dir, $new_dir, $filename);
         $from = str_replace('//', '/', $from);
         writeLogAppend('publishFilesInSDCardPage-20', $from);

@@ -26,6 +26,7 @@ body {
   font-size: 16px;
   line-height: 1.5;
 }
+
 /*
 Content Reauired for CKEditor
 
@@ -656,9 +657,7 @@ img.lesson-rtl-icon {
 li.ltr {
   color: var(--color-red);
 }
-p {
-  text-align: left;
-}
+
 p.reference {
   padding-top: 20px;
   color: var(--color-red);

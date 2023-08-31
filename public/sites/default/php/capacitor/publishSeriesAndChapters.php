@@ -12,7 +12,7 @@ myRequireOnce('publicationCache.php');
 
 function publishSeriesAndChapters($p)
 {
-    writeLogDebug('Progress-publishSeriesandChapters-15a', $p['capacitor_settings']->remove_external_links);
+    //writeLogDebug('Progress-publishSeriesandChapters-15a', $p['capacitor_settings']->remove_external_links);
     //todo: remove return;
     $progress = new stdClass;
     $response = new stdClass;

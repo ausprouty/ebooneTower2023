@@ -26,7 +26,7 @@ function writeLogAppend($filename, $content)
 	file_put_contents($fh, $text,  FILE_APPEND | LOCK_EX);
 }
 
-function writeLogDebug($filename, $content)
+function //writeLogDebug($filename, $content)
 {
 	$text = var_dump_ret($content);
 	if (!file_exists(ROOT_LOG)) {

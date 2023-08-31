@@ -9,7 +9,8 @@ myRequireOnce('getPrototypeFileLibrary.php');
 function createLibrary($p, $text)
 {
 
-    writeLogDebug('createLibrary-default-12', $p);
+    //writeLogDebug('createLibrary-default-12', $p);
+    //writeLogDebug('createLibrary-default-13', $text);
 
     /* Return a container for the books in this library.
     This will be used to prototype these books by prototypeLibraryandBooks.

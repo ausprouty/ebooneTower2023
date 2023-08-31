@@ -10,7 +10,7 @@ myRequireOnce('createSeriesNavlink.php');
 function createSeries($p, $data)
 {
 
-    writeLogDebug('createSeries-13', $p);
+    //writeLogDebug('createSeries-13', $p);
     $text = json_decode($data['text']);
     // get language footer in prototypeOEpublish.php
     $footer = createLanguageFooter($p); // returns $footer
@@ -84,7 +84,7 @@ function createSeries($p, $data)
         $p['version'],
         $footer
     );
-    // writeLogDebug('createSeries-94', $this_template);
+    // //writeLogDebug('createSeries-94', $this_template);
     $this_template = str_replace($placeholders, $replace, $this_template);
 
     //

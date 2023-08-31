@@ -60,6 +60,6 @@ function createLanguages($p, $data, $allowed = ['all'])
         }
     }
     $text = str_replace('[[languages]]', $temp,  $main_template);
-    writeLogDebug('createLanguages-68', $text);
+    //writeLogDebug('createLanguages-68', $text);
     return $text;
 }

@@ -204,7 +204,7 @@ This is old code and is no longer supported
 */
 function _removeZoomLinks($text)
 {
-    writeLogDebug('removeZoomLinks-203', $text);
+    //writeLogDebug('removeZoomLinks-203', $text);
     $find_begin = '<span class="zoom"';
     $find_end = '</span>';
     $length_find_end = strlen($find_end);
@@ -226,6 +226,6 @@ function _removeZoomLinks($text)
 
         $pos_start = $pos_end;
     }
-    writeLogDebug('removeZoomLinks-225', $text);
+    //writeLogDebug('removeZoomLinks-225', $text);
     return $text;
 }

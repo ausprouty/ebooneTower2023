@@ -39,9 +39,9 @@ function publishSeries($p)
     $text = json_decode($data['text']);
     if ($text) {
         // create Series
-        writeLogDebug('publishSeries-48', 'I am going to createSeries');
+        //writeLogDebug('publishSeries-48', 'I am going to createSeries');
         $result = createSeries($p, $data);
-        writeLogDebug('publishSeries-50', 'I returned from  createSeries');
+        //writeLogDebug('publishSeries-50', 'I returned from  createSeries');
         if ($result['text']) {
             // find css
             if (isset($p['recnum'])) {

@@ -65,7 +65,7 @@ function publishJsonSeriesIndex($p)
     }
     $json_text = substr($json_text, 0, -2);
     $json_text .= ']';
-    writeLogDebug('publishJsonSeriesIndex-68', $json_text);
+    //writeLogDebug('publishJsonSeriesIndex-68', $json_text);
     $json_series_dir = dirStandard('json_series', DESTINATION,  $p, $folders = null);
     $filename =  $json_series_dir . 'files.json';
     fileWrite($filename, $json_text, $p);

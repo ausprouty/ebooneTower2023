@@ -56,7 +56,7 @@ function dirStandard($scope, $destination,  $p, $folders = null, $create = true)
             $good = '/sites/' . SITE_CODE . '/content/' . $p['country_code']  . '/' . $p['language_iso'] . '/' . $p['folder_name'] . '/';
             $bad = '/content/';
             $dir = str_replace($bad, $good, $dir);
-            writeLogDebug('dirStandard-52', $dir);
+            //writeLogDebug('dirStandard-52', $dir);
             break;
         case 'default':
     }

@@ -2,7 +2,7 @@
 
 function updateUser($params)
 {
-	writeLogDebug('updateUser-4', $params);
+	//writeLogDebug('updateUser-4', $params);
 	$out = [];
 	if (!$params['member_uid']) {
 		$message = $params['member_uid'] .  " member_uid  not set in updateUser";

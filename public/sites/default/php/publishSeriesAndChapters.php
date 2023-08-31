@@ -29,7 +29,7 @@ function publishSeriesAndChapters($p)
     $cache = getCache($p);
     //writeLogAppend('publishSeriesAndChapters-30', $cache);
     $chapters = $text->chapters;
-    writeLogDebug('publishSeriesAndChapters-33', $p);
+    //writeLogDebug('publishSeriesAndChapters-33', $p);
     foreach ($chapters as $chapter) {
         // it is possible that the server has finished the previous task and has
         // deleted the cache.  You do not want to do everything over again.

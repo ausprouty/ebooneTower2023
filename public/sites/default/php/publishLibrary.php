@@ -11,15 +11,20 @@ function publishLibrary($p)
     $debug = 'In publishLibrary ' . "\n";
     //
     // get data for current library
+    // there are some libraries in myfriends that have html in their name, this it not in the database
     //
     $filename =  $p['library_code'];
+    $filename = str_replace('.html', '', $filename);
+    //writeLogDebug('publishLibrary-default-18',  $filename);
+
+    
     $sql = "SELECT text, recnum  FROM content
         WHERE  country_code = '" . $p['country_code'] . "'
         AND language_iso = '" . $p['language_iso'] . "'
         AND folder_name = '' AND filename = '$filename'
         AND prototype_date IS NOT NULL
         ORDER BY recnum DESC LIMIT 1";
-    $debug .= $sql . "\n";
+    //writeLogDebug('publishLibrary-default-22',  $sql);
     $data = sqlArray($sql);
     $text = json_decode($data['text']);
     $p['recnum'] = $data['recnum'];
@@ -30,7 +35,7 @@ function publishLibrary($p)
         $selected_css = '/sites/default/styles/cardGLOBAL.css';
     }
     $res = createLibrary($p, $text);
-    writeLogDebug('publishLibrary-default-33', $res);
+    //writeLogDebug('publishLibrary-default-33', $res);
     $body = $res->body;
     $p['books'] = $res->books;
     $p['progress'] = $res->progress;
@@ -46,17 +51,19 @@ function publishLibrary($p)
     if (DESTINATION != 'sdcard' && DESTINATION != 'capacitor') {
         $dir  = publishDestination($p) . 'content/' . $p['country_code'] . '/' . $p['language_iso'] . '/';
         $filetype = '.html';
+     
+       
     }
     if (DESTINATION == 'sdcard' || DESTINATION == 'capacitor') {
         $dir  = publishDestination($p) . 'views/' . $p['country_code'] . '/' . $p['language_iso'] . '/';
         $filetype = '.vue';
     }
     $fname = $dir . $filename . $filetype;
-    writeLogDebug('publishLibrary-default-55', $fname);
-    writeLogDebug('publishLibrary-default-56', $body);
+    //writeLogDebug('publishLibrary-default-55', $fname);
+    //writeLogDebug('publishLibrary-default-56', $body);
     //writeLogDebug('publishLibrary-default-55', $fname);
     $body = publishLibraryAdjustText($body);
-    writeLogDebug('publishLibrary-default-59', $body);
+    //writeLogDebug('publishLibrary-default-59', $body);
     $body .= '<!--- Created by publishLibrary-->' . "\n";
     publishFiles($p, $fname, $body, STANDARD_CARD_CSS, $selected_css);
     //

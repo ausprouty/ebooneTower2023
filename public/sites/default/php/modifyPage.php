@@ -27,7 +27,7 @@ function modifyPage($text, $p, $data, $bookmark)
 {
     //writeLogDebug('modifyPage-27', $text);
     $text = version2Text($text);
-    writeLogDebug('modifyPage-37-ZOOM', $text);
+    //writeLogDebug('modifyPage-37-ZOOM', $text);
     /* you must modify reveal video and audio before modifying external links
        reveal_big is used by site generations
     */
@@ -122,6 +122,6 @@ This needs to come later in the process
     $text = str_replace('<hr />', '', $text);
     $text = str_replace('<li>&nbsp;', '<li>', $text);
     $text = str_replace('</a> )', '</a>)', $text);
-    writeLogDebug('modifyPage-120', $text);
+    //writeLogDebug('modifyPage-120', $text);
     return $text;
 }

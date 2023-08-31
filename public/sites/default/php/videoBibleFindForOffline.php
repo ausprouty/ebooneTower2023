@@ -56,7 +56,7 @@ function videoBibleFindForOffline($p, $filename)
     // find chapter that has been prototyped
     $chapter_videos = [];
     $videoReference = videoReference();
-    writeLogDebug('videoReference from videoBibleFindForOffline', $videoReference);
+    //writeLogDebug('videoReference from videoBibleFindForOffline', $videoReference);
     $video = [];
     $video['filename'] = $filename;
     $new_name = videoOfflineNewName($filename);

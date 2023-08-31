@@ -4,7 +4,7 @@ myRequireOnce('writeLog.php');
 function modifyHeaders($text)
 {
     $debug = 'I am in modifyHeaders' . "\n";
-    writeLogDebug('modifyHeaders-7', $text);
+    //writeLogDebug('modifyHeaders-7', $text);
     $headers = '';
     $bad = ['<div class="header"></div>', '<pre>', '</pre>', '</div>', '<p>', '</p>', '<br>', '<br/>', '<br />'];
     $output = array();

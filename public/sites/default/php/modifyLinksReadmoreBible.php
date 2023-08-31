@@ -6,7 +6,7 @@
 */
 function modifyLinksReadmoreBible($text)
 {
-    writeLogDebug('modifyLinksReadmoreBibler-6', $text);
+    //writeLogDebug('modifyLinksReadmoreBibler-6', $text);
     $readmore = array();
     $readmore[] = '<a class="readmore"';
     $readmore[] = '<a class="bible-readmore"';
@@ -34,6 +34,6 @@ function modifyLinksReadmoreBible($text)
             $pos_start = $pos_end;
         }
     }
-    writeLogDebug('modifyLinksReadmoreBible-28', $text);
+    //writeLogDebug('modifyLinksReadmoreBible-28', $text);
     return $text;
 }

@@ -33,6 +33,6 @@ function modifyZoomImageGetImage($text)
     $image = substr($text, $pos_start, $length);
     $message = "text is: " . $text . "\n And PosStart is: " . $pos_start . "\n And PosEng is: " . $pos_end .
         "length is: " . $length . "\n And imaget is: " . $image;
-    writeLogDebug('modifyZoomImageGetImage-31', $message);
+    //writeLogDebug('modifyZoomImageGetImage-31', $message);
     return $image;
 }

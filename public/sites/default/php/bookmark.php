@@ -77,7 +77,7 @@ function checkBookmarkCountry($b)
     //writeLog('checkBookmarkCountry-67-content', $content);
     $response = json_decode($content['text']);
     if (!$response) {
-        writeLogDebug('checkBookmarkCountry', $b);
+        //writeLogDebug('checkBookmarkCountry', $b);
         return NULL;
     }
     foreach ($response as $country) {

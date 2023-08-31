@@ -3,7 +3,7 @@
 
 function videoTemplateOnline($old, $title_phrase, $url, $bookmark, $i)
 {
-    writeLogDebug('videoTemplateOnline-6', $title_phrase);
+    //writeLogDebug('videoTemplateOnline-6', $title_phrase);
     $new = videoTemplateLink($bookmark, $url);
     // find start and end times
     $start_time = modifyVideoRevealFindTime($old, 7);

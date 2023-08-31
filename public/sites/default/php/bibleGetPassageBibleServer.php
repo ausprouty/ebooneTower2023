@@ -67,11 +67,11 @@ function bibleGetPassageBibleServer($p)
 	curl_setopt($ch, CURLOPT_TIMEOUT, 90); // Wait 30 seconds for download
 	$url = 'https://bibleserver.com/' . $p['version_code'] . '/' . $reference_shaped; // URL
 	$output['link'] = $url;
-	writeLogDebug('bibleGetPassageBibleServer-70', $url);
+	//writeLogDebug('bibleGetPassageBibleServer-70', $url);
 	curl_setopt($ch, CURLOPT_URL, $url);
 	$string = curl_exec($ch);  // grab URL and pass it to the variable.
 	// see https://code.tutsplus.com/tutorials/html-parsing-and-screen-scraping-with-the-simple-html-dom-library--net-11856
-	writeLogDebug('bibleGetPassageBibleServer-73', $string);
+	//writeLogDebug('bibleGetPassageBibleServer-73', $string);
 	return;
 	$html = str_get_html($string);
 	$e = $html->find('.dropdown-display-text', 0);
