@@ -11,16 +11,12 @@ myRequireOnce('myGetPrototypeFile.php');
 function getLatestContent($p)
 {
     myRequireOnce('version2Text.php');
-
-    $debug = 'In getLatestContent Dec 18' . "\n";
     if (!isset($p['scope'])) {
         $message =  'In getLatestContent No scope was set';
         writeLogError('getLatestContent', $message);
         trigger_error($message, E_USER_ERROR);
         return NULL;
     }
-    $debug .= $p['scope'] . "\n";
-
     switch ($p['scope']) {
         case "countries":
             $debug .= 'Case is countries' . "\n";
@@ -101,9 +97,10 @@ function getLatestContent($p)
     if ($sql) {
         $out = sqlArray($sql);
         if (isset($out['recnum'])) {
+            writeLogDebug('getLatestContent-101', $out['text']);
             $out['text'] = version2Text($out['text']);
+            writeLogDebug('getLatestContent-103', $out['text']);
 
-            $debug .= 'Recnum ' . $out['recnum'] . "\n";
         } else {
             if ($p['scope'] == 'library') {
                 $debug .= 'NOTE: USING DEFAULT LIBRARY  FROM LIBRARY.json' . "\n";

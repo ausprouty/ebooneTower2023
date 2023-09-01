@@ -62,8 +62,11 @@ function findFilesInText($find_begin, $text, $p, $files_in_page = [])
                     if (strpos($filename, 'void(0)') == false && strpos($filename, '://') == false) {
                         if (strpos($filename, 'script:popUp') == false) { // no need to copy from popups
                             $source = $p['filename'];
-                            $message = "$filename found in  $source";
-                            writeLogAppend('ERRORS-findFilesInText-68', $message);
+                            if ($source){
+                                $message = "$filename found in  $source";
+                                writeLogAppend('ERRORS-findFilesInText-68', $message);
+                            }
+                           
                         }
                     }
                 }

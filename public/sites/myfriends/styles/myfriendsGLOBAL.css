@@ -104,6 +104,9 @@ div.trainer-hide {
   background-position: 8px 2px;
   background-repeat: no-repeat;
 }
+.mdot{
+  font-size:24px;
+}
 
 hr.reveal {
   border-top: 1px dashed red;

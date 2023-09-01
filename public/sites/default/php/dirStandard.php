@@ -65,7 +65,7 @@ function dirStandard($scope, $destination,  $p, $folders = null, $create = true)
     }
     if ($create) {
         $dir2 = dirMake($dir);
-        writeLogAppend('dirStandard-60', "$dir  |  $dir2");
+        //writeLogAppend('dirStandard-60', "$dir  |  $dir2");
         $dir = $dir2;
     }
     $debug = array(
@@ -74,6 +74,6 @@ function dirStandard($scope, $destination,  $p, $folders = null, $create = true)
         'destination' => $destination,
         'folder' => $folders
     );
-    writeLogAppend('dirStandard-70', $debug);
+    //writeLogAppend('dirStandard-70', $debug);
     return $dir;
 }
