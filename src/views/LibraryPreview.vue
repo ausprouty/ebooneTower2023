@@ -152,8 +152,10 @@ export default {
         page
       if (page.includes('.html')) {
         link = lin
+        console.log ('page includes html')
       } else {
         link = lin + '.html'
+        console.log ('page DOES NOT include html')
       }
       //console.log('I want to go to ' + link)
       window.open(link, '_blank')

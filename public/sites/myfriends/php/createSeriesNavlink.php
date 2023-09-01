@@ -1,10 +1,14 @@
 <?php
 
 function createSeriesNavlink($p){
+    writeLogDebug('createSeriesNavLink-myfriends', $p);
     $navlink = '../index.html';
     // in English all four of these are at the same level
-    if ($p['library_code'] =='family' || $p['library_code'] =='friends'|| $p['library_code'] =='meet'){
-         $navlink = 'index.html';
+    if ( $p['library_code'] =='friends.html'){
+         $navlink = '../friends.html';
+    }
+    elseif ($p['library_code'] =='meet.html'){
+        $navlink = '../meet.html';
     }
     return $navlink;
 }

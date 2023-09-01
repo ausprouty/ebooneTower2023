@@ -6,7 +6,7 @@ myRequireOnce('writeLog.php');
 function myGetPrototypeFile($filename, $language_iso = null)
 {
     $subdirectory = DESTINATION;
-    writeLogAppend('myGetPrototypeFile-10', "$filename, $language_iso, $subdirectory" );
+    //writeLogAppend('myGetPrototypeFile-10', "$filename, $language_iso, $subdirectory" );
     $message = array(
         'filename' => $filename,
         'subdirectory' => $subdirectory,
@@ -19,7 +19,7 @@ function myGetPrototypeFile($filename, $language_iso = null)
         if (!$subdirectory) {
             $my_prototype = ROOT_EDIT . 'sites/' . SITE_CODE . '/prototype/' . $language_iso . '/' . $filename;
             if (file_exists($my_prototype) && !is_dir($my_prototype)) {
-                writeLogAppend('myGetPrototypeFile-22', "$my_prototype" );
+                //writeLogAppend('myGetPrototypeFile-22', "$my_prototype" );
                 return file_get_contents($my_prototype);
             }
         }
@@ -27,7 +27,7 @@ function myGetPrototypeFile($filename, $language_iso = null)
             $subdirectory = _cleanMyGetPrototypeSubdirectory($subdirectory);
             $my_prototype = ROOT_EDIT . 'sites/' . SITE_CODE . '/prototype/' . $subdirectory . '/' . $language_iso . '/' . $filename;
             if (file_exists($my_prototype) && !is_dir($my_prototype)) {
-                writeLogAppend('myGetPrototypeFile-30', "$my_prototype" );
+                //writeLogAppend('myGetPrototypeFile-30', "$my_prototype" );
                 return file_get_contents($my_prototype);
             }
         }

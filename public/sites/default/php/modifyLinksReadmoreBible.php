@@ -29,7 +29,7 @@ function modifyLinksReadmoreBible($text)
                 $new_link = substr_replace($old_link, '', $pos_dash, $verse_len);
             }
             $message = $old_link . " -- " . $new_link;
-            writeLogAppend('readmoreLinksRepair-27', $message);
+            //writeLogAppend('readmoreLinksRepair-27', $message);
             $text = substr_replace($text, $new_link, $pos_start, $length);
             $pos_start = $pos_end;
         }

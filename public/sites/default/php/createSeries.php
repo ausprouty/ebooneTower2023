@@ -12,6 +12,7 @@ function createSeries($p, $data)
 
     //writeLogDebug('createSeries-13', $p);
     $text = json_decode($data['text']);
+    writeLogDebug('createSeries-15, $text');
     // get language footer in prototypeOEpublish.php
     $footer = createLanguageFooter($p); // returns $footer
     if (isset($p['recnum'])) {
@@ -21,18 +22,15 @@ function createSeries($p, $data)
         $b = $p;
     }
     $bookmark  = bookmark($b);
-    //writeLogDebug('createSeries21', $bookmark);
+    writeLogDebug('createSeries-25', $bookmark);
     $selected_css = isset($bookmark['book']->style) ? $bookmark['book']->style : STANDARD_CSS;
-    //writeLogDebug('createSeries-23',  $p['destination']);
+    writeLogDebug('createSeries-26',  $p);
     // replace placeholders in template
-    // Note: Current  is unique in that only has one book in the series.
-    if ($data['folder_name'] == 'current' || $data['folder_name'] == 'youth-basics') {
-        $this_template = myGetPrototypeFile('seriesCurrent.html');
-    } else {
-        $this_template = myGetPrototypeFile('series');
-        $nav = myGetPrototypeFile('navRibbon.html');
-        $this_template = str_replace('[[nav]]', $nav, $this_template);
-    }
+
+    $this_template = myGetPrototypeFile('series');
+    $nav = myGetPrototypeFile('navRibbon.html');
+    $this_template = str_replace('[[nav]]', $nav, $this_template);
+    
 
     //set placeholders
     $placeholders = array(
@@ -50,6 +48,7 @@ function createSeries($p, $data)
         '{{ footer }}'
     );
     $navlink = createSeriesNavlink($p);
+    writeLogDebug('createSeries-50',  $navlink);
 
     $download_ready = isset($bookmark['language']->download_ready) ? $bookmark['language']->download_ready : 'Ready for Offline Use';
     $download_now = isset($bookmark['language']->download) ? $bookmark['language']->download : 'Download for Offline Use';
