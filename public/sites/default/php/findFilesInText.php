@@ -35,7 +35,9 @@ function findFilesInText($find_begin, $text, $p, $files_in_page = [])
                     } else {
                         $to = $destination . $filename;
                         createDirectory($to);
-                        copy($from, $to);
+                        if (is_writeable($to)){
+                            copy($from, $to);
+                        }
                         //$message =  "$filename copied from $from to  $to\n";
                         //writeLogAppend('publishFilesInPageFind-65', $message);
                     }

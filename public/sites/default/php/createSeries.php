@@ -12,7 +12,7 @@ function createSeries($p, $data)
 
     //writeLogDebug('createSeries-13', $p);
     $text = json_decode($data['text']);
-    writeLogDebug('createSeries-15, $text');
+    writeLogDebug('createSeries-15', $text);
     // get language footer in prototypeOEpublish.php
     $footer = createLanguageFooter($p); // returns $footer
     if (isset($p['recnum'])) {

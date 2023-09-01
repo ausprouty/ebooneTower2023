@@ -3,6 +3,7 @@ myRequireOnce('writeLog.php');
 myRequireOnce('dirStandard.php');
 myRequireOnce('decidePublishBook.php');
 myRequireOnce('getLibraryImage.php');
+myRequireOnce('createLibraryNavlink.php');
 myRequireOnce('getPrototypeFileLibrary.php');
 
 
@@ -56,9 +57,7 @@ function createLibrary($p, $text)
     $library_text = isset($text->text) ? $text->text : null;
     // check to see if image above has text;
     $body = str_replace('{{ library.text }}', $library_text, $body);
-    $navlink = '../index.html';
-
-
+    $navlink = createLibraryNavlink($p);
     // get language footer in prototypeOEpublish.php
     $footer = createLanguageFooter($p);
     $language_iso = isset($p['language_iso']) ? $p['language_iso'] : DEFAULT_LANGUAGE_ISO;
