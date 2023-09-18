@@ -78,10 +78,13 @@
     <link href="{{ selected.css }}" rel="stylesheet" />
   </head>
   <body id="app" class="container" {{ onload-note-js }}></body>
-  <div id="addToHomeScreen" class="hidden">
+  <div id="addToHomeScreenAndroid" class="hidden">
       <div class="close" onclick="closeScreen()">Close<img class="close" src="/sites/myfriends/images/standard/close.png"></div>
-      <div id = "addToHomeScreenButton">
-          <img class="addToHomeScreenNotice" src="/sites/myfriends/images/standard/AddToHomeScreen.png" alt="Add to Homepage">
+      <div id = "addToHomeScreenAndroid" >
+          <img class="addToHomeScreenNoticeAndroid" src="/sites/myfriends/images/standard/AddToHomeScreenAndroid.png" alt="Add to Homepage">
       </div>
+      <div id = "addToHomeScreenIos"  class="hidden">
+        <img class="addToHomeScreenNoticeIos" src="/sites/myfriends/images/standard/AddToHomeScreenIos.png" alt="Add to Homepage">
     </div>
+  </div>
 </html>

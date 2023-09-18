@@ -8,11 +8,12 @@ window.addEventListener('beforeinstallprompt', (e) => {
   // Stash the event so it can be triggered later.
   deferredPrompt = e
   // Update UI notify the user they can install the PWA
-   homescreenCheck()
+  homescreenCheck()
   // Optionally, send analytics event that PWA install promo was shown.
   console.log(`'beforeinstallprompt' event was fired.`)
 })
-addToHomeScreenButton.addEventListener('click', async () => {
+const androidButton = document.getElementById('addToHomeScreenAndroid')
+androidButton.addEventListener('click', async () => {
   // Hide the app provided install promotion
   homescreenPromptHide()
   // Show the install prompt
@@ -26,7 +27,7 @@ addToHomeScreenButton.addEventListener('click', async () => {
 })
 
 window.addEventListener('appinstalled', (event) => {
-  console.log('👍', 'appinstalled', event)
+  console.log('appinstalled', event)
   // Clear the deferredPrompt so it can be garbage collected
   window.deferredPrompt = null
 })
@@ -82,28 +83,55 @@ function datediff(first, second) {
 }
 function homescreenCheck() {
   var lastSeenPrompt = localStorage.lastSeenPrompt
-  console.log(lastSeenPrompt)
+  console.log('lastSeenPrompt ' + lastSeenPrompt)
   if (typeof lastSeenPrompt == 'undefined') {
-    console.log('lastSeenPrompt is undefined')
-    console.log(localStorage)
+    console.log('lastSeenPrompt is undefined so I will show prompt')
     homescreenPromptShow()
+  } else {
+    console.log('I am not going to show homescreen prompt')
   }
 }
 function homescreenPromptHide() {
-  var dlg = document.getElementById('addToHomeScreen')
+  var dlg = ''
+  if (isAndroidOriOS() == 'iOS') {
+    dlg = document.getElementById('addToHomeScreenIos')
+  } else {
+    dlg = document.getElementById('addToHomeScreenAndroid')
+  }
   dlg.classList.remove('xhidden')
   dlg.classList.add('hidden')
 }
 function homescreenPromptShow() {
   let today = Date.now()
+  console.log('I am on line 106')
   //var lastPrompt = localStorage.lastSeenPrompt
   //let days = Math.round((today - lastPrompt) / (1000 * 60 * 60 * 24))
   //if (isNaN(days) || days > SHOW_PROMPT_EVERY_X_DAYS){
   localStorage.setItem('lastSeenPrompt', today)
-  var dlg = document.getElementById('addToHomeScreen')
-  dlg.classList.remove('hidden')
-  dlg.classList.add('xhidden')
+  // unhide big area
+  var homeScreenNotice = document.getElementById('addToHomeScreen')
+  homeScreenNotice.classList.remove('hidden')
+  homeScreenNotice.classList.add('xhidden')
+    // unhide operating area
+  var osNotice = ''
+  if (isAndroidOriOS() == 'iOS') {
+    osNotice = document.getElementById('addToHomeScreenIos')
+  } else {
+    osNotice = document.getElementById('addToHomeScreenAndroid')
+  }
+  osNotice.classList.remove('hidden')
+  osNotice.classList.add('xhidden')
   //}
+}
+function isAndroidOriOS() {
+  const userAgent = navigator.userAgent.toLowerCase()
+  if (/android/.test(userAgent)) {
+    return 'Android'
+  } else if (/iphone|ipad|ipod/.test(userAgent)) {
+    return 'iOS'
+  } else {
+    return 'Unknown'
+  }
 }
 function closeScreen() {
   var screen = document.getElementById('addToHomeScreen')
