@@ -223,7 +223,9 @@ img.close {
   height: 25px;
   width: 25px;
 }
-#addToHomeScreen {
+#addToHomeScreen,
+#addToHomeScreenIos,
+#addToHomeScreenAndroid {
   background: yellow;
   width:70%;
   max-width: 300px;

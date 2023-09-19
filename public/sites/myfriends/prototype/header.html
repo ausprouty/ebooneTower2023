@@ -79,12 +79,13 @@
   </head>
   <body id="app" class="container" {{ onload-note-js }}></body>
   <div id="addToHomeScreenAndroid" class="hidden">
-      <div class="close" onclick="closeScreen()">Close<img class="close" src="/sites/myfriends/images/standard/close.png"></div>
-      <div id = "addToHomeScreenAndroid" >
+      <div class="close" onclick="closeScreen('addToHomeScreenAndroid')">Close<img class="close" src="/sites/myfriends/images/standard/close.png"></div>
+      <div id = "addToHomeScreenAndroidButton" >
           <img class="addToHomeScreenNoticeAndroid" src="/sites/myfriends/images/standard/AddToHomeScreenAndroid.png" alt="Add to Homepage">
       </div>
-      <div id = "addToHomeScreenIos"  class="hidden">
-        <img class="addToHomeScreenNoticeIos" src="/sites/myfriends/images/standard/AddToHomeScreenIos.png" alt="Add to Homepage">
-    </div>
+  </div>
+  <div id = "addToHomeScreenIos"  class="hidden">
+    <div class="close" onclick="closeScreen('addToHomeScreenIos')">Close<img class="close" src="/sites/myfriends/images/standard/close.png"></div>
+    <img class="addToHomeScreenNoticeIos" src="/sites/myfriends/images/standard/AddToHomeScreenIos.png" alt="Add to Homepage">
   </div>
 </html>
