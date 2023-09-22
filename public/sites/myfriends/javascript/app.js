@@ -1,5 +1,15 @@
-var CACHE_DYNAMIC_NAME = 'content-1'
+var CACHE_DYNAMIC_NAME = 'myfriends-run-time-v1'
 var DEFAULT_ENTRY = '/content/index.html'
+
+navigator.serviceWorker.getRegistrations().then(function (registrations) {
+  for (let registration of registrations) {
+    if (
+      registration.active.scriptURL === 'https://prototype.myfriends.network/sw.js'
+    ) {
+      registration.unregister()
+    }
+  }
+})
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker
@@ -195,5 +205,3 @@ function goToPageAndSetReturn(page) {
   localStorage.setItem('returnpage', window.location.href)
   window.location.replace(page)
 }
-
-

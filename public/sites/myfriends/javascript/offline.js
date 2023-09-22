@@ -1,30 +1,42 @@
 var CACHE_DYNAMIC_NAME = 'content-1'
-// Initialize deferredPrompt for use later to show browser install prompt.
+
 let deferredPrompt
-// from https://web.dev/customize-install/
+
+// Function to handle the install button click
+async function handleInstallButtonClick() {
+  if (deferredPrompt) {
+    // Hide the app provided install promotion
+    homescreenPromptHide('addToHomeScreenAndroid')
+    try {
+      // Show the install prompt
+      await deferredPrompt.prompt()
+      // Wait for the user to respond to the prompt
+      const { outcome } = await deferredPrompt.userChoice
+      // Optionally, send analytics event with the outcome of user choice
+      console.log(`User response to the install prompt: ${outcome}`)
+      // We've used the prompt, and can't use it again, throw it away
+      deferredPrompt = null
+    } catch (error) {
+      // Handle any errors that may occur when trying to prompt the user
+      console.error('Error when prompting for installation:', error)
+    }
+  }
+}
+
+// Event listener for the beforeinstallprompt event
 window.addEventListener('beforeinstallprompt', (e) => {
   // Prevent the mini-infobar from appearing on mobile
   e.preventDefault()
   // Stash the event so it can be triggered later.
   deferredPrompt = e
-  // Update UI notify the user they can install the PWA
+  // Update UI to notify the user they can install the PWA
   homescreenCheck()
   // Optionally, send analytics event that PWA install promo was shown.
   console.log(`'beforeinstallprompt' event was fired.`)
 })
+
 const androidButton = document.getElementById('addToHomeScreenAndroidButton')
-androidButton.addEventListener('click', async () => {
-  // Hide the app provided install promotion
-  homescreenPromptHide('addToHomeScreenAndroid')
-  // Show the install prompt
-  deferredPrompt.prompt()
-  // Wait for the user to respond to the prompt
-  const { outcome } = await deferredPrompt.userChoice
-  // Optionally, send analytics event with outcome of user choice
-  console.log(`User response to the install prompt: ${outcome}`)
-  // We've used the prompt, and can't use it again, throw it away
-  deferredPrompt = null
-})
+androidButton.addEventListener('click', handleInstallButtonClick)
 
 window.addEventListener('appinstalled', (event) => {
   console.log('appinstalled', event)
@@ -88,8 +100,8 @@ function homescreenCheck() {
     if (operatingSystem != 'iOS') {
       homescreenPromptShow()
     }
-    if (!isPWAInstalledOniOS()){
-       homescreenPromptShow()
+    if (!isPWAInstalledOniOS()) {
+      homescreenPromptShow()
     }
   }
 }
