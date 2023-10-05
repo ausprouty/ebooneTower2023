@@ -1,12 +1,26 @@
 var CACHE_DYNAMIC_NAME = 'content-1'
+document.addEventListener('DOMContentLoaded', offlineRequestCheck)
+document.addEventListener('DOMContentLoaded', iOShomescreenCheck)
 
-let deferredPrompt
-
+let deferredPrompt = null
+const androidButton = document.getElementById('addToHomeScreenAndroidButton')
+androidButton.addEventListener('click', handleInstallButtonClick)
+// Event listener for the beforeinstallprompt event
+window.addEventListener('beforeinstallprompt', (e) => {
+  // Prevent the mini-infobar from appearing on mobile
+  e.preventDefault()
+  // Stash the event so it can be triggered later.
+  deferredPrompt = e
+  // Update UI to notify the user they can install the PWA
+  homescreenCheck()
+  // Optionally, send analytics event that PWA install promo was shown.
+  console.log(`'beforeinstallprompt' event was fired.`)
+})
 // Function to handle the install button click
 async function handleInstallButtonClick() {
   if (deferredPrompt) {
+    console.log('deferredPrompt found')
     // Hide the app provided install promotion
-    homescreenPromptHide('addToHomeScreenAndroid')
     try {
       // Show the install prompt
       await deferredPrompt.prompt()
@@ -20,33 +34,11 @@ async function handleInstallButtonClick() {
       // Handle any errors that may occur when trying to prompt the user
       console.error('Error when prompting for installation:', error)
     }
+  } else {
+    console.log('deferredPrompt NOT found')
   }
+  homescreenPromptHide('addToHomeScreenAndroid')
 }
-
-// Event listener for the beforeinstallprompt event
-window.addEventListener('beforeinstallprompt', (e) => {
-  // Prevent the mini-infobar from appearing on mobile
-  e.preventDefault()
-  // Stash the event so it can be triggered later.
-  deferredPrompt = e
-  // Update UI to notify the user they can install the PWA
-  homescreenCheck()
-  // Optionally, send analytics event that PWA install promo was shown.
-  console.log(`'beforeinstallprompt' event was fired.`)
-})
-
-const androidButton = document.getElementById('addToHomeScreenAndroidButton')
-androidButton.addEventListener('click', handleInstallButtonClick)
-
-window.addEventListener('appinstalled', (event) => {
-  console.log('appinstalled', event)
-  // Clear the deferredPrompt so it can be garbage collected
-  window.deferredPrompt = null
-})
-
-document.addEventListener('DOMContentLoaded', offlineRequestCheck)
-document.addEventListener('DOMContentLoaded', homescreenCheck)
-
 function offlineRequestCheck() {
   var series = document.getElementById('offline-request')
   console.log(series)
@@ -93,7 +85,15 @@ function datediff(first, second) {
   //  Round to nearest whole number to deal with DST.
   return Math.round((second - first) / (1000 * 60 * 60 * 24))
 }
+
+function iOShomescreenCheck() {
+  var operatingSystem = isAndroidOriOS()
+  if (operatingSystem == 'iOS') {
+    homescreenCheck()
+  }
+}
 function homescreenCheck() {
+  // android is called by  beforeinstallprompt
   var lastSeenPrompt = localStorage.lastSeenPrompt
   if (typeof lastSeenPrompt == 'undefined') {
     var operatingSystem = isAndroidOriOS()
@@ -125,7 +125,6 @@ function homescreenPromptShow() {
   //let days = Math.round((today - lastPrompt) / (1000 * 60 * 60 * 24))
   //if (isNaN(days) || days > SHOW_PROMPT_EVERY_X_DAYS){
   localStorage.setItem('lastSeenPrompt', today)
-
   var osNotice = ''
   var operatingSystem = isAndroidOriOS()
   if (operatingSystem == 'iOS') {

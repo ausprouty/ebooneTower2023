@@ -111,6 +111,10 @@ div.trainer-hide {
 hr.reveal {
   border-top: 1px dashed red;
 }
+td.social {
+  width: 25%;
+  text-align: center;
+}
 
 div.invisible {
   padding: 0 5px;

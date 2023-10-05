@@ -28,7 +28,6 @@ function version2Text($text){
   $text= str_ireplace ('/sites/myfriends/content/ZZ/images/mc2/mc2forward.png','/sites/myfriends/images/standard/look-forward.png', $text);
   $text = str_ireplace('.html.html', '.html', $text);
   $text = str_ireplace('â–¶', '■', $text);
-
   $text= str_ireplace ('https://edit.myfriends.network/images/arrowright3.png','/sites/default/images/arrowright3.png', $text);
 
 
