@@ -6,13 +6,13 @@ myRequireOnce('writeLog.php');
 function myGetPrototypeFile($filename, $language_iso = null)
 {
     $subdirectory = DESTINATION;
-    //writeLogAppend('myGetPrototypeFile-10', "$filename, $language_iso, $subdirectory" );
+    writeLogAppend('myGetPrototypeFile-10', "$filename, $language_iso, $subdirectory" );
     $message = array(
         'filename' => $filename,
         'subdirectory' => $subdirectory,
         'language_iso' => $language_iso
     );
-    // writeLogAppend('myGetPrototypeFile-12', $message);
+    writeLogAppend('myGetPrototypeFile-12', $message);
     $filename = _cleanMyGetPrototypeFile($filename);
     if ($language_iso) {
         $language_iso = _cleanMyGetPrototypeSubdirectory($language_iso);

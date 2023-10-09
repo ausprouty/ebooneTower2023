@@ -50,7 +50,7 @@ function createBibleDbtArray($p)
     }
     //writeLogDebug ('createBibleDbtArray-48', $parts);
     $book = $parts[0];
-    if ($book == 1 || $book == 2 || $book == 3) {
+    if ($book == 1 || $book == 2  || $book == 3 || $book == 4 || $book == 5) {
         $book .= ' ' . $parts[1];
     }
     $book_lookup = $book;
@@ -71,11 +71,16 @@ function createBibleDbtArray($p)
         writeLogError('createBibleDbtArray-50', $message);
         return NULL;
     }
-    // pull apart chapter
     $pass = str_replace($book, '', $passage);
     $pass = str_replace(' ', '', $pass);
     $pass = str_replace('፡', ':', $pass); // from Amharic
     $i = strpos($pass, ':');
+    // checking for German: Matthäus 7, 7-11
+    $comma = strpos($pass, ',');
+    if ($i == FALSE && $comma !== FALSE){
+        $pass = str_replace(',', ':', $pass);
+        $i = strpos($pass, ':');
+    }
     if ($i == FALSE) {
         // this is the whole chapter
         $chapterId = trim($pass);
@@ -119,18 +124,18 @@ function createBibleDbtArrayNameFromDBM($language_iso,  $book_lookup)
     $book_details['lookup'] = $book_lookup;
     $conn = new mysqli(HOST, USER, PASS, DATABASE_BIBLE);
     $conn->set_charset("utf8");
-    $sql = "SELECT book_id FROM dbm_bible_book_names
+    $sql2 = "SELECT book_id FROM dbm_bible_book_names
         WHERE language_iso = '$language_iso' AND name = '$book_lookup'";
-    $query = $conn->query($sql);
+    $query = $conn->query($sql2);
     $data = $query->fetch_object();
     if (!isset($data->book_id)) {
-        $sql = "SELECT book_id FROM dbm_bible_book_names
+        $sql3 = "SELECT book_id FROM dbm_bible_book_names
          WHERE language_iso = 'eng' AND name = '$book_lookup'";
-        $query = $conn->query($sql);
+        $query = $conn->query($sql3);
         $data = $query->fetch_object();
     }
     if (!isset($data->book_id)) {
-        writeLogAppend('ERROR-createBibleDbtArrayNameFromDBM', $sql);
+        writeLogAppend('ERROR-createBibleDbtArrayNameFromDBM', $sql3);
     }
     if (isset($data->book_id)) {
         $book_details['book_id'] = $data->book_id;
