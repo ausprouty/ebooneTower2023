@@ -25,6 +25,7 @@ function getBibleBlockToInsert($p)
             $passage['bid'] = $p['version_nt'];
         }
         $response = bibleGetPassage($passage);
+        writeLogDebug('getBibleBlockToInsert-28', $response);
         $replace = array(
             '[Reference]',
             '[Text]',

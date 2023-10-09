@@ -39,11 +39,12 @@ myRequireOnce('simple_html_dom.php', 'libraries/simplehtmldom_1_9_1');
 
 function bibleGetPassageBibleServer($p)
 {
+	writeLog('bibleGatPassageBibleServer-42', $p);
 	$output = array();
 	$output['debug'] = '';
 	$parse = array();
-	$reference_shaped = $p['entry']; // try this and see if it works/
-	$reference_shaped = str_replace(' ', '%20', $reference_shaped);
+	$reference = $p['entry']; // try this and see if it works/
+	$reference_shaped = str_replace(' ', '%20', $reference);
 	$agent = 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30)';
 	$reffer = 'https://bibleserver.com/' . $p['version_code'] . '/' . $reference_shaped; // URL
 	$cookie_file_path = null;
@@ -63,7 +64,7 @@ function bibleGetPassageBibleServer($p)
 	curl_setopt($ch, CURLOPT_TIMEOUT, 90); // Wait 30 seconds for download
 	$url = $reffer;
 	$output['link'] = $url;
-	//writeLogDebug('bibleGetPassageBibleServer-70', $url);
+	writeLogDebug('bibleGetPassageBibleServer-66', $url);
 	curl_setopt($ch, CURLOPT_URL, $url);
 	$string = curl_exec($ch);  // grab URL and pass it to the variable.
 	// see https://code.tutsplus.com/tutorials/html-parsing-and-screen-scraping-with-the-simple-html-dom-library--net-11856
@@ -86,19 +87,17 @@ function bibleGetPassageBibleServer($p)
 		'text' => $output['bible'],
 		'link' => $output['link']
 	];
-	return $output;
+	writeLogDebug('bibleGetPassageBibleServer-90', $output);
+	return $output['content'];
 }
 
 function bibleGetPassageBibleServerTrim($bible, $verseStart, $verseEnd){
 	$findBegin = '<sup>'. $verseStart .'</sup>';
 	$findBeyond = $verseEnd + 1;
 	$findEnd = '<sup>'. $findBeyond.'</sup>';
-	writeLog('trim-106', $findBegin . ' --- '. $findEnd);
 	$posBegin = strpos($bible, $findBegin);
 	$bible = substr($bible, $posBegin);
-	writeLog('trim-109', $bible);
 	$posEnd = strpos($bible, $findEnd);
-	writeLog('trim-111', $posEnd);
 	if ($posEnd){
 		$bible = substr($bible, 0, $posEnd);
 	}
@@ -108,7 +107,7 @@ function bibleGetPassageBibleServerTrim($bible, $verseStart, $verseEnd){
 function  bibleGetPassageBibleServerClean($bible)
 {
 	// now we are working just with Bible text
-	writeLogDebug('bibleGetPassageBibleServer-95', $bible);
+	writeLogDebug('bibleGetPassageBibleServer-112', $bible);
 	$html = str_get_html($bible);
 	// remove all links
 	$items = $html->find('a');
@@ -122,6 +121,18 @@ function  bibleGetPassageBibleServerClean($bible)
 	foreach ($items as $item) {
 		$item->outertext = '';
 	}
+	$bible = $html->outertext;
+	$html->clear();
+	$html = str_get_html($bible);
+	// <h3 class="anchor_4167203 print_24 scroll-elem" id="ein-festes-fundament"><span>Ein festes Fundament</span></h3>
+	$items = $html->find('h3');
+	foreach ($items as $item) {
+		$h3_text = $item->plaintext;
+		$item->outertext = '<h4 class="bible">' . $h3_text . '</h4>' ;
+	}
+	$bible = $html->outertext;
+	$html->clear();
+	$html = str_get_html($bible);
 	$items = $html->find('span.verse-references');
 	foreach ($items as $item) {
 		$item->outertext = '';
@@ -142,8 +153,10 @@ function  bibleGetPassageBibleServerClean($bible)
 		if ($verseNumberElement) {
 			// Extract the number inside the span element
 			$verseNumber = trim($verseNumberElement->plaintext);
+			// get rid of &nbsp;
+			$verseNumber = $number = preg_replace('/[^0-9]/', '', $verseNumber);
 			// Create a new <sup> element with the extracted number
-			$supElement = '<sup>' . $verseNumber . '</sup>';
+			$supElement = '<sup>' . $verseNumber .'</sup>';
 		}
 		$verseContentElement = $item->find('span.verse-content', 0);
 		if ($verseContentElement) {
@@ -156,9 +169,14 @@ function  bibleGetPassageBibleServerClean($bible)
 		}
 	}
 	$bible = $html->outertext;
-	$bad = array('()', '(  )', '(;)', '(;;)', '(;;;)',
-		'(  ;   )', '(  ;   ;   )', '(; ; )', '(; )','<!---->', '   ');
-	$bible = str_ireplace($bad, '', $bible);
-	$bible = preg_replace('/\[\d+\]/', '', $bible);
+	$bad = array(
+		'/\(\s*;\s*(;\s*)*\)/',    // Remove ( ; ; ; ...)
+		'/<!---->/',            // Remove <!---->
+		'/\(\s*\)/'                // Remove ()
+	);
+	$bible = preg_replace($bad, '', $bible);
+	$bible = preg_replace('/\[\d+\]/', '', $bible);  // remove [123], [42], or [9].
+	$bible = preg_replace('/&nbsp;?<\/sup>/', '</sup>', $bible);
+
 	return $bible;
 }

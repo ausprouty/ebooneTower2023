@@ -59,8 +59,7 @@ function bibleGetPassage($p)
     if ($data['source'] == 'bible_gateway') {
         myRequireOnce('bibleGetPassageBiblegateway.php');
         $p['version_code'] = $data['version_code'];
-        $res = bibleGetPassageBiblegateway($p);
-        $out = $res['content'];
+        $out = bibleGetPassageBiblegateway($p);
         return $out;
     }
     if ($data['source']  == 'dbt') {

@@ -78,6 +78,8 @@ function biblePopupMaker($p)
                 $dbt['version_ot'] = $ot;
                 $dbt['version_nt'] = $nt;
                 $bible = bibleGetPassage($dbt);
+                writeLogDebug('biblePopupMaker-81', $bible);
+                writeLogDebug('biblePopupMaker-82', $bible['text']); 
                 if ($bible['text'] == null) {
                     $new = array(
                         $id,

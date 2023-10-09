@@ -13,12 +13,16 @@ Change
 
     */
 myRequireOnce('removeBiblePopups.php');
+myRequireOnce('removeBiblePassage.php');
 myRequireOnce('create.php');
 myRequireOnce('getLatestContent.php');
 
 function removeBiblePopupsAndBlocks($p)
 {
+    writeLogDebug('removeBiblePopupsAndBlocks-21', $p['text']);
     $p['text'] = removeBiblePopups($p['text']);
+    $p['text'] = removeBiblePassage($p['text']);
+    $p['text'] = removeBibleDiv($p['text']);
     createContent($p);
     $p['scope'] = 'page';
     unset($p['recnum']);

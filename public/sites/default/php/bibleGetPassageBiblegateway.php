@@ -97,7 +97,7 @@ function bibleGetPassageBiblegateway($p)
 		'link' => $output['link']
 	];
 	//writeLogDebug('bibleGetPassageBiblegateway-110', $output);
-	return $output;
+	return $output['content'];
 }
 
 function  bibleGetPassageBiblegatewayClean($bible)
