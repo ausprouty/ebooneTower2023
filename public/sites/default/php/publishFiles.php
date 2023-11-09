@@ -32,8 +32,20 @@ function publishFiles($p, $fname, $text, $standard_css, $selected_css)
     if (strpos($fname, '.html.html') !== false) {
         $fname = str_replace('.html.html', '.html', $fname);
     }
+    // webpage is used by Whatsapp 
+    $pos = strpos($fname,'/content/');
+    $webPage = substr($fname, $pos);
+    writeLogDebug('publishFiles-38', $webPage);
     // start with header
     $output = myGetPrototypeFile('header.html');
+    // see if there are links for Whatsapp or X
+    if (strpos($output, '[ShareLinks]') !== FALSE){
+        writeLogDebug('publishFiles-41', $output);
+        $shareLinks = myGetPrototypeFile('shareLinks.html', $p['language_iso']);
+        writeLogDebug('publishFiles-43', $shareLinks);
+        $output = str_replace('[ShareLinks]', $shareLinks, $output);
+    }
+
     // add onload only if notes  are here
     $onload_note_js = '';
     if (strpos($text, '<form') !== false) {
@@ -64,6 +76,7 @@ function publishFiles($p, $fname, $text, $standard_css, $selected_css)
     $language_google = languageHtml($p['language_iso']);
     $placeholders = array(
         '{{ language.google }}',
+        '{{ webPage }}',
         '{{ title }}',
         '{{ standard.css }}',
         '{{ selected.css }}',
@@ -75,6 +88,7 @@ function publishFiles($p, $fname, $text, $standard_css, $selected_css)
     );
     $replace = array(
         $language_google,
+        $webPage,
         $title,
         $standard_css,
         $selected_css,
