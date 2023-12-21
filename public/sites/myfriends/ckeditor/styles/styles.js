@@ -18,6 +18,37 @@
 window.CKEDITOR.stylesSet.add('compass', [
   { name: 'Compass', element: 'h2', styles: { 'font-style': 'italic' } },
   { name: 'note-area', element: 'div', attributes: { class: 'note-area' } },
+  {
+    name: 'bible link',
+    element: 'span',
+    attributes: { class: 'bible-link' },
+  },
+  {
+    name: 'popup paragraph',
+    element: ['li', 'ul', 'ol', 'p'],
+    attributes: { class: 'nobreak' },
+  },
+  {
+    name: 'Enrichment Div',
+    element: 'div',
+    attributes: { class: 'for-enrichment' },
+  },
+  {
+    name: 'zoom',
+    element: 'span',
+    attributes: { class: 'zoom' },
+  },
+  { name: 'background', element: 'div', attributes: { class: 'background' } },
+  { name: 'bible', element: 'div', attributes: { class: 'bible' } },
+  { name: 'note-area', element: 'div', attributes: { class: 'note-area' } },
+  { name: 'lesson', element: 'div', attributes: { class: 'lesson' } },
+  { name: 'lesson-icon', element: 'div', attributes: { class: 'lesson-icon' } },
+  {
+    name: 'lesson-section',
+    element: 'div',
+    attributes: { class: 'lesson-section' },
+  },
+  { name: 'readmore', element: 'a', attributes: { class: 'readmore' } },
 ])
 
 window.CKEDITOR.stylesSet.add('firststeps', [
