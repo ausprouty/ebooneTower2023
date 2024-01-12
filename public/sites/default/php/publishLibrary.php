@@ -34,6 +34,7 @@ function publishLibrary($p)
     } else {
         $selected_css = '/sites/default/styles/cardGLOBAL.css';
     }
+    //writeLogDebug('publishLibrary-default-31', $text);
     $res = createLibrary($p, $text);
     //writeLogDebug('publishLibrary-default-33', $res);
     $body = $res->body;
@@ -63,7 +64,7 @@ function publishLibrary($p)
     //writeLogDebug('publishLibrary-default-56', $body);
     //writeLogDebug('publishLibrary-default-55', $fname);
     $body = publishLibraryAdjustText($body);
-    //writeLogDebug('publishLibrary-default-59', $body);
+    writeLogDebug('publishLibrary-default-59', $body);
     $body .= '<!--- Created by publishLibrary-->' . "\n";
     publishFiles($p, $fname, $body, STANDARD_CARD_CSS, $selected_css);
     //

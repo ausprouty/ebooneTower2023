@@ -48,6 +48,7 @@ function createLibrary($p, $text)
         $ribbon = isset($text->format->back_button) ? $text->format->back_button->image : DEFAULT_BACK_RIBBON;
     }
     $body = str_replace('[[nav]]', $nav, $body);
+    //writeLogDebug('createLibrary-default-51',  $ribbon);
     //
     //  Replace other variables for Library
     //
