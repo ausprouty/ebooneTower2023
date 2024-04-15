@@ -3,7 +3,7 @@
     <NavBar called_by="library" />
     <div class="loading" v-if="loading">Loading...</div>
     <div class="error" v-if="error">
-      There was an error... {{ this.error_message }}
+      Library Edit says was an error... {{ this.error_message }}
     </div>
     <div class="content" v-if="loaded">
       <div v-if="!this.authorized">

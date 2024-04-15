@@ -122,7 +122,10 @@ export default {
           this.error_message = response.data.message
         }
       } catch (error) {
-        LogService.consoleLogError('LIBRARY EDIT There was an error ', error)
+        LogService.consoleLogError(
+          'LIBRARY SORT says there was an error ',
+          error
+        )
         this.error = true
         this.loaded = false
         this.error_message = response.data.message
@@ -142,7 +145,7 @@ export default {
       this.text = this.bookmark.library.text
     } catch (error) {
       LogService.consoleLogError(
-        'There was an error in LibraryEdit.vue:',
+        'There was an error in LibrarySort.vue:',
         error
       )
     }

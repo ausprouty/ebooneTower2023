@@ -187,7 +187,7 @@ export default {
         }
       } catch (error) {
         LogService.consoleLogError(
-          'COUNTRY PAGE EDIT There was an error ',
+          'Library Index Edit Short says there was an error ',
           error
         )
         this.error = true

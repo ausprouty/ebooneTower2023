@@ -4,7 +4,7 @@
 
     <div class="loading" v-if="loading">Loading...</div>
     <div class="error" v-if="error">
-      There was an error... {{ this.error_message }}
+      Library Index Edit says there was an error... {{ this.error_message }}
     </div>
     <div class="content" v-if="loaded">
       <div v-if="!this.authorized">
@@ -254,7 +254,7 @@ export default {
         }
       } catch (error) {
         LogService.consoleLogError(
-          'COUNTRY PAGE EDIT There was an error ',
+          'Library Index Edit line 257 says There was an error ',
           error
         )
         this.error = true
