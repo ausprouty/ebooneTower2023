@@ -91,10 +91,13 @@ export const libraryMixin = {
       var image_options = []
       var img = []
       if (where == 'content') {
+        console.log(directory)
         img = await AuthorService.getImagesInContentDirectory(directory)
+        console.log (img)
       } else {
         img = await AuthorService.getImagesForSite(directory)
       }
+      console.log(img)
       if (typeof img !== 'undefined') {
         if (img.length > 0) {
           img = img.sort()

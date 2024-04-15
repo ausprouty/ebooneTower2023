@@ -348,6 +348,7 @@ export default {
       folders: [],
       ckEditStyleSets: ['default'],
       styles_sets: [],
+      styles: [],
       bookcodes: [],
       templates: [],
       authorized: false,
@@ -644,10 +645,13 @@ export default {
         await this.getLibrary(this.$route.params)
         this.books = this.bookmark.library.books
         this.text = this.bookmark.library.text
+        console.log('before getImages')
+        console.log(this.bookmark.language.image_dir)
         this.images = await this.getImages(
           'content',
           this.bookmark.language.image_dir
         )
+        console.log('after getImages')
         LogService.consoleLogMessage(this.images)
         // get folders
         var param = {}

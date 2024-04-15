@@ -1,5 +1,5 @@
 nvm use 16.18.1
-npm run build-myfriends
+npm run build-mc2
 
 
 installed nvm by going to https://github.com/coreybutler/nvm-windows
