@@ -7,7 +7,6 @@
 <script></script>
 
 <style>
-
 :root {
   --color-back: #f0555a;
   --color-background: #f8f5f1;
@@ -46,7 +45,6 @@
   --color-up: #f38832;
   --color-version: rgb(110, 107, 241);
 }
-
 
 #offline-ready {
   color: var(--color-up);

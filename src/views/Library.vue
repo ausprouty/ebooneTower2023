@@ -29,9 +29,7 @@
 import Book from '@/components/Book.vue'
 import { mapState } from 'vuex'
 import NavBar from '@/components/NavBarHamburger.vue'
-import ContentService from '@/services/ContentService.js'
 import LogService from '@/services/LogService.js'
-
 import { libraryMixin } from '@/mixins/LibraryMixin.js'
 
 export default {

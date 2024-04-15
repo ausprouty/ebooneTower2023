@@ -65,7 +65,7 @@ export default {
     username: { required },
     password: { required },
   },
-  
+
   methods: {
     async saveForm() {
       if (this.submitted == false) {
@@ -76,7 +76,7 @@ export default {
           params.username = this.username
           params.password = this.password
           let res = await AuthorService.login(params)
-          console.log (res)
+          console.log(res)
           if (res.authorized == 'authorized') {
             localStorage.setItem('scopeCountries', res.scope_countries)
             localStorage.setItem('scopeLanguages', res.scope_languages)

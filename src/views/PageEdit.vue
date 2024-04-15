@@ -271,13 +271,12 @@ export default {
         this.reference = ''
       }
     },
-    async removeBiblePopupsAndBlocks(){
+    async removeBiblePopupsAndBlocks() {
       var params = {}
       params.text = ContentService.validate(this.pageText)
       params.route = JSON.stringify(this.$route.params)
       await BibleService.removeBiblePopupsAndBlocks(params)
       await this.showPage()
-
     },
     async revertPage() {
       var params = {}

@@ -245,7 +245,7 @@ export default {
       this.countries.splice(index, 1)
     },
     addNewCountryForm() {
-      if (Array.isArray(this.countries)){
+      if (Array.isArray(this.countries)) {
         this.countries.push({
           name: null,
           english: null,

@@ -5,8 +5,8 @@
     <div v-if="this.publish">
       <button class="button" @click="countryPublish('website')">
         {{ this.country_publish_text }}
-      </button> 
-       &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+      </button>
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
       <button class="button" @click="languagePublish('website')">
         {{ this.language_publish_text }}
       </button>
@@ -177,11 +177,11 @@ export default {
     },
     async loadView() {
       try {
-        console.log ('loading Countries')
+        console.log('loading Countries')
         await this.getCountries()
-        console.log ('loaded Countries')
+        console.log('loaded Countries')
         this.authorized = this.authorize('write', this.$route.params)
-        console.log ('my authorization value is  ' + this.authorized)
+        console.log('my authorization value is  ' + this.authorized)
         // authorize for prototype and publish
         this.publish = false
         this.prototype = false
@@ -206,7 +206,7 @@ export default {
             }
           }
         }
-        console.log (' I have loaded view')
+        console.log(' I have loaded view')
         // end authorization for prototype and publish
       } catch (error) {
         LogService.consoleLogError(
@@ -214,7 +214,7 @@ export default {
           error
         )
       }
-      console.log (' I have loaded ALL OF view')
+      console.log(' I have loaded ALL OF view')
     },
   },
   beforeCreate() {

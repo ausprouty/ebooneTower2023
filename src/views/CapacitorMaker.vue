@@ -11,13 +11,14 @@
       <div>
         <h1>Capacitor for {{ this.country_name }}</h1>
         <p>
-          This page allows you to create an Capacitor App which will have all the
-          content and videos.
+          This page allows you to create an Capacitor App which will have all
+          the content and videos.
         </p>
         <p>For sensitive countries be sure to click "Remove External Links"</p>
         <p>
-          You will find all content in {{ this.capacitor_root
-          }}/{{ this.capacitor.subDirectory }}
+          You will find all content in {{ this.capacitor_root }}/{{
+            this.capacitor.subDirectory
+          }}
         </p>
       </div>
       <div>
@@ -48,7 +49,7 @@
           class="button"
           v-if="!this.show_progress"
           @click="showProgress()"
-          >
+        >
           Show Progress
         </button>
       </div>
@@ -56,20 +57,23 @@
       <div class="row" v-if="this.show_progress">
         <div class="column">
           <h3>Common Files</h3>
-          <button 
-            class="button" 
+          <button
+            class="button"
             v-bind:class="progress.common_files.progress"
-            @click="createCommonFiles()">
-              {{ this.common_text }}
+            @click="createCommonFiles()"
+          >
+            {{ this.common_text }}
           </button>
         </div>
       </div>
       <div class="row">
-        <span  v-html="progress.common_files.message"></span>
+        <span v-html="progress.common_files.message"></span>
       </div>
       <div v-if="this.show_progress">
         <CapacitorBooks :language="$v.capacitor.language.$model" />
-        <p>The MediaList Files. Media.bat files will be at mc2.media/batfiles</p>
+        <p>
+          The MediaList Files. Media.bat files will be at mc2.media/batfiles
+        </p>
         <p>After you make the Media List Bat files:</p>
         <ul>
           <li>Correct errors in html and republish</li>
@@ -83,9 +87,11 @@
           <li>Copy the media files to mc2.media/MC2/LANGUAGE_ISO</li>
           <li>Verify that all media files are in this directory</li>
         </ul>
-        <p>Router will be found at {{ this.capacitor_root
-            }}/{{ this.capacitor.subDirectory }}/src/router</p>
-
+        <p>
+          Router will be found at {{ this.capacitor_root }}/{{
+            this.capacitor.subDirectory
+          }}/src/router
+        </p>
       </div>
     </div>
   </div>
@@ -199,7 +205,9 @@ export default {
     if (this.authorized) {
       await AuthorService.bookmark(this.$route.params)
       this.country_name = this.bookmark.country.name
-      this.language_data = await CapacitorService.getLanguages(this.$route.params)
+      this.language_data = await CapacitorService.getLanguages(
+        this.$route.params
+      )
       this.$store.dispatch('setLanguages', [this.language_data])
       var len = this.language_data.length
       for (var i = 0; i < len; i++) {

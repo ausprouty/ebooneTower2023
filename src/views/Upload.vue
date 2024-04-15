@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import AuthorService from '@/services/AuthorService.js'
 import LogService from '@/services/LogService.js'
 import { authorizeMixin } from '@/mixins/AuthorizeMixin.js'

@@ -11,7 +11,7 @@ function guardMyroute(to, from, next) {
   var sessionExpires = localStorage.getItem('sessionExpires', 0)
   var date = new Date()
   var timestamp = date.getTime() / 1000
-  if (sessionExpires > timestamp){
+  if (sessionExpires > timestamp) {
     isAuthenticated = true
   }
   if (isAuthenticated) {

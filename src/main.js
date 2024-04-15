@@ -42,9 +42,9 @@ Vue.mixin({
       }
       //console.log('form_data from mixin')
       // Display the key/value pairs
-      for (var pair of form_data.entries()) {
-        //console.log(pair[0] + ', ' + pair[1])
-      }
+      // for (var pair of form_data.entries()) {
+      //console.log(pair[0] + ', ' + pair[1])
+      //}
       return form_data
     },
   },

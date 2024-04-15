@@ -5,8 +5,9 @@
       <option
         v-for="product in products"
         v-bind:key="{ id: product.id, text: product.name }"
-        >{{ product.name }}</option
       >
+        {{ product.name }}
+      </option>
     </select>
   </div>
 </template>
@@ -18,9 +19,9 @@ export default {
       products: [
         { id: 1, name: 'A' },
         { id: 2, name: 'B' },
-        { id: 3, name: 'C' }
-      ]
+        { id: 3, name: 'C' },
+      ],
     }
-  }
+  },
 }
 </script>

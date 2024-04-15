@@ -32,7 +32,7 @@
           >
           </v-select>
         </div>
-        <h4>Existing Builds  </h4>
+        <h4>Existing Builds</h4>
         <p>for location check ROOT_APK in .env.api.remote.php</p>
 
         <div v-for="build in builds" :key="build">
@@ -102,10 +102,15 @@
           <li>Correct errors in html and republish</li>
           <li>Download any missing files</li>
           <li>Update Reference File</li>
-          <li>Download from sites/{{ this.site }}/apk/{{ this.$route.params.country_code }}/language_iso</li>
-            <li></li>move to M:MC2/sdcard/
-            {{ this.$route.params.country_code }}, unzip and run the bat files -
-            (They take too much processing time to run remotely.)
+          <li>
+            Download from sites/{{ this.site }}/apk/{{
+              this.$route.params.country_code
+            }}/language_iso
+          </li>
+          <li>
+            move to M:MC2/sdcard/ {{ this.$route.params.country_code }}, unzip
+            and run the bat files - (They take too much processing time to run
+            remotely.)
           </li>
           <li>Make a zip file of the audio and video directories</li>
           <li>

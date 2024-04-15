@@ -65,9 +65,7 @@
       </div>
       <div></div>
     </div>
-
   </div>
-
 </template>
 
 <script>
@@ -76,7 +74,6 @@ import ContentService from '@/services/ContentService.js'
 import AuthorService from '@/services/AuthorService.js'
 import LogService from '@/services/LogService.js'
 import NavBar from '@/components/NavBarCountry.vue'
-import Books from '@/components/Books.vue'
 import './ckeditor/index.js'
 import VueCkeditor from 'vue-ckeditor2'
 
