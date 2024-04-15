@@ -19,13 +19,11 @@ function getLatestContent($p)
     }
     switch ($p['scope']) {
         case "countries":
-            $debug .= 'Case is countries' . "\n";
             $sql = 'SELECT * FROM content
                 WHERE filename = "countries"
                 ORDER BY recnum DESC LIMIT 1';
             break;
         case "languages":
-            $debug .= 'Case is languages' . "\n";
             $sql = "SELECT * from content
                 WHERE country_code = '" . $p['country_code'] . "'
                 AND filename = 'languages'
@@ -33,15 +31,14 @@ function getLatestContent($p)
                 ORDER BY recnum DESC LIMIT 1";
             break;
         case "library":
-            $debug .= 'Case is Library' . "\n";
             if (!isset($p['library_code'])) {
                 $p['library_code'] = 'library';
             } else {
                 if (strpos($p['library_code'], '.html') !== FALSE) {
-                    $debug .= 'library code contains .html' . "\n";
+                    //$debug .= 'library code contains .html' . "\n";
                     $p['library_code'] = str_ireplace('.html', '', $p['library_code']);
                 } else {
-                    $debug .=  $p['library_code']  . ' does not contain .html' . "\n";
+                    //$debug .=  $p['library_code']  . ' does not contain .html' . "\n";
                 }
             }
             $sql = "SELECT * from content
@@ -52,7 +49,7 @@ function getLatestContent($p)
                 ORDER BY recnum DESC LIMIT 1";
             break;
         case "libraryNames":
-            $debug .= 'Case is libraryNames' . "\n";
+            //$debug .= 'Case is libraryNames' . "\n";
             $sql = "SELECT DISTINCT filename FROM content
                 WHERE country_code = '" . $p['country_code'] . "'
                 AND language_iso = '" . $p['language_iso'] . "'
@@ -60,7 +57,7 @@ function getLatestContent($p)
                 ORDER BY recnum DESC";
             break;
         case "libraryIndex":
-            $debug .= 'Case is libraryIndex' . "\n";
+            //$debug .= 'Case is libraryIndex' . "\n";
             $text_file = true;
             $sql = "SELECT * FROM content
                 WHERE country_code = '" . $p['country_code'] . "'
@@ -70,7 +67,7 @@ function getLatestContent($p)
                 ORDER BY recnum DESC LIMIT 1";
             break;
         case "series":
-            $debug .= 'Case is series' . "\n";
+            //$debug .= 'Case is series' . "\n";
             $sql = "SELECT * from content
                 WHERE country_code = '" . $p['country_code'] . "'
                 AND language_iso = '" . $p['language_iso'] . "'
@@ -79,7 +76,7 @@ function getLatestContent($p)
                 ORDER BY recnum DESC LIMIT 1";
             break;
         case "page":
-            $debug .= 'Case is page' . "\n";
+            //$debug .= 'Case is page' . "\n";
             $sql = "SELECT * from content
                 WHERE country_code = '" . $p['country_code'] . "'
                 AND language_iso = '" . $p['language_iso'] . "'
@@ -89,9 +86,9 @@ function getLatestContent($p)
             break;
         default:
             $sql = null;
-            $debug .= "no match for  " . $p['scope'] . "\n";
+            //$debug .= "no match for  " . $p['scope'] . "\n";
     }
-    $debug .= $sql . "\n";
+    //$debug .= $sql . "\n";
 
     // execute query
     if ($sql) {
@@ -103,18 +100,18 @@ function getLatestContent($p)
 
         } else {
             if ($p['scope'] == 'library') {
-                $debug .= 'NOTE: USING DEFAULT LIBRARY  FROM LIBRARY.json' . "\n";
+                //$debug .= 'NOTE: USING DEFAULT LIBRARY  FROM LIBRARY.json' . "\n";
                 if (!isset($p['destination'])) {
                     $p['destination'] = 'website';
                 }
                 $out['text'] =  myGetPrototypeFile('library.json');
             } else {
-                $debug .= 'No default ' . "\n";
+                //$debug .= 'No default ' . "\n";
                 $out['text'] =  null;
             }
         }
     }
-    //writeLog('getLatestContent-debug', $debug );
+    //writeLog('getLatestContent-debug', //$debug );
     //writeLog('getLatestContent', $out );
     return $out;
 }

@@ -103,6 +103,7 @@ export default {
       prototype_text: 'Prototype Library',
       publish_text: 'Publish Library',
       sdcard_text: 'Publish Library for SDCard',
+      nojs_text: 'Publish Library with No Javascript',
       prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
       site_directory: process.env.VUE_APP_SITE_DIR,
       back: 'country',
@@ -152,10 +153,10 @@ export default {
         page
       if (page.includes('.html')) {
         link = lin
-        console.log ('page includes html')
+        console.log('page includes html')
       } else {
         link = lin + '.html'
-        console.log ('page DOES NOT include html')
+        console.log('page DOES NOT include html')
       }
       //console.log('I want to go to ' + link)
       window.open(link, '_blank')
@@ -211,7 +212,7 @@ export default {
       try {
         this.recnum = null
         //this.$store.dispatch('newBookmark', 'clear')
-        await this.getLibrary(this.$route.params)
+        await this.getLibrary()
         this.back = '/preview/languages/' + this.$route.params.country_code
         //todo: allow this to backtrack
         // this is only true if the library goes back to a custom library

@@ -50,8 +50,8 @@ export const libraryMixin = {
   },
   // computed: mapState(['user', 'bookmark']),
   methods: {
-    async getLibrary(params) {
-      //console.log(params)
+    async getLibrary() {
+      // removed params because we are always using route params
       this.error = this.loaded = null
       this.loading = true
       this.recnum = null
@@ -85,42 +85,6 @@ export const libraryMixin = {
       this.books = this.bookmark.library.books
       this.loaded = true
       this.loading = false
-    },
-    async getLibraryX(params) {
-      LogService.consoleLogMessage('started getLibrary in LibraryMixin')
-      try {
-        this.error = this.loaded = ''
-        this.loading = true
-
-        var response = await ContentService.getLibrary(params)
-        //console.log(response)
-        if (typeof response.text == 'undefined') {
-          response.text = ''
-          response.text.text = ''
-        }
-        this.text = response.text.text ? response.text.text : ''
-        if (response.recnum) {
-          this.recnum = response.recnum
-          this.publish_date = response.publish_date
-          this.prototype_date = response.prototype_date
-        } else {
-          this.recnum = this.publish_date = this.prototype_date = ''
-        }
-        var bmark = await AuthorService.bookmark(params)
-        this.image_dir = process.env.VUE_APP_SITE_IMAGE_DIR
-        if (typeof bmark.language !== 'undefined') {
-          if (typeof bmark.language.image_dir !== 'undefined') {
-            this.image_dir = bmark.language.image_dir
-            this.rldir = bmark.language.rldir
-          }
-        }
-      } catch (error) {
-        LogService.consoleLogError('There was an error in LibraryMixin:', error)
-        this.$router.push({
-          name: 'login',
-
-        })
-      }
     },
     async getImages(where, directory) {
       // get images for library formatted for dropdown
