@@ -28,7 +28,7 @@ export const authorizeMixin = {
         this.$router.push({ name: 'login' })
       }
       // can edit anything
-      if (scopeCountries == '|*|' && scopeLanguages == '|*|') {
+      if (scopeCountries == '*' && scopeLanguages == '*') {
         if (reason != 'readonly') {
           return true
         } else {

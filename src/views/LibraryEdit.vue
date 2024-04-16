@@ -601,6 +601,7 @@ export default {
         // update library file
         var output = {}
         output.books = this.books
+        console.log(output.books)
         output.format = this.library_format
         output.text = this.text
         //console.log('see library')
@@ -640,7 +641,7 @@ export default {
         this.error = true
       }
     },
-    
+
     async showForm() {
       try {
         await this.getLibrary(this.$route.params)
@@ -668,6 +669,7 @@ export default {
           this.styles = style
         }
         //get style_sets
+        console.log(param)
         var style_sets = await AuthorService.getCkEditStyleSets(param)
         //console.log(style_sets)
         //console.log('style_sets')

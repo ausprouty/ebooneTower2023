@@ -33,12 +33,14 @@ export default {
         'testBibleBrainGetBooks',
         'testbibleBrainGetChapterResources',
         'testBibleBrainGetVideo',
+        'testGetContentFoldersForLanguage',
         'testGetBooks',
         'testGetFooters',
         'testGetImagesInContentDirectory',
         'testGetLanguages',
         'testGetPage',
         'testGetPageOrTemplate',
+        'testGetCkEditStyleSets',
         'testPdf',
         'testNoJSPage',
         'testVideoConcatBat',
@@ -63,7 +65,7 @@ export default {
         'testLanguages',
         'testLibrary',
         'testImagesGet',
-        'testGetContentFoldersForLanguage',
+
         'testLanguagesGet',
         'testLanguagesAvailable',
         'testLanguagesForAuthorization',
@@ -293,6 +295,12 @@ export default {
       params.filename = 'multiply104'
       params.bookmark = await AuthorService.bookmark(params)
       var response = await AuthorService.getPageOrTemplate(params)
+      return response
+    },
+    async testGetCkEditStyleSets() {
+      //get style_sets
+      var params = this.setupParams()
+      var response = await AuthorService.getCkEditStyleSets(params)
       return response
     },
 

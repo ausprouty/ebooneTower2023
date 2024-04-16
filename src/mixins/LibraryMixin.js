@@ -91,14 +91,10 @@ export const libraryMixin = {
       var image_options = []
       var img = []
       if (where == 'content') {
-        console.log(directory)
         img = await AuthorService.getImagesInContentDirectory(directory)
-        console.log('after getImagesInContentDirectory')
-        console.log(img)
       } else {
         img = await AuthorService.getImagesForSite(directory)
       }
-      console.log(img)
       if (typeof img !== 'undefined') {
         if (img.length > 0) {
           img = img.sort()
@@ -114,8 +110,6 @@ export const libraryMixin = {
           }
         }
       }
-      LogService.consoleLogMessage('from getImages for ' + directory)
-      LogService.consoleLogMessage(image_options)
       return image_options
     },
 
