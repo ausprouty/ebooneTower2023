@@ -5,7 +5,6 @@
       label="Test"
       :options="test_options"
       v-model="test"
-      v-on:change="runTest(test)"
       class="field"
     />
     {{ this.result }}
@@ -36,7 +35,10 @@ export default {
         'testBibleBrainGetVideo',
         'testGetBooks',
         'testGetFooters',
+        'testGetImagesInContentDirectory',
         'testGetLanguages',
+        'testGetPage',
+        'testGetPageOrTemplate',
         'testPdf',
         'testNoJSPage',
         'testVideoConcatBat',
@@ -66,19 +68,22 @@ export default {
         'testLanguagesAvailable',
         'testLanguagesForAuthorization',
         'testLogin',
-        'testGetPage',
-        'testGetPageOrTemplate',
         'testSetupImageFolder',
         'testSetupCountries',
         'testSetupLanguageFolder',
         'testSeries',
-        'testGetPage',
       ],
     }
+  },
+  watch: {
+    test(newValue, oldValue) {
+      this.runTest(newValue)
+    },
   },
   computed: mapState(['user']),
   methods: {
     async runTest(test) {
+      this.result = 'running ' + test
       var response = await this[test]()
       this.result = response
       LogService.consoleLog(test, response)
@@ -211,6 +216,13 @@ export default {
       params.country_code = 'M2'
       params.language_iso = 'fra'
       var response = await AuthorService.getContentFoldersForLanguage(params)
+      return response
+    },
+    async testGetImagesInContentDirectory() {
+      var directory = '/sites/mc2/content/M2/spa/images/standard'
+      //this.result = 'in testGetImagesInContentDirectory'
+      var response = await AuthorService.getImagesInContentDirectory(directory)
+      this.result = 'finished await'
       return response
     },
     async testCountries() {

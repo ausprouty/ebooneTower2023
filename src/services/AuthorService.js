@@ -342,8 +342,8 @@ export default {
     params.action = 'getImagesForSite'
     params.image_dir = directory
     var content = await this.aReturnContent(params)
-    //console.log('content from getImagesForSite')
-    //console.log(content)
+    console.log('content from getImagesForSite')
+    console.log(content)
     if (content) {
       var images = JSON.parse(content)
     }
@@ -370,8 +370,8 @@ export default {
     params.page = 'getImagesInContentDirectory'
     params.action = 'getImagesInContentDirectory'
     var content = await this.aReturnContent(params)
-    //console.log('content from getImagesInContentDirectory')
-    //console.log(content)
+    console.log('content from getImagesInContentDirectory')
+    console.log(content)
     if (content) {
       images = JSON.parse(content)
     }

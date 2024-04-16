@@ -93,7 +93,8 @@ export const libraryMixin = {
       if (where == 'content') {
         console.log(directory)
         img = await AuthorService.getImagesInContentDirectory(directory)
-        console.log (img)
+        console.log('after getImagesInContentDirectory')
+        console.log(img)
       } else {
         img = await AuthorService.getImagesForSite(directory)
       }

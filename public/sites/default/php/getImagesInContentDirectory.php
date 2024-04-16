@@ -10,7 +10,7 @@ function getImagesInContentDirectory($p)
 	//$debug = 'in getImagesInContentDirectory' . "\n";
 	$dir = ROOT_EDIT . $p['image_dir'];
 	$dir = str_ireplace('//', '/', $dir);
-	$debug .= 'dir:' .  $dir . "\n";
+	$debug = 'dir:' .  $dir . "\n";
 	writeLog('getImagesInContentDirectory-14',$debug );
 	if (file_exists($dir)) {
 		$handler = opendir($dir);

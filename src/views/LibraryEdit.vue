@@ -640,6 +640,7 @@ export default {
         this.error = true
       }
     },
+    
     async showForm() {
       try {
         await this.getLibrary(this.$route.params)
