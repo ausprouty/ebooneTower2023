@@ -177,11 +177,9 @@ export default {
     },
     async loadView() {
       try {
-        console.log('loading Countries')
         await this.getCountries()
-        console.log('loaded Countries')
         this.authorized = this.authorize('write', this.$route.params)
-        console.log('my authorization value is  ' + this.authorized)
+       // console.log('my authorization value is  ' + this.authorized)
         // authorize for prototype and publish
         this.publish = false
         this.prototype = false

@@ -1,4 +1,5 @@
 nvm use 16.18.1
+npm run serve-mc2
 npm run build-mc2
 
 

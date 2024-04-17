@@ -51,13 +51,13 @@ export const countriesMixin = {
         this.countries = []
         AuthorService.bookmarkClear()
         var response = await ContentService.getCountries(this.$route.params)
-        console.log (response)
+        //console.log (response)
         if (response.text !== null) {
           this.countries = response.text
         } else {
           this.countries = []
         }
-        console.log(this.countries);
+        //console.log(this.countries);
         if (response.recnum) {
           this.recnum = response.recnum
           this.publish_date = response.publish_date
@@ -65,21 +65,20 @@ export const countriesMixin = {
         }
         this.loaded = true
         this.loading = false
-        console.log ('CountryMixin Finished Get Countries')
+        //console.log ('CountryMixin Finished Get Countries')
       } catch (error) {
         LogService.consoleLogError(
           'There was an error with ContentService.getCountries of CountriesMixin:',
           error
         )
-        console.log('error line 73');
+        console.log('error line 73')
         this.$router.push({
           name: 'login2',
-
         })
       }
     },
     async showPage(country) {
-      console.log('show Page line 81');
+      //console.log('show Page line 81')
       localStorage.setItem('lastPage', 'countries')
       this.$route.params.country_code = country.code
       var link = ''
@@ -91,7 +90,7 @@ export const countriesMixin = {
           link = 'previewLibrary'
         }
         var language = response[0]
-        console.log('show Page line 93');
+        console.log('show Page line 93')
         this.$router.push({
           name: link,
           params: {
@@ -101,7 +100,7 @@ export const countriesMixin = {
           },
         })
       } else {
-        console.log('show Page line 102');
+        console.log('show Page line 102')
         link = 'languages'
         if (this.$route.params.version == 'latest') {
           link = 'previewLanguages'

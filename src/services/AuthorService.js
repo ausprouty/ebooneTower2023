@@ -370,8 +370,6 @@ export default {
     params.page = 'getImagesInContentDirectory'
     params.action = 'getImagesInContentDirectory'
     var content = await this.aReturnContent(params)
-    console.log('content from getImagesInContentDirectory')
-    console.log(content)
     if (content) {
       images = JSON.parse(content)
     }
