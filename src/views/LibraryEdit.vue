@@ -101,17 +101,14 @@ export default {
       prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
       // site_image_dir: process.env.VUE_APP_SITE_IMAGE_DIR,
       site_dir: process.env.VUE_APP_SITE_DIR,
-      formats: ['page', 'series', 'library'],
+
       pages: ['one', 'many'],
       header_image: null,
       book_images: [],
       images: [],
       folders: [],
-      ckEditStyleSets: ['default'],
-      styles_sets: [],
-      styles: [],
+      
       bookcodes: [],
-      templates: [],
       authorized: false,
       image_permission: false,
       isHidden: true,
@@ -161,11 +158,7 @@ export default {
         })
       }
     },
-    
-    createBook(title) {
-      LogService.consoleLogMessage(title)
-      this.isHidden = false
-    },
+
     prototypeAll() {
       var arrayLength = this.books.length
       LogService.consoleLogMessage(' Item count:' + arrayLength)
@@ -204,7 +197,7 @@ export default {
       this.seriesDetails = res.content.text
       this.recnum = res.content.recnum
     },
-    
+
     async saveForm(action = null) {
       try {
         /* create index files
@@ -285,26 +278,8 @@ export default {
         if (typeof folder !== 'undefined') {
           this.folders = folder
         }
-        // get styles
-        var style = await AuthorService.getStyles(param)
-        if (typeof style !== 'undefined') {
-          this.styles = style
-        }
-        //get style_sets
-        console.log(param)
-        var style_sets = await AuthorService.getCkEditStyleSets(param)
-        //console.log(style_sets)
-        //console.log('style_sets')
-        if (typeof style_sets !== 'undefined') {
-          this.ckEditStyleSets = style_sets
-        }
-        //get templates
-        var template = await AuthorService.getTemplates(param)
-        if (typeof template !== 'undefined') {
-          this.templates = template
-          LogService.consoleLogMessage('this.templates')
-          LogService.consoleLogMessage(this.templates)
-        }
+
+       
         //make bookcodes list
         this.updateBookCodes()
         if (!this.image) {
@@ -321,19 +296,6 @@ export default {
         LogService.consoleLogError('There was an error in Library.vue:', error) // Logs out the error
         this.error_message = error + 'Library Edit - showForm()'
         this.error = true
-      }
-    },
-    updateBookCodes() {
-      var arrayLength = this.bookmark.library.books.length
-      if (typeof arrayLength !== 'undefined') {
-        for (var i = 0; i < arrayLength; i++) {
-          if (!this.bookcodes.includes(this.bookmark.library.books[i].code)) {
-            this.bookcodes.push(this.bookmark.library.books[i].code)
-          }
-        }
-        if (this.bookcodes.length > 0) {
-          this.bookcodes.sort()
-        }
       }
     },
   },

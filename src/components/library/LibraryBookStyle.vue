@@ -38,4 +38,16 @@
   </div>
 </template>
 <script>
+import { libraryGetMixin } from '@/mixins/library/LibraryGetMixin.js'
+import { libraryUploadMixin } from '@/mixins/library/LibraryUploadMixin.js'
+export default {
+  mixins: [libraryGetMixin, libraryUploadMixin],
+  data() {
+    return {
+      styles: [],
+      ckEditStyleSets: ['default'],
+    }
+  },
+  methods: {},
+}
 </script>

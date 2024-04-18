@@ -38,4 +38,14 @@
   </div>
 </template>
 <script>
+import { libraryUploadMixin } from '@/mixins/library/LibraryUploadMixin.js'
+export default {
+  mixins: [libraryUploadMixin],
+  data() {
+    return {
+      templates: [],
+    }
+  },
+  methods: {},
+}
 </script>

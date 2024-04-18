@@ -12,31 +12,15 @@
         >
           X
         </div>
-
-          
-
+      </div>
+    </div>
   </div>
 </template>
 <script>
+import AuthorService from '@/services/AuthorService.js'
 import LogService from '@/services/LogService.js'
 export default {
   methods: {
-    addNewBookTitle(title) {
-      LogService.consoleLogMessage('I came to addNewBookTitle')
-      LogService.consoleLogMessage(title)
-      this.bookcodes = []
-      var change = this.$v.books.$model
-      LogService.consoleLogMessage('change')
-      LogService.consoleLogMessage(change)
-      var arrayLength = change.length
-      for (var i = 0; i < arrayLength; i++) {
-        this.bookcodes.push(this.$v.books.$model[i].code)
-      }
-      LogService.consoleLogMessage(this.bookcodes)
-      LogService.consoleLogMessage('about to hide')
-      this.isHidden = true
-      LogService.consoleLogMessage('hidden')
-    },
     async createFolder(folder) {
       LogService.consoleLogMessage(folder)
       var params = {}
