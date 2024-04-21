@@ -83,11 +83,12 @@ import '@/assets/css/vueSelect.css'
 
 import { mapState } from 'vuex'
 import { libraryMixin } from '@/mixins/LibraryMixin.js'
+import { libraryGetMixin } from '@/mixins/library/LibraryGetMixin.js'
 import { libraryUploadMixin } from '@/mixins/library/LibraryUploadMixin.js'
 import { authorizeMixin } from '@/mixins/AuthorizeMixin.js'
 import { required } from 'vuelidate/lib/validators'
 export default {
-  mixins: [authorizeMixin, libraryMixin, libraryUploadMixin],
+  mixins: [authorizeMixin, libraryMixin, libraryGetMixin, libraryUploadMixin],
   components: {
     NavBar,
     LibraryFormatTemplate,
@@ -107,7 +108,7 @@ export default {
       book_images: [],
       images: [],
       folders: [],
-      
+
       bookcodes: [],
       authorized: false,
       image_permission: false,
@@ -138,69 +139,103 @@ export default {
     },
   },
   methods: {
-    addNewBookForm() {
-      if (this.books.length == 0) {
-        this.newLibrary()
-      } else {
-        this.books.push({
-          id: '',
-          code: '',
-          title: '',
-          style: '',
-          styles_set: '',
-          image: '',
-          format: '',
-          template: '',
-          hide: '',
-          password: '',
-          prototype: '',
-          publish: '',
-        })
+    
+    beforeCreate() {
+      // set directory for custom images
+      //see https://ckeditor.com/docs/ckfinder/ckfinder3-php/integration.html
+      this.languageDirectory =
+        this.$route.params.country_code +
+        '/' +
+        this.$route.params.language_iso +
+        '/images/custom'
+      this.$route.params.version = 'latest'
+      if (!this.$route.params.library_code) {
+        this.$route.params.library_code = 'library'
       }
+      this.$route.params.styles_set = 'default'
+      this.$route.params.version = 'lastest'
+      this.$route.params.filename = 'index'
+      this.$route.params.css = '/sites/default/styles/freeformGLOBAL.css'
+    },
+    async created() {
+      this.library = []
+      this.text = ''
+      this.image = ''
+      this.showForm()
     },
 
-    prototypeAll() {
-      var arrayLength = this.books.length
-      LogService.consoleLogMessage(' Item count:' + arrayLength)
-      for (var i = 0; i < arrayLength; i++) {
-        this.$v.books.$each.$iter[i].prototype.$model = true
-      }
-    },
-    prototypeNone() {
-      var arrayLength = this.books.length
-      LogService.consoleLogMessage(' Item count:' + arrayLength)
-      for (var i = 0; i < arrayLength; i++) {
-        this.$v.books.$each.$iter[i].prototype.$model = false
-      }
-    },
-    publishAll() {
-      var arrayLength = this.books.length
-      LogService.consoleLogMessage(' Item count:' + arrayLength)
-      for (var i = 0; i < arrayLength; i++) {
-        this.$v.books.$each.$iter[i].publish.$model = true
-      }
-    },
-    publishNone() {
-      var arrayLength = this.books.length
-      LogService.consoleLogMessage(' Item count:' + arrayLength)
-      for (var i = 0; i < arrayLength; i++) {
-        this.$v.books.$each.$iter[i].publish.$model = false
-      }
-    },
-    async revert() {
-      var params = {}
-      params.recnum = this.recnum
-      params.route = JSON.stringify(this.$route.params)
-      params.scope = 'library'
-      var res = await AuthorService.revert(params)
-      //console.log(res.content)
-      this.seriesDetails = res.content.text
-      this.recnum = res.content.recnum
-    },
-
-    async saveForm(action = null) {
+    async showForm() {
       try {
-        /* create index files
+        this.error = null
+        this.loaded = null
+        this.loading = true
+        this.publish_date = null
+        this.recnum = null
+        this.library = await this.getLibrary(this.$route.params)
+        this.bookmark = await this.getBookmark()
+        this.books = this.bookmark.library.books
+        this.text = this.bookmark.library.text
+        this.library_format = this.bookmark.library.format
+        this.header_image = this.bookmark.library.format.image.image
+
+        if (!this.image) {
+          this.image = this.$route.params.library_code + '.png'
+        }
+        this.image_permission = this.authorize('write', this.$route.params)
+        this.authorized = this.authorize('write', this.$route.params)
+        this.loaded = true
+        this.loading = false
+        LogService.consoleLogMessage('after loading is true')
+      } catch (error) {
+        LogService.consoleLogError('There was an error in Library.vue:', error) // Logs out the error
+        this.error_message = error + 'Library Edit - showForm()'
+        this.error = true
+      }
+    },
+  },
+
+  prototypeAll() {
+    var arrayLength = this.books.length
+    LogService.consoleLogMessage(' Item count:' + arrayLength)
+    for (var i = 0; i < arrayLength; i++) {
+      this.$v.books.$each.$iter[i].prototype.$model = true
+    }
+  },
+  prototypeNone() {
+    var arrayLength = this.books.length
+    LogService.consoleLogMessage(' Item count:' + arrayLength)
+    for (var i = 0; i < arrayLength; i++) {
+      this.$v.books.$each.$iter[i].prototype.$model = false
+    }
+  },
+  publishAll() {
+    var arrayLength = this.books.length
+    LogService.consoleLogMessage(' Item count:' + arrayLength)
+    for (var i = 0; i < arrayLength; i++) {
+      this.$v.books.$each.$iter[i].publish.$model = true
+    }
+  },
+  publishNone() {
+    var arrayLength = this.books.length
+    LogService.consoleLogMessage(' Item count:' + arrayLength)
+    for (var i = 0; i < arrayLength; i++) {
+      this.$v.books.$each.$iter[i].publish.$model = false
+    }
+  },
+  async revert() {
+    var params = {}
+    params.recnum = this.recnum
+    params.route = JSON.stringify(this.$route.params)
+    params.scope = 'library'
+    var res = await AuthorService.revert(params)
+    //console.log(res.content)
+    this.seriesDetails = res.content.text
+    this.recnum = res.content.recnum
+  },
+
+  async saveForm(action = null) {
+    try {
+      /* create index files
         var check = ''
         var params = {}
         var route = this.$route.params
@@ -216,113 +251,48 @@ export default {
         }
         */
 
-        // update library file
-        var output = {}
-        output.books = this.books
-        console.log(output.books)
-        output.format = this.library_format
-        output.text = this.text
-        //console.log('see library')
-        //console.log(output)
-        var valid = ContentService.validate(output)
-        this.content.text = JSON.stringify(valid)
-        this.$route.params.filename = this.$route.params.library_code
-        delete this.$route.params.folder_name
-        this.content.route = JSON.stringify(this.$route.params)
-        this.content.filetype = 'json'
-        //this.$store.dispatch('newBookmark', 'clear')
+      // update library file
+      var output = {}
+      output.books = this.books
+      console.log(output.books)
+      output.format = this.library_format
+      output.text = this.text
+      //console.log('see library')
+      //console.log(output)
+      var valid = ContentService.validate(output)
+      this.content.text = JSON.stringify(valid)
+      this.$route.params.filename = this.$route.params.library_code
+      delete this.$route.params.folder_name
+      this.content.route = JSON.stringify(this.$route.params)
+      this.content.filetype = 'json'
+      //this.$store.dispatch('newBookmark', 'clear')
 
-        var response = await AuthorService.createContentData(this.content)
-        //console.log(response)
-        if (response.data.error != true && action != 'stay') {
-          this.$router.push({
-            name: 'previewLibrary',
-            params: {
-              country_code: this.$route.params.country_code,
-              language_iso: this.$route.params.language_iso,
-              library_code: this.$route.params.library_code,
-            },
-          })
-        }
-        if (response.data.error == true) {
-          this.error = true
-          this.loaded = false
-          this.error_message = response.data.message
-        }
-      } catch (error) {
-        LogService.consoleLogError(
-          'LIBRARY EDIT There was an error in Saving Form ',
-          error
-        )
+      var response = await AuthorService.createContentData(this.content)
+      //console.log(response)
+      if (response.data.error != true && action != 'stay') {
+        this.$router.push({
+          name: 'previewLibrary',
+          params: {
+            country_code: this.$route.params.country_code,
+            language_iso: this.$route.params.language_iso,
+            library_code: this.$route.params.library_code,
+          },
+        })
+      }
+      if (response.data.error == true) {
+        this.error = true
         this.loaded = false
-        this.error_message = error
-        this.error = true
+        this.error_message = response.data.message
       }
-    },
-
-    async showForm() {
-      try {
-        await this.getLibrary(this.$route.params)
-        this.books = this.bookmark.library.books
-        this.text = this.bookmark.library.text
-        this.images = await this.getImages(
-          'content',
-          this.bookmark.language.image_dir
-        )
-        LogService.consoleLogMessage(this.images)
-        // get folders
-        var param = {}
-        param.route = JSON.stringify(this.$route.params)
-        param.image_dir = this.bookmark.language.image_dir
-        var folder = await AuthorService.getFoldersContent(param)
-        if (typeof folder !== 'undefined') {
-          this.folders = folder
-        }
-
-       
-        //make bookcodes list
-        this.updateBookCodes()
-        if (!this.image) {
-          this.image = this.$route.params.library_code + '.png'
-        }
-        this.library_format = this.bookmark.library.format
-        this.header_image = this.bookmark.library.format.image.image
-        this.image_permission = this.authorize('write', this.$route.params)
-        this.authorized = this.authorize('write', this.$route.params)
-        this.loaded = true
-        this.loading = false
-        LogService.consoleLogMessage('after loading is true')
-      } catch (error) {
-        LogService.consoleLogError('There was an error in Library.vue:', error) // Logs out the error
-        this.error_message = error + 'Library Edit - showForm()'
-        this.error = true
-      }
-    },
-  },
-  beforeCreate() {
-    LogService.consoleLogMessage('before Create')
-    LogService.consoleLogMessage(this.$route.params)
-    // set directory for custom images
-    //see https://ckeditor.com/docs/ckfinder/ckfinder3-php/integration.html
-    this.languageDirectory =
-      this.$route.params.country_code +
-      '/' +
-      this.$route.params.language_iso +
-      '/images/custom'
-    this.$route.params.version = 'latest'
-    if (!this.$route.params.library_code) {
-      this.$route.params.library_code = 'library'
+    } catch (error) {
+      LogService.consoleLogError(
+        'LIBRARY EDIT There was an error in Saving Form ',
+        error
+      )
+      this.loaded = false
+      this.error_message = error
+      this.error = true
     }
-    this.$route.params.styles_set = 'default'
-    this.$route.params.version = 'lastest'
-    this.$route.params.filename = 'index'
-    this.$route.params.css = '/sites/default/styles/freeformGLOBAL.css'
-  },
-  async created() {
-    this.library = []
-    this.text = ''
-    this.image = ''
-    this.showForm()
   },
 }
 </script>

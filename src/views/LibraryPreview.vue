@@ -82,11 +82,11 @@ import PublishService from '@/services/PublishService.js'
 
 import { mapState } from 'vuex'
 
-import { libraryMixin } from '@/mixins/LibraryMixin.js'
+import { libraryUpdateMixin } from '@/mixins/library/LibraryUpdateMixin.js'
 import { authorizeMixin } from '@/mixins/AuthorizeMixin.js'
 import { publishMixin } from '@/mixins/PublishMixin.js'
 export default {
-  mixins: [libraryMixin, authorizeMixin, publishMixin],
+  mixins: [libraryUpdateMixin, authorizeMixin, publishMixin],
   props: ['country_code', 'language_iso', 'library_code'],
   computed: mapState(['bookmark', 'cssURL', 'standard', 'user']),
   components: {

@@ -78,11 +78,11 @@ import NavBar from '@/components/NavBarCountry.vue'
 import './ckeditor/index.js'
 import VueCkeditor from 'vue-ckeditor2'
 
-import { libraryMixin } from '@/mixins/LibraryMixin.js'
+import { libraryUpdateMixin } from '@/mixins/library/LibraryUpdateMixin.js'
 import { authorizeMixin } from '@/mixins/AuthorizeMixin.js'
 import { ckEditMixin } from '@/mixins/CkEditMixin.js'
 export default {
-  mixins: [libraryMixin, authorizeMixin, ckEditMixin],
+  mixins: [libraryUpdateMixin, authorizeMixin, ckEditMixin],
   props: ['country_code', 'language_iso'],
   components: {
     NavBar,

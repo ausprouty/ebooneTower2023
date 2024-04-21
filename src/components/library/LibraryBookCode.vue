@@ -49,6 +49,8 @@ export default {
       LogService.consoleLogMessage('about to hide')
       this.isHidden = true
       LogService.consoleLogMessage('hidden')
+      //make bookcodes list
+      this.updateBookCodes()
     },
     createBook(title) {
       LogService.consoleLogMessage(title)

@@ -77,10 +77,10 @@ import NavBar from '@/components/NavBarCountry.vue'
 import './ckeditor/index.js'
 import VueCkeditor from 'vue-ckeditor2'
 
-import { libraryMixin } from '@/mixins/LibraryMixin.js'
+import { libraryUpdateMixin } from '@/mixins/LibraryUpdateMixin.js'
 import { authorizeMixin } from '@/mixins/AuthorizeMixin.js'
 export default {
-  mixins: [libraryMixin, authorizeMixin],
+  mixins: [libraryUpdateMixin, authorizeMixin],
   props: ['country_code', 'language_iso'],
   components: {
     NavBar,
@@ -226,43 +226,7 @@ export default {
         }
       }
     },
-    async saveForm() {
-      try {
-        var text = {}
-        text.page = ContentService.validate(this.pageText)
-        text.footer = ContentService.validate(this.footerText)
-        text.style = this.style
-        this.content.text = JSON.stringify(text)
-        this.$route.params.filename = 'index'
-        this.content.route = JSON.stringify(this.$route.params)
-
-        this.content.filetype = 'html'
-        //this.$store.dispatch('newBookmark', 'clear')
-        var response = await AuthorService.createContentData(this.content)
-        if (response.data.error != true) {
-          this.$router.push({
-            name: 'previewLibraryIndex',
-            params: {
-              country_code: this.$route.params.country_code,
-              language_iso: this.$route.params.language_iso,
-            },
-          })
-        } else {
-          this.error = true
-          this.loaded = false
-          this.error_message = response.data.message
-        }
-      } catch (error) {
-        LogService.consoleLogError(
-          'Library Index Edit line 257 says There was an error ',
-          error
-        )
-        this.error = true
-        this.loaded = false
-        this.error_message = error
-      }
-    },
-  },
+    
   async beforeCreate() {
     LogService.consoleLogMessage('before Create in LibraryIndexEdit')
     LogService.consoleLogMessage(this.$route.params)
