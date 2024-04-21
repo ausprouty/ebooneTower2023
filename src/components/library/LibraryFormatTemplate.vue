@@ -104,14 +104,14 @@ import AuthorService from '@/services/AuthorService.js'
 import LogService from '@/services/LogService.js'
 
 import { authorizeMixin } from '@/mixins/AuthorizeMixin.js'
-import { libraryMixin } from '@/mixins/LibraryMixin.js'
+import { libraryUpdateMixin } from '@/mixins/library/LibraryUpdateMixin.js'
 
 export default {
   props: {
     format: Object,
   },
   computed: mapState([]),
-  mixins: [authorizeMixin, libraryMixin],
+  mixins: [authorizeMixin, libraryUpdateMixin],
   components: {
     'v-select': vSelect,
   },

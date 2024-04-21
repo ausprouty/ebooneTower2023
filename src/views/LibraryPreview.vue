@@ -81,12 +81,12 @@ import PrototypeService from '@/services/PrototypeService.js'
 import PublishService from '@/services/PublishService.js'
 
 import { mapState } from 'vuex'
+import { libraryGetMixin } from '@/mixins/library/LibraryGetMixin.js'
 
-import { libraryUpdateMixin } from '@/mixins/library/LibraryUpdateMixin.js'
 import { authorizeMixin } from '@/mixins/AuthorizeMixin.js'
 import { publishMixin } from '@/mixins/PublishMixin.js'
 export default {
-  mixins: [libraryUpdateMixin, authorizeMixin, publishMixin],
+  mixins: [libraryGetMixin, authorizeMixin, publishMixin],
   props: ['country_code', 'language_iso', 'library_code'],
   computed: mapState(['bookmark', 'cssURL', 'standard', 'user']),
   components: {
@@ -212,7 +212,9 @@ export default {
       try {
         this.recnum = null
         //this.$store.dispatch('newBookmark', 'clear')
+        console.log('going to get library')
         await this.getLibrary()
+        console.log('returned from get library')
         this.back = '/preview/languages/' + this.$route.params.country_code
         //todo: allow this to backtrack
         // this is only true if the library goes back to a custom library

@@ -58,7 +58,7 @@ import LogService from '@/services/LogService.js'
 import draggable from 'vuedraggable'
 import { mapState } from 'vuex'
 
-import { libraryUpdateMixin } from '@/mixins/library/LibraryMixin.js'
+import { libraryUpdateMixin } from '@/mixins/library/LibraryUpdateMixin.js'
 import { authorizeMixin } from '@/mixins/AuthorizeMixin.js'
 export default {
   mixins: [libraryUpdateMixin, authorizeMixin],

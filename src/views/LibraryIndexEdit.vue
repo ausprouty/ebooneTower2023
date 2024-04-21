@@ -77,7 +77,7 @@ import NavBar from '@/components/NavBarCountry.vue'
 import './ckeditor/index.js'
 import VueCkeditor from 'vue-ckeditor2'
 
-import { libraryUpdateMixin } from '@/mixins/LibraryUpdateMixin.js'
+import { libraryUpdateMixin } from '@/mixins/library/LibraryUpdateMixin.js'
 import { authorizeMixin } from '@/mixins/AuthorizeMixin.js'
 export default {
   mixins: [libraryUpdateMixin, authorizeMixin],
@@ -226,54 +226,55 @@ export default {
         }
       }
     },
-    
-  async beforeCreate() {
-    LogService.consoleLogMessage('before Create in LibraryIndexEdit')
-    LogService.consoleLogMessage(this.$route.params)
-    // set directory for custom images
-    //see https://ckeditor.com/docs/ckfinder/ckfinder3-php/integration.html
-    this.languageDirectory =
-      '/content/' +
-      this.$route.params.country_code +
-      '/' +
-      this.$route.params.language_iso +
-      '/images/custom'
 
-    this.$route.params.styles_set = process.env.VUE_APP_SITE_STYLES_SET
-    this.$route.params.version = 'lastest'
-    this.$route.params.filename = 'index'
-    this.$route.params.library_code = 'index'
-    this.$route.params.css = '/sites/default/styles/freeformGLOBAL.css'
-    LogService.consoleLogMessage('final params')
-    LogService.consoleLogMessage(this.$route.params)
-  },
-  async created() {
-    try {
-      LogService.consoleLogMessage('in Created')
-      LogService.consoleLogMessage(this.$route)
-      await this.getLibraryIndex()
-      // get styles
-      var param = {}
-      param.route = JSON.stringify(this.$route.params)
-      var style = await AuthorService.getStyles(param)
-      if (typeof style !== 'undefined') {
-        this.styles = style
-      }
+    async beforeCreate() {
+      LogService.consoleLogMessage('before Create in LibraryIndexEdit')
+      LogService.consoleLogMessage(this.$route.params)
+      // set directory for custom images
+      //see https://ckeditor.com/docs/ckfinder/ckfinder3-php/integration.html
+      this.languageDirectory =
+        '/content/' +
+        this.$route.params.country_code +
+        '/' +
+        this.$route.params.language_iso +
+        '/images/custom'
 
-      this.authorized = this.authorize('write', this.$route.params)
-      this.publish = false
-      if (this.recnum && !this.publish_date) {
-        this.publish = this.authorize('publish', this.$route.params)
+      this.$route.params.styles_set = process.env.VUE_APP_SITE_STYLES_SET
+      this.$route.params.version = 'lastest'
+      this.$route.params.filename = 'index'
+      this.$route.params.library_code = 'index'
+      this.$route.params.css = '/sites/default/styles/freeformGLOBAL.css'
+      LogService.consoleLogMessage('final params')
+      LogService.consoleLogMessage(this.$route.params)
+    },
+    async created() {
+      try {
+        LogService.consoleLogMessage('in Created')
+        LogService.consoleLogMessage(this.$route)
+        await this.getLibraryIndex()
+        // get styles
+        var param = {}
+        param.route = JSON.stringify(this.$route.params)
+        var style = await AuthorService.getStyles(param)
+        if (typeof style !== 'undefined') {
+          this.styles = style
+        }
+
+        this.authorized = this.authorize('write', this.$route.params)
+        this.publish = false
+        if (this.recnum && !this.publish_date) {
+          this.publish = this.authorize('publish', this.$route.params)
+        }
+      } catch (error) {
+        LogService.consoleLogError(
+          'There was an error in LanguageIndexEdit.vue:',
+          error
+        )
+        this.$router.push({
+          name: 'login',
+        })
       }
-    } catch (error) {
-      LogService.consoleLogError(
-        'There was an error in LanguageIndexEdit.vue:',
-        error
-      )
-      this.$router.push({
-        name: 'login',
-      })
-    }
+    },
   },
 }
 </script>

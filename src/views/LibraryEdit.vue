@@ -82,13 +82,18 @@ import LogService from '@/services/LogService.js'
 import '@/assets/css/vueSelect.css'
 
 import { mapState } from 'vuex'
-import { libraryMixin } from '@/mixins/LibraryMixin.js'
+import { libraryUpdateMixin } from '@/mixins/library/LibraryUpdateMixin.js'
 import { libraryGetMixin } from '@/mixins/library/LibraryGetMixin.js'
 import { libraryUploadMixin } from '@/mixins/library/LibraryUploadMixin.js'
 import { authorizeMixin } from '@/mixins/AuthorizeMixin.js'
 import { required } from 'vuelidate/lib/validators'
 export default {
-  mixins: [authorizeMixin, libraryMixin, libraryGetMixin, libraryUploadMixin],
+  mixins: [
+    authorizeMixin,
+    libraryUpdateMixin,
+    libraryGetMixin,
+    libraryUploadMixin,
+  ],
   components: {
     NavBar,
     LibraryFormatTemplate,
@@ -139,7 +144,6 @@ export default {
     },
   },
   methods: {
-    
     beforeCreate() {
       // set directory for custom images
       //see https://ckeditor.com/docs/ckfinder/ckfinder3-php/integration.html
