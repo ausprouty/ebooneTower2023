@@ -10,6 +10,9 @@ Vue.use(Vuex)
 export const libraryGetMixin = {
   computed: mapState(['user']),
   methods: {
+    async getBookmark() {
+      await AuthorService.bookmark(this.$route.params)
+    },
     async getCkEditStyleSets(param) {
       var ckEditStyleSets = await AuthorService.getCkEditStyleSets(param)
       return ckEditStyleSets
@@ -51,7 +54,7 @@ export const libraryGetMixin = {
       // removed params because we are always using route params
 
       //console.log(this.$route.params)
-      await AuthorService.bookmark(this.$route.params)
+      await this.getBookmark()
 
       var response = await ContentService.getLibrary(this.$route.params)
       if (response) {
@@ -108,8 +111,8 @@ export const libraryGetMixin = {
       this.loading = false
     },
 
-    async getStyles(param) {
-      var style = await AuthorService.getStyles(param)
+    async getStyles(params) {
+      var style = await AuthorService.getStyles(params)
       return style
     },
     async getTemplates(param) {

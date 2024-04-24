@@ -5,7 +5,11 @@
     <hr />
     <div>
       <h3>Library Image</h3>
-      <v-select :options="images" label="title" v-model="format.image">
+      <v-select
+        :options="images"
+        label="title"
+        v-model="this.getLibraryFormatImage"
+      >
         <template slot="option" slot-scope="option">
           <img :src="option.image" class="select" />
           <br />
@@ -14,7 +18,11 @@
       </v-select>
     </div>
     <div>
-      <input type="checkbox" id="checkbox" v-model="format.no_ribbon" />
+      <input
+        type="checkbox"
+        id="checkbox"
+        v-model="this.getLibraryFormatNoRibbon"
+      />
       <label for="checkbox">
         <p>Image contains back button image</p>
       </label>
@@ -28,7 +36,7 @@
         Add new Image&nbsp;&nbsp;&nbsp;&nbsp;
         <input
           type="file"
-          v-bind:id="format.image"
+          v-bind:id="this.getLibraryFormatImage"
           ref="imageHeader"
           v-on:change="handleHeaderUpload(image)"
         />
@@ -41,7 +49,7 @@
       <BaseSelect
         label="Library Style Sheet:"
         :options="styles"
-        v-model="format.style"
+        v-model="this.getLibraryFormatStyle"
         class="field"
       />
       <template v-if="style_error">
@@ -52,7 +60,7 @@
         Add new stylesheet&nbsp;&nbsp;&nbsp;&nbsp;
         <input
           type="file"
-          v-bind:id="format.style"
+          v-bind:id="this.getLibraryFormatStyle"
           ref="style"
           v-on:change="handleStyleUpload(format.style)"
         />
@@ -63,7 +71,7 @@
       <v-select
         :options="back_buttons"
         label="title"
-        v-model="format.back_button"
+        v-model="this.getLibraryFormatBackButton"
       >
         <template slot="option" slot-scope="option">
           <img :src="option.image" class="select" />
@@ -74,21 +82,25 @@
     </div>
 
     <div v-if="image_permission">
-      <div v-if="format.back_button">
+      <div v-if="this.getLibraryFormatBackButton">
         <img v-bind:src="option.image" class="header" />
       </div>
       <label>
         Add new Image&nbsp;&nbsp;&nbsp;&nbsp;
         <input
           type="file"
-          v-bind:id="format.back_button"
+          v-bind:id="this.getLibraryFormatBackButton"
           ref="imageBackButton"
           v-on:change="handleBackButtonUpload(format.back_button)"
         />
       </label>
     </div>
     <div>
-      <input type="checkbox" id="checkbox" v-model="format.custom" />
+      <input
+        type="checkbox"
+        id="checkbox"
+        v-model="this.getLibraryFormatCustom"
+      />
       <label for="checkbox">
         <h2>Use ONLY Preliminary Text for library (not cards)?</h2>
       </label>
@@ -98,39 +110,62 @@
 <script>
 import vSelect from 'vue-select'
 // see https://stackoverflow.com/questions/55479380/adding-images-to-vue-select-dropdown
-import { mapState } from 'vuex'
+import { mapState, mapGetters, mapMutations } from 'vuex'
 import '@/assets/css/vueSelect.css'
 import AuthorService from '@/services/AuthorService.js'
 import LogService from '@/services/LogService.js'
-
 import { authorizeMixin } from '@/mixins/AuthorizeMixin.js'
+import { libraryGetMixin } from '@/mixins/library/LibraryGetMixin.js'
 import { libraryUpdateMixin } from '@/mixins/library/LibraryUpdateMixin.js'
 
 export default {
-  props: {
-    format: Object,
+  computed: {
+    ...mapGetters([
+      'getLanguageImageDirectory',
+      'getLibraryFormatBackButton',
+      'getLibraryFormatCustom',
+      'getLibraryFormatImage',
+      'getLibraryFormatNoRibbon',
+      'getLibraryFormatReplaceHeader',
+      'getLibraryFormatStyle',
+    ]),
   },
-  computed: mapState([]),
-  mixins: [authorizeMixin, libraryUpdateMixin],
+  mixins: [authorizeMixin, libraryGetMixin, libraryUpdateMixin],
   components: {
     'v-select': vSelect,
   },
   data() {
     return {
-      images: [],
-      image_dir: null,
-      //image: process.env.VUE_APP_SITE_IMAGE,
-      image: null,
-      image_permission: false,
-      styles: [],
-      style_error: false,
-      option: [],
-      options: [],
       back_buttons: [],
       custom_format: false,
+      format: {},
+      image_dir: null,
+      image: null,
+      image_permission: false,
+      images: [],
+      option: [],
+      options: [],
+      styles: [],
+      style_error: false,
     }
   },
+  async created() {
+    await this.showForm()
+  },
   methods: {
+    async showForm() {
+      await this.getBookmark()
+      var params = {}
+      params.route = JSON.stringify(this.$route.params)
+      params.image_dir = this.getLanguageImageDirectory
+      this.styles = await this.getStyles(params)
+      this.image_permission = this.authorize('write', this.$route.params)
+      this.images = await this.getImages(
+        'content',
+        this.getLanguageImageDirectory
+      )
+      this.back_buttons = await this.getImages('site', 'images/ribbons')
+    },
     async handleHeaderUpload(code) {
       LogService.consoleLogMessage('handleImageUpload: ' + code)
       var checkfile = {}
@@ -178,28 +213,6 @@ export default {
         alert('Your BackButton was not uploaded')
       }
     },
-    async showForm() {
-      var bm = await AuthorService.bookmark(this.$route.params)
-      //console.log(bm)
-      var param = {}
-      param.route = JSON.stringify(this.$route.params)
-      param.image_dir = bm.language.image_dir
-      this.image_permission = this.authorize('write', this.$route.params)
-      // get styles, images and back_buttons
-      var style = await AuthorService.getStyles(param)
-      if (typeof style !== 'undefined') {
-        this.styles = style
-      }
-      this.images = await this.getImages('content', bm.language.image_dir)
-      LogService.consoleLogMessage('this.images')
-      LogService.consoleLogMessage(this.images)
-      this.back_buttons = await this.getImages('site', 'images/ribbons')
-      //console.log(this.back_buttons)
-    },
-  },
-
-  async created() {
-    await this.showForm()
   },
 }
 </script>

@@ -96,8 +96,10 @@ export default {
   data() {
     return {
       style: null,
+      rldir: 'ltr',
       readonly: false,
       write: false,
+      prototype: false,
       publish: false,
       sdcard: false,
       prototype_text: 'Prototype Library',
@@ -110,6 +112,9 @@ export default {
       back_image: null,
       pageText: null,
       hide_cards: true,
+      loaded: false,
+      loading: false,
+      error: false,
       format: {},
     }
   },
@@ -212,9 +217,7 @@ export default {
       try {
         this.recnum = null
         //this.$store.dispatch('newBookmark', 'clear')
-        console.log('going to get library')
         await this.getLibrary()
-        console.log('returned from get library')
         this.back = '/preview/languages/' + this.$route.params.country_code
         //todo: allow this to backtrack
         // this is only true if the library goes back to a custom library

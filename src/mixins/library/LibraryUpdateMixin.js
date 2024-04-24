@@ -82,7 +82,52 @@ export const libraryUpdateMixin = {
         },
       ]
     },
-    async saveForm() {
+    async saveForm(action = null) {
+      try {
+        // update library file
+        var output = {}
+        output.books = this.books
+        console.log(output.books)
+        output.format = this.library_format
+        output.text = this.text
+        //console.log('see library')
+        //console.log(output)
+        var valid = ContentService.validate(output)
+        this.content.text = JSON.stringify(valid)
+        this.$route.params.filename = this.$route.params.library_code
+        delete this.$route.params.folder_name
+        this.content.route = JSON.stringify(this.$route.params)
+        this.content.filetype = 'json'
+        //this.$store.dispatch('newBookmark', 'clear')
+
+        var response = await AuthorService.createContentData(this.content)
+        //console.log(response)
+        if (response.data.error != true && action != 'stay') {
+          this.$router.push({
+            name: 'previewLibrary',
+            params: {
+              country_code: this.$route.params.country_code,
+              language_iso: this.$route.params.language_iso,
+              library_code: this.$route.params.library_code,
+            },
+          })
+        }
+        if (response.data.error == true) {
+          this.error = true
+          this.loaded = false
+          this.error_message = response.data.message
+        }
+      } catch (error) {
+        LogService.consoleLogError(
+          'LIBRARY EDIT There was an error in Saving Form ',
+          error
+        )
+        this.loaded = false
+        this.error_message = error
+        this.error = true
+      }
+    },
+    async saveForm2() {
       try {
         var text = {}
         text.page = ContentService.validate(this.pageText)
@@ -117,6 +162,44 @@ export const libraryUpdateMixin = {
         this.loaded = false
         this.error_message = error
       }
+    },
+    prototypeAll() {
+      var arrayLength = this.books.length
+      LogService.consoleLogMessage(' Item count:' + arrayLength)
+      for (var i = 0; i < arrayLength; i++) {
+        this.$v.books.$each.$iter[i].prototype.$model = true
+      }
+    },
+    prototypeNone() {
+      var arrayLength = this.books.length
+      LogService.consoleLogMessage(' Item count:' + arrayLength)
+      for (var i = 0; i < arrayLength; i++) {
+        this.$v.books.$each.$iter[i].prototype.$model = false
+      }
+    },
+    publishAll() {
+      var arrayLength = this.books.length
+      LogService.consoleLogMessage(' Item count:' + arrayLength)
+      for (var i = 0; i < arrayLength; i++) {
+        this.$v.books.$each.$iter[i].publish.$model = true
+      }
+    },
+    publishNone() {
+      var arrayLength = this.books.length
+      LogService.consoleLogMessage(' Item count:' + arrayLength)
+      for (var i = 0; i < arrayLength; i++) {
+        this.$v.books.$each.$iter[i].publish.$model = false
+      }
+    },
+    async revert() {
+      var params = {}
+      params.recnum = this.recnum
+      params.route = JSON.stringify(this.$route.params)
+      params.scope = 'library'
+      var res = await AuthorService.revert(params)
+      //console.log(res.content)
+      this.seriesDetails = res.content.text
+      this.recnum = res.content.recnum
     },
   },
 }

@@ -7,7 +7,28 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   plugins: [saveStatePlugin], // <-- Use
   state: {
-    bookmark: {},
+    bookmark: {
+      country: {},
+      language: {},
+      library: {
+        books: [],
+        format: {
+          back_button: {
+            image: null,
+            title: null,
+          },
+          custom: null,
+          image: {
+            image: null,
+            title: null,
+          },
+          no_ribbon: true,
+          replace_header: true,
+          style: null,
+        },
+        text: null,
+      },
+    },
     user: {
       authorized: false,
       expires: 0,
@@ -74,6 +95,35 @@ export default new Vuex.Store({
       text: null,
     },
     languages: [],
+  },
+  getters: {
+    getLanguageImageDirectory: (state) => {
+      return state.bookmark.language.image_dir
+    },
+    getLibraryBook: (state) => {
+      return state.bookmark.library.books
+    },
+    getLibraryFormatBackButton: (state) => {
+      return state.bookmark.library.format.back_button
+    },
+    getLibraryFormatCustom: (state) => {
+      return state.bookmark.library.format.custom
+    },
+    getLibraryFormatImage: (state) => {
+      return state.bookmark.library.format.VUE_APP_SITE_IMAGE
+    },
+    getLibraryFormatNoRibbon: (state) => {
+      return state.bookmark.library.format.no_ribbon
+    },
+    getLibraryFormatReplaceHeader: (state) => {
+      return state.bookmark.library.format.replace_header
+    },
+    getLibraryFormatStyle: (state) => {
+      return state.bookmark.library.format.getLibraryFormatStyle
+    },
+    getLibraryText: (state) => {
+      return state.bookmark.library.text
+    },
   },
   mutations: {
     SET_LANGUAGES(state, value) {
