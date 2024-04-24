@@ -107,19 +107,34 @@ export default new Vuex.Store({
       return state.bookmark.library.format.back_button
     },
     getLibraryFormatCustom: (state) => {
-      return state.bookmark.library.format.custom
+      if (typeof state.bookmark.library.format.custom == 'undefined') {
+        return null
+      } else {
+        return state.bookmark.library.format.custom
+      }
     },
     getLibraryFormatImage: (state) => {
-      return state.bookmark.library.format.VUE_APP_SITE_IMAGE
+      return state.bookmark.library.format.image
     },
     getLibraryFormatNoRibbon: (state) => {
       return state.bookmark.library.format.no_ribbon
     },
     getLibraryFormatReplaceHeader: (state) => {
-      return state.bookmark.library.format.replace_header
+      if (
+        typeof state.bookmark.library.format.getLibraryFormatReplaceHeader ==
+        'undefined'
+      ) {
+        return null
+      } else {
+        return state.bookmark.library.format.replace_header
+      }
     },
     getLibraryFormatStyle: (state) => {
-      return state.bookmark.library.format.getLibraryFormatStyle
+      if (typeof state.bookmark.library.format.style == 'undefined') {
+        return null
+      } else {
+        return state.bookmark.library.format.style
+      }
     },
     getLibraryText: (state) => {
       return state.bookmark.library.text

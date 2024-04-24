@@ -342,8 +342,6 @@ export default {
     params.action = 'getImagesForSite'
     params.image_dir = directory
     var content = await this.aReturnContent(params)
-    console.log('content from getImagesForSite')
-    console.log(content)
     if (content) {
       var images = JSON.parse(content)
     }
@@ -451,7 +449,7 @@ export default {
   async login(params) {
     params.action = 'login'
     var check = this.aReturnData(params)
-    console.log (check)
+    console.log(check)
     return check
   },
   async prototype(params) {
@@ -566,7 +564,6 @@ export default {
   },
 
   toAuthorizedFormData(params) {
-
     params.my_uid = localStorage.getItem('uid')
     params.token = localStorage.getItem('token')
     params.expires = localStorage.getItem('expires')
