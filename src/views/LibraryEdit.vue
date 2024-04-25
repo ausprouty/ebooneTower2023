@@ -41,7 +41,7 @@
 
       <h2>Books</h2>
 
-      <!--<LibraryBook v-for="book in books" :key="book.id" :book="book" />
+      <LibraryBooks></LibraryBooks>
    -->
       <div>
         <button class="button" @click="prototypeAll">
@@ -72,7 +72,7 @@
 import NavBar from '@/components/NavBarAdmin.vue'
 import LibraryFormatTemplate from '@/components/library/LibraryFormatTemplate.vue'
 import LibraryText from '@/components/library/LibraryText.vue'
-import LibraryBook from '@/components/library/LibraryBook.vue'
+import LibraryBooks from '@/components/library/LibraryBooks.vue'
 import LogService from '@/services/LogService.js'
 
 // see https://stackoverflow.com/questions/55479380/adding-images-to-vue-select-dropdown
@@ -94,7 +94,7 @@ export default {
     NavBar,
     LibraryFormatTemplate,
     LibraryText,
-    LibraryBook,
+    LibraryBooks,
   },
   props: ['country_code', 'language_iso', 'library_code'],
   computed: mapState(['bookmark', 'cssURL', 'standard']),

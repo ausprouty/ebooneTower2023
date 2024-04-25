@@ -100,7 +100,7 @@ export default new Vuex.Store({
     getLanguageImageDirectory: (state) => {
       return state.bookmark.language.image_dir
     },
-    getLibraryBook: (state) => {
+    getLibraryBooks: (state) => {
       return state.bookmark.library.books
     },
     getLibraryFormatBackButton: (state) => {
@@ -141,6 +141,33 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    setLanguageImageDirectory: (state, selectedDirectory) => {
+      state.bookmark.language.image_dir = selectedDirectory
+    },
+    setLibraryBooks: (state, selectedBooks) => {
+      state.bookmark.library.books = selectedBooks
+    },
+    setLibraryFormatBackButton: (state, value) => {
+      state.bookmark.library.back_button = value
+    },
+    setLibraryFormatCustom: (state, value) => {
+      state.bookmark.library.format.custom = value
+    },
+    setLibraryFormatImage: (state, selectedImage) => {
+      state.bookmark.library.format.image = selectedImage
+    },
+    setLibraryFormatNoRibbon: (state, value) => {
+      state.bookmark.library.format.no_ribbon = value
+    },
+    setLibraryFormatStyle: (state, value) => {
+      state.bookmark.library.format.style = value
+    },
+    setLibraryFormatReplaceHeader: (state, value) => {
+      state.bookmark.library.format.getLibraryFormatReplaceHeader = value
+    },
+    setLibraryText: (state, value) => {
+      state.bookmark.library.text = value
+    },
     SET_LANGUAGES(state, value) {
       state.languages = value[0]
     },

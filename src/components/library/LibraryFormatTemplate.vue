@@ -5,11 +5,7 @@
     <hr />
     <div>
       <h3>Library Image</h3>
-      <v-select
-        :options="images"
-        label="title"
-        v-model="this.getLibraryFormatImage"
-      >
+      <v-select :options="images" label="title" v-model="libraryFormatImage">
         <template slot="option" slot-scope="option">
           <img :src="option.image" class="select" />
           <br />
@@ -18,11 +14,7 @@
       </v-select>
     </div>
     <div>
-      <input
-        type="checkbox"
-        id="checkbox"
-        v-model="this.getLibraryFormatNoRibbon"
-      />
+      <input type="checkbox" id="checkbox" v-model="libraryFormatNoRibbon" />
       <label for="checkbox">
         <p>Image contains back button image</p>
       </label>
@@ -36,7 +28,7 @@
         Add new Image&nbsp;&nbsp;&nbsp;&nbsp;
         <input
           type="file"
-          v-bind:id="this.getLibraryFormatImage"
+          v-bind:id="libraryFormatImage"
           ref="imageHeader"
           v-on:change="handleHeaderUpload(image)"
         />
@@ -49,7 +41,7 @@
       <BaseSelect
         label="Library Style Sheet:"
         :options="styles"
-        v-model="this.getLibraryFormatStyle"
+        v-model="libraryFormatStyle"
         class="field"
       />
       <template v-if="style_error">
@@ -60,7 +52,7 @@
         Add new stylesheet&nbsp;&nbsp;&nbsp;&nbsp;
         <input
           type="file"
-          v-bind:id="this.getLibraryFormatStyle"
+          v-bind:id="libraryFormatStyle"
           ref="style"
           v-on:change="handleStyleUpload(format.style)"
         />
@@ -71,7 +63,7 @@
       <v-select
         :options="back_buttons"
         label="title"
-        v-model="this.getLibraryFormatBackButton"
+        v-model="libraryFormatBackButton"
       >
         <template slot="option" slot-scope="option">
           <img :src="option.image" class="select" />
@@ -82,25 +74,21 @@
     </div>
 
     <div v-if="image_permission">
-      <div v-if="this.getLibraryFormatBackButton">
+      <div v-if="libraryFormatBackButton">
         <img v-bind:src="option.image" class="header" />
       </div>
       <label>
         Add new Image&nbsp;&nbsp;&nbsp;&nbsp;
         <input
           type="file"
-          v-bind:id="this.getLibraryFormatBackButton"
+          v-bind:id="libraryFormatBackButton"
           ref="imageBackButton"
           v-on:change="handleBackButtonUpload(format.back_button)"
         />
       </label>
     </div>
     <div>
-      <input
-        type="checkbox"
-        id="checkbox"
-        v-model="this.getLibraryFormatCustom"
-      />
+      <input type="checkbox" id="checkbox" v-model="libraryFormatCustom" />
       <label for="checkbox">
         <h2>Use ONLY Preliminary Text for library (not cards)?</h2>
       </label>
@@ -110,7 +98,7 @@
 <script>
 import vSelect from 'vue-select'
 // see https://stackoverflow.com/questions/55479380/adding-images-to-vue-select-dropdown
-import { mapState, mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import '@/assets/css/vueSelect.css'
 import AuthorService from '@/services/AuthorService.js'
 import LogService from '@/services/LogService.js'
@@ -119,17 +107,6 @@ import { libraryGetMixin } from '@/mixins/library/LibraryGetMixin.js'
 import { libraryUpdateMixin } from '@/mixins/library/LibraryUpdateMixin.js'
 
 export default {
-  computed: {
-    ...mapGetters([
-      'getLanguageImageDirectory',
-      'getLibraryFormatBackButton',
-      'getLibraryFormatCustom',
-      'getLibraryFormatImage',
-      'getLibraryFormatNoRibbon',
-      'getLibraryFormatReplaceHeader',
-      'getLibraryFormatStyle',
-    ]),
-  },
   mixins: [authorizeMixin, libraryGetMixin, libraryUpdateMixin],
   components: {
     'v-select': vSelect,
@@ -149,10 +126,70 @@ export default {
       style_error: false,
     }
   },
+
+  computed: {
+    ...mapGetters([
+      'getLanguageImageDirectory', // value can not be changed here
+      'getLibraryFormatBackButton',
+      'getLibraryFormatCustom',
+      'getLibraryFormatImage',
+      'getLibraryFormatNoRibbon',
+      'getLibraryFormatStyle',
+    ]),
+
+    libraryFormatBackButton: {
+      get() {
+        return this.getLibraryFormatBackButton
+      },
+      set(value) {
+        this.setLibraryFormatBackButton(value)
+      },
+    },
+    libraryFormatCustom: {
+      get() {
+        return this.getLibraryFormatCustom
+      },
+      set(value) {
+        this.setLibraryFormatCustom(value)
+      },
+    },
+    libraryFormatImage: {
+      get() {
+        return this.getLibraryFormatImage
+      },
+      set(value) {
+        this.setLibraryFormatImage(value)
+      },
+    },
+    libraryFormatNoRibbon: {
+      get() {
+        return this.getLibraryFormatNoRibbon
+      },
+      set(value) {
+        this.setLibraryFormatNoRibbon(value)
+      },
+    },
+    libraryFormatStyle: {
+      get() {
+        return this.getLibraryFormatStyle
+      },
+      set(value) {
+        this.setLibraryFormatStyle(value)
+      },
+    },
+  },
+
   async created() {
     await this.showForm()
   },
   methods: {
+    ...mapMutations([
+      'setLibraryFormatBackButton',
+      'setLibraryFormatCustom',
+      'setLibraryFormatImage',
+      'setLibraryFormatNoRibbon',
+      'setLibraryFormatStyle',
+    ]),
     async showForm() {
       await this.getBookmark()
       var params = {}
