@@ -1,30 +1,37 @@
 <template>
   <div>
     <h2>Name and Code</h2>
-
+    <p>Book Number: {{ this.libraryBookNumber }}</p>
     <BaseInput
-      v-model="book.id.$model"
-      label="Book Number:"
-      type="text"
-      placeholder="#"
-      class="field"
-      :class="{ error: book.id.$error }"
-      @blur="book.id.$touch()"
-    />
-    <BaseInput
-      v-model="book.title.$model"
+      v-model="this.libraryBookTitle"
       label="Title:"
       type="text"
       placeholder="Title"
       class="field"
-      :class="{ error: book.title.$error }"
-      @blur="book.title.$touch()"
     />
-    <template v-if="book.title.$error">
-      <p v-if="!book.title.required" class="errorMessage">
-        Book Title is required
-      </p>
-    </template>
   </div>
 </template>
-<script></script>
+<script>
+import { mapGetters, mapState } from 'vuex'
+export default {
+  props: {
+    book: Object,
+  },
+  computed: {
+    ...mapGetters(['getLibraryBook']),
+    libraryBookNumber: {
+      get() {
+        return this.getLibraryBook(this.book.id)
+      },
+    },
+    libraryBookTitle: {
+      get() {
+        return this.getLibraryBookTitle(this.book.id)
+      },
+      set(value) {
+        this.setLibraryBookTitle(this.book.id, value)
+      },
+    },
+  },
+}
+</script>

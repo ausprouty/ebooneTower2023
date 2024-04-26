@@ -96,9 +96,24 @@ export default new Vuex.Store({
     },
     languages: [],
   },
+  methods: {
+    getLibraryBook(id) {
+      var books = this.getLibraryBooks()
+      for (let i = 0; i < books.length; i++) {
+        if (books[i].id == id) {
+          return books[i]
+        }
+      }
+      return null
+    },
+  },
   getters: {
     getLanguageImageDirectory: (state) => {
       return state.bookmark.language.image_dir
+    },
+    getLibraryBookTitle: (id) => {
+      var book = this.getLibraryBook(id)
+      return book.title
     },
     getLibraryBooks: (state) => {
       return state.bookmark.library.books
@@ -136,6 +151,7 @@ export default new Vuex.Store({
         return state.bookmark.library.format.style
       }
     },
+
     getLibraryText: (state) => {
       return state.bookmark.library.text
     },
@@ -143,6 +159,10 @@ export default new Vuex.Store({
   mutations: {
     setLanguageImageDirectory: (state, selectedDirectory) => {
       state.bookmark.language.image_dir = selectedDirectory
+    },
+    setLibraryBookTitle: (state, id, title) => {
+      var book = this.getLibraryBook(id)
+      return book.title
     },
     setLibraryBooks: (state, selectedBooks) => {
       state.bookmark.library.books = selectedBooks
