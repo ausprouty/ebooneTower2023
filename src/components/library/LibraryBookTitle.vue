@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>Name and Code</h2>
-    <p>Book Number: {{ this.libraryBookNumber }}</p>
+    <p>Book Number: {{ this.book.index }}</p>
     <BaseInput
       v-model="this.libraryBookTitle"
       label="Title:"
@@ -12,26 +12,21 @@
   </div>
 </template>
 <script>
-import { mapGetters, mapState } from 'vuex'
+import { mapState } from 'vuex'
 export default {
   props: {
     book: Object,
   },
   computed: {
-    ...mapGetters(['getLibraryBook']),
-    libraryBookNumber: {
-      get() {
-        return this.getLibraryBook(this.book.id)
-      },
+    ...mapState({
+      library: (state) => state.bookmark.library,
+    }),
+    libraryBookTitle() {
+      return this.library.book[this.book.id].title
     },
-    libraryBookTitle: {
-      get() {
-        return this.getLibraryBookTitle(this.book.id)
-      },
-      set(value) {
-        this.setLibraryBookTitle(this.book.id, value)
-      },
-    },
+  },
+  created() {
+    console.log(this.book.id)
   },
 }
 </script>

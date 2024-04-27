@@ -41,8 +41,7 @@
 
       <h2>Books</h2>
 
-      <LibraryBooks></LibraryBooks>
-   -->
+      <LibraryBooks />
       <div>
         <button class="button" @click="prototypeAll">
           Select ALL to prototype

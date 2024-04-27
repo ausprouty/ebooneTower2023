@@ -1,9 +1,8 @@
 <template>
   <div>
     <div v-for="(book, id) in libraryBooks" :key="id" :book="book">
-      <LibraryBookTitle book:book />
-      <!--
-      <LibraryBookCode book:book />
+      <LibraryBookTitle :book="book" />
+      <!-- <LibraryBookCode book:book />
       <LibraryBookImage book:book />
       <LibraryBookFormat book:book />
       <LibraryBookStyle book:book />
@@ -52,7 +51,9 @@ export default {
     ...mapGetters(['getLibraryBooks']),
     libraryBooks: {
       get() {
-        return this.getLibraryBooks
+        var temp = this.getLibraryBooks
+        console.log(temp)
+        return temp
       },
     },
   },
