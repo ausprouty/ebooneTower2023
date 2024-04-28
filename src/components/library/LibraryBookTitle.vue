@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>Name and Code</h2>
-    <p>Book Number: {{ this.book.index }}</p>
+    <p>#: {{ book.id }}</p>
     <BaseInput
       v-model="this.libraryBookTitle"
       label="Title:"
@@ -12,21 +12,29 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState, state } from 'vuex'
 export default {
   props: {
     book: Object,
+    index: Number,
   },
   computed: {
-    ...mapState({
-      library: (state) => state.bookmark.library,
-    }),
-    libraryBookTitle() {
-      return this.library.book[this.book.id].title
+    libraryBookTitleX: {
+      get() {
+        var title = this.$store.state.library.books[this.index].title
+        console.log(this.$store.state.library)
+        return title
+      },
+      set(newValue) {
+        this.$set(this.state.library.books[this.index], 'title', newValue)
+      },
     },
   },
   created() {
-    console.log(this.book.id)
+    console.log ('next id')
+    console.log(this.book)
+    console.log(this.index)
+    console.log ('was index')
   },
 }
 </script>
