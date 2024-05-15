@@ -20,7 +20,6 @@ export default {
   },
   methods: {
     setBookTitle(index, value) {
-      //this.$store.state.bookmark.library.books[index].title = value
       this.$store.commit('setBookTitle', { index, value })
     },
   },
