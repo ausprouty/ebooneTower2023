@@ -448,7 +448,7 @@ export default {
 
   async login(params) {
     params.action = 'login'
-    var check = this.aReturnData(params)
+    var check = await this.aReturnData(params)
     console.log(check)
     return check
   },

@@ -2,6 +2,8 @@ nvm use 16.18.1
 npm run serve-mc2
 npm run build-mc2
 
+I am working on library edit
+
 
 installed nvm by going to https://github.com/coreybutler/nvm-windows
 You need to restart the machine for nvm to be seen.

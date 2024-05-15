@@ -111,9 +111,16 @@ export default new Vuex.Store({
     getLanguageImageDirectory: (state) => {
       return state.bookmark.language.image_dir
     },
-    getLibraryBookTitle: (id) => {
-      var book = this.getLibraryBook(id)
-      return book.title
+    getLibraryBook: (state, id) => {
+      return state.bookmark.library.books[id]
+    },
+    getLibraryBookTitle: (state, id) => {
+      var book = state.bookmark.library.books[id]
+      if (typeof book != 'undefined') {
+        return book.title
+      } else {
+        return null
+      }
     },
     getLibraryBooks: (state) => {
       var temp = state.bookmark.library.books
