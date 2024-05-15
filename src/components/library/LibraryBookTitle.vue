@@ -13,8 +13,6 @@
   </div>
 </template>
 <script>
-import Vue from 'vue'
-import BaseInput from '../BaseInput.vue';
 export default {
   props: {
     book: Object,
