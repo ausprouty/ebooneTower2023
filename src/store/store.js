@@ -123,9 +123,7 @@ export default new Vuex.Store({
       }
     },
     getLibraryBooks: (state) => {
-      var temp = state.bookmark.library.books
-      console.log(temp)
-      return temp
+      return state.bookmark.library.books
     },
     getLibraryFormatBackButton: (state) => {
       return state.bookmark.library.format.back_button
@@ -160,12 +158,19 @@ export default new Vuex.Store({
         return state.bookmark.library.format.style
       }
     },
-
     getLibraryText: (state) => {
       return state.bookmark.library.text
     },
   },
   mutations: {
+    setBookTitle: (state, payload) => {
+      console.log(payload)
+
+      const { index, value } = payload
+      console.log(index)
+      console.log('I am setting book title: '.value)
+      state.bookmark.library.books[index].title = value
+    },
     setLanguageImageDirectory: (state, selectedDirectory) => {
       state.bookmark.language.image_dir = selectedDirectory
     },

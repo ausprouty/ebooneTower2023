@@ -8,6 +8,7 @@
       type="text"
       placeholder="Title"
       class="field"
+      
     />
   </div>
 </template>
@@ -24,18 +25,16 @@ export default {
         var title = this.$store.state.bookmark.library.books[this.index].title
         return title
       },
-      set(newValue) {
+      set(value) {
         console.log(this.index)
-        console.log(newValue)
+        console.log(value)
         if (!this.$store.state.bookmark.library.books[this.index]) {
           Vue.set(this.$store.state.bookmark.library.books, this.index, {})
         }
-        this.$set(
-          this.$store.state.bookmark.library.books[this.index],
-          'title',
-          newValue
-        )
-        this.$store.state.bookmark.library.books[this.index].title = newValue
+        //this.$store.state.bookmark.library.books[this.index].title = value
+        //this.setBookTitle(this.index, value)
+        var index = this.index
+        this.$store.commit('setBookTitle', { index, value })
       },
     },
   },
