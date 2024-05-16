@@ -49,9 +49,7 @@ export default {
     libraryBookCode() {
       return this.$store.state.bookmark.library.books[this.index].code
     },
-    libraryBookCodes() {
-      return this.$store.state.libraryBookCodes
-    },
+    
   },
 
   methods: {

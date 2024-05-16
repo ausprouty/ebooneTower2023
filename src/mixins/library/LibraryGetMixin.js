@@ -53,40 +53,7 @@ export const libraryGetMixin = {
       }
       return image_options
     },
-    async getLibraryX() {
-    
-      // removed params because we are always using route params
 
-      //console.log(this.$route.params)
-      await this.getBookmark()
-      var response = await ContentService.getLibrary(this.$route.params)
-      if (response) {
-        if (response.recnum) {
-          this.recnum = response.recnum
-          this.publish_date = response.publish_date
-          this.prototype_date = response.prototype_date
-        }
-        var text = response.text
-        this.pageText = text.page
-        this.style = text.style
-        this.footerText = text.footer
-      } else {
-        this.pageText = ''
-        this.style = ''
-        this.footerText = ''
-      }
-      this.image_dir = process.env.VUE_APP_SITE_IMAGE_DIR
-      if (typeof this.bookmark.language !== 'undefined') {
-        if (typeof this.bookmark.language.image_dir !== 'undefined') {
-          this.image_dir = this.bookmark.language.image_dir
-          this.rldir = this.bookmark.language.rldir
-        }
-      }
-      console.log ('I am setting LibraryBookCodes')
-      this.$store.commit('setLibraryBookCodes')
-      this.loaded = true
-      this.loading = false
-    },
     async getLibraryIndex() {
       this.error = this.loaded = null
       this.loading = true

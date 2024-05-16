@@ -40,21 +40,11 @@ export default new Vuex.Store({
       token: '',
       uid: '',
     },
-    libraryBookCodes: [],
-    sdCardSettings: {
-      languages: [],
-      footer: null,
-      external_links: false,
-      action: 'sdcard',
-      series: null,
-      subDirectory: null,
-    },
 
     revision: '2.0',
     baseURL: './',
     cssURL: './content/',
     standard: {
-      items: ['about', 'basics', 'community', 'compass', 'life', 'steps'],
       ckEditStyleSets: [
         'compass',
         'firststeps',
@@ -82,9 +72,20 @@ export default new Vuex.Store({
       text: null,
     },
     languages: [],
+    sdCardSettings: {
+      languages: [],
+      footer: null,
+      external_links: false,
+      action: 'sdcard',
+      series: null,
+      subDirectory: null,
+    },
   },
 
   getters: {
+    getCkEditStyleSets: (state) => {
+      return state.standard.ckEditStyleSets
+    },
     getLanguageImageDirectory: (state) => {
       return state.bookmark.language.image_dir
     },
@@ -101,6 +102,15 @@ export default new Vuex.Store({
     },
     getLibraryBooks: (state) => {
       return state.bookmark.library.books
+    },
+    getLibraryBookCodes: (state) => {
+      var books = state.bookmark.library.books
+      var codes = []
+      for (var i = 0; i < books.length; i++) {
+        codes.push(books[i].code)
+      }
+      codes.sort()
+      return codes
     },
     getLibraryFormatBackButton: (state) => {
       return state.bookmark.library.format.back_button
@@ -154,7 +164,7 @@ export default new Vuex.Store({
     setLibraryBooks: (state, selectedBooks) => {
       state.bookmark.library.books = selectedBooks
     },
-    setLibraryBookCodes: (state, books) => {
+    setLibraryBookCodesX: (state, books) => {
       console.log('in setLibraryBookCodes')
       var codes = []
       console.log(books)

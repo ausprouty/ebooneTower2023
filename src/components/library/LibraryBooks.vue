@@ -52,14 +52,15 @@ export default {
     libraryBooks: {
       get() {
         var temp = this.getLibraryBooks
-        this.setLibraryBookCodes(temp)
-        console.log('tese are library books')
         console.log(temp)
         return temp
       },
     },
   },
-  created() {},
+  created() {
+   // const temp = this.getLibraryBooks
+   // this.$store.commit('setLibraryBookCodes', temp)
+  },
   methods: {
     async createFolder(folder) {
       LogService.consoleLogMessage(folder)
