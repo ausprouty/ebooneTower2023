@@ -1,74 +1,75 @@
 <template>
   <div>
     <div>
+      <p>Code:</p>
       <v-select
-        :options="bookcodes"
+        :options="libraryBookCodes"
         label="Code"
-        :class="{ error: book.code.$error }"
-        @mousedown="book.code.$touch()"
-        v-model="book.code.$model"
+        :v-model="libraryBookCode"
+        @input="updateLibraryBookCode"
       />
     </div>
     <div>
       <p>
-        <a class="black" @click="createBook(book.code.$model)"
-          >Create new Code</a
-        >
+        <a class="black" @click="createLibraryBookCode()">Create new Code</a>
       </p>
     </div>
-    <div v-bind:id="book.title.$model" v-bind:class="{ hidden: isHidden }">
+    <div
+      v-bind:id="index"
+      v-bind:class="{ hidden: newLibraryBookCodeIsHidden }"
+    >
       <BaseInput
         label="New Code:"
-        v-model="book.code.$model"
+        v-model="newLibraryBookCode"
         type="text"
         placeholder="code"
         class="field"
       />
-      <button class="button" @click="addNewBookTitle(book.title.$model)">
-        Save Code
-      </button>
+      <button class="button" @click="addNewLibraryBookCode()">Save Code</button>
     </div>
   </div>
 </template>
 <script>
 import LogService from '@/services/LogService.js'
+import vSelect from 'vue-select'
+
 export default {
+  props: {
+    index: Number,
+  },
+  components: {
+    'v-select': vSelect,
+  },
+  data() {
+    return {
+      newLibraryBookCodeIsHidden: true,
+    }
+  },
+  computed: {
+    libraryBookCode() {
+      return this.$store.state.bookmark.library.books[this.index].code
+    },
+    libraryBookCodes() {
+      return this.$store.state.libraryBookCodes
+    },
+  },
+
   methods: {
-    addNewBookTitle(title) {
-      LogService.consoleLogMessage('I came to addNewBookTitle')
-      LogService.consoleLogMessage(title)
-      this.bookcodes = []
-      var change = this.$v.books.$model
-      LogService.consoleLogMessage('change')
-      LogService.consoleLogMessage(change)
-      var arrayLength = change.length
-      for (var i = 0; i < arrayLength; i++) {
-        this.bookcodes.push(this.$v.books.$model[i].code)
-      }
-      LogService.consoleLogMessage(this.bookcodes)
-      LogService.consoleLogMessage('about to hide')
-      this.isHidden = true
-      LogService.consoleLogMessage('hidden')
-      //make bookcodes list
-      this.updateBookCodes()
+    updateLibraryBookCode(newValue) {
+      // Perform any necessary operations before updating, if needed
+      // For example, you might want to validate the new value here
+      // Then update the value
+      this.libraryBookCode = newValue
     },
-    createBook(title) {
-      LogService.consoleLogMessage(title)
-      this.isHidden = false
+    createLibraryBookCode() {
+      this.newLibraryBookCodeIsHidden = false
     },
-    updateBookCodes() {
-      var arrayLength = this.bookmark.library.books.length
-      if (typeof arrayLength !== 'undefined') {
-        for (var i = 0; i < arrayLength; i++) {
-          if (!this.bookcodes.includes(this.bookmark.library.books[i].code)) {
-            this.bookcodes.push(this.bookmark.library.books[i].code)
-          }
-        }
-        if (this.bookcodes.length > 0) {
-          this.bookcodes.sort()
-        }
-      }
+    setLibraryBookCode(index, value) {
+      this.$store.commit('setLibraryBookCode', { index, value })
     },
+
+    addNewLibraryBookCode() {},
+    updateLibraryBookCodes() {},
   },
 }
 </script>

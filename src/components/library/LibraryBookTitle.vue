@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>Name and Code</h2>
-    <p>#: {{ book.id }}</p>
+    <p>#: {{ index }}</p>
     <BaseInput
       :value="libraryBookTitle"
       label="Title:"
@@ -15,7 +15,6 @@
 <script>
 export default {
   props: {
-    book: Object,
     index: Number,
   },
   methods: {

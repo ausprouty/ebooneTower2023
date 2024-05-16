@@ -1,8 +1,8 @@
 <template>
   <div>
     <div v-for="(book, id) in libraryBooks" :key="id" :book="book">
-      <LibraryBookTitle :book="book" :index="id" />
-      <!-- <LibraryBookCode :book="book" :index="id" />
+      <!-- <LibraryBookTitle :index="id" />
+      <LibraryBookCode :index="id" />
       <LibraryBookImage :book="book" :index="id" />
       <LibraryBookFormat :book="book" :index="id" />
       <LibraryBookStyle :book="book" :index="id" />
@@ -52,11 +52,14 @@ export default {
     libraryBooks: {
       get() {
         var temp = this.getLibraryBooks
+        this.setLibraryBookCodes(temp)
+        console.log('tese are library books')
         console.log(temp)
         return temp
       },
     },
   },
+  created() {},
   methods: {
     async createFolder(folder) {
       LogService.consoleLogMessage(folder)

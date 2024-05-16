@@ -40,6 +40,7 @@ export default new Vuex.Store({
       token: '',
       uid: '',
     },
+    libraryBookCodes: [],
     sdCardSettings: {
       languages: [],
       footer: null,
@@ -64,20 +65,6 @@ export default new Vuex.Store({
         'sent67',
         'train',
       ],
-      library: [
-        {
-          id: '',
-          book: '',
-          title: '',
-          folder: '',
-          index: '',
-          style: process.env.VUE_APP_SITE_STYLE,
-          image: process.env.VUE_APP_SITE_IMAGE,
-          format: 'series',
-          pages: 1,
-          instructions: '',
-        },
-      ],
     },
     content: {
       recnum: null,
@@ -96,17 +83,7 @@ export default new Vuex.Store({
     },
     languages: [],
   },
-  methods: {
-    getLibraryBook(id) {
-      var books = this.getLibraryBooks()
-      for (let i = 0; i < books.length; i++) {
-        if (books[i].id == id) {
-          return books[i]
-        }
-      }
-      return null
-    },
-  },
+
   getters: {
     getLanguageImageDirectory: (state) => {
       return state.bookmark.language.image_dir
@@ -163,12 +140,12 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    setBookTitle: (state, payload) => {
-      console.log(payload)
-
+    setBookCode: (state, payload) => {
       const { index, value } = payload
-      console.log(index)
-      console.log('I am setting book title: '.value)
+      state.bookmark.library.books[index].code = value
+    },
+    setBookTitle: (state, payload) => {
+      const { index, value } = payload
       state.bookmark.library.books[index].title = value
     },
     setLanguageImageDirectory: (state, selectedDirectory) => {
@@ -176,6 +153,17 @@ export default new Vuex.Store({
     },
     setLibraryBooks: (state, selectedBooks) => {
       state.bookmark.library.books = selectedBooks
+    },
+    setLibraryBookCodes: (state, books) => {
+      console.log('in setLibraryBookCodes')
+      var codes = []
+      console.log(books)
+      for (var i = 0; i < books.length; i++) {
+        codes.push(books[i].code)
+      }
+      codes.sort()
+      console.log(codes)
+      state.libraryBookCodes = codes
     },
     setLibraryFormatBackButton: (state, value) => {
       state.bookmark.library.back_button = value

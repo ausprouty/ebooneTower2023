@@ -10,6 +10,9 @@ Vue.use(Vuex)
 export const libraryGetMixin = {
   computed: mapState(['user']),
   methods: {
+    async getBookCodes() {
+      await AuthorService.bookmark(this.$route.params)
+    },
     async getBookmark() {
       await AuthorService.bookmark(this.$route.params)
     },
@@ -50,12 +53,12 @@ export const libraryGetMixin = {
       }
       return image_options
     },
-    async getLibrary() {
+    async getLibraryX() {
+    
       // removed params because we are always using route params
 
       //console.log(this.$route.params)
       await this.getBookmark()
-
       var response = await ContentService.getLibrary(this.$route.params)
       if (response) {
         if (response.recnum) {
@@ -79,7 +82,8 @@ export const libraryGetMixin = {
           this.rldir = this.bookmark.language.rldir
         }
       }
-      this.books = this.bookmark.library.books
+      console.log ('I am setting LibraryBookCodes')
+      this.$store.commit('setLibraryBookCodes')
       this.loaded = true
       this.loading = false
     },
@@ -112,8 +116,8 @@ export const libraryGetMixin = {
     },
 
     async getStyles(params) {
-      var style = await AuthorService.getStyles(params)
-      return style
+      var styles = await AuthorService.getStyles(params)
+      return styles
     },
     async getTemplates(param) {
       var templates = await AuthorService.getTemplates(param)
