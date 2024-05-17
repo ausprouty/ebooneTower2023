@@ -1,9 +1,9 @@
 <template>
   <div>
     <div v-for="(book, id) in libraryBooks" :key="id" :book="book">
-      <!-- <LibraryBookTitle :index="id" />
-      <LibraryBookCode :index="id" />
-      <LibraryBookImage :book="book" :index="id" />
+      <LibraryBookTitle :index="id" />
+       <LibraryBookCode :index="id" />
+      <!--<LibraryBookImage :book="book" :index="id" />
       <LibraryBookFormat :book="book" :index="id" />
       <LibraryBookStyle :book="book" :index="id" />
       <LibraryBookTemplate :book="book" :index="id" />

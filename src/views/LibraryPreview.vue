@@ -82,7 +82,6 @@ import PublishService from '@/services/PublishService.js'
 
 import { mapState } from 'vuex'
 import { libraryGetMixin } from '@/mixins/library/LibraryGetMixin.js'
-
 import { authorizeMixin } from '@/mixins/AuthorizeMixin.js'
 import { publishMixin } from '@/mixins/PublishMixin.js'
 export default {
@@ -214,10 +213,10 @@ export default {
       LogService.consoleLogMessage(bm)
     },
     async loadView() {
+      console.log ('I am starting loadView')
       try {
         this.recnum = null
-        //this.$store.dispatch('newBookmark', 'clear')
-        await this.getLibrary()
+        await this.getLibraryBookmark()
         this.back = '/preview/languages/' + this.$route.params.country_code
         //todo: allow this to backtrack
         // this is only true if the library goes back to a custom library

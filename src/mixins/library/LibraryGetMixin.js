@@ -53,7 +53,9 @@ export const libraryGetMixin = {
       }
       return image_options
     },
-
+    async getLibraryBookmark(){
+      await AuthorService.bookmark(this.$route.params)
+    },
     async getLibraryIndex() {
       this.error = this.loaded = null
       this.loading = true
