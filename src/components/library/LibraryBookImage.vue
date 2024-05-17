@@ -8,7 +8,7 @@
           <img v-bind:src="getBookImage()" class="book" />
           <br />
         </div>
-        <v-select :options="imageOptions" label="title" v-model="bookImage">
+        <v-select :options="imageOptions" label="title" v-model="selectedBookImage">
           <template slot="option" slot-scope="option">
             <img class="select" :src="option.image" />
 
@@ -61,6 +61,9 @@ export default {
   },
   methods: {
     getBookImage() {
+      if (this.selectedBookImage){
+        return this.selectedBookImage
+      }
       if (this.$store.state.bookmark.library.books[this.index].image) {
         return this.$store.state.bookmark.library.books[this.index].image.image
       } else {
