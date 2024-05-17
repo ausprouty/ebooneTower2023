@@ -5,13 +5,13 @@
       <v-select
         :options="libraryBookCodes"
         label="Code"
-        :v-model="libraryBookCode"
+        v-model="libraryBookCode"
         @input="updateLibraryBookCode"
       />
     </div>
     <div>
       <p>
-        <a class="black" @click="createLibraryBookCode()">Create new Code</a>
+        <a class="black" @click="openCodeBlock()">Create new Code</a>
       </p>
     </div>
     <div
@@ -25,7 +25,7 @@
         placeholder="code"
         class="field"
       />
-      <button class="button" @click="addNewLibraryBookCode()">Save Code</button>
+      <button class="button" @click="updateLibraryBookCode()">Save Code</button>
     </div>
   </div>
 </template>
@@ -48,30 +48,30 @@ export default {
     }
   },
   computed: {
-    libraryBookCode() {
-      return this.$store.state.bookmark.library.books[this.index].code
+    ...mapGetters(['getLibraryBookCodes']),
+    libraryBookCode: {
+      get() {
+        return this.$store.state.bookmark.library.books[this.index].code
+      },
+      set(value) {
+        this.setLibraryBookCode({ index: this.index, code: value })
+      },
     },
     libraryBookCodes() {
-      return this.$store.getters.getLibraryBookCodes
+      return this.getLibraryBookCodes
     },
   },
 
   methods: {
-    updateLibraryBookCode(newValue) {
-      // Perform any necessary operations before updating, if needed
-      // For example, you might want to validate the new value here
-      // Then update the value
-      this.libraryBookCode = newValue
-    },
-    createLibraryBookCode() {
+    ...mapMutations(['setLibraryBookCode', 'addNewLibraryBookCode']),
+    updateLibraryBookCode(value) {
+      this.setLibraryBookCode({ index: this.index, code: value })
+      this.libraryBookCode = value
       this.newLibraryBookCodeIsHidden = false
     },
-    setLibraryBookCode(index, value) {
-      this.$store.commit('setLibraryBookCode', { index, value })
+    openCodeBlock() {
+      this.newLibraryBookCodeIsHidden = false
     },
-
-    addNewLibraryBookCode() {},
-    updateLibraryBookCodes() {},
   },
 }
 </script>

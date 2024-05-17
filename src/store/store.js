@@ -161,6 +161,10 @@ export default new Vuex.Store({
     setLanguageImageDirectory: (state, selectedDirectory) => {
       state.bookmark.language.image_dir = selectedDirectory
     },
+    setLibraryBookCode(state, payload) {
+      const { index, value } = payload
+      state.bookmark.library.books[index].code = value
+    },
     setLibraryBooks: (state, selectedBooks) => {
       state.bookmark.library.books = selectedBooks
     },
