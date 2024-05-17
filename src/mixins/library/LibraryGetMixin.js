@@ -28,6 +28,7 @@ export const libraryGetMixin = {
       return folders
     },
     async getImages(where, directory) {
+      console.log('getting Images for ', directory)
       // get images for library formatted for dropdown
       var image_options = []
       var img = []
@@ -53,7 +54,7 @@ export const libraryGetMixin = {
       }
       return image_options
     },
-    async getLibraryBookmark(){
+    async getLibraryBookmark() {
       await AuthorService.bookmark(this.$route.params)
     },
     async getLibraryIndex() {

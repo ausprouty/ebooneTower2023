@@ -1,14 +1,15 @@
 <template>
   <div>
+    Hi Bob
     <div v-for="(book, id) in libraryBooks" :key="id" :book="book">
       <LibraryBookTitle :index="id" />
       <LibraryBookCode :index="id" />
-      <!--<LibraryBookImage :index="id" />
-      <LibraryBookFormat :book="book" :index="id" />
+      <LibraryBookImage :index="id" />
+      <!--<LibraryBookFormat :book="book" :index="id" />
       <LibraryBookStyle :book="book" :index="id" />
       <LibraryBookTemplate :book="book" :index="id" />
-      <LibraryBookPermission :book="book" :index="id" />
-      -->
+      <LibraryBookPermission :book="book" :index="id" />-->
+      
       <div
         class="app-card -shadow"
         v-bind:class="{ notpublished: !book.publish.$model }"
@@ -21,7 +22,7 @@
           X
         </div>
       </div>
-    </div>
+    </div>-->
   </div>
 </template>
 <script>
@@ -34,7 +35,7 @@ import LibraryBookPermission from '@/components/library/LibraryBookPermission'
 import LibraryBookStyle from '@/components/library/LibraryBookStyle'
 import LibraryBookTemplate from '@/components/library/LibraryBookTemplate'
 import LibraryBookTitle from '@/components/library/LibraryBookTitle'
-import { libraryGetMixin } from '@/mixins/library/LibraryUploadMixin.js'
+import { libraryGetMixin } from '@/mixins/library/LibraryGetMixin.js'
 
 import { mapGetters, mapMutations } from 'vuex'
 import '@/assets/css/vueSelect.css'

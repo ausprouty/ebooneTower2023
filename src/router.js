@@ -336,7 +336,7 @@ export default new Router({
           /* webpackChunkName: "testGenerations" */ './tests/generations.vue'
         )
       },
-      props: false,
+      props: true,
     },
     {
       path: '/test/myfriends',

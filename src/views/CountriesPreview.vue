@@ -212,7 +212,7 @@ export default {
           error
         )
       }
-      console.log(' I have loaded ALL OF view')
+      console.log(' I have loaded ALL OF Countries View')
     },
   },
   beforeCreate() {

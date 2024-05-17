@@ -34,13 +34,13 @@
         <br />
         <br />
 
-        <!--<LibraryFormatTemplate />
+       <!-- <LibraryFormatTemplate />
         <LibraryText v-bind:text="text" />-->
       </div>
 
       <h2>Books</h2>
 
-      <LibraryBooks />
+       <LibraryBooks />
       <div>
         <button class="button" @click="prototypeAll">
           Select ALL to prototype
@@ -109,13 +109,14 @@ export default {
       prototype_date: null,
       prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
       publish_date: null,
-      recnum: null,
       text: null,
+      recnum: null,
       // site_image_dir: process.env.VUE_APP_SITE_IMAGE_DIR,
       site_dir: process.env.VUE_APP_SITE_DIR,
     }
   },
   beforeCreate() {
+    console.log ('I in beforeCreate of  Library Edit')
     // set directory for custom images
     //see https://ckeditor.com/docs/ckfinder/ckfinder3-php/integration.html
     this.languageDirectory =
@@ -131,9 +132,12 @@ export default {
     this.$route.params.version = 'lastest'
     this.$route.params.filename = 'index'
     this.$route.params.css = '/sites/default/styles/freeformGLOBAL.css'
+    console.log ('at end of  beforeCreate of  Library Edit')
   },
   async created() {
+    console.log ('at begin of  Created of  Library Edit')
     this.showForm()
+    console.log ('at end of  Created of  Library Edit')
   },
   methods: {
     async showForm() {
