@@ -61,14 +61,14 @@ export default {
     },
   },
   created() {
-    //this.storeImagesForBooksinState()
+    this.storeImagesForBooksinState()
   },
   methods: {
     ...mapMutations(['setImagesForBooks']),
-    storeImagesForBooksinState() {
+    async storeImagesForBooksinState() {
       var directory = this.$store.state.bookmark.language.image_dir
       console.log(directory)
-      var images = this.getImages('content', directory)
+      var images = await this.getImages('content', directory)
       console.log(images)
       this.setImagesForBooks(images)
     },
