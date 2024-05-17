@@ -144,6 +144,9 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    addNewLibraryBookCode(state, code) {
+      state.bookmark.library.books.push({ code })
+    },
     setBookCode: (state, payload) => {
       const { index, value } = payload
       state.bookmark.library.books[index].code = value
@@ -156,7 +159,9 @@ export default new Vuex.Store({
       state.bookmark.language.image_dir = selectedDirectory
     },
     setLibraryBookCode(state, { index, code }) {
-      Vue.set(state.bookmark.library.books[index], 'code', code)
+      if (state.bookmark.library.books[index]) {
+        Vue.set(state.bookmark.library.books[index], 'code', code)
+      }
     },
     setLibraryBooks: (state, selectedBooks) => {
       state.bookmark.library.books = selectedBooks
@@ -185,6 +190,7 @@ export default new Vuex.Store({
     setLibraryText: (state, value) => {
       state.bookmark.library.text = value
     },
+   
     SET_LANGUAGES(state, value) {
       state.languages = value[0]
     },

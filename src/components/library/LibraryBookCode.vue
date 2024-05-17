@@ -3,7 +3,7 @@
     <div>
       <p>Code:</p>
       <v-select
-        :options="libraryBookCodes"
+        :options="combinedLibraryBookCodes"
         label="Code"
         v-model="libraryBookCode"
         @input="updateLibraryBookCode"
@@ -20,7 +20,7 @@
     >
       <BaseInput
         label="New Code:"
-        v-model="newLibraryBookCode"
+        v-model="typedLibraryBookCode"
         type="text"
         placeholder="code"
         class="field"
@@ -31,7 +31,7 @@
 </template>
 <script>
 import LogService from '@/services/LogService.js'
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapState } from 'vuex'
 import vSelect from 'vue-select'
 
 export default {
@@ -47,54 +47,45 @@ export default {
   data() {
     return {
       newLibraryBookCodeIsHidden: true,
-      newLibraryBookCode: null,
+      typedLibraryBookCode: null,
     }
   },
   computed: {
     ...mapGetters(['getLibraryBookCodes']),
+    ...mapState(['newLibraryBookCode']),
     libraryBookCode: {
       get() {
-        const code = this.$store.state.bookmark.library.books[this.index].code
-        console.log(`Getting libraryBookCode: ${code}`) // Debug log
-        return code
+        const books = this.$store.state.bookmark.library.books
+        const book = books && books[this.index]
+        if (this.typedLibraryBookCode && this.newLibraryBookCodeIsHidden) {
+          return this.typedLibraryBookCode
+        } else {
+          return book ? book.code : undefined
+        }
       },
       set(value) {
-        console.log(`Setting libraryBookCode: ${value} at index ${this.index}`) // Debug log
         this.setLibraryBookCode({ index: this.index, code: value })
       },
     },
-    libraryBookCodes: {
-      get() {
-        var standard = this.getLibraryBookCodes
-        console.log ('I am looking at standard')
-        if (
-          this.newLibraryBookCode != null &&
-          this.newLibraryBookCodeIsHidden == true
-        ) {
-          console.log ('I updated standard')
-          standard.push(this.newLibraryBookCode)
-        }
-        console.log (standard)
-        return standard
-      },
-      set() {
-        this.setLibraryBookCodes
-      },
+    combinedLibraryBookCodes() {
+      let codes = [...this.getLibraryBookCodes]
+      if (this.typedLibraryBookCode && this.newLibraryBookCodeIsHidden) {
+        codes.push(this.typedLibraryBookCode)
+      }
+      return codes.sort()
     },
   },
-
   methods: {
-    ...mapMutations(['setLibraryBookCode', 'addNewLibraryBookCode']),
+    ...mapMutations([
+      'setLibraryBookCode',
+      'addNewLibraryBookCode',
+      'setNewLibraryBookCode',
+    ]),
     updateLibraryBookCode(value) {
       this.libraryBookCode = value
     },
     setNewLibraryBookCode() {
-      console.log('setting new library code', this.setLibraryBookCode)
-      this.setLibraryBookCode({
-        index: this.index,
-        code: this.newLibraryBookCode,
-      })
-      console.log(this.getLibraryBookCodes)
+      this.addNewLibraryBookCode(this.newLibraryBookCode)
       this.newLibraryBookCodeIsHidden = true
     },
     openCodeBlock() {
@@ -103,3 +94,8 @@ export default {
   },
 }
 </script>
+<style scoped>
+.hidden {
+  display: none;
+}
+</style>
