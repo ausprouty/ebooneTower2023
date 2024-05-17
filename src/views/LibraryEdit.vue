@@ -116,7 +116,6 @@ export default {
     }
   },
   beforeCreate() {
-    console.log ('I in beforeCreate of  Library Edit')
     // set directory for custom images
     //see https://ckeditor.com/docs/ckfinder/ckfinder3-php/integration.html
     this.languageDirectory =
@@ -132,10 +131,9 @@ export default {
     this.$route.params.version = 'lastest'
     this.$route.params.filename = 'index'
     this.$route.params.css = '/sites/default/styles/freeformGLOBAL.css'
-    console.log ('at end of  beforeCreate of  Library Edit')
   },
   async created() {
-    console.log ('at begin of  Created of  Library Edit')
+    await this.getBookmark()
     this.showForm()
     console.log ('at end of  Created of  Library Edit')
   },
