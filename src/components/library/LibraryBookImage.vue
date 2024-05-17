@@ -55,7 +55,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getLibraryBookImage']),
     imageOptions() {
       return this.$store.state.imagesForBooks
     },

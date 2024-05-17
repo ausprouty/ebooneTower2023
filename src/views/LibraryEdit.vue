@@ -34,8 +34,8 @@
         <br />
         <br />
 
-        <LibraryFormatTemplate />
-        <LibraryText v-bind:text="text" />
+        <!--<LibraryFormatTemplate />
+        <LibraryText v-bind:text="text" />-->
       </div>
 
       <h2>Books</h2>

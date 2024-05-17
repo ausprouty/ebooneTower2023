@@ -60,7 +60,7 @@ export default {
     },
   },
   created() {
-    this.storeImagesForBooksinState()
+    //this.storeImagesForBooksinState()
   },
   methods: {
     ...mapMutations(['setImagesForBooks']),

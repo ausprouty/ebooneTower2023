@@ -106,21 +106,6 @@ export default new Vuex.Store({
     getLibraryBookCodes: (state) => {
       return state.bookmark.library.books.map((book) => book.code).sort()
     },
-    getLibraryBookImage: (state, bookForImage) => {
-      console.log(
-        'You entered state for getLibraryBookImage with id ',
-        bookForImage
-      )
-      console.log(state.bookmark.library.books)
-      var book = state.bookmark.library.books[bookForImage]
-      console.log('you found book ', book)
-      if (typeof book != 'undefined') {
-        console.log(book.image)
-        return book.image
-      } else {
-        return null
-      }
-    },
     getLibraryFormatBackButton: (state) => {
       return state.bookmark.library.format.back_button
     },
