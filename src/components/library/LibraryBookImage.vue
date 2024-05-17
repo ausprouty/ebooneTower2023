@@ -5,7 +5,7 @@
       <div>
         <h3>Book Image:</h3>
         <div v-if="bookImagePermission">
-          <img v-bind:src="bookImage" class="book" />
+          <img v-bind:src="getBookImage()" class="book" />
           <br />
         </div>
         <v-select :options="imageOptions" label="title" v-model="bookImage">
@@ -56,22 +56,18 @@ export default {
   },
   computed: {
     ...mapGetters(['getLibraryBookImage']),
-    bookImage: {
-      get() {
-        const image = this.getLibraryBookImage(this.index)
-        return image.image
-      },
-      set(value) {
-        this.setLibraryBookImage({ index: this.index, code: value })
-      },
+    imageOptions() {
+      return this.$store.state.imagesForBooks
     },
   },
-  methods:{
-    ...mapMutations(['setLibraryBookImage']),
-    getBookImage(id) {
-      const image = this.getLibraryBookImage(this.index);
-      return image ? image.image : null;
+  methods: {
+    getBookImage() {
+      if (this.$store.state.bookmark.library.books[this.index].image) {
+        return this.$store.state.bookmark.library.books[this.index].image.image
+      } else {
+        return null
+      }
     },
-  }
+  },
 }
 </script>

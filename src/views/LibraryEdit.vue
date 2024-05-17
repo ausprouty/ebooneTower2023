@@ -34,9 +34,8 @@
         <br />
         <br />
 
-         <LibraryFormatTemplate />
-        <!--<LibraryText v-bind:text="text" />
-        -->
+        <LibraryFormatTemplate />
+        <LibraryText v-bind:text="text" />
       </div>
 
       <h2>Books</h2>
@@ -78,10 +77,11 @@ import LogService from '@/services/LogService.js'
 import '@/assets/css/vueSelect.css'
 
 import { mapState } from 'vuex'
+import { authorizeMixin } from '@/mixins/AuthorizeMixin.js'
 import { libraryUpdateMixin } from '@/mixins/library/LibraryUpdateMixin.js'
 import { libraryGetMixin } from '@/mixins/library/LibraryGetMixin.js'
 import { libraryUploadMixin } from '@/mixins/library/LibraryUploadMixin.js'
-import { authorizeMixin } from '@/mixins/AuthorizeMixin.js'
+
 export default {
   mixins: [
     authorizeMixin,
@@ -110,6 +110,7 @@ export default {
       prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
       publish_date: null,
       recnum: null,
+      text: null,
       // site_image_dir: process.env.VUE_APP_SITE_IMAGE_DIR,
       site_dir: process.env.VUE_APP_SITE_DIR,
     }

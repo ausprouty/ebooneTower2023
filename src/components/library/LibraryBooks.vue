@@ -3,8 +3,8 @@
     <div v-for="(book, id) in libraryBooks" :key="id" :book="book">
       <LibraryBookTitle :index="id" />
       <LibraryBookCode :index="id" />
-      <LibraryBookImage :index="id" />
-      <!--<LibraryBookFormat :book="book" :index="id" />
+      <!--<LibraryBookImage :index="id" />
+      <LibraryBookFormat :book="book" :index="id" />
       <LibraryBookStyle :book="book" :index="id" />
       <LibraryBookTemplate :book="book" :index="id" />
       <LibraryBookPermission :book="book" :index="id" />
@@ -34,10 +34,12 @@ import LibraryBookPermission from '@/components/library/LibraryBookPermission'
 import LibraryBookStyle from '@/components/library/LibraryBookStyle'
 import LibraryBookTemplate from '@/components/library/LibraryBookTemplate'
 import LibraryBookTitle from '@/components/library/LibraryBookTitle'
+import { libraryGetMixin } from '@/mixins/library/LibraryUploadMixin.js'
 
 import { mapGetters, mapMutations } from 'vuex'
 import '@/assets/css/vueSelect.css'
 export default {
+  mixins: [libraryGetMixin],
   components: {
     LibraryBookCode,
     LibraryBookFormat,
@@ -58,10 +60,17 @@ export default {
     },
   },
   created() {
-    // const temp = this.getLibraryBooks
-    // this.$store.commit('setLibraryBookCodes', temp)
+    this.storeImagesForBooksinState()
   },
   methods: {
+    ...mapMutations(['setImagesForBooks']),
+    storeImagesForBooksinState() {
+      var directory = this.$store.state.bookmark.language.image_dir
+      console.log(directory)
+      var images = this.getImages('content', directory)
+      console.log(images)
+      this.setImagesForBooks(images)
+    },
     async createFolder(folder) {
       LogService.consoleLogMessage(folder)
       var params = {}

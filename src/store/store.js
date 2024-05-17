@@ -40,7 +40,7 @@ export default new Vuex.Store({
       token: '',
       uid: '',
     },
-
+    imagesForBooks: [],
     revision: '2.0',
     baseURL: './',
     cssURL: './content/',
@@ -106,9 +106,16 @@ export default new Vuex.Store({
     getLibraryBookCodes: (state) => {
       return state.bookmark.library.books.map((book) => book.code).sort()
     },
-    getLibraryBookImage(state, id) {
-      var book = state.bookmark.library.books[id]
+    getLibraryBookImage: (state, bookForImage) => {
+      console.log(
+        'You entered state for getLibraryBookImage with id ',
+        bookForImage
+      )
+      console.log(state.bookmark.library.books)
+      var book = state.bookmark.library.books[bookForImage]
+      console.log('you found book ', book)
       if (typeof book != 'undefined') {
+        console.log(book.image)
         return book.image
       } else {
         return null
@@ -163,6 +170,9 @@ export default new Vuex.Store({
     setBookTitle: (state, payload) => {
       const { index, value } = payload
       state.bookmark.library.books[index].title = value
+    },
+    setImagesForBooks(state, images) {
+      state.imagesForBooks = images
     },
     setLanguageImageDirectory: (state, selectedDirectory) => {
       state.bookmark.language.image_dir = selectedDirectory
