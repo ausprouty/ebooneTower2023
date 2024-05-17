@@ -106,6 +106,14 @@ export default new Vuex.Store({
     getLibraryBookCodes: (state) => {
       return state.bookmark.library.books.map((book) => book.code).sort()
     },
+    getLibraryBookImage(state, id) {
+      var book = state.bookmark.library.books[id]
+      if (typeof book != 'undefined') {
+        return book.image
+      } else {
+        return null
+      }
+    },
     getLibraryFormatBackButton: (state) => {
       return state.bookmark.library.format.back_button
     },
@@ -139,6 +147,7 @@ export default new Vuex.Store({
         return state.bookmark.library.format.style
       }
     },
+
     getLibraryText: (state) => {
       return state.bookmark.library.text
     },
@@ -190,7 +199,7 @@ export default new Vuex.Store({
     setLibraryText: (state, value) => {
       state.bookmark.library.text = value
     },
-   
+
     SET_LANGUAGES(state, value) {
       state.languages = value[0]
     },

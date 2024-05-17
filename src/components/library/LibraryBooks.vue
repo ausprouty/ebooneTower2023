@@ -2,9 +2,9 @@
   <div>
     <div v-for="(book, id) in libraryBooks" :key="id" :book="book">
       <LibraryBookTitle :index="id" />
-       <LibraryBookCode :index="id" />
-      <!--<LibraryBookImage :book="book" :index="id" />
-      <LibraryBookFormat :book="book" :index="id" />
+      <LibraryBookCode :index="id" />
+      <LibraryBookImage :index="id" />
+      <!--<LibraryBookFormat :book="book" :index="id" />
       <LibraryBookStyle :book="book" :index="id" />
       <LibraryBookTemplate :book="book" :index="id" />
       <LibraryBookPermission :book="book" :index="id" />
@@ -58,8 +58,8 @@ export default {
     },
   },
   created() {
-   // const temp = this.getLibraryBooks
-   // this.$store.commit('setLibraryBookCodes', temp)
+    // const temp = this.getLibraryBooks
+    // this.$store.commit('setLibraryBookCodes', temp)
   },
   methods: {
     async createFolder(folder) {
