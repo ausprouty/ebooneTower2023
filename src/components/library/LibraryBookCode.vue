@@ -25,7 +25,7 @@
         placeholder="code"
         class="field"
       />
-      <button class="button" @click="updateLibraryBookCode()">Save Code</button>
+      <button class="button" @click="setNewLibraryBookCode()">Save Code</button>
     </div>
   </div>
 </template>
@@ -36,7 +36,10 @@ import vSelect from 'vue-select'
 
 export default {
   props: {
-    index: Number,
+    index: {
+      type: Number,
+      required: true,
+    },
   },
   components: {
     'v-select': vSelect,
@@ -51,23 +54,48 @@ export default {
     ...mapGetters(['getLibraryBookCodes']),
     libraryBookCode: {
       get() {
-        return this.$store.state.bookmark.library.books[this.index].code
+        const code = this.$store.state.bookmark.library.books[this.index].code
+        console.log(`Getting libraryBookCode: ${code}`) // Debug log
+        return code
       },
       set(value) {
+        console.log(`Setting libraryBookCode: ${value} at index ${this.index}`) // Debug log
         this.setLibraryBookCode({ index: this.index, code: value })
       },
     },
-    libraryBookCodes() {
-      return this.getLibraryBookCodes
+    libraryBookCodes: {
+      get() {
+        var standard = this.getLibraryBookCodes
+        console.log ('I am looking at standard')
+        if (
+          this.newLibraryBookCode != null &&
+          this.newLibraryBookCodeIsHidden == true
+        ) {
+          console.log ('I updated standard')
+          standard.push(this.newLibraryBookCode)
+        }
+        console.log (standard)
+        return standard
+      },
+      set() {
+        this.setLibraryBookCodes
+      },
     },
   },
 
   methods: {
     ...mapMutations(['setLibraryBookCode', 'addNewLibraryBookCode']),
     updateLibraryBookCode(value) {
-      this.setLibraryBookCode({ index: this.index, code: value })
       this.libraryBookCode = value
-      this.newLibraryBookCodeIsHidden = false
+    },
+    setNewLibraryBookCode() {
+      console.log('setting new library code', this.setLibraryBookCode)
+      this.setLibraryBookCode({
+        index: this.index,
+        code: this.newLibraryBookCode,
+      })
+      console.log(this.getLibraryBookCodes)
+      this.newLibraryBookCodeIsHidden = true
     },
     openCodeBlock() {
       this.newLibraryBookCodeIsHidden = false

@@ -104,13 +104,7 @@ export default new Vuex.Store({
       return state.bookmark.library.books
     },
     getLibraryBookCodes: (state) => {
-      var books = state.bookmark.library.books
-      var codes = []
-      for (var i = 0; i < books.length; i++) {
-        codes.push(books[i].code)
-      }
-      codes.sort()
-      return codes
+      return state.bookmark.library.books.map((book) => book.code).sort()
     },
     getLibraryFormatBackButton: (state) => {
       return state.bookmark.library.format.back_button
@@ -161,23 +155,14 @@ export default new Vuex.Store({
     setLanguageImageDirectory: (state, selectedDirectory) => {
       state.bookmark.language.image_dir = selectedDirectory
     },
-    setLibraryBookCode(state, payload) {
-      const { index, value } = payload
-      state.bookmark.library.books[index].code = value
+    setLibraryBookCode(state, { index, code }) {
+      Vue.set(state.bookmark.library.books[index], 'code', code)
     },
     setLibraryBooks: (state, selectedBooks) => {
       state.bookmark.library.books = selectedBooks
     },
-    setLibraryBookCodesX: (state, books) => {
-      console.log('in setLibraryBookCodes')
-      var codes = []
-      console.log(books)
-      for (var i = 0; i < books.length; i++) {
-        codes.push(books[i].code)
-      }
-      codes.sort()
-      console.log(codes)
-      state.libraryBookCodes = codes
+    setLibraryBookCodes: (state, value) => {
+      state.libraryBookCodes = value
     },
     setLibraryFormatBackButton: (state, value) => {
       state.bookmark.library.back_button = value
