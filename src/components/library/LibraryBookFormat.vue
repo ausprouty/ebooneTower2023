@@ -31,8 +31,6 @@ export default {
   },
   methods: {
     updateFormat(bookFormat) {
-      console.log('bookFormat ', bookFormat)
-      console.log('index ', this.index)
       this.$store.commit('setBookFormat', {
         index: this.index,
         formatType: bookFormat,
