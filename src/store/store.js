@@ -161,6 +161,9 @@ export default new Vuex.Store({
     setImagesForBooks(state, images) {
       state.imagesForBooks = images
     },
+    updateImagesForBooks(state, image) {
+      state.imagesForBooks.push(image)
+    },
 
     setLanguageImageDirectory: (state, selectedDirectory) => {
       state.bookmark.language.image_dir = selectedDirectory

@@ -39,9 +39,10 @@
 <script>
 import vSelect from 'vue-select'
 import { mapGetters, mapMutations, mapState } from 'vuex'
+import { libraryUpdateMixin } from '@/mixins/library/LibraryUpdateMixin.js'
 import { libraryUploadMixin } from '@/mixins/library/LibraryUploadMixin.js'
 export default {
-  mixins: [libraryUploadMixin],
+  mixins: [libraryUpdateMixin, libraryUploadMixin],
   props: {
     index: {
       type: Number,
@@ -94,6 +95,9 @@ export default {
         image: newVal,
       })
     },
+    onSelectImage(fileName){
+      this.handleImageUpload(fileName)
+    }
 
   },
 }

@@ -18,20 +18,12 @@ export const libraryUploadMixin = {
         var params = {}
         params.directory = this.$store.state.bookmark.language.image_dir
         params.name = imageFile.name
+        var imagePath = params.directory + '/' + params.name
         await AuthorService.imageStore(params, imageFile)
-        // now update data on form
-        //LogService.consoleLogMessage('code is  ' + code)
-        //for (i = 0; i < arrayLength; i++) {
-        //   checkfile = this.$v.books.$each[i]
-        //  if (checkfile.$model.code == code) {
-        //    this.$v.books.$each[i].$model.image.title = filename
-        //    this.$v.books.$each[i].$model.image.image =
-        //      params.directory + '/' + filename
-        //    LogService.consoleLogMessage('trying to assign ' + filename)
-        //  }
-        //}
-        await this.saveForm('stay')
-        this.showForm()
+        this.$store.commit('updateImagesForBooks', {
+          image: imagePath,
+          title: imageFile.name,
+        })
       }
     },
 

@@ -85,23 +85,13 @@ export const libraryUpdateMixin = {
     async saveForm(action = null) {
       try {
         // update library file
-        var output = {}
-        output.books = this.books
-        console.log(output.books)
-        output.format = this.library_format
-        output.text = this.text
-        //console.log('see library')
-        //console.log(output)
-        var valid = ContentService.validate(output)
-        this.content.text = JSON.stringify(valid)
+        var output = this.$store.state.bookmark.library
+        this.content.text = JSON.stringify(output)
         this.$route.params.filename = this.$route.params.library_code
         delete this.$route.params.folder_name
         this.content.route = JSON.stringify(this.$route.params)
         this.content.filetype = 'json'
-        //this.$store.dispatch('newBookmark', 'clear')
-
         var response = await AuthorService.createContentData(this.content)
-        //console.log(response)
         if (response.data.error != true && action != 'stay') {
           this.$router.push({
             name: 'previewLibrary',
