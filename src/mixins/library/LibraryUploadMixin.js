@@ -20,7 +20,7 @@ export const libraryUploadMixin = {
         params.name = imageFile.name
         var imagePath = params.directory + '/' + params.name
         await AuthorService.imageStore(params, imageFile)
-        this.$store.commit('updateImagesForBooks', {
+        this.$store.commit('updateBookImages', {
           image: imagePath,
           title: imageFile.name,
         })

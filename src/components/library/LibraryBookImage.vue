@@ -67,7 +67,7 @@ export default {
   },
   computed: {
     imageOptions() {
-      return this.$store.state.imagesForBooks
+      return this.$store.state.BookImages
     },
   },
   watch: {
@@ -76,7 +76,7 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(['setImageForBook']),
+    ...mapMutations(['setBookImage']),
     displayBookImage() {
       if (this.selectedBookImage) {
         return this.selectedBookImage.image
@@ -89,7 +89,7 @@ export default {
       return null
     },
     onSelectedBookImageChange(newVal, oldVal) {
-      this.$store.commit('setImageForBook', {
+      this.$store.commit('setBookImage', {
         index: this.index,
         image: newVal,
       })

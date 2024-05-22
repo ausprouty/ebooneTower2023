@@ -7,6 +7,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   plugins: [saveStatePlugin], // <-- Use
   state: {
+    bookImages: [],
+    bookStyleSheets: [],
+    bookTemplates: [],
     bookmark: {
       country: {},
       language: {},
@@ -40,7 +43,7 @@ export default new Vuex.Store({
       token: '',
       uid: '',
     },
-    imagesForBooks: [],
+
     revision: '2.0',
     baseURL: './',
     cssURL: './content/',
@@ -155,19 +158,24 @@ export default new Vuex.Store({
     setBookFormat: (state, { index, formatType }) => {
       state.bookmark.library.books[index].format = formatType
     },
+    setBookImage: (state, { index, image }) => {
+      state.bookmark.library.books[index].image = image
+    },
+    setBookImages(state, images) {
+      state.bookImages = images
+    },
+    updateBookImages(state, image) {
+      state.bookImages.push(image)
+    },
+    setBookStyleSheets(state, styleSheets) {
+      state.bookStyleSheets = styleSheets
+    },
+    updateBookStyleSheets(state, styleSheet) {
+      state.bookStyleSheets.push(styleSheet)
+    },
     setBookTitle: (state, { index, value }) => {
       state.bookmark.library.books[index].title = value
     },
-    setImageForBook(state, { index, image }) {
-      state.bookmark.library.books[index].image = image
-    },
-    setImagesForBooks(state, images) {
-      state.imagesForBooks = images
-    },
-    updateImagesForBooks(state, image) {
-      state.imagesForBooks.push(image)
-    },
-
     setLanguageImageDirectory: (state, selectedDirectory) => {
       state.bookmark.language.image_dir = selectedDirectory
     },

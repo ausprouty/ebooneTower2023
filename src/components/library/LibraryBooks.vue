@@ -6,8 +6,8 @@
       <LibraryBookCode :index="id" />
       <LibraryBookImage :index="id" />
       <LibraryBookFormat :index="id" />
-       <!--<LibraryBookStyle :book="book" :index="id" />
-      <LibraryBookTemplate :book="book" :index="id" />
+      <LibraryBookStyle :index="id" />
+      <!--<LibraryBookTemplate :book="book" :index="id" />
       <LibraryBookPermission :book="book" :index="id" />-->
 
       <div
@@ -61,15 +61,23 @@ export default {
     },
   },
   created() {
-    this.storeImagesForBooksinState()
+    this.storeBookImagesinState()
+    this.storeBookStyleSheetsinState()
+    this.storeBookTemplatesinState()
   },
   methods: {
-    ...mapMutations(['setImagesForBooks']),
-    async storeImagesForBooksinState() {
+    ...mapMutations(['setBookImages']),
+    async storeBookImagesinState() {
       var directory = this.$store.state.bookmark.language.image_dir
       console.log(directory)
       var images = await this.getImages('content', directory)
-      this.setImagesForBooks(images)
+      this.setBookImages(images)
+    },
+    async storeBookStyleSheetsinState() {
+      var params = []
+      params['country_code'] = $route.params.country_code
+      var styles = await this.getStyles(params)
+      this.setBookStyleSheets(styles)
     },
     async createFolder(folder) {
       LogService.consoleLogMessage(folder)
