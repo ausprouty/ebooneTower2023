@@ -23,13 +23,13 @@
       </div>
       <div v-if="authorImagePermission">
         <label>
-          <!--  Add new Image&nbsp;&nbsp;&nbsp;&nbsp;
+          Add new Image&nbsp;&nbsp;&nbsp;&nbsp;
           <input
             type="file"
             v-bind:id="imageFile"
             ref="image"
             v-on:change="handleImageUpload(imageFile)"
-          />-->
+          />
         </label>
       </div>
     </div>
@@ -91,7 +91,7 @@ export default {
       }
     },
     onSelectedBookImageChange(newVal) {
-      //this.setImageForBook({this.index, newVal})
+
       this.$store.commit('setImageForBook', {
         index: this.index,
         image: newVal,
