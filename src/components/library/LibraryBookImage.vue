@@ -26,9 +26,8 @@
           Add new Image&nbsp;&nbsp;&nbsp;&nbsp;
           <input
             type="file"
-            v-bind:id="imageFile"
             ref="image"
-            v-on:change="handleImageUpload($event.target.files[0])"
+            v-on:change="onAddNewImage($event.target.files[0])"
           />
         </label>
       </div>
@@ -38,7 +37,7 @@
 </template>
 <script>
 import vSelect from 'vue-select'
-import { mapGetters, mapMutations, mapState } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 import { libraryUpdateMixin } from '@/mixins/library/LibraryUpdateMixin.js'
 import { libraryUploadMixin } from '@/mixins/library/LibraryUploadMixin.js'
 export default {
@@ -57,14 +56,13 @@ export default {
       bookImagePermission: true,
       authorImagePermission: true,
       imagesUsed: true,
-      imageFile: null,
       selectedBookImage: null, // Initially no image selected
     }
   },
   created() {
-    if (this.$store.state.bookmark.library.books[this.index].image) {
-      this.selectedBookImage =
-        this.$store.state.bookmark.library.books[this.index].image
+    const bookImage = this.$store.state.bookmark.library.books[this.index].image
+    if (bookImage) {
+      this.selectedBookImage = bookImage
     }
   },
   computed: {
@@ -73,7 +71,7 @@ export default {
     },
   },
   watch: {
-    selectedBookImage(newVal, oldVal) {
+    selectedBookImage(newVal) {
       this.onSelectedBookImageChange(newVal)
     },
   },
@@ -83,22 +81,29 @@ export default {
       if (this.selectedBookImage) {
         return this.selectedBookImage.image
       }
-      if (this.$store.state.bookmark.library.books[this.index].image) {
-        return this.$store.state.bookmark.library.books[this.index].image.image
-      } else {
-        return null
+      const bookImage =
+        this.$store.state.bookmark.library.books[this.index].image
+      if (bookImage) {
+        return bookImage.image
       }
+      return null
     },
-    onSelectedBookImageChange(newVal) {
+    onSelectedBookImageChange(newVal, oldVal) {
       this.$store.commit('setImageForBook', {
         index: this.index,
         image: newVal,
       })
     },
-    onSelectImage(fileName){
-      this.handleImageUpload(fileName)
-    }
-
+    async onAddNewImage(fileName) {
+      await this.handleImageUpload(fileName)
+      console.log(fileName)
+      const newFile = {
+        title: fileName.name,
+        image:
+          this.$store.state.bookmark.language.image_dir + '/' + fileName.name,
+      }
+      this.selectedBookImage = newFile
+    },
   },
 }
 </script>
