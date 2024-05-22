@@ -122,8 +122,12 @@ function createStyle($p)
 	}
 	
 	if ($valid) {
-		$dir = dirStandard('country', 'edit',  $p) . 'styles/';
-
+		if (isset($p['language_iso'])){
+			$dir = dirStandard('language', 'edit',  $p) . 'styles/';
+		}
+		else {
+			$dir = dirStandard('country', 'edit',  $p) . 'styles/';
+		}
 		$fname = $dir . $_FILES["file"]["name"];
 		if (move_uploaded_file($_FILES["file"]["tmp_name"], $fname)) {
 			return $fname;

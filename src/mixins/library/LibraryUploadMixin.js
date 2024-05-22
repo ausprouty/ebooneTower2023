@@ -32,6 +32,7 @@ export const libraryUploadMixin = {
       var params = {}
       params.file = cssFile
       params.country_code = this.$route.params.country_code
+      params.language_iso = this.$route.params.language_iso
       var res = await AuthorService.createStyle(params)
       console.log('res', res)
     },
