@@ -1,27 +1,43 @@
 <template>
   <div>
     <h3>Format and Styling:</h3>
-    <BaseSelect
+    <v-select
       label="Format:"
       :options="formats"
-      v-model="book.format.$model"
+      v-model="bookFormat"
       class="field"
-      :class="{ error: book.format.$error }"
-      @mousedown="book.format.$touch()"
+      @change="updateFormat(bookFormat)"
     />
-    <template v-if="book.format.$error">
-      <p v-if="!book.format.required" class="errorMessage">
-        Format is required
-      </p>
-    </template>
   </div>
 </template>
 <script>
+import { mapMutations, mapState } from 'vuex'
+import vSelect from 'vue-select'
 export default {
+  props: {
+    index: {
+      type: Number,
+      required: true,
+    },
+  },
+  components: {
+    'v-select': vSelect,
+  },
   data() {
     return {
+      bookFormat: this.$store.state.bookmark.library.books[this.index].format,
       formats: ['page', 'series', 'library'],
     }
+  },
+  methods: {
+    updateFormat(bookFormat) {
+      console.log('bookFormat ', bookFormat)
+      console.log('index ', this.index)
+      this.$store.commit('setBookFormat', {
+        index: this.index,
+        formatType: bookFormat,
+      })
+    },
   },
 }
 </script>

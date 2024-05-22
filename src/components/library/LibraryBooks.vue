@@ -5,8 +5,8 @@
       <LibraryBookTitle :index="id" />
       <LibraryBookCode :index="id" />
       <LibraryBookImage :index="id" />
-      <!--<LibraryBookFormat :book="book" :index="id" />
-      <LibraryBookStyle :book="book" :index="id" />
+      <LibraryBookFormat :index="id" />
+       <!--<LibraryBookStyle :book="book" :index="id" />
       <LibraryBookTemplate :book="book" :index="id" />
       <LibraryBookPermission :book="book" :index="id" />-->
 

@@ -152,6 +152,10 @@ export default new Vuex.Store({
       const { index, value } = payload
       state.bookmark.library.books[index].code = value
     },
+    setBookFormat: (state, { index, formatType }) => {
+      console.log('setBookFormat', index, formatType)
+      state.bookmark.library.books[index].format = formatType
+    },
     setBookTitle: (state, { index, value }) => {
       state.bookmark.library.books[index].title = value
     },
