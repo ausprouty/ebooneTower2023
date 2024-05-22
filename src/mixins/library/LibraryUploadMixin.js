@@ -9,40 +9,29 @@ Vue.use(Vuex)
 export const libraryUploadMixin = {
   computed: mapState(['user']),
   methods: {
-    async handleImageUpload(code) {
-      LogService.consoleLogMessage('handleImageUpload: ' + code)
-      var checkfile = {}
-      var i = 0
-      var arrayLength = this.$refs.image.length
-      for (i = 0; i < arrayLength; i++) {
-        checkfile = this.$refs.image[i]['files']
-        if (checkfile.length == 1) {
-          LogService.consoleLogMessage('checkfile')
-          LogService.consoleLogMessage(checkfile)
-          LogService.consoleLogMessage(checkfile[0])
-          LogService.consoleLogMessage(checkfile[0].name)
-          var filename = checkfile[0].name
-          var type = AuthorService.typeImage(checkfile[0])
-          if (type) {
-            var params = {}
-            params.directory = this.bookmark.language.image_dir
-            params.name = code
-            await AuthorService.imageStore(params, checkfile[0])
-            // now update data on form
-            LogService.consoleLogMessage('code is  ' + code)
-            for (i = 0; i < arrayLength; i++) {
-              checkfile = this.$v.books.$each[i]
-              if (checkfile.$model.code == code) {
-                this.$v.books.$each[i].$model.image.title = filename
-                this.$v.books.$each[i].$model.image.image =
-                  params.directory + '/' + filename
-                LogService.consoleLogMessage('trying to assign ' + filename)
-              }
-            }
-            await this.saveForm('stay')
-            this.showForm()
-          }
-        }
+    async handleImageUpload(imageFile) {
+      console.log('I am in handleImgeUpload', imageFile)
+      console.log(imageFile.name)
+      var type = AuthorService.typeImage(imageFile.type)
+      console.log(type)
+      if (type) {
+        var params = {}
+        params.directory = this.$store.state.bookmark.language.image_dir
+        params.name = imageFile.name
+        await AuthorService.imageStore(params, imageFile)
+        // now update data on form
+        //LogService.consoleLogMessage('code is  ' + code)
+        //for (i = 0; i < arrayLength; i++) {
+        //   checkfile = this.$v.books.$each[i]
+        //  if (checkfile.$model.code == code) {
+        //    this.$v.books.$each[i].$model.image.title = filename
+        //    this.$v.books.$each[i].$model.image.image =
+        //      params.directory + '/' + filename
+        //    LogService.consoleLogMessage('trying to assign ' + filename)
+        //  }
+        //}
+        await this.saveForm('stay')
+        this.showForm()
       }
     },
 

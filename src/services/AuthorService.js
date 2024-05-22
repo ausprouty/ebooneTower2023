@@ -519,13 +519,12 @@ export default {
     params.action = 'imageStore'
     var contentForm = this.toAuthorizedFormData(params)
     contentForm.append('file', image)
-    //console.log('I am storing images')
-    //console.log(params)
+    console.log('I am storing images')
+    console.log(params)
     return apiIMAGE.post(postDestination, contentForm)
   },
-  typeImage(file) {
+  typeImage(filetype) {
     var type = null
-    var filetype = file['type']
     switch (filetype) {
       case 'image/jpeg':
         type = '.jpg'

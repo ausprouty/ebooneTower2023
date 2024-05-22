@@ -28,7 +28,7 @@
             type="file"
             v-bind:id="imageFile"
             ref="image"
-            v-on:change="handleImageUpload(imageFile)"
+            v-on:change="handleImageUpload($event.target.files[0])"
           />
         </label>
       </div>
@@ -56,6 +56,7 @@ export default {
       bookImagePermission: true,
       authorImagePermission: true,
       imagesUsed: true,
+      imageFile: null,
       selectedBookImage: null, // Initially no image selected
     }
   },
@@ -78,10 +79,7 @@ export default {
   methods: {
     ...mapMutations(['setImageForBook']),
     displayBookImage() {
-      console.log('displayBookImage')
       if (this.selectedBookImage) {
-        console.log('there is a selected book')
-        console.log(this.selectedBookImage.image)
         return this.selectedBookImage.image
       }
       if (this.$store.state.bookmark.library.books[this.index].image) {
@@ -91,12 +89,12 @@ export default {
       }
     },
     onSelectedBookImageChange(newVal) {
-
       this.$store.commit('setImageForBook', {
         index: this.index,
         image: newVal,
       })
     },
+
   },
 }
 </script>
