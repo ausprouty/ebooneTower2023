@@ -53,7 +53,6 @@ export const libraryGetMixin = {
           }
         }
       }
-      console.log (image_options)
       return image_options
     },
     async getLibraryBookmark() {

@@ -120,20 +120,26 @@ function createStyle($p)
 		default:
 			$valid = false;
 	}
+	
 	if ($valid) {
 		$dir = dirStandard('country', 'edit',  $p) . 'styles/';
 
 		$fname = $dir . $_FILES["file"]["name"];
-		$debug .= 'fname: ' . $fname . "\n";
 		if (move_uploaded_file($_FILES["file"]["tmp_name"], $fname)) {
-			$message = "Style Saved";
+			return $fname;
 		} else {
 			$message = "Style NOT Saved";
 			trigger_error($message, E_USER_ERROR);
 			return NULL;
 		}
 	}
-	return $out;
+	else {
+		$message = "Style NOT Saved";
+		trigger_error($message, E_USER_ERROR);
+		return NULL;
+	}
+	
+	return NULL;
 }
 
 function createTemplate($p)

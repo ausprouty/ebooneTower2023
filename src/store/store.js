@@ -173,6 +173,9 @@ export default new Vuex.Store({
     updateBookStyleSheets(state, styleSheet) {
       state.bookStyleSheets.push(styleSheet)
     },
+    setBookTemplates(state, templates) {
+      state.bookTemplates = templates
+    },
     setBookTitle: (state, { index, value }) => {
       state.bookmark.library.books[index].title = value
     },

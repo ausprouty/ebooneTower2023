@@ -9,7 +9,8 @@ function getStyles($p){
 	$debug = 'getStyles'. "\n";
 	$global_directory = '/sites/default/styles/' ;
     $site_directory = '/sites/' . $p['site'] . '/styles/';
-	$country_directory = ROOT_EDIT. '/sites/'.  $p['site'] . '/'. $p['country_code'] . '/styles/';
+	$country_directory =  '/sites/'.  $p['site'] . '/'. $p['country_code'] . '/styles/';
+	$language_directory = '/sites/'.  $p['site'] . '/content/'. $p['country_code'] .'/'. $p['language_iso'] . '/styles/';;
 	$results = '[';
 	$debug = $country_directory . "\n";
 	$debug .= $global_directory . "\n";
@@ -32,11 +33,20 @@ function getStyles($p){
 		}
 		closedir ($handler);
 	}
-	if (file_exists(ROOT_EDIT. $country_directory)){
+	if (file_exists( ROOT_EDIT. $country_directory)){
 		$handler = opendir (ROOT_EDIT. $country_directory);
 		while ($mfile = readdir ($handler)){
 			if ($mfile != '.' && $mfile != '..' ){
 				$results.= '"'. $country_directory.  $mfile .'",';
+			}
+		}
+		closedir ($handler);
+	}
+	if (file_exists( ROOT_EDIT. $language_directory)){
+		$handler = opendir (ROOT_EDIT.  $language_directory);
+		while ($mfile = readdir ($handler)){
+			if ($mfile != '.' && $mfile != '..' ){
+				$results.= '"'. $language_directory.  $mfile .'",';
 			}
 		}
 		closedir ($handler);

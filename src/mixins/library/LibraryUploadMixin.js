@@ -26,34 +26,14 @@ export const libraryUploadMixin = {
         })
       }
     },
-
-    async handleStyleUpload(code) {
-      LogService.consoleLogMessage('code in handle Style:' + code)
-      var checkfile = ''
-      var i = 0
-      var arrayLength = this.$refs.style.length
-      LogService.consoleLogMessage(this.$refs.style)
-      for (i = 0; i < arrayLength; i++) {
-        checkfile = this.$refs.style[i]['files']
-        if (checkfile.length == 1) {
-          LogService.consoleLogMessage(checkfile[0])
-          var type = AuthorService.typeStyle(checkfile[0])
-          if (type) {
-            LogService.consoleLogMessage(checkfile)
-            var params = {}
-            params.file = checkfile[0]
-            params.country_code = this.$route.params.country_code
-            type = await AuthorService.createStyle(params)
-            var style = await AuthorService.getStyles(params)
-            if (style) {
-              this.styles = style
-              this.style_error = false
-            }
-          } else {
-            this.style_error = true
-          }
-        }
-      }
+    async handleStyleUpload(cssFile) {
+      console.log('I am in handleStyleUpload', cssFile)
+      console.log(cssFile.name)
+      var params = {}
+      params.file = cssFile
+      params.country_code = this.$route.params.country_code
+      var res = await AuthorService.createStyle(params)
+      console.log('res', res)
     },
     async handleTemplateUpload(code) {
       LogService.consoleLogMessage('code in handle Template:' + code)

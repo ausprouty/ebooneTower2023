@@ -66,7 +66,11 @@ export default {
     this.storeBookTemplatesinState()
   },
   methods: {
-    ...mapMutations(['setBookImages']),
+    ...mapMutations([
+      'setBookImages',
+      'setBookStyleSheets',
+      'setBookTemplates',
+    ]),
     async storeBookImagesinState() {
       var directory = this.$store.state.bookmark.language.image_dir
       console.log(directory)
@@ -75,20 +79,17 @@ export default {
     },
     async storeBookStyleSheetsinState() {
       var params = []
-      params['country_code'] = $route.params.country_code
+      params['country_code'] = this.$route.params.country_code
+      params['language_iso'] = this.$route.params.language_iso
       var styles = await this.getStyles(params)
       this.setBookStyleSheets(styles)
     },
-    async createFolder(folder) {
-      LogService.consoleLogMessage(folder)
-      var params = {}
-      params.route = this.$route.params
-      params.route.folder_name = folder.toLowerCase()
-      params.route = JSON.stringify(params.route)
-      AuthorService.createContentFolder(params)
-      this.folders = await AuthorService.getFoldersContent(params)
+    async storeBookTemplatesinState() {
+      var params = []
+      params['country_code'] = this.$route.params.country_code
+      var templates = await this.getTemplates(params)
+      this.setBookTemplates(templates)
     },
-
     deleteBookForm(id) {
       LogService.consoleLogMessage('Deleting id ' + id)
       this.books.splice(id, 1)
