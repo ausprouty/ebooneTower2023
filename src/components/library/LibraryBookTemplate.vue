@@ -1,25 +1,20 @@
 <template>
   <div>
-    <BaseSelect
+    <v-select
       label="Template:"
-      :options="templates"
-      v-model="book.template.$model"
+      :options="templateOptions"
+      v-model="bookTemplate"
       class="field"
-      :class="{ error: book.template.$error }"
-      @mousedown="book.template.$touch()"
+      @mousedown="updateTemplate(bookTemplate)"
     />
     <label>
       Add new template&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <input
         type="file"
-        v-bind:id="book.title.$model"
         ref="template"
         v-on:change="handleTemplateUpload(book.code.$model)"
       />
     </label>
-    <template v-if="template_error">
-      <p class="errorMessage">Only .html files may be uploaded as templates</p>
-    </template>
     <button
       class="button yellow"
       @click="
@@ -39,7 +34,18 @@
 </template>
 <script>
 import { libraryUploadMixin } from '@/mixins/library/LibraryUploadMixin.js'
+import { mapMutations, mapState } from 'vuex'
+import vSelect from 'vue-select'
 export default {
+  props: {
+    index: {
+      type: Number,
+      required: true,
+    },
+  },
+  components: {
+    'v-select': vSelect,
+  },
   mixins: [libraryUploadMixin],
   data() {
     return {
@@ -67,8 +73,7 @@ export default {
       if (typeof css == 'undefined') {
         css = this.style
       }
-      LogService.consoleLogMessage(template)
-      LogService.consoleLogMessage(css)
+
       this.$router.push({
         name: 'createTemplate',
         params: {
@@ -84,7 +89,6 @@ export default {
         },
       })
     },
-    
   },
 }
 </script>

@@ -7,6 +7,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   plugins: [saveStatePlugin], // <-- Use
   state: {
+    baseURL: './',
     bookImages: [],
     bookStyleSheets: [],
     bookTemplates: [],
@@ -32,33 +33,7 @@ export default new Vuex.Store({
         text: null,
       },
     },
-    user: {
-      authorized: false,
-      expires: 0,
-      firstname: '',
-      lastname: '',
-      scope_countries: '',
-      scope_languages: '',
-      start_page: '',
-      token: '',
-      uid: '',
-    },
-
-    revision: '2.0',
-    baseURL: './',
-    cssURL: './content/',
-    standard: {
-      ckEditStyleSets: [
-        'compass',
-        'firststeps',
-        'generations',
-        'mc2',
-        'multiply',
-        'myfriends',
-        'sent67',
-        'train',
-      ],
-    },
+    ckEditorStyleSets: [],
     content: {
       recnum: null,
       version: '1.1',
@@ -74,7 +49,22 @@ export default new Vuex.Store({
       filename: null,
       text: null,
     },
+    cssURL: './content/',
     languages: [],
+    revision: '2.2',
+
+    standard: {
+      ckEditStyleSets: [
+        'compass',
+        'firststeps',
+        'generations',
+        'mc2',
+        'multiply',
+        'myfriends',
+        'sent67',
+        'train',
+      ],
+    },
     sdCardSettings: {
       languages: [],
       footer: null,
@@ -82,6 +72,17 @@ export default new Vuex.Store({
       action: 'sdcard',
       series: null,
       subDirectory: null,
+    },
+    user: {
+      authorized: false,
+      expires: 0,
+      firstname: '',
+      lastname: '',
+      scope_countries: '',
+      scope_languages: '',
+      start_page: '',
+      token: '',
+      uid: '',
     },
   },
 
@@ -178,6 +179,9 @@ export default new Vuex.Store({
     },
     setBookTitle: (state, { index, value }) => {
       state.bookmark.library.books[index].title = value
+    },
+    setCkEditorStyleSets(state, styles) {
+      state.ckEditorStyleSets = styles
     },
     setLanguageImageDirectory: (state, selectedDirectory) => {
       state.bookmark.language.image_dir = selectedDirectory

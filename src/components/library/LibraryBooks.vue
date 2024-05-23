@@ -7,8 +7,8 @@
       <LibraryBookImage :index="id" />
       <LibraryBookFormat :index="id" />
       <LibraryBookStyle :index="id" />
-      <!--<LibraryBookTemplate :book="book" :index="id" />
-      <LibraryBookPermission :book="book" :index="id" />-->
+      <LibraryBookTemplate :index="id" />
+      <!--<LibraryBookPermission :book="book" :index="id" />-->
 
       <div
         class="app-card -shadow"
@@ -61,34 +61,42 @@ export default {
     },
   },
   created() {
-    this.storeBookImagesinState()
-    this.storeBookStyleSheetsinState()
-    this.storeBookTemplatesinState()
+    this.storeBookImagesInState()
+    this.storeBookStyleSheetsInState()
+    this.storeBookTemplatesInState()
+    this.storeCkEditorStylesInState()
   },
   methods: {
     ...mapMutations([
       'setBookImages',
       'setBookStyleSheets',
       'setBookTemplates',
+      'setCkEditorStyleSets',
     ]),
-    async storeBookImagesinState() {
+    async storeBookImagesInState() {
       var directory = this.$store.state.bookmark.language.image_dir
       console.log(directory)
       var images = await this.getImages('content', directory)
       this.setBookImages(images)
     },
-    async storeBookStyleSheetsinState() {
+    async storeBookStyleSheetsInState() {
       var params = []
       params['country_code'] = this.$route.params.country_code
       params['language_iso'] = this.$route.params.language_iso
       var styles = await this.getStyles(params)
       this.setBookStyleSheets(styles)
     },
-    async storeBookTemplatesinState() {
+    async storeBookTemplatesInState() {
       var params = []
       params['country_code'] = this.$route.params.country_code
+      params['language_iso'] = this.$route.params.language_iso
       var templates = await this.getTemplates(params)
       this.setBookTemplates(templates)
+    },
+    async storeCkEditorStyleSetsInState() {
+      var params = []
+      var styles = await this.getCkEditorStyles(params)
+      this.setCkEditorStyleSets(styles)
     },
     deleteBookForm(id) {
       LogService.consoleLogMessage('Deleting id ' + id)
