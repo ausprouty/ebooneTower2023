@@ -16,7 +16,7 @@ export const libraryGetMixin = {
     async getBookmark() {
       await AuthorService.bookmark(this.$route.params)
     },
-    async getCkEditStyleSets(param) {
+    async getCkEditorStyleSets(param) {
       var ckEditStyleSets = await AuthorService.getCkEditStyleSets(param)
       return ckEditStyleSets
     },

@@ -13,7 +13,7 @@
     <div>
       <BaseSelect
         label="ckEditor Style Shown:"
-        :options="ckEditStyleSets"
+        :options="ckEditorStyleSets"
         v-model="ckEditorStyleSelected"
         class="field"
       />
@@ -35,14 +35,17 @@ export default {
   data() {
     return {
       styles: [],
-      ckEditStyleSets: ['default'],
-      ckEditorStyleSelected: 'default',
-      bookStyle: '',
+      ckEditorStyleSelected:
+        this.$store.state.bookmark.library.books[this.index].styles_set,
+      bookStyle: this.$store.state.bookmark.library.books[this.index].style,
     }
   },
   computed: {
     bookStyleSheets() {
       return this.$store.state.bookStyleSheets
+    },
+    ckEditorStyleSets() {
+      return this.$store.state.ckEditorStyleSets
     },
   },
   created() {

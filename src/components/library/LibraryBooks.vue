@@ -7,8 +7,8 @@
       <LibraryBookImage :index="id" />
       <LibraryBookFormat :index="id" />
       <LibraryBookStyle :index="id" />
-      <LibraryBookTemplate :index="id" />
-      <!--<LibraryBookPermission :book="book" :index="id" />-->
+      <!--<LibraryBookTemplate :index="id" />
+      <LibraryBookPermission :book="book" :index="id" />-->
 
       <div
         class="app-card -shadow"
@@ -64,7 +64,7 @@ export default {
     this.storeBookImagesInState()
     this.storeBookStyleSheetsInState()
     this.storeBookTemplatesInState()
-    this.storeCkEditorStylesInState()
+    this.storeCkEditorStyleSetsInState()
   },
   methods: {
     ...mapMutations([
@@ -95,7 +95,8 @@ export default {
     },
     async storeCkEditorStyleSetsInState() {
       var params = []
-      var styles = await this.getCkEditorStyles(params)
+      var styles = await this.getCkEditorStyleSets(params)
+      console.log(styles)
       this.setCkEditorStyleSets(styles)
     },
     deleteBookForm(id) {

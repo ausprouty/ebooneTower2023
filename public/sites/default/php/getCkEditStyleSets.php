@@ -10,7 +10,8 @@ function getCkEditStyleSets($p)
 		$res = _getStyleSetName($text);
 		if ($res) {
 			foreach ($res as $value) {
-				$set[$value] = $value;
+				//$set[$value] = $value;
+				$set[] = $value;
 			}
 		}
 	} else {
