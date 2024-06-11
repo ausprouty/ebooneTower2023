@@ -40,11 +40,15 @@ async function handleInstallButtonClick() {
   homescreenPromptHide('addToHomeScreenAndroid')
 }
 function offlineRequestCheck() {
-  var series = document.getElementById('offline-request')
-  console.log(series)
-  if (series !== null) {
-    offlineSeriesCheck(series.dataset.json)
+  const series = document.getElementById('offline-request');
+  if (series) {
+    console.log('checking series');
+    offlineSeriesCheck(series.dataset.json);
   }
+  else{
+    console.log('no series to check');
+  }
+};
 }
 function offlineSeriesCheck(series) {
   console.log(series + ' series is being checked')

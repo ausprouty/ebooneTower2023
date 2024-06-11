@@ -37,7 +37,7 @@ function publishFiles($p, $fname, $text, $standard_css, $selected_css)
         $fname = str_replace('.html.html', '.html', $fname);
     }
     // start with header
-    $output = myGetPrototypeFile('header.html');
+    $output = myGetPrototypeFile('header.html', $p['language_iso']);
     // add onload only if files are here
     $onload_note_js = '';
     if (strpos($text, '<div class="header') !== false) {

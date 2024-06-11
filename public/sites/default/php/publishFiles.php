@@ -37,7 +37,7 @@ function publishFiles($p, $fname, $text, $standard_css, $selected_css)
     $webPage = substr($fname, $pos);
     writeLogDebug('publishFiles-38', $webPage);
     // start with header
-    $output = myGetPrototypeFile('header.html');
+    $output = myGetPrototypeFile('header.html', $p['language_iso']);
     // see if there are links for Whatsapp or X
     if (strpos($output, '[ShareLinks]') !== FALSE){
         writeLogDebug('publishFiles-41', $output);
