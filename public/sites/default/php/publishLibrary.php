@@ -3,12 +3,14 @@ myRequireOnce('writeLog.php');
 myRequireOnce('createLibrary.php');
 myRequireOnce('publishDestination.php');
 myRequireOnce('publishFiles.php');
+myRequireOnce('syncController.php');
 
 
 function publishLibrary($p)
 {
 
     $debug = 'In publishLibrary ' . "\n";
+    syncController($p);
     //
     // get data for current library
     // there are some libraries in myfriends that have html in their name, this it not in the database
@@ -52,8 +54,6 @@ function publishLibrary($p)
     if (DESTINATION != 'sdcard' && DESTINATION != 'capacitor') {
         $dir  = publishDestination($p) . 'content/' . $p['country_code'] . '/' . $p['language_iso'] . '/';
         $filetype = '.html';
-     
-       
     }
     if (DESTINATION == 'sdcard' || DESTINATION == 'capacitor') {
         $dir  = publishDestination($p) . 'views/' . $p['country_code'] . '/' . $p['language_iso'] . '/';

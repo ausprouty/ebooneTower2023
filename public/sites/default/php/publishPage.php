@@ -1,17 +1,19 @@
 <?php
+myRequireOnce('bookmark.php');
 myRequireOnce('createPage.php');
 myRequireOnce('modifyPage.php');
 myRequireOnce('publishDestination.php');
 myRequireOnce('publishFiles.php');
 myRequireOnce('publishFilesInPage.php');
 myRequireOnce('writeLog.php');
-
+myRequireOnce('syncContoller.php');
 
 // needs to return files in Page so we can include these when downloading a series for offline use.
 // required by publishSeriesAndChapters.php on line 44
 
 function publishPage($p)
 {
+    syncController($p);
     $p['files_in_page'] = isset($p['files_in_page']) ? $p['files_in_page'] : [];
     $rand = random_int(0, 9999);
     $debug = '';

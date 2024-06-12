@@ -4,6 +4,7 @@ myRequireOnce('publishDestination.php');
 myRequireOnce('publishFiles.php');
 myRequireOnce('publishReady.php');
 myRequireOnce('myGetPrototypeFile.php');
+mhyRequireOnce('syncController.php');
 
 /* This should only show countries which have been authorized for prototyping or  publishing.
 
@@ -13,7 +14,7 @@ myRequireOnce('myGetPrototypeFile.php');
     if only one language is authorized for publishing:  CountryCode/LanguageIso/index.html
 */
 function publishCountries($p){
-
+    syncController($p);
     // declare variables
     $selected_css = STANDARD_CARD_CSS;
     //

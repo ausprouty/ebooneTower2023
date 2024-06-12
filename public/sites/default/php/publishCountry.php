@@ -2,12 +2,14 @@
 myRequireOnce('copyGlobal.php');
 myRequireOnce('dirStandard.php');
 myRequireOnce('publishFiles.php');
+myRequireOnce('syncController.php');
 
 
 
 function publishCountry($p)
 {
     $debug = 'in prototypeCountry' . "\n";
+    syncController($p);
     //find country page from recnum
     //
     if (!$p['recnum']) {

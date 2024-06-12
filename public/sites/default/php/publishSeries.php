@@ -4,9 +4,12 @@ myRequireOnce('createSeries.php');
 myRequireOnce('dirStandard.php');
 myRequireOnce('publishFiles.php');
 myRequireOnce('publicationCache.php');
+myRequireOnce('syncController.php');
 
 function publishSeries($p)
 {
+
+    syncController($p);
     // when coming in with only book information the folder_name is not yet set
     if (!isset($p['folder_name'])) {
         if (isset($p['code'])) {

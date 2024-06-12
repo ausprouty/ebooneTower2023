@@ -2,11 +2,12 @@
 
 myRequireOnce('publishDestination.php');
 myRequireOnce('publishFiles.php');
+myRequireOnce('syncController.php');
 
 
 function publishLibraryIndex($p)
 {
-
+    syncController($p);
     //$selected_css = '/content/AU/styles/AU-freeform.css';
     //
     //find country page from recnum
