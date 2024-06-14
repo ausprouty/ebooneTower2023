@@ -58,26 +58,16 @@ import { pageMixin } from '@/mixins/PageMixin.js'
 import { authorizeMixin } from '@/mixins/AuthorizeMixin.js'
 export default {
   mixins: [pageMixin, authorizeMixin],
-  props: [
-    'country_code',
-    'language_iso',
-    'library_code',
-    'title',
-    'template',
-    'cssFORMATTED',
-    'book_code',
-    'book_format',
-  ],
+  props: ['country_code', 'language_iso', 'library_code', 'book_index'],
   components: {
     NavBar,
     VueCkeditor,
   },
-  computed: mapState(['bookmark', 'cssURL', 'ckEditStyleSets']),
   data() {
     return {
       authorized: false,
+      templates_replaceContent: false,
       content: {},
-      template_filename: this.$route.params.template,
       config: {
         extraPlugins: [
           'bidi',
@@ -109,16 +99,7 @@ export default {
           'textarea[id*]',
           'button[*]',
         ],
-        contentsCss: this.$route.params.css,
-        stylesSet: this.$route.params.styles_set,
-        templates_replaceContent: false,
-        templates_files: [
-          '/sites/' +
-            process.env.VUE_APP_SITE +
-            '/ckeditor/templates/' +
-            this.$route.params.styles_set +
-            '.js',
-        ],
+
         // Configure your file manager integration. This example uses CKFinder 3 for PHP.
         // https://ckeditor.com/docs/ckfinder/ckfinder3-php/howto.html#howto_private_folders
         filebrowserBrowseUrl:
@@ -157,30 +138,60 @@ export default {
       },
     }
   },
+  computed: {
+    book() {
+      return this.$store.state.bookmark.library.books[this.book_index]
+    },
+    template_filename() {
+      return this.book ? this.book.template : ''
+    },
+    bookFormat() {
+      return this.book ? this.book.format : ''
+    },
+    contentsCss() {
+      return this.book ? this.book.style : ''
+    },
+    stylesSet() {
+      return this.book ? this.book.styles_set : ''
+    },
+    templates_files() {
+      return this.stylesSet
+        ? [
+            `/sites/${process.env.VUE_APP_SITE}/ckeditor/templates/${this.stylesSet}.js`,
+          ]
+        : []
+    },
+  },
+
   methods: {
     goBack() {
       window.history.back()
     },
     async loadTemplate() {
-      var res = await AuthorService.getTemplate(this.$route.params)
+      var params = this.$route.params
+      params.template = this.template_filename
+      console.log (params)
+      var res = await AuthorService.getTemplate(params)
       if (res) {
         this.pageText = res
       }
     },
     async saveForm() {
       try {
+        console.log ('saveForm called')
         this.content.text = ContentService.validate(this.pageText)
-        LogService.consoleLogMessage(this.template_filename)
+        console.log(this.template_filename)
         //remove any dots for safety
         //  var safe_name = this.template_filename.replace('.', '')
         var safe_name = this.template_filename
         var params = this.$route.params
         params.text = this.pageText
-        if (this.$route.params.book_format == 'series') {
-          params.series = this.$route.params.book_code
+        params.book_format = this.book.format
+        if (this.book.format == 'series') {
+          params.series = this.book.code
         }
         params.template = safe_name
-        LogService.consoleLogMessage(params)
+        console.log(params)
         await AuthorService.editTemplate(params)
         this.$router.push({
           name: 'editLibrary',
@@ -199,13 +210,7 @@ export default {
     },
   },
   async beforeCreate() {
-    if (this.$route.params.styles_set == '') {
-      this.$route.params.styles_set = process.env.VUE_APP_SITE_STYLES_SET
-    }
     this.$route.params.version = 'lastest'
-    var css = this.$route.params.cssFORMATTED
-    var clean = css.replace(/-/g, '/')
-    this.$route.params.css = clean
     LogService.consoleLogMessage(this.$route.params)
     // set directory for custom images
     //see https://ckeditor.com/docs/ckfinder/ckfinder3-php/integration.html
@@ -219,10 +224,7 @@ export default {
   async created() {
     try {
       this.authorized = this.authorize('write', this.$route.params)
-      LogService.consoleLogMessage('here is my language directory')
-      LogService.consoleLogMessage(this.languageDirectory)
       await this.loadTemplate()
-      this.template_filename = this.$route.params.template
       this.loaded = true
       this.loading = false
     } catch (error) {

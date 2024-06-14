@@ -37,6 +37,8 @@ function editTemplate($p)
     $p['template'] .= '.html';
   }
   $filename = $template_dir . $p['template'];
+  writeLogDebug('editTemplate-40', $filename);
+  writeLogDebug('editTemplate-41', $p['text']);
   fileWrite($filename, $p['text'], $p);
   return 'success';
 }

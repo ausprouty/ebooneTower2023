@@ -9,7 +9,7 @@ function fileWrite($filename, $text, $p)
     //make sure publishDestination is in $filename exactly once.
     $p['filename'] = $filename;
     $publishDestination =  publishDestination($p);
-    //writeLogAppend('fileWrite-11', $filename . '   '. $publishDestination);
+    writeLogAppend('fileWrite-11', $filename . '   '. $publishDestination);
     if (strpos($filename,  $publishDestination) === false) {
         //writeLogAppend('fileWrite-13', $filename. '  '.  $publishDestination );
         $filename = $publishDestination . $filename;
@@ -53,7 +53,7 @@ function fileWrite($filename, $text, $p)
         fclose($fh);
     } else {
         $message = 'NOT able to write' .  $filename . ' with destination of ' . $destination;
-        writeLogAppend('fileWrite-50', $message);
-        writeLogAppend('fileWrite-50', "$text\n\n");
+        writeLogAppend('ERROR-fileWrite-56', $message);
+        writeLogAppend('ERROR-fileWrite-56', "$text\n\n");
     }
 }

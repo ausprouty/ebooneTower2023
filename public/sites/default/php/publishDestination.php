@@ -15,6 +15,8 @@ function publishDestination($p)
     return ROOT_STAGING;
   } elseif ($destination == 'website') {
     return ROOT_WEBSITE;
+  } elseif ($destination == 'editor') {
+    return ROOT_EDIT;
   } elseif ($destination == 'sdcard') {
     return ROOT_SDCARD . _publishDestinationSDCard($p);
   } elseif ($destination == 'nojs') {

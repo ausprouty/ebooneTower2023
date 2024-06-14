@@ -293,7 +293,7 @@ export default new Router({
       props: true,
     },
     {
-      path: '/template/:country_code/:language_iso/:library_code/:title/:template/:cssFORMATTED/:styles_set/:book_code/:book_format',
+      path: '/template/:country_code/:language_iso/:library_code/:book_index',
       name: 'createTemplate',
       beforeEnter: guardMyroute,
       component: function () {
