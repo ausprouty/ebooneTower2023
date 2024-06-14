@@ -1,9 +1,11 @@
 <?php
 // this program will figure out WHAT needs to be synced
-myRequireOnce('writeLog.php');
 myRequireOnce('syncDirectory.php');
+myRequireOnce('writeLog.php');
+
 
 function syncController($p){
+    writeLog('syncController-8', $p);
     $site = $p['site'];
     $country = $p['country_code'];
     $country_directories= array();
@@ -38,15 +40,19 @@ function syncController($p){
         );
     }
     $all_directories = array_merge($site_directories, $country_directories, $language_directories);
-    writeLog('syncController-39', $all_directories);
+    writeLogDebug('syncController-39', $all_directories);
     foreach ($all_directories as $source => $destination){
         $modified_source = ROOT_EDIT . $source;
         if ($p['destination'] == 'website'){
-            $modified_destination = ROOT_PUBLISH . $destination;
+            $modified_destination = ROOT_WEBSITE . $destination;
         }
         else{
             $modified_destination = ROOT_STAGING . $destination;
         }
+        writeLogAppend('syncController-52', "Going to: $modified_source --> $modified_destination");
         syncDirectory($modified_source, $modified_destination);
+        writeLogAppend('syncController-52', "Returning From: $modified_source --> $modified_destination");
     }
+    writeLogDebug('syncController-56', "About to return from syncController") ;
+    return;
 }

@@ -4,7 +4,7 @@ myRequireOnce('publishDestination.php');
 myRequireOnce('publishFiles.php');
 myRequireOnce('publishReady.php');
 myRequireOnce('myGetPrototypeFile.php');
-mhyRequireOnce('syncController.php');
+myRequireOnce('syncController.php');
 
 /* This should only show countries which have been authorized for prototyping or  publishing.
 
