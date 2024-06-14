@@ -1,6 +1,5 @@
 <template>
   <div>
-    This is the start of the Image area
     <div v-if="imagesUsed">
       <div>
         <h3>Book Image:</h3>
@@ -32,7 +31,6 @@
         </label>
       </div>
     </div>
-    This is the end of the image area
   </div>
 </template>
 <script>

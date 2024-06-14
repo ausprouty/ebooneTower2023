@@ -1,5 +1,6 @@
 <template>
   <div>
+    <hr>
     <BaseSelect
       label="Book and Chapters Style Sheet:"
       :options="bookStyleSheets"
@@ -10,6 +11,7 @@
       Add new stylesheet&nbsp;&nbsp;&nbsp;&nbsp;
       <input type="file" ref="style" v-on:change="checkStyleUpload" />
     </label>
+    <hr>
     <div>
       <BaseSelect
         label="ckEditor Style Shown:"

@@ -18,7 +18,7 @@
       </div>
       <div v-if="this.authorized">
         <h1>
-          Library
+          Edit Library Books
           <a
             target="_blank"
             class="help"
@@ -38,7 +38,7 @@
         <LibraryText v-bind:text="text" />-->
       </div>
 
-      <h2>Books</h2>
+   
 
        <LibraryBooks />
       <div>

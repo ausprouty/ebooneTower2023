@@ -54,6 +54,9 @@
 .show {
   display: block;
 }
+.yellow {
+  color: #f2f5f8;
+}
 
 /* should this be a js property? */
 button {

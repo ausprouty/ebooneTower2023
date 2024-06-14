@@ -167,6 +167,10 @@ audio::-webkit-media-controls-panel {
 .bible-text-error {
   color: green;
 }
+.yellow{
+  background-color: yellow;
+  color:black;
+}
 
 hr.reveal {
   border-top: 1px dashed red;

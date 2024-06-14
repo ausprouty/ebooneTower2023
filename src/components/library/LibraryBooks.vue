@@ -1,14 +1,13 @@
 <template>
   <div>
-    Hi Bob
     <div v-for="(book, id) in libraryBooks" :key="id" :book="book">
       <LibraryBookTitle :index="id" />
       <LibraryBookCode :index="id" />
       <LibraryBookImage :index="id" />
       <LibraryBookFormat :index="id" />
       <LibraryBookStyle :index="id" />
-      <!--<LibraryBookTemplate :index="id" />
-      <LibraryBookPermission :book="book" :index="id" />-->
+      <LibraryBookTemplate :index="id" />
+      <!--<LibraryBookPermission :book="book" :index="id" />-->
 
       <div
         class="app-card -shadow"

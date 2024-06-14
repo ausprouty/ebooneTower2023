@@ -1,32 +1,25 @@
 <template>
   <div>
+    <hr />
+    <p>Template:</p>
+
     <v-select
       label="Template:"
-      :options="templateOptions"
-      v-model="bookTemplate"
+      :options="bookTemplates"
+      v-model="libraryBookTemplate"
       class="field"
-      @mousedown="updateTemplate(bookTemplate)"
     />
     <label>
       Add new template&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <input
         type="file"
         ref="template"
-        v-on:change="handleTemplateUpload(book.code.$model)"
+        v-on:change="handleTemplateUpload(book.code)"
       />
     </label>
     <button
       class="button yellow"
-      @click="
-        createTemplate(
-          book.template.$model,
-          book.style.$model,
-          book.styles_set.$model,
-          book.title.$model,
-          book.code.$model,
-          book.format.$model
-        )
-      "
+      @click="createOrEditTemplate()"
     >
       Edit or Create Template
     </button>
@@ -49,18 +42,23 @@ export default {
   mixins: [libraryUploadMixin],
   data() {
     return {
-      templates: [],
+      libraryBookTemplate:
+        this.$store.state.bookmark.library.books[this.index].template,
     }
   },
+  computed: {
+    ...mapState(['bookTemplate']),
+    bookTemplates() {
+      return this.$store.state.bookTemplates
+    },
+  },
+  watch: {
+    libraryBookTemplate(newValue, oldValue) {
+      this.setBookTemplate(this.index, newValue)
+    },
+  },
   methods: {
-    async createTemplate(
-      template,
-      css,
-      styles_set,
-      title,
-      book_code,
-      book_format
-    ) {
+    async createOrEditTemplate(){
       await this.saveForm('stay')
       // creating a new template
       if (typeof template == 'undefined') {
@@ -88,6 +86,10 @@ export default {
           book_format: book_format,
         },
       })
+    },
+    setBookTemplate(index, value) {
+      alert('setBookTemplate ' + index)
+      this.$store.commit('setBookTemplate', { index, value })
     },
   },
 }

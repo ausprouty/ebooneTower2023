@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h2>Name and Code</h2>
+    <hr><hr>
+    <h2>Book Name and Code</h2>
     <p>#: {{ index }}</p>
     <BaseInput
       :value="libraryBookTitle"
