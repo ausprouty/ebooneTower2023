@@ -191,6 +191,7 @@ export default {
           params.series = this.book.code
         }
         params.template = safe_name
+        params.destination = 'edit'
         console.log(params)
         await AuthorService.editTemplate(params)
         this.$router.push({
