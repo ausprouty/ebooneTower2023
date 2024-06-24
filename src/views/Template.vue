@@ -142,8 +142,16 @@ export default {
     book() {
       return this.$store.state.bookmark.library.books[this.book_index]
     },
-    template_filename() {
-      return this.book ? this.book.template : ''
+    template_filename: {
+      get() {
+        return this.book ? this.book.template : ''
+      },
+      set(value) {
+        if (this.book) {
+          console.log('Setter called with value:', value)
+          this.book.template = value
+        }
+      },
     },
     bookFormat() {
       return this.book ? this.book.format : ''
@@ -170,7 +178,7 @@ export default {
     async loadTemplate() {
       var params = this.$route.params
       params.template = this.template_filename
-      console.log (params)
+      console.log(params)
       var res = await AuthorService.getTemplate(params)
       if (res) {
         this.pageText = res
@@ -178,12 +186,13 @@ export default {
     },
     async saveForm() {
       try {
-        console.log ('saveForm called')
+        console.log('saveForm called')
         this.content.text = ContentService.validate(this.pageText)
-        console.log(this.template_filename)
+        console.log(this.book.template)
+        //todo: save all of library data
         //remove any dots for safety
         //  var safe_name = this.template_filename.replace('.', '')
-        var safe_name = this.template_filename
+        var safe_name = this.book.template
         var params = this.$route.params
         params.text = this.pageText
         params.book_format = this.book.format

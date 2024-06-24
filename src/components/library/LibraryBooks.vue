@@ -1,6 +1,14 @@
 <template>
   <div>
-    <div v-for="(book, id) in libraryBooks" :key="id" :book="book">
+    <div
+      v-for="(book, id) in libraryBooks"
+      :key="id"
+      :book="book"
+      :class="{
+        'light-background': isOdd(id),
+        'dark-background': !isOdd(id),
+      }"
+    >
       <LibraryBookTitle :index="id" />
       <LibraryBookCode :index="id" />
       <LibraryBookImage :index="id" />
@@ -72,6 +80,9 @@ export default {
       'setBookTemplates',
       'setCkEditorStyleSets',
     ]),
+    isOdd(id) {
+      return id % 2 === 0 // Even index (since arrays are 0-based, this means odd items in 1-based logic)
+    },
     async storeBookImagesInState() {
       var directory = this.$store.state.bookmark.language.image_dir
       console.log(directory)
@@ -106,3 +117,11 @@ export default {
   },
 }
 </script>
+<style scoped>
+.light-background {
+  background-color: #f5f5f5;
+}
+.dark-background {
+  background-color: #d0eaff;
+}
+</style>

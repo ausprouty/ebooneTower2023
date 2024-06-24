@@ -17,7 +17,7 @@
         v-on:change="handleTemplateUpload(book.code)"
       />
     </label>
-    <button class="button yellow" @click="createOrEditTemplate()">
+    <button class="button grey" @click="createOrEditTemplate()">
       Edit or Create Template
     </button>
   </div>

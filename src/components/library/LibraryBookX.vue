@@ -1,6 +1,14 @@
 <template>
   <div>
-    <div v-for="(book, id) in $v.books.$each.$iter" :key="id" :book="book">
+    <div
+      v-for="(book, id) in $v.books.$each.$iter"
+      :key="id"
+      :book="book"
+      :class="{
+        'light-background': isOdd(index),
+        'dark-background': !isOdd(index),
+      }"
+    >
       <div
         class="app-card -shadow"
         v-bind:class="{ notpublished: !book.publish.$model }"
@@ -21,6 +29,10 @@ import AuthorService from '@/services/AuthorService.js'
 import LogService from '@/services/LogService.js'
 export default {
   methods: {
+    isOdd(index) {
+      console.log (index)
+      return index % 2 === 0 // Even index (since arrays are 0-based, this means odd items in 1-based logic)
+    },
     async createFolder(folder) {
       LogService.consoleLogMessage(folder)
       var params = {}
@@ -76,3 +88,11 @@ export default {
   },
 }
 </script>
+<style scoped>
+.light-background {
+  background-color: #f5f5f5;
+}
+.dark-background {
+  background-color: #d0eaff;
+}
+</style>
