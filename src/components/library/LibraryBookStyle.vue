@@ -37,9 +37,6 @@ export default {
   data() {
     return {
       styles: [],
-      ckEditorStyleSelected:
-        this.$store.state.bookmark.library.books[this.index].styles_set,
-      bookStyle: this.$store.state.bookmark.library.books[this.index].style,
     }
   },
   computed: {
@@ -49,12 +46,15 @@ export default {
     ckEditorStyleSets() {
       return this.$store.state.ckEditorStyleSets
     },
+    bookStyle() {
+      return this.getBookProperty('style')
+    },
+    ckEditorStyleSelected() {
+      return this.getBookProperty('styles_set')
+    },
   },
   created() {
-    const style = this.$store.state.bookmark.library.books[this.index].style
-    if (style) {
-      this.bookStyle = style
-    }
+    this.bookStyle = this.getBookProperty('style')
   },
   methods: {
     ...mapMutations(['updateBookStyleSheets']),
@@ -71,6 +71,13 @@ export default {
           alert('Please upload a valid .css file.')
         }
       }
+    },
+    getBookProperty(property) {
+      const books = this.$store.state.bookmark.library.books
+      if (books && books[this.index] && books[this.index][property]) {
+        return books[this.index][property]
+      }
+      return ''
     },
   },
 }

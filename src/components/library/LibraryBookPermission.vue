@@ -55,25 +55,25 @@ export default {
   },
   methods: {
     updatePermissionHide(bookPermissionHide) {
-      this.$store.commit('updateBookPermissionHide', {
+      this.$store.commit('setBookPermissionHide', {
         index: this.index,
         value: bookPermissionHide,
       })
     },
     updatePermissionPassword(bookPermissionPassword) {
-      this.$store.commit('updateBookPermissionPassword', {
+      this.$store.commit('setBookPermissionPassword', {
         index: this.index,
         value: bookPermissionPassword,
       })
     },
     updatePermissionPrototype(bookPermissionPrototype) {
-      this.$store.commit('updateBookPermissionPrototype', {
+      this.$store.commit('setBookPermissionPrototype', {
         index: this.index,
         value: bookPermissionPrototype,
       })
     },
     updatePermissionPublish(bookPermissionPublish) {
-      this.$store.commit('updateBookPermissionPublish', {
+      this.$store.commit('setBookPermissionPublish', {
         index: this.index,
         value: bookPermissionPublish,
       })

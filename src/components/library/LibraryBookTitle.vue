@@ -1,8 +1,8 @@
 <template>
   <div>
-    <hr><hr>
-    <h2>Book Name and Code</h2>
-    <p>#: {{ index }}</p>
+    <hr />
+    <hr />
+    <p>Book #: {{ index }}</p>
     <BaseInput
       :value="libraryBookTitle"
       label="Title:"
@@ -25,7 +25,11 @@ export default {
   },
   computed: {
     libraryBookTitle() {
-      return this.$store.state.bookmark.library.books[this.index].title
+      const books = this.$store.state.bookmark.library.books
+      if (books && books[this.index] && books[this.index].title) {
+        return books[this.index].title
+      }
+      return ''
     },
   },
 }

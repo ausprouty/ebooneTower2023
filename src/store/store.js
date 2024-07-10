@@ -168,6 +168,18 @@ export default new Vuex.Store({
     updateBookImages(state, image) {
       state.bookImages.push(image)
     },
+    setBookPermissionHide: (state, { index, value }) => {
+      state.bookmark.library.books[index].hide = value
+    },
+    setBookPermissionPassword: (state, { index, value }) => {
+      state.bookmark.library.books[index].password = value
+    },
+    setBookPermissionPrototype: (state, { index, value }) => {
+      state.bookmark.library.books[index].prototype = value
+    },
+    setBookPermissionPublish: (state, { index, value }) => {
+      state.bookmark.library.books[index].publish = value
+    },
     setBookStyleSheets(state, styleSheets) {
       state.bookStyleSheets = styleSheets
     },

@@ -37,16 +37,13 @@ export default {
     'v-select': vSelect,
   },
   mixins: [libraryUploadMixin],
-  data() {
-    return {
-      libraryBookTemplate:
-        this.$store.state.bookmark.library.books[this.index].template,
-    }
-  },
   computed: {
     ...mapState(['bookTemplate']),
     bookTemplates() {
       return this.$store.state.bookTemplates
+    },
+    libraryBookTemplate() {
+      return this.getBookProperty('template')
     },
   },
   watch: {
@@ -70,6 +67,13 @@ export default {
     },
     saveForm() {
       alert('saveForm')
+    },
+    getBookProperty(property) {
+      const books = this.$store.state.bookmark.library.books
+      if (books && books[this.index] && books[this.index][property]) {
+        return books[this.index][property]
+      }
+      return ''
     },
     setBookTemplate(index, value) {
       alert('setBookTemplate ' + index)

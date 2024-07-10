@@ -30,7 +30,6 @@
   </div>
 </template>
 <script>
-import LogService from '@/services/LogService.js'
 import { mapGetters, mapMutations, mapState } from 'vuex'
 import vSelect from 'vue-select'
 

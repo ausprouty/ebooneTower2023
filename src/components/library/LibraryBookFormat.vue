@@ -11,7 +11,6 @@
   </div>
 </template>
 <script>
-import { mapMutations, mapState } from 'vuex'
 import vSelect from 'vue-select'
 export default {
   props: {
@@ -25,10 +24,18 @@ export default {
   },
   data() {
     return {
-      bookFormat: this.$store.state.bookmark.library.books[this.index].format,
       formats: ['page', 'series', 'library'],
     }
   },
+  computed: {
+    bookFormat() {
+      const books = this.$store.state.bookmark.library.books
+      if (books && books[this.index] && books[this.index].format) {
+        return books[this.index].format
+      }
+      return ''
+    },
+  },  
   methods: {
     updateFormat(bookFormat) {
       this.$store.commit('setBookFormat', {
