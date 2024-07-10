@@ -8,6 +8,22 @@ export default new Vuex.Store({
   plugins: [saveStatePlugin], // <-- Use
   state: {
     baseURL: './',
+    book: {
+      code: '',
+      format: '',
+      id: '',
+      image: {
+        image: '',
+        title: '',
+      },
+      pages: '',
+      prototype: '',
+      publish: '',
+      style: '',
+      style_set: '',
+      template: '',
+      title: '',
+    },
     bookImages: [],
     bookStyleSheets: [],
     bookTemplates: [],
@@ -143,7 +159,6 @@ export default new Vuex.Store({
         return state.bookmark.library.format.style
       }
     },
-
     getLibraryText: (state) => {
       return state.bookmark.library.text
     },
@@ -233,7 +248,6 @@ export default new Vuex.Store({
     setLibraryText: (state, value) => {
       state.bookmark.library.text = value
     },
-
     SET_LANGUAGES(state, value) {
       state.languages = value[0]
     },

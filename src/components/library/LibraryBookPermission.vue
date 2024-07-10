@@ -53,30 +53,45 @@ export default {
       required: true,
     },
   },
+  computed: {
+    bookPermissionHide() {
+      return this.getBookProperty('permission_hide')
+    },
+    bookPermissionPassword() {
+      return this.getBookProperty('permission_password')
+    },
+    bookPermissionPrototype() {
+      return this.getBookProperty('permission_prototype')
+    },
+    bookPermissionPublish() {
+      return this.getBookProperty('permission_publish')
+    },
+  },
   methods: {
-    updatePermissionHide(bookPermissionHide) {
-      this.$store.commit('setBookPermissionHide', {
+    getBookProperty(property) {
+      const books = this.$store.state.bookmark.library.books
+      if (books && books[this.index] && books[this.index][property]) {
+        return books[this.index][property]
+      }
+      return ''
+    },
+    updateBookPermission(permissionType, value) {
+      this.$store.commit(`setBookPermission${permissionType}`, {
         index: this.index,
-        value: bookPermissionHide,
+        value: value,
       })
+    },
+    updatePermissionHide(bookPermissionHide) {
+      this.updateBookPermission('Hide', bookPermissionHide)
     },
     updatePermissionPassword(bookPermissionPassword) {
-      this.$store.commit('setBookPermissionPassword', {
-        index: this.index,
-        value: bookPermissionPassword,
-      })
+      this.updateBookPermission('Password', bookPermissionPassword)
     },
     updatePermissionPrototype(bookPermissionPrototype) {
-      this.$store.commit('setBookPermissionPrototype', {
-        index: this.index,
-        value: bookPermissionPrototype,
-      })
+      this.updateBookPermission('Prototype', bookPermissionPrototype)
     },
     updatePermissionPublish(bookPermissionPublish) {
-      this.$store.commit('setBookPermissionPublish', {
-        index: this.index,
-        value: bookPermissionPublish,
-      })
+      this.updateBookPermission('Publish', bookPermissionPublish)
     },
   },
 }
