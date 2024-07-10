@@ -1,6 +1,6 @@
 <template>
   <div>
-    <hr>
+    <hr />
     <BaseSelect
       label="Book and Chapters Style Sheet:"
       :options="bookStyleSheets"
@@ -11,7 +11,7 @@
       Add new stylesheet&nbsp;&nbsp;&nbsp;&nbsp;
       <input type="file" ref="style" v-on:change="checkStyleUpload" />
     </label>
-    <hr>
+    <hr />
     <div>
       <BaseSelect
         label="ckEditor Style Shown:"
@@ -25,7 +25,7 @@
 <script>
 import { libraryGetMixin } from '@/mixins/library/LibraryGetMixin.js'
 import { libraryUploadMixin } from '@/mixins/library/LibraryUploadMixin.js'
-import { mapMutations, mapState } from 'vuex'
+import { mapMutations } from 'vuex'
 export default {
   mixins: [libraryGetMixin, libraryUploadMixin],
   props: {

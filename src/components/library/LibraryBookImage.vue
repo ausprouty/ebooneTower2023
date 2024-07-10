@@ -35,7 +35,7 @@
 </template>
 <script>
 import vSelect from 'vue-select'
-import { mapMutations, mapState } from 'vuex'
+import { mapMutations } from 'vuex'
 import { libraryUpdateMixin } from '@/mixins/library/LibraryUpdateMixin.js'
 import { libraryUploadMixin } from '@/mixins/library/LibraryUploadMixin.js'
 export default {
@@ -86,7 +86,7 @@ export default {
       }
       return null
     },
-    onSelectedBookImageChange(newVal, oldVal) {
+    onSelectedBookImageChange(newVal) {
       this.$store.commit('setBookImage', {
         index: this.index,
         image: newVal,

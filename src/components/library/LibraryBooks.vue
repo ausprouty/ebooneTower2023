@@ -15,7 +15,7 @@
       <LibraryBookFormat :index="id" />
       <LibraryBookStyle :index="id" />
       <LibraryBookTemplate :index="id" />
-      <!--<LibraryBookPermission :book="book" :index="id" />-->
+      <LibraryBookPermission :index="id" />
 
       <div
         class="app-card -shadow"
@@ -33,7 +33,6 @@
   </div>
 </template>
 <script>
-import AuthorService from '@/services/AuthorService.js'
 import LogService from '@/services/LogService.js'
 import LibraryBookCode from '@/components/library/LibraryBookCode'
 import LibraryBookFormat from '@/components/library/LibraryBookFormat'
@@ -43,7 +42,6 @@ import LibraryBookStyle from '@/components/library/LibraryBookStyle'
 import LibraryBookTemplate from '@/components/library/LibraryBookTemplate'
 import LibraryBookTitle from '@/components/library/LibraryBookTitle'
 import { libraryGetMixin } from '@/mixins/library/LibraryGetMixin.js'
-
 import { mapGetters, mapMutations } from 'vuex'
 import '@/assets/css/vueSelect.css'
 export default {
@@ -119,7 +117,7 @@ export default {
 </script>
 <style scoped>
 .light-background {
-  background-color: #f5f5f5;
+  background-color: palegoldenrod;
 }
 .dark-background {
   background-color: #d0eaff;

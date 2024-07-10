@@ -24,7 +24,7 @@
 </template>
 <script>
 import { libraryUploadMixin } from '@/mixins/library/LibraryUploadMixin.js'
-import { mapMutations, mapState } from 'vuex'
+import { mapState } from 'vuex'
 import vSelect from 'vue-select'
 export default {
   props: {
@@ -50,7 +50,7 @@ export default {
     },
   },
   watch: {
-    libraryBookTemplate(newValue, oldValue) {
+    libraryBookTemplate(newValue) {
       this.setBookTemplate(this.index, newValue)
     },
   },
@@ -69,7 +69,7 @@ export default {
       })
     },
     saveForm() {
-      `saveForm`
+      alert('saveForm')
     },
     setBookTemplate(index, value) {
       alert('setBookTemplate ' + index)

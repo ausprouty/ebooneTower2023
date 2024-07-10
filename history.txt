@@ -1,4 +1,5 @@
 nvm use 16.18.1
+use xampp to left (xampp73)
 npm run serve-mc2
 npm run build-mc2
 
