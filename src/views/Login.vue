@@ -93,7 +93,8 @@ export default {
             alert('Login was not successful. Try again') //
           }
         } catch (error) {
-          LogService.consoleLogError('Login There was an error ', error) //
+          LogService.consoleLogError('Login There was an error ', error)
+          alert('There was an error')
         }
       }
     },

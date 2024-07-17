@@ -2,28 +2,13 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import { saveStatePlugin } from '@/utils.js' // <-- Import saveStatePlugin
+import { add } from 'lodash'
 Vue.config.devtools = true
 Vue.use(Vuex)
 export default new Vuex.Store({
   plugins: [saveStatePlugin], // <-- Use
   state: {
     baseURL: './',
-    book: {
-      code: '',
-      format: '',
-      id: '',
-      image: {
-        image: '',
-        title: '',
-      },
-      pages: '',
-      prototype: '',
-      publish: '',
-      style: '',
-      style_set: '',
-      template: '',
-      title: '',
-    },
     bookImages: [],
     bookStyleSheets: [],
     bookTemplates: [],
@@ -164,8 +149,31 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    addBook(state, book) {
+      state.bookmark.library.books.push(book)
+    },
     addNewLibraryBookCode(state, code) {
       state.bookmark.library.books.push({ code })
+    },
+    setAllBooksPrototypeToFalse(state) {
+      state.bookmark.library.books.forEach((book) => {
+        book.prototype = false
+      })
+    },
+    setAllBooksPrototypeToTrue(state) {
+      state.bookmark.library.books.forEach((book) => {
+        book.prototype = true
+      })
+    },
+    setAllBooksPublishToFalse(state) {
+      state.bookmark.library.books.forEach((book) => {
+        book.publish = false
+      })
+    },
+    setAllBooksPublishToTrue(state) {
+      state.bookmark.library.books.forEach((book) => {
+        book.publish = true
+      })
     },
     setBookCode: (state, payload) => {
       const { index, value } = payload

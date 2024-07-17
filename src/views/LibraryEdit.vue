@@ -34,13 +34,11 @@
         <br />
         <br />
 
-       <!-- <LibraryFormatTemplate />
-        <LibraryText v-bind:text="text" />-->
+        <LibraryFormatTemplate />
+        <LibraryText v-bind:text="text" />
       </div>
 
-   
-
-       <LibraryBooks />
+      <LibraryBooks />
       <div>
         <button class="button" @click="prototypeAll">
           Select ALL to prototype
@@ -135,7 +133,7 @@ export default {
   async created() {
     await this.getBookmark()
     this.showForm()
-    console.log ('at end of  Created of  Library Edit')
+    console.log('at end of  Created of  Library Edit')
   },
   methods: {
     async showForm() {
