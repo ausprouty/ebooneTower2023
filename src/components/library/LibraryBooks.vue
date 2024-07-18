@@ -55,6 +55,7 @@ export default {
     LibraryBookTemplate,
     LibraryBookTitle,
   },
+  
   computed: {
     ...mapGetters(['getLibraryBooks']),
     libraryBooks: {
@@ -66,10 +67,12 @@ export default {
     },
   },
   created() {
+    console.log('about to store in state')
     this.storeBookImagesInState()
     this.storeBookStyleSheetsInState()
     this.storeBookTemplatesInState()
     this.storeCkEditorStyleSetsInState()
+    console.log('finished store in state')
   },
   methods: {
     ...mapMutations([

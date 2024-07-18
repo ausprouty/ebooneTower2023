@@ -16,7 +16,6 @@
           <a href="/login">login to make changes</a> here
         </p>
       </div>
-      </div> <!--
       <div v-if="this.authorized">
         <h1>
           Edit Library Books
@@ -28,7 +27,7 @@
             <img class="help-icon" src="/sites/default/images/icons/help.png" />
           </a>
         </h1>
-        
+
         <div v-if="images">
           <img v-bind:src="this.header_image" class="header" />
           <br />
@@ -38,32 +37,61 @@
 
         <LibraryFormatTemplate />
         <LibraryText v-bind:text="text" />
+        <div v-if="this.authorized">
+          <h1>
+            Edit Library Books
+            <a
+              target="_blank"
+              class="help"
+              v-bind:href="
+                this.prototype_url + 'HD/eng/help-1/library_edit.html'
+              "
+            >
+              <img
+                class="help-icon"
+                src="/sites/default/images/icons/help.png"
+              />
+            </a>
+          </h1>
+
+          <div v-if="images">
+            <img v-bind:src="this.header_image" class="header" />
+            <br />
+          </div>
+          <br />
+          <br />
+
+          <LibraryFormatTemplate />
+          <LibraryText v-bind:text="text" />
+        </div>
+
+        <LibraryBooks />
+
+        <div>
+          <button class="button" @click="prototypeAll">
+            Select ALL to prototype
+          </button>
+          <button class="button" @click="publishAll">
+            Select ALL to publish
+          </button>
+
+          <button class="button" @click="prototypeNone">
+            Do NOT prototype ANY
+          </button>
+          <button class="button" @click="publishNone">
+            Do NOT publish ANY
+          </button>
+        </div>
+
+        <button class="button" @click="addNewBookForm">New Book</button>
+
+        <button class="button red" @click="saveForm">Save Changes</button>
+
+        <button class="button grey">Disabled</button>
+
+        Please fill out the required field(s).
       </div>
-
-     -<LibraryBooks />
-      
-      <div>
-        <button class="button" @click="prototypeAll">
-          Select ALL to prototype
-        </button>
-        <button class="button" @click="publishAll">
-          Select ALL to publish
-        </button>
-
-        <button class="button" @click="prototypeNone">
-          Do NOT prototype ANY
-        </button>
-        <button class="button" @click="publishNone">Do NOT publish ANY</button>
-      </div>
-
-      <button class="button" @click="addNewBookForm">New Book</button>
-
-      <button class="button red" @click="saveForm">Save Changes</button>
-
-      <button class="button grey">Disabled</button>
-
-      Please fill out the required field(s).
-    </div>-->
+    </div>
   </div>
 </template>
 
