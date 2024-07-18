@@ -56,25 +56,48 @@ export default {
   },
   mixins: [libraryUpdateMixin],
   computed: {
-    bookPermissionHide() {
-      return this.getBookProperty('permission_hide')
+    bookPermissionHide: {
+      get() {
+        return this.getBookProperty('hide')
+      },
+      set(value) {
+        this.updatePermissionHide(value)
+      },
     },
-    bookPermissionPassword() {
-      return this.getBookProperty('permission_password')
+    bookPermissionPassword: {
+      get() {
+        return this.getBookProperty('password')
+      },
+      set(value) {
+        this.updatePermissionPassword(value)
+      },
     },
-    bookPermissionPrototype() {
-      return this.getBookProperty('permission_prototype')
+    bookPermissionPrototype: {
+      get() {
+        return this.getBookProperty('prototype')
+      },
+      set(value) {
+        this.updatePermissionPrototype(value)
+      },
     },
-    bookPermissionPublish() {
-      return this.getBookProperty('permission_publish')
+    bookPermissionPublish: {
+      get() {
+        return this.getBookProperty('publish')
+      },
+      set(value) {
+        this.updatePermissionPublish(value)
+      },
     },
   },
   methods: {
     getBookProperty(property) {
+      console.log(property)
       const books = this.$store.state.bookmark.library.books
       if (books && books[this.index] && books[this.index][property]) {
+        console.log(property + ' ' + books[this.index][property])
         return books[this.index][property]
       }
+      console.log(property + ' not found')
       return ''
     },
     updateBookPermission(permissionType, value) {
@@ -83,17 +106,17 @@ export default {
         value: value,
       })
     },
-    updatePermissionHide(bookPermissionHide) {
-      this.updateBookPermission('Hide', bookPermissionHide)
+    updatePermissionHide(value) {
+      this.updateBookPermission('Hide', value)
     },
-    updatePermissionPassword(bookPermissionPassword) {
-      this.updateBookPermission('Password', bookPermissionPassword)
+    updatePermissionPassword(value) {
+      this.updateBookPermission('Password', value)
     },
-    updatePermissionPrototype(bookPermissionPrototype) {
-      this.updateBookPermission('Prototype', bookPermissionPrototype)
+    updatePermissionPrototype(value) {
+      this.updateBookPermission('Prototype', value)
     },
-    updatePermissionPublish(bookPermissionPublish) {
-      this.updateBookPermission('Publish', bookPermissionPublish)
+    updatePermissionPublish(value) {
+      this.updateBookPermission('Publish', value)
     },
   },
 }

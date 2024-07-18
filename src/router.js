@@ -328,6 +328,17 @@ export default new Router({
       props: true,
     },
     {
+      path: '/test/component',
+      name: 'testComponent',
+      beforeEnter: guardMyroute,
+      component: function () {
+        return import(
+          /* webpackChunkName: "testGenerations" */ './tests/components.vue'
+        )
+      },
+      props: true,
+    },
+    {
       path: '/test/generations',
       name: 'testgenerations',
       beforeEnter: guardMyroute,

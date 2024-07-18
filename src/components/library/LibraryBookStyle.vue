@@ -46,9 +46,6 @@ export default {
     ckEditorStyleSets() {
       return this.$store.state.ckEditorStyleSets
     },
-    bookStyle() {
-      return this.getBookProperty('style')
-    },
     ckEditorStyleSelected() {
       return this.getBookProperty('styles_set')
     },

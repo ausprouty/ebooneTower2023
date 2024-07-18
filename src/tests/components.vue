@@ -1,11 +1,12 @@
 <template>
   <div>
-    <LibraryBookTitle :index="1" />
-    <LibraryBookCode :index="1" />
+   
+ <LibraryBookTitle :index="1" />
+   <!--    <LibraryBookCode :index="1" />
     <LibraryBookImage :index="1" />
     <LibraryBookFormat :index="1" />
     <LibraryBookStyle :index="1" />
-    <LibraryBookTemplate :index="1" />
+    <LibraryBookTemplate :index="1" />-->
     <LibraryBookPermission :index="1" />
   </div>
 </template>

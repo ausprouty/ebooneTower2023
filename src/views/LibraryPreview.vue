@@ -122,7 +122,6 @@ export default {
   methods: {
     editLibrary() {
       console.log(this.$route.params)
-      alert('editLibrary')
       this.$router.push({
         name: 'editLibrary',
         params: {
@@ -144,12 +143,7 @@ export default {
     },
     testLibrary() {
       this.$router.push({
-        name: 'testLibrary',
-        params: {
-          country_code: this.$route.params.country_code,
-          language_iso: this.$route.params.language_iso,
-          library_code: this.$route.params.library_code,
-        },
+        name: 'testComponent',
       })
     },
     goBack() {

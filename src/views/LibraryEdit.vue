@@ -16,6 +16,7 @@
           <a href="/login">login to make changes</a> here
         </p>
       </div>
+      </div> <!--
       <div v-if="this.authorized">
         <h1>
           Edit Library Books
@@ -27,6 +28,7 @@
             <img class="help-icon" src="/sites/default/images/icons/help.png" />
           </a>
         </h1>
+        
         <div v-if="images">
           <img v-bind:src="this.header_image" class="header" />
           <br />
@@ -38,8 +40,8 @@
         <LibraryText v-bind:text="text" />
       </div>
 
-      <LibraryBooks />
-      <!---
+     -<LibraryBooks />
+      
       <div>
         <button class="button" @click="prototypeAll">
           Select ALL to prototype
@@ -57,11 +59,11 @@
       <button class="button" @click="addNewBookForm">New Book</button>
 
       <button class="button red" @click="saveForm">Save Changes</button>
--->
+
       <button class="button grey">Disabled</button>
 
       Please fill out the required field(s).
-    </div>
+    </div>-->
   </div>
 </template>
 
