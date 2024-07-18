@@ -46,6 +46,7 @@
   </div>
 </template>
 <script>
+import { libraryUpdateMixin } from '@/mixins/library/LibraryUpdateMixin.js'
 export default {
   props: {
     index: {
@@ -53,6 +54,7 @@ export default {
       required: true,
     },
   },
+  mixins: [libraryUpdateMixin],
   computed: {
     bookPermissionHide() {
       return this.getBookProperty('permission_hide')

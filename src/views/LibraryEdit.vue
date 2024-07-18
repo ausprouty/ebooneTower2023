@@ -39,6 +39,7 @@
       </div>
 
       <LibraryBooks />
+      <!---
       <div>
         <button class="button" @click="prototypeAll">
           Select ALL to prototype
@@ -56,7 +57,7 @@
       <button class="button" @click="addNewBookForm">New Book</button>
 
       <button class="button red" @click="saveForm">Save Changes</button>
-
+-->
       <button class="button grey">Disabled</button>
 
       Please fill out the required field(s).
@@ -69,22 +70,22 @@ import NavBar from '@/components/NavBarAdmin.vue'
 import LibraryFormatTemplate from '@/components/library/LibraryFormatTemplate.vue'
 import LibraryText from '@/components/library/LibraryText.vue'
 import LibraryBooks from '@/components/library/LibraryBooks.vue'
-import LogService from '@/services/LogService.js'
 
+import LogService from '@/services/LogService.js'
 // see https://stackoverflow.com/questions/55479380/adding-images-to-vue-select-dropdown
 import '@/assets/css/vueSelect.css'
 
 import { mapState } from 'vuex'
 import { authorizeMixin } from '@/mixins/AuthorizeMixin.js'
-import { libraryUpdateMixin } from '@/mixins/library/LibraryUpdateMixin.js'
 import { libraryGetMixin } from '@/mixins/library/LibraryGetMixin.js'
+import { libraryUpdateMixin } from '@/mixins/library/LibraryUploadMixin.js'
 import { libraryUploadMixin } from '@/mixins/library/LibraryUploadMixin.js'
 
 export default {
   mixins: [
     authorizeMixin,
-    libraryUpdateMixin,
     libraryGetMixin,
+    libraryUpdateMixin,
     libraryUploadMixin,
   ],
   components: {
@@ -114,6 +115,7 @@ export default {
     }
   },
   beforeCreate() {
+    alert('beforeCreate')
     // set directory for custom images
     //see https://ckeditor.com/docs/ckfinder/ckfinder3-php/integration.html
     this.languageDirectory =

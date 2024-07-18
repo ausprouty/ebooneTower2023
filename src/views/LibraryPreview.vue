@@ -63,6 +63,8 @@
       <hr class="border" />
     </div>
     <div v-if="this.write">
+      <button class="button" @click="testLibrary">Test</button>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <button class="button" @click="editLibrary">Edit</button>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <button class="button" @click="sortLibrary">Sort</button>
@@ -119,6 +121,8 @@ export default {
   },
   methods: {
     editLibrary() {
+      console.log(this.$route.params)
+      alert('editLibrary')
       this.$router.push({
         name: 'editLibrary',
         params: {
@@ -131,6 +135,16 @@ export default {
     sortLibrary() {
       this.$router.push({
         name: 'sortLibrary',
+        params: {
+          country_code: this.$route.params.country_code,
+          language_iso: this.$route.params.language_iso,
+          library_code: this.$route.params.library_code,
+        },
+      })
+    },
+    testLibrary() {
+      this.$router.push({
+        name: 'testLibrary',
         params: {
           country_code: this.$route.params.country_code,
           language_iso: this.$route.params.language_iso,
@@ -213,7 +227,7 @@ export default {
       LogService.consoleLogMessage(bm)
     },
     async loadView() {
-      console.log ('I am starting loadView of Library Preview')
+      console.log('I am starting loadView of Library Preview')
       try {
         this.recnum = null
         await this.getLibraryBookmark()
