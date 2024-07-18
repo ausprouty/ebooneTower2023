@@ -7,14 +7,7 @@
     </div>
     <div class="content" v-if="loaded">
       <div v-if="!this.authorized">
-        <p>
-          You have stumbled into a restricted page. Sorry I can not show it to
-          you now
-        </p>
-        <p>
-          You need to
-          <a href="/login">login to make changes</a> here
-        </p>
+        <BaseNotAuthorized />
       </div>
       <div v-if="this.authorized">
         <h1>
@@ -27,69 +20,16 @@
             <img class="help-icon" src="/sites/default/images/icons/help.png" />
           </a>
         </h1>
-
         <div v-if="images">
           <img v-bind:src="this.header_image" class="header" />
           <br />
         </div>
-        <br />
-        <br />
-
-        <LibraryFormatTemplate />
-        <LibraryText v-bind:text="text" />
-        <div v-if="this.authorized">
-          <h1>
-            Edit Library Books
-            <a
-              target="_blank"
-              class="help"
-              v-bind:href="
-                this.prototype_url + 'HD/eng/help-1/library_edit.html'
-              "
-            >
-              <img
-                class="help-icon"
-                src="/sites/default/images/icons/help.png"
-              />
-            </a>
-          </h1>
-
-          <div v-if="images">
-            <img v-bind:src="this.header_image" class="header" />
-            <br />
-          </div>
-          <br />
-          <br />
-
+        <div>
           <LibraryFormatTemplate />
           <LibraryText v-bind:text="text" />
+          <LibraryBooks />
+          <LibraryPublishButtons />
         </div>
-
-        <LibraryBooks />
-
-        <div>
-          <button class="button" @click="prototypeAll">
-            Select ALL to prototype
-          </button>
-          <button class="button" @click="publishAll">
-            Select ALL to publish
-          </button>
-
-          <button class="button" @click="prototypeNone">
-            Do NOT prototype ANY
-          </button>
-          <button class="button" @click="publishNone">
-            Do NOT publish ANY
-          </button>
-        </div>
-
-        <button class="button" @click="addNewBookForm">New Book</button>
-
-        <button class="button red" @click="saveForm">Save Changes</button>
-
-        <button class="button grey">Disabled</button>
-
-        Please fill out the required field(s).
       </div>
     </div>
   </div>
@@ -100,6 +40,7 @@ import NavBar from '@/components/NavBarAdmin.vue'
 import LibraryFormatTemplate from '@/components/library/LibraryFormatTemplate.vue'
 import LibraryText from '@/components/library/LibraryText.vue'
 import LibraryBooks from '@/components/library/LibraryBooks.vue'
+import LibraryPublishButtons from '@/components/library/LibraryPublishButtons.vue'
 
 import LogService from '@/services/LogService.js'
 // see https://stackoverflow.com/questions/55479380/adding-images-to-vue-select-dropdown
@@ -107,22 +48,15 @@ import '@/assets/css/vueSelect.css'
 
 import { mapState } from 'vuex'
 import { authorizeMixin } from '@/mixins/AuthorizeMixin.js'
-import { libraryGetMixin } from '@/mixins/library/LibraryGetMixin.js'
-import { libraryUpdateMixin } from '@/mixins/library/LibraryUploadMixin.js'
-import { libraryUploadMixin } from '@/mixins/library/LibraryUploadMixin.js'
 
 export default {
-  mixins: [
-    authorizeMixin,
-    libraryGetMixin,
-    libraryUpdateMixin,
-    libraryUploadMixin,
-  ],
+  mixins: [authorizeMixin],
   components: {
     NavBar,
+    LibraryBooks,
     LibraryFormatTemplate,
     LibraryText,
-    LibraryBooks,
+    LibraryPublishButtons,
   },
   props: ['country_code', 'language_iso', 'library_code'],
   computed: mapState(['bookmark', 'cssURL', 'standard']),

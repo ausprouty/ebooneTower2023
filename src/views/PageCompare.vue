@@ -8,7 +8,7 @@
     </div>
     <div class="compare" v-if="loaded">
       <div v-if="!this.authorized">
-        <p>Almost ready</p>
+        <BaseNotAuthorized />
       </div>
       <div v-if="this.authorized">
         <div class="left_column">
@@ -152,10 +152,7 @@
         </div>
       </div>
       <div v-if="!this.authorized">
-        <p>
-          You need to
-          <a href="/login">login to make changes</a> here
-        </p>
+        <BaseNotAuthorized />
       </div>
     </div>
   </div>

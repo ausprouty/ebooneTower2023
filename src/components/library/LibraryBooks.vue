@@ -55,7 +55,7 @@ export default {
     LibraryBookTemplate,
     LibraryBookTitle,
   },
-  
+
   computed: {
     ...mapGetters(['getLibraryBooks']),
     libraryBooks: {

@@ -8,10 +8,7 @@
     </div>
     <div class="content" v-if="loaded">
       <div v-if="!this.authorized">
-        <p>
-          You have stumbled into a restricted page. Sorry I can not show it to
-          you now
-        </p>
+        <BaseNotAuthorized />
       </div>
       <div v-if="this.authorized">
         <h1>
@@ -59,10 +56,7 @@
         <button class="button red" @click="saveForm">Save Changes</button>
       </div>
       <div v-if="!this.authorized">
-        <p>
-          You need to
-          <a href="/login">login to make changes</a> here
-        </p>
+        <BaseNotAuthorized />
       </div>
       <div></div>
     </div>

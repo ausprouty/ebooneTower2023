@@ -2,11 +2,7 @@
   <div>
     <NavBar called_by="ApkMaker" />
     <div v-if="!this.authorized">
-      <p>
-        You have stumbled into a restricted page. Sorry I can not show it to you
-        now
-      </p>
-    </div>
+      <BaseNotAuthorized />
     <div v-if="this.authorized">
       <form>
         <div>

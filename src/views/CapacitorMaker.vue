@@ -2,10 +2,7 @@
   <div>
     <NavBar called_by="CapacitorMaker" />
     <div v-if="!this.authorized">
-      <p>
-        You have stumbled into a restricted page. Sorry I can not show it to you
-        now
-      </p>
+      <BaseNotAuthorized />
     </div>
     <div v-if="this.authorized">
       <div>
