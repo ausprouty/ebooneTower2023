@@ -221,7 +221,6 @@ export default {
       LogService.consoleLogMessage(bm)
     },
     async loadView() {
-      console.log('I am starting loadView of Library Preview')
       try {
         this.recnum = null
         await this.getLibraryBookmark()

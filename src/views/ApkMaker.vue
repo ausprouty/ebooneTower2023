@@ -3,6 +3,7 @@
     <NavBar called_by="ApkMaker" />
     <div v-if="!this.authorized">
       <BaseNotAuthorized />
+    </div>
     <div v-if="this.authorized">
       <form>
         <div>

@@ -48,9 +48,10 @@ import '@/assets/css/vueSelect.css'
 
 import { mapState } from 'vuex'
 import { authorizeMixin } from '@/mixins/AuthorizeMixin.js'
+import {libraryGetMixin} from '@/mixins/library/LibraryGetMixin.js' // eslint-disable-line  
 
 export default {
-  mixins: [authorizeMixin],
+  mixins: [authorizeMixin, libraryGetMixin],
   components: {
     NavBar,
     LibraryBooks,
@@ -79,7 +80,6 @@ export default {
     }
   },
   beforeCreate() {
-    alert('beforeCreate')
     // set directory for custom images
     //see https://ckeditor.com/docs/ckfinder/ckfinder3-php/integration.html
     this.languageDirectory =
@@ -95,6 +95,7 @@ export default {
     this.$route.params.version = 'lastest'
     this.$route.params.filename = 'index'
     this.$route.params.css = '/sites/default/styles/freeformGLOBAL.css'
+    console.log(this.$route.params)
   },
   async created() {
     await this.getBookmark()
