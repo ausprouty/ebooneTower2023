@@ -147,7 +147,7 @@ export default {
         this.videolist_text = 'Media List'
       }
       if (response == 'error') {
-        alert('There was an error')
+        alert('There was an error in SD Card Actions')
       }
     },
     async loadView() {},

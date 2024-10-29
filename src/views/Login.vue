@@ -94,7 +94,7 @@ export default {
           }
         } catch (error) {
           LogService.consoleLogError('Login There was an error ', error)
-          alert('There was an error')
+          alert('Sorry, I could not log you in today')
         }
       }
     },

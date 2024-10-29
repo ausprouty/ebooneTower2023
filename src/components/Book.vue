@@ -81,7 +81,7 @@ export default {
           },
         })
       }
-      alert('we fell though')
+      alert('we fell though in showPage')
     },
   },
 }

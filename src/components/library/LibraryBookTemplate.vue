@@ -66,7 +66,7 @@ export default {
       })
     },
     saveForm() {
-      alert('saveForm')
+      console.log('Is there a way to save the form?')
     },
     getBookProperty(property) {
       const books = this.$store.state.bookmark.library.books
@@ -76,7 +76,7 @@ export default {
       return ''
     },
     setBookTemplate(index, value) {
-      alert('setBookTemplate ' + index)
+      console.log('setBookTemplate ' + index)
       this.$store.commit('setBookTemplate', { index, value })
     },
   },
