@@ -67,7 +67,6 @@
 
 <script>
 import { mapState } from 'vuex'
-import ContentService from '@/services/ContentService.js'
 import AuthorService from '@/services/AuthorService.js'
 import LogService from '@/services/LogService.js'
 import NavBar from '@/components/NavBarCountry.vue'
@@ -86,25 +85,18 @@ export default {
   computed: mapState(['bookmark', 'cssURL']),
   data() {
     return {
-      prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
       authorized: false,
-      style_error: false,
-      content: {
-        recnum: '',
-        version: '',
-        edit_date: '',
-        edit_uid: '',
-        publish_uid: '',
-        publish_date: '',
-        language_iso: '',
-        country_code: '',
-        folder: '',
-        filetype: '',
-        title: '',
-        filename: '',
-        text: '',
-      },
       config: {
+        contentsCss: this.$route.params.css,
+        extraAllowedContent: [
+          '*(*)[id]',
+          'ol[*]',
+          'span[*]',
+          'align[*]',
+          'webkitallowfullscreen',
+          'mozallowfullscreen',
+          'allowfullscreen',
+        ],
         extraPlugins: [
           'bidi',
           'uploadimage',
@@ -118,18 +110,16 @@ export default {
           'colorbutton',
           'justify',
         ],
-        extraAllowedContent: [
-          '*(*)[id]',
-          'ol[*]',
-          'span[*]',
-          'align[*]',
-          'webkitallowfullscreen',
-          'mozallowfullscreen',
-          'allowfullscreen',
-        ],
-        contentsCss: this.$route.params.css,
+        filebrowserBrowseUrl:
+          process.env.VUE_APP_SITE_CKFINDER_URL + 'ckfinder.html',
+        filebrowserUploadUrl:
+          process.env.VUE_APP_SITE_CKFINDER_URL +
+          'core/connector/php/connector.php?command=QuickUpload&type=Images&currentFolder=' +
+          this.languageDirectory,
+        height: 600,
+        removeButtons:
+          'About,Button,Checkbox,CreatePlaceholder,DocProps,Flash,Form,HiddenField,Iframe,NewPage,PageBreak,Preview,Print,Radio,Save,Scayt,Select,Smiley,SpecialChar,TextField,Textarea',
         stylesSet: this.$route.params.styles_set,
-        templates_replaceContent: false,
         templates_files: [
           '/sites/' +
             process.env.VUE_APP_SITE +
@@ -137,16 +127,7 @@ export default {
             this.$route.params.styles_set +
             '.js',
         ],
-        // Configure your file manager integration. This example uses CKFinder 3 for PHP.
-        // https://ckeditor.com/docs/ckfinder/ckfinder3-php/howto.html#howto_private_folders
-        filebrowserBrowseUrl:
-          process.env.VUE_APP_SITE_CKFINDER_URL + 'ckfinder.html',
-        filebrowserUploadUrl:
-          process.env.VUE_APP_SITE_CKFINDER_URL +
-          'core/connector/php/connector.php?command=QuickUpload&type=Images&currentFolder=' +
-          this.languageDirectory,
-
-        // end Configuration
+        templates_replaceContent: false,
         toolbarGroups: [
           { name: 'styles', groups: ['styles'] },
           { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
@@ -161,7 +142,6 @@ export default {
           { name: 'document', groups: ['mode', 'document', 'doctools'] },
           { name: 'clipboard', groups: ['clipboard', 'undo'] },
           { name: 'others', groups: ['others'] },
-          '/',
           {
             name: 'paragraph',
             groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph'],
@@ -169,10 +149,34 @@ export default {
           { name: 'colors', groups: ['colors'] },
           { name: 'about', groups: ['about'] },
         ],
-        height: 600,
-        removeButtons:
-          'About,Button,Checkbox,CreatePlaceholder,DocProps,Flash,Form,HiddenField,Iframe,NewPage,PageBreak,Preview,Print,Radio,Save,Scayt,Select,Smiley,SpecialChar,TextField,Textarea',
       },
+      content: {
+        country_code: '',
+        edit_date: '',
+        edit_uid: '',
+        filename: '',
+        filetype: '',
+        folder: '',
+        language_iso: '',
+        publish_date: '',
+        publish_uid: '',
+        recnum: '',
+        text: '',
+        title: '',
+        version: '',
+      },
+      error: null,
+      error_message: '',
+      image_dir: '',
+      languageDirectory: '',
+      loaded: null,
+      loading: false,
+      pageText: '',
+      prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
+      publish: false,
+      recnum: null,
+      styles: [],
+      style_error: false,
     }
   },
   methods: {

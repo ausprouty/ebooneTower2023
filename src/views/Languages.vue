@@ -37,7 +37,8 @@ export default {
   computed: mapState(['bookmark']),
   data() {
     return {
-      languages: [],
+      bookmark: '',
+      error: null,
       language: {
         country_name: null,
         flag: null,
@@ -45,9 +46,9 @@ export default {
         language_iso: null,
         language_name: null,
       },
-      loading: false,
+      languages: [],
       loaded: null,
-      error: null,
+      loading: false,
       ZZ: false,
     }
   },

@@ -65,8 +65,8 @@ export default {
   data() {
     return {
       authorized: false,
-      prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
       format: '',
+      prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
       text: '',
     }
   },

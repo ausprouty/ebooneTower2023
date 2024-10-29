@@ -56,13 +56,9 @@ export default {
     Chapter,
     NavBar,
   },
+
   data() {
     return {
-      seriesDetails: {
-        series: '',
-        language: '',
-        description: '',
-      },
       chapters: [
         {
           id: '',
@@ -74,9 +70,14 @@ export default {
       ],
       description: '',
       dir: 'ltr',
-      loading: false,
-      loaded: null,
       error: null,
+      loaded: null,
+      loading: false,
+      seriesDetails: {
+        description: '',
+        language: '',
+        series: '',
+      },
     }
   },
   methods: {

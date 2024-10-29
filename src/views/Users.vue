@@ -21,15 +21,16 @@ export default {
   },
 
   mixins: [authorizeMixin],
+
   data() {
     return {
       authorized: false,
       users: [
         {
-          firstname: null,
-          lastname: null,
           countries: null,
-          langauges: null,
+          firstname: null,
+          languages: null, // Corrected spelling from "langauges" to "languages"
+          lastname: null,
           start_page: null,
           uid: null,
         },

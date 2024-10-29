@@ -11,22 +11,22 @@ function editTemplate($p)
   $debug = 'getTemplate' . "\n";
   if (!$p['language_iso']) {
     $message = "language_iso not set";
-    writeLogError('editTemplate-11', $message);
+    writeLogError('editTemplate-14', $message);
     return false;
   }
   if (!$p['template']) {
     $message = "template not set";
-    writeLogError('editTemplate-11', $message);
+    writeLogError('editTemplate-19', $message);
     return false;
   }
   if (!$p['text']) {
     $message = "text not set";
-    writeLogError('editTemplate-11', $message);
+    writeLogError('editTemplate-24', $message);
     return false;
   }
   if (!$p['book_format']) {
     $message = "book_format not set";
-    writeLogError('editTemplate-11', $message);
+    writeLogError('editTemplate-29', $message);
     return false;
   }
   // $template_dir = ROOT_EDIT_CONTENT . $p['country_code'] .'/'. $p['language_iso'] .'/templates/';
@@ -36,9 +36,22 @@ function editTemplate($p)
   if (strpos($p['template'], '.html') === FALSE) {
     $p['template'] .= '.html';
   }
+  writeLogDebug ('editTemplate-38', $template_dir);
+  writeLogDebug ('editTemplate-39', is_dir($template_dir));
   $filename = $template_dir . $p['template'];
   writeLogDebug('editTemplate-40', $filename);
   writeLogDebug('editTemplate-41', $p['text']);
-  fileWrite($filename, $p['text'], $p);
+  // Open the file for writing or appending
+  $mode = 'w';
+  $file = fopen($filename, $mode);
+  if ($file === false) {
+      throw new Exception("Unable to open file: $filename");
+  }
+
+  // Write the text to the file
+  fwrite($file, $p['text']);
+
+  // Close the file
+  fclose($file);
   return 'success';
 }

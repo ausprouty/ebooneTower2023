@@ -61,7 +61,13 @@ export default {
   data() {
     return {
       authorized: false,
+      content: {},
+      countries: [],
+      error: '',
+      error_message: '',
+      loaded: false,
       prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
+      revision: '',
     }
   },
 

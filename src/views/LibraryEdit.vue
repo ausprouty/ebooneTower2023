@@ -64,19 +64,22 @@ export default {
   data() {
     return {
       authorized: false,
+      cssURL: '',
       error: null,
       error_message: null,
-      images: false,
+      header_image: '',
       image_permission: false,
+      images: false,
+      languageDirectory: '',
       loaded: false,
       loading: false,
       prototype_date: null,
       prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
       publish_date: null,
-      text: null,
       recnum: null,
-      // site_image_dir: process.env.VUE_APP_SITE_IMAGE_DIR,
       site_dir: process.env.VUE_APP_SITE_DIR,
+      standard: '',
+      text: null,
     }
   },
   beforeCreate() {

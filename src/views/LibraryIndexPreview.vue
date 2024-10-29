@@ -64,10 +64,17 @@ export default {
   computed: mapState(['bookmark', 'cssURL', 'user']),
   data() {
     return {
-      style: 'unknown',
+      error: null,
+      loaded: null,
+      loading: false,
+      prototype: false,
       prototype_text: 'Prototype',
-      publish_text: 'Publish',
       prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
+      publish: false,
+      publish_text: 'Publish',
+      recnum: null,
+      style: 'unknown',
+      write: false,
     }
   },
 

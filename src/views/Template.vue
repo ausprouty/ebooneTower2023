@@ -40,7 +40,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import ContentService from '@/services/ContentService.js'
 import AuthorService from '@/services/AuthorService.js'
 import LogService from '@/services/LogService.js'
@@ -60,22 +59,7 @@ export default {
   data() {
     return {
       authorized: false,
-      templates_replaceContent: false,
-      content: {},
       config: {
-        extraPlugins: [
-          'bidi',
-          'uploadimage',
-          'iframe',
-          'uploadwidget',
-          'clipboard',
-          'videoembed',
-          'templates',
-          'panelbutton',
-          'floatpanel',
-          'colorbutton',
-          'justify',
-        ],
         extraAllowedContent: [
           '*(*)[id]',
           'ol[*]',
@@ -93,17 +77,30 @@ export default {
           'textarea[id*]',
           'button[*]',
         ],
-
-        // Configure your file manager integration. This example uses CKFinder 3 for PHP.
-        // https://ckeditor.com/docs/ckfinder/ckfinder3-php/howto.html#howto_private_folders
+        extraPlugins: [
+          'bidi',
+          'uploadimage',
+          'iframe',
+          'uploadwidget',
+          'clipboard',
+          'videoembed',
+          'templates',
+          'panelbutton',
+          'floatpanel',
+          'colorbutton',
+          'justify',
+        ],
         filebrowserBrowseUrl:
           process.env.VUE_APP_SITE_CKFINDER_URL + 'ckfinder.html',
         filebrowserUploadUrl:
           process.env.VUE_APP_SITE_CKFINDER_URL +
           'core/connector/php/connector.php?command=QuickUpload&type=Images&currentFolder=' +
           this.languageDirectory,
-
-        // end Configuration
+        height: 600,
+        removeButtons:
+          'About,Button,Checkbox,CreatePlaceholder,DocProps,Flash,Form,' +
+          'HiddenField,Iframe,NewPage,PageBreak,Preview,Print,Radio,Save,' +
+          'Scayt,Select,Smiley,SpecialChar,TextField,Textarea',
         toolbarGroups: [
           { name: 'styles', groups: ['styles'] },
           { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
@@ -126,10 +123,9 @@ export default {
           { name: 'colors', groups: ['colors'] },
           { name: 'about', groups: ['about'] },
         ],
-        height: 600,
-        removeButtons:
-          'About,Button,Checkbox,CreatePlaceholder,DocProps,Flash,Form,HiddenField,Iframe,NewPage,PageBreak,Preview,Print,Radio,Save,Scayt,Select,Smiley,SpecialChar,TextField,Textarea',
       },
+      content: {},
+      templates_replaceContent: false,
     }
   },
   computed: {

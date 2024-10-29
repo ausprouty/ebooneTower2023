@@ -38,14 +38,19 @@ function createLibrary($p, $text)
     //
     //  Format Navigation area;
     //
+    writeLogDebug('createLibrary-default41', $text->format);
 
-    $no_ribbon = isset($text->format->no_ribbon) ? isset($text->format->no_ribbon) : false;
-    if ($no_ribbon) {
+    $top_image_contains_back_button = isset($text->format->no_ribbon) ? $text->format->no_ribbon : false;
+    writeLogDebug('createLibrary-default44',  $top_image_contains_back_button);
+    if ($top_image_contains_back_button) {
+        writeLogDebug('createLibrary-default46',  'no back button');
         $nav = '';
         $ribbon = '';
     } else {
         $nav = myGetPrototypeFile('navRibbon.html');
         $ribbon = isset($text->format->back_button) ? $text->format->back_button->image : DEFAULT_BACK_RIBBON;
+        writeLogDebug('createLibrary-default52', $ribbon);
+       
     }
     $body = str_replace('[[nav]]', $nav, $body);
     //writeLogDebug('createLibrary-default-51',  $ribbon);

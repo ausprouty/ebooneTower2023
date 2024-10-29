@@ -115,40 +115,9 @@ export default {
   computed: mapState(['bookmark', 'cssURL', 'standard']),
   data() {
     return {
-      prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
       authorized: false,
-      request_passage: false,
-      reference: null,
-      templates: [],
-      content: {
-        recnum: '',
-        version: '',
-        edit_date: '',
-        edit_uid: '',
-        publish_uid: '',
-        publish_date: '',
-        language_iso: '',
-        country_code: '',
-        folder: '',
-        filetype: '',
-        title: '',
-        filename: '',
-        text: '',
-      },
       config: {
-        extraPlugins: [
-          'bidi',
-          'uploadimage',
-          'forms',
-          'uploadwidget',
-          'clipboard',
-          'templates',
-          'panelbutton',
-          'floatpanel',
-          'colorbutton',
-          'justify',
-          'liststyle',
-        ],
+        contentsCss: this.$route.params.css,
         extraAllowedContent: [
           '*(*)[id]',
           'ol[*]',
@@ -172,12 +141,30 @@ export default {
           'select[*]',
           'option',
         ],
-        //  style sets are controlled by  src\views\ckeditor\styles.js
-        contentsCss: this.$route.params.css,
+        extraPlugins: [
+          'bidi',
+          'uploadimage',
+          'forms',
+          'uploadwidget',
+          'clipboard',
+          'templates',
+          'panelbutton',
+          'floatpanel',
+          'colorbutton',
+          'justify',
+          'liststyle',
+        ],
+        filebrowserBrowseUrl:
+          process.env.VUE_APP_SITE_CKFINDER_URL + 'ckfinder.html',
+        filebrowserUploadUrl:
+          process.env.VUE_APP_SITE_CKFINDER_URL +
+          'core/connector/php/connector.php?command=QuickUpload&type=Images&currentFolder=' +
+          this.languageDirectory,
+        height: 600,
+        removeButtons:
+          'About,CreatePlaceholder,DocProps,Flash,Iframe,' +
+          'MediaEmbed,NewPage,PageBreak,Preview,Print,Save,Scayt,Smiley,SpecialChar',
         stylesSet: this.$route.params.styles_set,
-        //stylesSet: '/sites/generations/ckeditor/styles/styles.js',
-        templates_replaceContent: false,
-        // VUE_APP_SITE= mc2
         templates_files: [
           '/sites/' +
             process.env.VUE_APP_SITE +
@@ -185,17 +172,7 @@ export default {
             this.$route.params.styles_set +
             '.js',
         ],
-        // Configure your file manager integration. This example uses CKFinder 3 for PHP.
-        // https://ckeditor.com/docs/ckfinder/ckfinder3-php/howto.html#howto_private_folders
-        // Bob just removed  /content from currentFolder
-        filebrowserBrowseUrl:
-          process.env.VUE_APP_SITE_CKFINDER_URL + 'ckfinder.html',
-        filebrowserUploadUrl:
-          process.env.VUE_APP_SITE_CKFINDER_URL +
-          'core/connector/php/connector.php?command=QuickUpload&type=Images&currentFolder=' +
-          this.languageDirectory,
-
-        // end Configuration
+        templates_replaceContent: false,
         toolbarGroups: [
           { name: 'styles', groups: ['styles'] },
           { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
@@ -218,10 +195,28 @@ export default {
           { name: 'colors', groups: ['colors'] },
           { name: 'about', groups: ['about'] },
         ],
-        height: 600,
-        removeButtons:
-          'About,CreatePlaceholder,DocProps,Flash,Iframe,MediaEmbed,NewPage,PageBreak,Preview,Print,Save,Scayt,Smiley,SpecialChar',
       },
+      content: {
+        country_code: '',
+        edit_date: '',
+        edit_uid: '',
+        filetype: '',
+        filename: '',
+        folder: '',
+        language_iso: '',
+        publish_date: '',
+        publish_uid: '',
+        recnum: '',
+        text: '',
+        title: '',
+        version: '',
+      },
+      languageDirectory: '',
+      pageText: '',
+      prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
+      reference: null,
+      request_passage: false,
+      templates: [],
     }
   },
   methods: {

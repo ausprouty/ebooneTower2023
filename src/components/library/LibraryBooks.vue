@@ -26,14 +26,13 @@
           style="cursor: pointer"
           @click="deleteBookForm(id)"
         >
-          X
+          X Delete
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import LogService from '@/services/LogService.js'
 import LibraryBookCode from '@/components/library/LibraryBookCode'
 import LibraryBookFormat from '@/components/library/LibraryBookFormat'
 import LibraryBookImage from '@/components/library/LibraryBookImage'
@@ -41,6 +40,8 @@ import LibraryBookPermission from '@/components/library/LibraryBookPermission'
 import LibraryBookStyle from '@/components/library/LibraryBookStyle'
 import LibraryBookTemplate from '@/components/library/LibraryBookTemplate'
 import LibraryBookTitle from '@/components/library/LibraryBookTitle'
+import AuthorService from '@/services/AuthorService.js'
+import LogService from '@/services/LogService.js'
 import { libraryGetMixin } from '@/mixins/library/LibraryGetMixin.js'
 import { mapGetters, mapMutations } from 'vuex'
 import '@/assets/css/vueSelect.css'
@@ -76,6 +77,7 @@ export default {
   },
   methods: {
     ...mapMutations([
+      'removeBook',
       'setBookImages',
       'setBookStyleSheets',
       'setBookTemplates',
@@ -110,10 +112,32 @@ export default {
       console.log(styles)
       this.setCkEditorStyleSets(styles)
     },
-    deleteBookForm(id) {
-      LogService.consoleLogMessage('Deleting id ' + id)
-      this.books.splice(id, 1)
-      LogService.consoleLogMessage(this.books)
+    async deleteBookForm(id) {
+      try {
+        this.removeBook(id)
+        // update library file
+        var library = this.$store.state.bookmark.library
+        this.content.text = JSON.stringify(library)
+        var route = this.$route.params
+        route.filename = route.library_code
+        delete route.folder_name
+        this.content.route = JSON.stringify(route)
+        this.content.filetype = 'json'
+        await AuthorService.createContentData(this.content)
+        this.$router.push({
+          name: 'previewLibrary',
+          params: {
+            country_code: this.$route.params.country_code,
+            language_iso: this.$route.params.language_iso,
+            library_code: this.$route.params.library_code,
+          },
+        })
+      } catch (error) {
+        LogService.consoleLogError(
+          'LIBRARY EDIT There was an error in Saving Form ',
+          error
+        )
+      }
     },
   },
 }

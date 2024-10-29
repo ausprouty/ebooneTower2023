@@ -71,7 +71,18 @@ export default {
   data() {
     return {
       authorized: false,
+      bookmark: '',
+      choose_language: '',
+      content: {},
+      error: false,
+      error_message: '',
+      image_dir: '',
+      languages: [],
+      loaded: false,
+      loading: true,
+      more_languages: '',
       prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
+      rldir: 'ltr',
     }
   },
   computed: mapState(['bookmark']),

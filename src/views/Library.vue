@@ -42,25 +42,28 @@ export default {
   },
   data() {
     return {
-      library: [
-        {
-          id: '',
-          book: '',
-          title: '',
-          folder: '',
-          index: '',
-          style: process.env.VUE_APP_SITE_STYLE,
-          image: process.env.VUE_APP_SITE_IMAGE,
-          format: 'series',
-          pages: 1,
-          instructions: '',
-        },
-      ],
+      bookmark: '',
+      cssURL: '',
+      error: null,
       image_dir: null,
       images: null,
-      loading: false,
+      library: [
+        {
+          book: '',
+          folder: '',
+          format: 'series',
+          id: '',
+          image: process.env.VUE_APP_SITE_IMAGE,
+          index: '',
+          instructions: '',
+          pages: 1,
+          style: process.env.VUE_APP_SITE_STYLE,
+          title: '',
+        },
+      ],
       loaded: null,
-      error: null,
+      loading: false,
+      standard: '',
     }
   },
   beforeCreate() {

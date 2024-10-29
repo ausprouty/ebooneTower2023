@@ -84,14 +84,19 @@ export default {
   data() {
     return {
       authorized: false,
-      publish: false,
-      sdcard: false,
-      language_prototype_text: 'Prototype Languages',
-      language_publish_text: 'Publish Languages',
       country_prototype_text: 'Prototype Countries',
       country_publish_text: 'Publish Countries',
+      error: '',
+      language_prototype_text: 'Prototype Languages',
+      language_publish_text: 'Publish Languages',
       language_sdcard_text: 'Publish Languages to SD Card',
+      loaded: false,
+      loading: true,
+      prototype: false,
       prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
+      publish: false,
+      recnum: null,
+      sdcard: false,
     }
   },
   computed: mapState(['user']),
@@ -179,7 +184,7 @@ export default {
       try {
         await this.getCountries()
         this.authorized = this.authorize('write', this.$route.params)
-       // console.log('my authorization value is  ' + this.authorized)
+        // console.log('my authorization value is  ' + this.authorized)
         // authorize for prototype and publish
         this.publish = false
         this.prototype = false

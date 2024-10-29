@@ -49,7 +49,7 @@ function createSeries($p, $data)
     );
     $navlink = createSeriesNavlink($p);
     writeLogDebug('createSeries-50',  $navlink);
-
+    
     $download_ready = isset($bookmark['language']->download_ready) ? $bookmark['language']->download_ready : 'Ready for Offline Use';
     $download_now = isset($bookmark['language']->download) ? $bookmark['language']->download : 'Download for Offline Use';
     $description = isset($text->description) ? $text->description : NULL;

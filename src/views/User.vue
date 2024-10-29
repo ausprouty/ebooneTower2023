@@ -126,9 +126,11 @@ export default {
   mixins: [authorizeMixin, countriesMixin, languageMixin, userMixin],
   data() {
     return {
+      authorized: false,
+      member: {},
+      registered: true,
       submitted: false,
       wrong: null,
-      registered: true,
     }
   },
   computed: mapState(['user']),

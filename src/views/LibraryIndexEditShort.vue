@@ -85,24 +85,99 @@ export default {
   computed: mapState(['bookmark', 'cssURL']),
   data() {
     return {
-      prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
       authorized: false,
-      style_error: false,
+      config: {
+        contentsCss: this.$route.params.css,
+        extraAllowedContent: [
+          '*(*)[id]',
+          'ol[*]',
+          'span[*]',
+          'align[*]',
+          'webkitallowfullscreen',
+          'mozallowfullscreen',
+          'allowfullscreen',
+        ],
+        extraPlugins: [
+          'bidi',
+          'uploadimage',
+          'iframe',
+          'uploadwidget',
+          'clipboard',
+          'videoembed',
+          'templates',
+          'panelbutton',
+          'floatpanel',
+          'colorbutton',
+          'justify',
+        ],
+        filebrowserBrowseUrl:
+          process.env.VUE_APP_SITE_CKFINDER_URL + 'ckfinder.html',
+        filebrowserUploadUrl:
+          process.env.VUE_APP_SITE_CKFINDER_URL +
+          'core/connector/php/connector.php?command=QuickUpload&type=Images&currentFolder=' +
+          this.languageDirectory,
+        height: 600,
+        removeButtons:
+          'About,Button,Checkbox,CreatePlaceholder,DocProps,Flash,Form,HiddenField,Iframe,NewPage,PageBreak,Preview,Print,Radio,Save,Scayt,Select,Smiley,SpecialChar,TextField,Textarea',
+        stylesSet: this.$route.params.styles_set,
+        templates_files: [
+          '/sites/' +
+            process.env.VUE_APP_SITE +
+            '/ckeditor/templates/' +
+            this.$route.params.styles_set +
+            '.js',
+        ],
+        templates_replaceContent: false,
+        toolbarGroups: [
+          { name: 'styles', groups: ['styles'] },
+          { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
+          {
+            name: 'editing',
+            groups: ['find', 'selection', 'spellchecker', 'editing'],
+          },
+          { name: 'links', groups: ['links'] },
+          { name: 'insert', groups: ['insert'] },
+          { name: 'forms', groups: ['forms'] },
+          { name: 'tools', groups: ['tools'] },
+          { name: 'document', groups: ['mode', 'document', 'doctools'] },
+          { name: 'clipboard', groups: ['clipboard', 'undo'] },
+          { name: 'others', groups: ['others'] },
+          {
+            name: 'paragraph',
+            groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph'],
+          },
+          { name: 'colors', groups: ['colors'] },
+          { name: 'about', groups: ['about'] },
+        ],
+      },
       content: {
-        recnum: '',
-        version: '',
+        country_code: '',
         edit_date: '',
         edit_uid: '',
-        publish_uid: '',
-        publish_date: '',
-        language_iso: '',
-        country_code: '',
-        folder: '',
-        filetype: '',
-        title: '',
         filename: '',
+        filetype: '',
+        folder: '',
+        language_iso: '',
+        publish_date: '',
+        publish_uid: '',
+        recnum: '',
         text: '',
+        title: '',
+        version: '',
       },
+      error: null,
+      error_message: '',
+      footerText: '',
+      languageDirectory: '',
+      loaded: null,
+      loading: false,
+      pageText: '',
+      prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
+      publish: false,
+      recnum: null,
+      style: '',
+      style_error: false,
+      styles: [],
     }
   },
   methods: {

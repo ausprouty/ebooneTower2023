@@ -130,19 +130,24 @@ export default {
   mixins: [authorizeMixin, countriesMixin],
   data() {
     return {
-      default_start_page: '/preview/',
-      firstname: null,
-      lastname: null,
-      scope: null,
-      languages: null,
-      start_page: null,
-      username: null,
-      password: null,
-      submitted: false,
-      wrong: null,
-      registered: true,
-      scope_options: [],
-      language_options: [],
+      data() {
+        return {
+          default_start_page: '/preview/',
+          error_message: null,
+          firstname: null,
+          language_options: [],
+          languages: null,
+          lastname: null,
+          password: null,
+          registered: true,
+          scope: null,
+          scope_options: [],
+          start_page: null,
+          submitted: false,
+          username: null,
+          wrong: null,
+        }
+      },
     }
   },
   computed: mapState(['user']),

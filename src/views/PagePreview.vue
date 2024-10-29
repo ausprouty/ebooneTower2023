@@ -96,13 +96,17 @@ export default {
   computed: mapState(['bookmark', 'cssURL', 'standard', 'user']),
   data() {
     return {
-      prototype_text: 'Prototype',
-      publish_text: 'Publish',
-      restore_text: 'Restore',
-      capacitor_text: 'Capacitor Test Page',
-      prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
-      rldir: 'ltr',
       book_style: process.env.VUE_APP_SITE_STYLE,
+      capacitor_text: 'Capacitor Test Page',
+      error: false,
+      loaded: false,
+      loading: true,
+      prototype_text: 'Prototype',
+      prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
+      publish_text: 'Publish',
+      recnum: null,
+      restore_text: 'Restore',
+      rldir: 'ltr',
     }
   },
   methods: {

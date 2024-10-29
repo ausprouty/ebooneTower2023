@@ -89,18 +89,28 @@ export default {
   },
   data() {
     return {
-      style: null,
-      readonly: false,
-      write: false,
-      publish: false,
-      sdcard: false,
-      prototype_text: 'Prototype Library',
-      publish_text: 'Publish Library',
-      prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
-      site_directory: process.env.VUE_APP_SITE_DIR,
-      back: 'country',
-      back_image: null,
-      format: {},
+      data() {
+        return {
+          back: 'country',
+          back_image: null,
+          error: false,
+          format: {},
+          loaded: false,
+          loading: false,
+          nojs_text: 'Publish Library with No Javascript',
+          prototype: false,
+          prototype_text: 'Prototype Library',
+          prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
+          publish: false,
+          publish_text: 'Publish Library',
+          readonly: false,
+          sdcard: false,
+          sdcard_text: 'Publish Library for SDCard',
+          site_directory: process.env.VUE_APP_SITE_DIR,
+          style: null,
+          write: false,
+        }
+      },
     }
   },
   methods: {

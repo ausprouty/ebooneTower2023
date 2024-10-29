@@ -155,6 +155,9 @@ export default new Vuex.Store({
     addNewLibraryBookCode(state, code) {
       state.bookmark.library.books.push({ code })
     },
+    removeBook(state, index) {
+      state.bookmark.library.books.splice(index, 1)
+    },
     setAllBooksPrototypeToFalse(state) {
       state.bookmark.library.books.forEach((book) => {
         book.prototype = false

@@ -183,114 +183,122 @@ export default {
   computed: mapState(['bookmark', 'cssURL', 'ckEditStyleSets']),
   data() {
     return {
-      prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
-      authorized: false,
-      request_passage: false,
-      mounted: false,
-      reference: null,
-      templates: [],
-      content: {
-        recnum: '',
-        version: '',
-        edit_date: '',
-        edit_uid: '',
-        publish_uid: '',
-        publish_date: '',
-        language_iso: '',
-        country_code: '',
-        folder: '',
-        filetype: '',
-        title: '',
-        filename: '',
-        text: '',
-      },
-      block_count: 0,
-      block_selection: false,
-      comparison_in_progress: false,
-      comparison_previous: [],
-      compareText: 'this is my text to show you',
-      comparison_countries: [],
-      comparison_country: null,
-      comparison_languages: [],
-      comparison_language: null,
-      comparison_libraries: [],
-      comparison_library: null,
-      comparison_books: [],
-      comparison_book: null,
-      comparison_chapters: [],
-      comparison_chapter: null,
-      comparison_versions: [],
-      comparison_version: null,
-      languages: [],
-      series: [],
-      config: {
-        extraPlugins: [
-          'bidi',
-          'uploadimage',
-          'iframe',
-          'uploadwidget',
-          'clipboard',
-          'videoembed',
-          'templates',
-          'panelbutton',
-          'floatpanel',
-          'colorbutton',
-          'justify',
-        ],
-        extraAllowedContent: [
-          '*(*)[id]',
-          'ol[*]',
-          'span[*]',
-          'align[*]',
-          'webkitallowfullscreen',
-          'mozallowfullscreen',
-          'allowfullscreen',
-        ],
-        contentsCss: this.$route.params.css,
-        stylesSet: this.$route.params.styles_set,
-        templates_replaceContent: false,
-        templates_files: [
-          '/sites/' +
-            process.env.VUE_APP_SITE +
-            '/ckeditor/templates/' +
-            this.$route.params.styles_set +
-            '.js',
-        ],
-        // Configure your file manager integration. This example uses CKFinder 3 for PHP.
-        // https://ckeditor.com/docs/ckfinder/ckfinder3-php/howto.html#howto_private_folders
-        filebrowserBrowseUrl:
-          process.env.VUE_APP_SITE_CKFINDER_URL + 'ckfinder.html',
-        filebrowserUploadUrl:
-          process.env.VUE_APP_SITE_CKFINDER_URL +
-          'core/connector/php/connector.php?command=QuickUpload&type=Images&currentFolder=' +
-          this.languageDirectory,
-
-        // end Configuration
-        toolbarGroups: [
-          { name: 'styles', groups: ['styles'] },
-          { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
-          {
-            name: 'editing',
-            groups: ['find', 'selection', 'spellchecker', 'editing'],
+      data() {
+        return {
+          authorized: false,
+          block_count: 0,
+          block_selection: false,
+          compareText: 'this is my text to show you',
+          comparison_books: [],
+          comparison_chapters: [],
+          comparison_country: null,
+          comparison_countries: [],
+          comparison_in_progress: false,
+          comparison_language: null,
+          comparison_languages: [],
+          comparison_library: null,
+          comparison_libraries: [],
+          comparison_previous: [],
+          comparison_version: null,
+          comparison_versions: [],
+          config: {
+            extraPlugins: [
+              'bidi',
+              'uploadimage',
+              'iframe',
+              'uploadwidget',
+              'clipboard',
+              'videoembed',
+              'templates',
+              'panelbutton',
+              'floatpanel',
+              'colorbutton',
+              'justify',
+            ],
+            extraAllowedContent: [
+              '*(*)[id]',
+              'ol[*]',
+              'span[*]',
+              'align[*]',
+              'webkitallowfullscreen',
+              'mozallowfullscreen',
+              'allowfullscreen',
+            ],
+            contentsCss: this.$route.params.css,
+            stylesSet: this.$route.params.styles_set,
+            templates_replaceContent: false,
+            templates_files: [
+              '/sites/' +
+                process.env.VUE_APP_SITE +
+                '/ckeditor/templates/' +
+                this.$route.params.styles_set +
+                '.js',
+            ],
+            filebrowserBrowseUrl:
+              process.env.VUE_APP_SITE_CKFINDER_URL + 'ckfinder.html',
+            filebrowserUploadUrl:
+              process.env.VUE_APP_SITE_CKFINDER_URL +
+              'core/connector/php/connector.php?command=QuickUpload&type=Images&currentFolder=' +
+              this.languageDirectory,
+            toolbarGroups: [
+              { name: 'styles', groups: ['styles'] },
+              { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
+              {
+                name: 'editing',
+                groups: ['find', 'selection', 'spellchecker', 'editing'],
+              },
+              { name: 'links', groups: ['links'] },
+              { name: 'insert', groups: ['insert'] },
+              { name: 'forms', groups: ['forms'] },
+              { name: 'tools', groups: ['tools'] },
+              { name: 'document', groups: ['mode', 'document', 'doctools'] },
+              { name: 'clipboard', groups: ['clipboard', 'undo'] },
+              { name: 'others', groups: ['others'] },
+              '/',
+              {
+                name: 'paragraph',
+                groups: [
+                  'list',
+                  'indent',
+                  'blocks',
+                  'align',
+                  'bidi',
+                  'paragraph',
+                ],
+              },
+              { name: 'colors', groups: ['colors'] },
+              { name: 'about', groups: ['about'] },
+            ],
+            height: 600,
+            removeButtons:
+              'About,Button,Checkbox,CreatePlaceholder,DocProps,Flash,Form,HiddenField,Iframe,' +
+              'NewPage,PageBreak,Preview,Print,Radio,Save,Scayt,Select,Smiley,SpecialChar,TextField,Textarea',
           },
-          { name: 'links', groups: ['links'] },
-          { name: 'insert', groups: ['insert'] },
-          { name: 'forms', groups: ['forms'] },
-          { name: 'tools', groups: ['tools'] },
-          { name: 'document', groups: ['mode', 'document', 'doctools'] },
-          { name: 'clipboard', groups: ['clipboard', 'undo'] },
-          { name: 'others', groups: ['others'] },
-          '/',
-          {
-            name: 'paragraph',
-            groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph'],
+          content: {
+            recnum: '',
+            version: '',
+            edit_date: '',
+            edit_uid: '',
+            publish_uid: '',
+            publish_date: '',
+            language_iso: '',
+            country_code: '',
+            folder: '',
+            filetype: '',
+            title: '',
+            filename: '',
+            text: '',
           },
-          { name: 'colors', groups: ['colors'] },
-          { name: 'about', groups: ['about'] },
-        ],
-        height: 600,
-        removeButtons:
-          'About,Button,Checkbox,CreatePlaceholder,DocProps,Flash,Form,HiddenField,Iframe,NewPage,PageBreak,Preview,Print,Radio,Save,Scayt,Select,Smiley,SpecialChar,TextField,Textarea',
+          languages: [],
+          mounted: false,
+          page_template: null,
+          pageText: '',
+          prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
+          reference: null,
+          request_passage: false,
+          series: [],
+          templates: [],
+        }
       },
     }
   },
@@ -554,7 +562,10 @@ export default {
       }
       await this.getComparisons(this.$route.params)
     } catch (error) {
-      LogService.consoleLogError('There was an error in PageCompare.vue:', error)
+      LogService.consoleLogError(
+        'There was an error in PageCompare.vue:',
+        error
+      )
       await this.loadTemplate()
     }
   },

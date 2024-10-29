@@ -43,19 +43,16 @@
         :multiple="true"
         :close-on-select="false"
         :clear-on-select="false"
-        :preserve-search="true"
         placeholder="Choose one or more"
         label="language_name"
         track-by="language_name"
         :preselect-first="false"
       >
-        <template slot="selection" slot-scope="{ values, search, isOpen }"
-          ><span
-            class="multiselect__single"
-            v-if="values.length &amp;&amp; !isOpen"
-            >{{ values.length }} options selected</span
-          ></template
-        >
+        <template slot="selection" slot-scope="{ values, isOpen }">
+          <span class="multiselect__single" v-if="values.length && !isOpen">
+            {{ values.length }} options selected
+          </span>
+        </template>
       </multiselect>
     </div>
     <div class="spacer"></div>
@@ -131,29 +128,30 @@ export default {
   },
   data() {
     return {
-      prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
-      sdroot: process.env.VUE_APP_ROOT_SDCARD,
       authorized: false,
-      videolist_text: 'Create Media List for SD Card',
-      common_text: 'Check Common Files',
-      language_text: 'Create Language Index',
-      languages: [],
-      country_name: null,
-      show_progress: false,
-      site: process.env.VUE_APP_SITE,
-      language_data: [],
-      footers: [],
       bat_text: 'Download Media Batch Files',
+      common_text: 'Check Common Files',
+      country_name: null,
+      footers: [],
+      language_data: [],
+      languages: [],
+      language_text: 'Create Language Index',
+      prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
       sdcard: {
-        languages: [],
-        footer: null,
-        remove_external_links: false,
         action: 'sdcard',
+        footer: null,
+        languages: [],
+        remove_external_links: false,
         series: null,
         subDirectory: null,
       },
+      sdroot: process.env.VUE_APP_ROOT_SDCARD,
+      show_progress: false,
+      site: process.env.VUE_APP_SITE,
+      videolist_text: 'Create Media List for SD Card',
     }
   },
+
   computed: {
     bookmark() {
       return this.$store.state.bookmark
@@ -180,7 +178,7 @@ export default {
       this.language_text = 'Verifying'
       var params = this.$route.params
       var response = await SDCardService.verifyLanguageIndex(params)
-      //console.log(response)
+      console.log(response)
       this.language_text = 'Verified'
     },
 
@@ -188,7 +186,7 @@ export default {
       this.common_text = 'Verifying'
       var params = this.$route.params
       var response = await SDCardService.verifyCommonFiles(params)
-      //console.log(response)
+      console.log(response)
       this.common_text = 'Verified'
     },
     async zipMediaBatFiles() {
