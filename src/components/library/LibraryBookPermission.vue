@@ -1,12 +1,12 @@
 <template>
   <div>
     <br />
-    <label for="checkbox">
+    <label for="hideCheckbox">
       <h3>Hide on library page?&nbsp;&nbsp;</h3>
     </label>
     <input
       type="checkbox"
-      id="checkbox"
+      id="hideCheckbox"
       v-model="bookPermissionHide"
       @change="updatePermissionHide(bookPermissionHide)"
     />
@@ -21,23 +21,23 @@
       @change="updatePermissionPassword(bookPermissionPassword)"
     />
 
-    <label for="checkbox">
+    <label for="prototypeCheckbox">
       <h3>Prototype?&nbsp;&nbsp;</h3>
     </label>
     <input
       type="checkbox"
-      id="checkbox"
+      id="prototypeCheckbox"
       v-model="bookPermissionPrototype"
       @change="updatePermissionPrototype(bookPermissionPrototype)"
     />
     <br />
 
-    <label for="checkbox">
+    <label for="publishCheckbox">
       <h3>Publish?&nbsp;&nbsp;&nbsp;</h3>
     </label>
     <input
       type="checkbox"
-      id="checkbox"
+      id="publishCheckbox"
       v-model="bookPermissionPublish"
       @change="updatePermissionPublish(bookPermissionPublish)"
     />
@@ -47,6 +47,7 @@
 </template>
 <script>
 import { libraryUpdateMixin } from '@/mixins/library/LibraryUpdateMixin.js'
+
 export default {
   props: {
     index: {
@@ -61,6 +62,7 @@ export default {
         return this.getBookProperty('hide')
       },
       set(value) {
+        this.ensureBookProperty('hide', value)
         this.updatePermissionHide(value)
       },
     },
@@ -69,6 +71,7 @@ export default {
         return this.getBookProperty('password')
       },
       set(value) {
+        this.ensureBookProperty('password', value)
         this.updatePermissionPassword(value)
       },
     },
@@ -77,6 +80,7 @@ export default {
         return this.getBookProperty('prototype')
       },
       set(value) {
+        this.ensureBookProperty('prototype', value)
         this.updatePermissionPrototype(value)
       },
     },
@@ -85,25 +89,39 @@ export default {
         return this.getBookProperty('publish')
       },
       set(value) {
+        this.ensureBookProperty('publish', value)
         this.updatePermissionPublish(value)
       },
     },
   },
   methods: {
     getBookProperty(property) {
-      console.log(property)
       const books = this.$store.state.bookmark.library.books
-      if (books && books[this.index] && books[this.index][property]) {
-        console.log(property + ' ' + books[this.index][property])
+      if (books && books[this.index]) {
+        if (!(property in books[this.index])) {
+          console.warn(
+            `Initializing '${property}' for book at index ${this.index}`
+          )
+          this.ensureBookProperty(property, null) // Initialize to null
+        }
         return books[this.index][property]
       }
-      console.log(property + ' not found')
+      console.warn(`Book not found at index ${this.index}`)
       return ''
+    },
+    ensureBookProperty(property, value = null) {
+      const books = this.$store.state.bookmark.library.books
+      if (books && books[this.index] && !(property in books[this.index])) {
+        console.log(
+          `Setting '${property}' to ${value} for book at index ${this.index}`
+        )
+        this.$set(books[this.index], property, value)
+      }
     },
     updateBookPermission(permissionType, value) {
       this.$store.commit(`setBookPermission${permissionType}`, {
         index: this.index,
-        value: value,
+        value,
       })
     },
     updatePermissionHide(value) {

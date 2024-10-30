@@ -1,2 +1,0 @@
-modified tsconfig.json which was set to target es6 because BaseSelect was not working
-now set to es5

@@ -66,42 +66,59 @@ export default {
       this.setAllBooksPublishToFalse()
     },
     async saveForm(action = null) {
+      if (this.saving) return // Prevent re-trigger
+      this.saving = true // Disable button
+
       try {
-        // update library file
-        console.log ('saveForm')
-        var library = this.$store.state.bookmark.library
-        this.content.text = JSON.stringify(library)
-        var route = this.$route.params
-        route.filename = route.library_code
+        console.log('saveForm')
+
+        // Prepare content data
+        const library = this.$store.state.bookmark.library
+        const { country_code, language_iso, library_code } = this.$route.params
+        const route = { ...this.$route.params, filename: library_code }
         delete route.folder_name
-        this.content.route = JSON.stringify(route)
-        this.content.filetype = 'json'
-        console.log (this.content)
-        var response = await AuthorService.createContentData(this.content)
-        if (response.data.error != true && action != 'stay') {
-          this.$router.push({
-            name: 'previewLibrary',
-            params: {
-              country_code: this.$route.params.country_code,
-              language_iso: this.$route.params.language_iso,
-              library_code: this.$route.params.library_code,
-            },
-          })
+
+        this.content = {
+          text: JSON.stringify(library),
+          route: JSON.stringify(route),
+          filetype: 'json',
         }
-        if (response.data.error == true) {
-          this.error = true
-          this.loaded = false
-          this.error_message = response.data.message
+
+        console.log(this.content)
+
+        // Send content to AuthorService
+        const response = await AuthorService.createContentData(this.content)
+        console.log(response)
+
+        if (response.data.error) {
+          this.handleError(response.data.message)
+        } else if (action !== 'stay') {
+          this.navigateToPreview({ country_code, language_iso, library_code })
         }
       } catch (error) {
-        LogService.consoleLogError(
-          'LIBRARY EDIT There was an error in Saving Form ',
-          error
-        )
-        this.loaded = false
-        this.error_message = error
-        this.error = true
+        this.handleException(error)
+      } finally {
+        this.saving = false // Re-enable button
       }
+    },
+    navigateToPreview(params) {
+      this.$router.push({ name: 'previewLibrary', params })
+    },
+
+    handleError(message) {
+      this.error = true
+      this.loaded = false
+      this.error_message = message
+    },
+
+    handleException(error) {
+      LogService.consoleLogError(
+        'LIBRARY EDIT There was an error in Saving Form',
+        error
+      )
+      this.error_message = error
+      this.error = true
+      this.loaded = false
     },
   },
 }

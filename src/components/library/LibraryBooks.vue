@@ -19,7 +19,7 @@
 
       <div
         class="app-card -shadow"
-        v-bind:class="{ notpublished: !book.publish.$model }"
+        v-bind:class="{ notpublished: !book.publish }"
       >
         <div
           class="float-right"

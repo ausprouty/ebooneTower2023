@@ -60,7 +60,20 @@ export default {
     LibraryPublishButtons,
   },
   props: ['country_code', 'language_iso', 'library_code'],
-  computed: mapState(['bookmark', 'cssURL', 'standard']),
+  computed: {
+    ...mapState(['bookmark', 'cssURL', 'standard']), // Existing Vuex state mappings
+
+    // Add a computed property for libraryText with get and set
+    libraryText: {
+      get() {
+        return this.$store.state.bookmark.library.text // Get libraryText from Vuex
+      },
+      set(newValue) {
+        console.log('set libraryText to ' + newValue) // Alert the new value
+        this.$store.commit('setLibraryText', newValue) // Commit new value to Vuex
+      },
+    },
+  },
   data() {
     return {
       authorized: false,
@@ -77,7 +90,6 @@ export default {
       publish_date: null,
       recnum: null,
       site_dir: process.env.VUE_APP_SITE_DIR,
-      libraryText: 'how are you',
     }
   },
   beforeCreate() {
@@ -121,6 +133,10 @@ export default {
         this.error_message = error + 'Library Edit - showForm()'
         this.error = true
       }
+    },
+    // Commit the new text to Vuex store
+    XupdateLibraryTextInVuex(newText) {
+      this.$store.commit('updateLibraryText', newText)
     },
   },
 }

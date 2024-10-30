@@ -65,7 +65,10 @@ export default {
         toolbarGroups: [
           { name: 'styles', groups: ['styles'] },
           { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
-          { name: 'editing', groups: ['find', 'selection', 'spellchecker', 'editing'] },
+          {
+            name: 'editing',
+            groups: ['find', 'selection', 'spellchecker', 'editing'],
+          },
           { name: 'links', groups: ['links'] },
           { name: 'insert', groups: ['insert'] },
           { name: 'forms', groups: ['forms'] },
@@ -90,20 +93,20 @@ export default {
   watch: {
     // Sync local text with prop value if prop changes
     value(newVal) {
-      this.localText = newVal;
+      this.localText = newVal
     },
   },
   methods: {
     // Emit 'input' event whenever localText changes to update parent
     updateText(newText) {
-      this.$emit('input', newText);
+      this.$emit('input', newText)
     },
   },
   mounted() {
     // Watch for changes in localText and emit updates
     this.$watch('localText', (newValue) => {
-      this.updateText(newValue);
-    });
+      this.updateText(newValue)
+    })
   },
 }
 </script>
