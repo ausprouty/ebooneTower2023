@@ -3,22 +3,26 @@
     <h2>Preliminary Text</h2>
 
     <p>
-      <vue-ckeditor v-model="text" :config="config" />
+      <vue-ckeditor v-model="localText" :config="config" />
     </p>
   </div>
 </template>
+
 <script>
 import '@/views/ckeditor/index.js'
 import VueCkeditor from 'vue-ckeditor2'
 
-//import { mapState } from 'vuex'
 export default {
   components: { VueCkeditor },
   props: {
-    text: String,
+    value: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
+      localText: this.value, // Initialize local data with the prop value
       config: {
         extraPlugins: [
           'bidi',
@@ -52,23 +56,16 @@ export default {
             this.$route.params.styles_set +
             '.js',
         ],
-        // Configure your file manager integration. This example uses CKFinder 3 for PHP.
-        // https://ckeditor.com/docs/ckfinder/ckfinder3-php/howto.html#howto_private_folders
         filebrowserBrowseUrl:
           process.env.VUE_APP_SITE_CKFINDER_URL + 'ckfinder.html',
         filebrowserUploadUrl:
           process.env.VUE_APP_SITE_CKFINDER_URL +
           'core/connector/php/connector.php?command=QuickUpload&type=Images&currentFolder=' +
           this.languageDirectory,
-
-        // end Configuration
         toolbarGroups: [
           { name: 'styles', groups: ['styles'] },
           { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
-          {
-            name: 'editing',
-            groups: ['find', 'selection', 'spellchecker', 'editing'],
-          },
+          { name: 'editing', groups: ['find', 'selection', 'spellchecker', 'editing'] },
           { name: 'links', groups: ['links'] },
           { name: 'insert', groups: ['insert'] },
           { name: 'forms', groups: ['forms'] },
@@ -87,8 +84,26 @@ export default {
         height: 600,
         removeButtons:
           'About,Button,Checkbox,CreatePlaceholder,DocProps,Flash,Form,HiddenField,Iframe,NewPage,PageBreak,Preview,Print,Radio,Save,Scayt,Select,Smiley,SpecialChar,TextField,Textarea',
-      }, //config
+      }, // config
     }
+  },
+  watch: {
+    // Sync local text with prop value if prop changes
+    value(newVal) {
+      this.localText = newVal;
+    },
+  },
+  methods: {
+    // Emit 'input' event whenever localText changes to update parent
+    updateText(newText) {
+      this.$emit('input', newText);
+    },
+  },
+  mounted() {
+    // Watch for changes in localText and emit updates
+    this.$watch('localText', (newValue) => {
+      this.updateText(newValue);
+    });
   },
 }
 </script>

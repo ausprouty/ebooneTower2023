@@ -66,7 +66,7 @@ export default {
       })
     },
     saveForm() {
-      console.log('Is there a way to save the form?')
+      alert('Is there a way to save the form?')
     },
     getBookProperty(property) {
       const books = this.$store.state.bookmark.library.books

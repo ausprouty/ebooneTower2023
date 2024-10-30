@@ -1,31 +1,31 @@
 <template>
-  <div class="preview" v-bind:dir="this.rldir">
-    <link rel="stylesheet" v-bind:href="this.style" />
+  <div class="preview" v-bind:dir="rldir">
+    <link rel="stylesheet" v-bind:href="style" />
     <NavBar called_by="library" />
     <div class="loading" v-if="loading">Loading...</div>
-    <div class="error" v-if="error">There was an error... {{ this.error }}</div>
+    <div class="error" v-if="error">There was an error... {{ error }}</div>
     <div class="content" v-if="loaded">
-      <div v-if="this.publish">
+      <div v-if="publish">
         <button class="button" @click="localPublish('website')">
-          {{ this.publish_text }}
+          {{ publish_text }}
         </button>
       </div>
 
       <div v-if="this.prototype">
         <div>
           <button class="button" @click="localPublish('prototype')">
-            {{ this.prototype_text }}
+            {{ prototype_text }}
           </button>
         </div>
-        <div v-if="this.sdcard">
+        <div v-if="sdcard">
           <div>
             <button class="button" @click="localPublish('sdcard')">
-              {{ this.sdcard_text }}
+              {{ sdcard_text }}
             </button>
           </div>
           <div>
             <button class="button" @click="localPublish('nojs')">
-              {{ this.nojs_text }}
+              {{ nojs_text }}
             </button>
           </div>
         </div>
@@ -33,7 +33,7 @@
       <a
         target="_blank"
         class="help"
-        v-bind:href="this.prototype_url + 'HD/eng/help-1/library_preview.html'"
+        v-bind:href="prototype_url + 'HD/eng/help-1/library_preview.html'"
       >
         <img class="help-icon" src="/sites/default/images/icons/help.png" />
       </a>
@@ -44,15 +44,15 @@
       />
       <hr class="border" />
       <a v-bind:href="this.back">
-        <img v-bind:src="this.back_image" class="app-img-header" />
+        <img v-bind:src="back_image" class="app-img-header" />
       </a>
       <div>
-        <span v-html="this.pageText"></span>
+        <span v-html="pageText"></span>
       </div>
 
-      <div v-if="!this.hide_cards">
+      <div v-if="!hide_cards">
         <Book
-          v-for="book in this.bookmark.library.books"
+          v-for="book in bookmark.library.books"
           :key="book.title"
           :book="book"
         />
@@ -62,14 +62,14 @@
       </div>
       <hr class="border" />
     </div>
-    <div v-if="this.write">
+    <div v-if="write">
       <button class="button" @click="testLibrary">Test</button>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <button class="button" @click="editLibrary">Edit</button>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <button class="button" @click="sortLibrary">Sort</button>
     </div>
-    <div v-if="this.readonly">
+    <div v-if="readonly">
       <button class="button" @click="editLibrary">View Details</button>
     </div>
   </div>
@@ -94,33 +94,30 @@ export default {
     Book,
     NavBar,
   },
+
   data() {
     return {
-      data() {
-        return {
-          back: 'country',
-          back_image: null,
-          error: false,
-          format: {},
-          hide_cards: true,
-          loaded: false,
-          loading: false,
-          nojs_text: 'Publish Library with No Javascript',
-          pageText: null,
-          prototype: false,
-          prototype_text: 'Prototype Library',
-          prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
-          publish: false,
-          publish_text: 'Publish Library',
-          rldir: 'ltr',
-          readonly: false,
-          sdcard: false,
-          sdcard_text: 'Publish Library for SDCard',
-          site_directory: process.env.VUE_APP_SITE_DIR,
-          style: null,
-          write: false,
-        }
-      },
+      back: 'country',
+      back_image: null,
+      error: false,
+      format: {},
+      hide_cards: true,
+      loaded: false,
+      loading: false,
+      nojs_text: 'Publish Library with No Javascript',
+      pageText: null,
+      prototype: false,
+      prototype_text: 'Prototype Library',
+      prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
+      publish: false,
+      publish_text: 'Publish Library',
+      rldir: 'ltr',
+      readonly: false,
+      sdcard: false,
+      sdcard_text: 'Publish Library for SDCard',
+      site_directory: process.env.VUE_APP_SITE_DIR,
+      style: null,
+      write: false,
     }
   },
   methods: {

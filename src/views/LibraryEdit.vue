@@ -26,7 +26,7 @@
         </div>
         <div>
           <LibraryFormatTemplate />
-          <LibraryText v-bind:text="text" />
+          <LibraryText :value="libraryText" @input="libraryText = $event" />
           <LibraryBooks />
           <LibraryPublishButtons />
         </div>
@@ -64,7 +64,6 @@ export default {
   data() {
     return {
       authorized: false,
-      cssURL: '',
       error: null,
       error_message: null,
       header_image: '',
@@ -78,8 +77,7 @@ export default {
       publish_date: null,
       recnum: null,
       site_dir: process.env.VUE_APP_SITE_DIR,
-      standard: '',
-      text: null,
+      libraryText: 'how are you',
     }
   },
   beforeCreate() {

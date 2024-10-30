@@ -68,6 +68,7 @@ export default {
     async saveForm(action = null) {
       try {
         // update library file
+        console.log ('saveForm')
         var library = this.$store.state.bookmark.library
         this.content.text = JSON.stringify(library)
         var route = this.$route.params
@@ -75,6 +76,7 @@ export default {
         delete route.folder_name
         this.content.route = JSON.stringify(route)
         this.content.filetype = 'json'
+        console.log (this.content)
         var response = await AuthorService.createContentData(this.content)
         if (response.data.error != true && action != 'stay') {
           this.$router.push({

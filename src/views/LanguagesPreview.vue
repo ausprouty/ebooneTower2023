@@ -92,7 +92,6 @@ export default {
   data() {
     return {
       ZZ: true,
-      bookmark: '',
       choose_language: 'Choose Language',
       error: '',
       loaded: false,
@@ -107,7 +106,6 @@ export default {
       readonly: false,
       recnum: null,
       sdcard: false,
-      user: '',
       write: false,
     }
   },
