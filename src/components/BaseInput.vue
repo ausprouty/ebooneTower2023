@@ -2,6 +2,7 @@
   <div>
     <label v-if="label">{{ label }}</label>
     <input
+      ref="input"
       :value="value"
       @input="updateValue"
       v-bind="$attrs"
@@ -31,6 +32,10 @@ export default {
   methods: {
     updateValue(event) {
       this.$emit('input', event.target.value)
+    },
+    focus() {
+      // Expose a focus method to focus the native input element
+      this.$refs.input.focus()
     },
   },
 }

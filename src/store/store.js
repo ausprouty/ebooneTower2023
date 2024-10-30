@@ -152,8 +152,9 @@ export default new Vuex.Store({
     addBook(state, book) {
       state.bookmark.library.books.push(book)
     },
-    addNewLibraryBookCode(state, code) {
-      state.bookmark.library.books.push({ code })
+    addNewLibraryBookCode(state, newCode) {
+      state.bookmark.library.books.push({ code: newCode });
+      console.log(`New book code added: ${newCode}`);
     },
     removeBook(state, index) {
       state.bookmark.library.books.splice(index, 1)
@@ -228,9 +229,13 @@ export default new Vuex.Store({
       state.bookmark.language.image_dir = selectedDirectory
     },
     setLibraryBookCode(state, { index, code }) {
-      if (state.bookmark.library.books[index]) {
-        Vue.set(state.bookmark.library.books[index], 'code', code)
+      if (!state.bookmark.library.books[index]) {
+        console.warn(`Book at index ${index} not found.`);
+        return;
       }
+      // Use Vue.set to ensure reactivity
+      Vue.set(state.bookmark.library.books[index], 'code', code);
+      console.log(`Book code set to ${code} at index ${index}.`);
     },
     setLibraryBooks: (state, selectedBooks) => {
       state.bookmark.library.books = selectedBooks
