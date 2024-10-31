@@ -235,7 +235,7 @@ export default new Vuex.Store({
       }
       // Use Vue.set to ensure reactivity
       Vue.set(state.bookmark.library.books[index], 'code', code);
-      console.log(`Book code set to ${code} at index ${index}.`);
+      //console.log(`Book code set to ${code} at index ${index}.`);
     },
     setLibraryBooks: (state, selectedBooks) => {
       state.bookmark.library.books = selectedBooks

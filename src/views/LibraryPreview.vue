@@ -63,7 +63,7 @@
       <hr class="border" />
     </div>
     <div v-if="write">
-      <button class="button" @click="testLibrary">Test</button>
+      <button class="button" @click="testLibrary">Run Tests</button>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <button class="button" @click="editLibrary">Edit</button>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

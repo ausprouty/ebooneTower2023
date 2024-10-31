@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { mapState } from 'vuex'
-import LogService from '@/services/LogService.js'
 import ContentService from '@/services/ContentService.js'
 import AuthorService from '@/services/AuthorService.js'
 //import { timeout } from 'q'
@@ -17,6 +16,7 @@ export const libraryGetMixin = {
       await AuthorService.bookmark(this.$route.params)
     },
     async getCkEditorStyleSets(param) {
+      console.log('getCkEditorStyleSets', param)
       var ckEditStyleSets = await AuthorService.getCkEditStyleSets(param)
       return ckEditStyleSets
     },

@@ -109,6 +109,7 @@ export default {
     async storeCkEditorStyleSetsInState() {
       var params = []
       var styles = await this.getCkEditorStyleSets(params)
+      console.log ('styles in storeCkEditorStyleSetsInState')
       console.log(styles)
       this.setCkEditorStyleSets(styles)
     },

@@ -5,8 +5,10 @@ function getCkEditStyleSets($p)
 {
 	$set = [];
 	$site = ROOT_NODE_MODULES . 'ckeditor/styles.js';
+	writeLog('getCKStyleSets-8-site', $site);
 	if (file_exists($site)) {
 		$text = file_get_contents($site);
+		writeLog('getCKStyleSets-11-site', $text);
 		$res = _getStyleSetName($text);
 		if ($res) {
 			foreach ($res as $value) {
