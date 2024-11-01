@@ -41,6 +41,8 @@ export default {
       }
       console.log('addNewBook', newBook)
       this.addBook(newBook)
+      console.log ('I am emitting bookAdded')
+      this.$emit('bookAdded')
     },
     prototypeAll() {
       this.setAllBooksPrototypeToTrue()

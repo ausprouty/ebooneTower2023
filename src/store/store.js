@@ -105,10 +105,12 @@ export default new Vuex.Store({
         return null
       }
     },
+    // Vuex getter (no complex logic, just return the books array)
     getLibraryBooks: (state) => {
-      console.log('getLibraryBooks from store')
+      console.log('getLibraryBooks recalculating')
       return state.bookmark.library.books
     },
+
     getLibraryBookCodes: (state) => {
       return state.bookmark.library.books.map((book) => book.code).sort()
     },
@@ -151,15 +153,7 @@ export default new Vuex.Store({
   },
   mutations: {
     addBook(state, book) {
-      console.log('addBook in store')
-      // Create a shallow clone of library with a new books array
-      const updatedLibrary = {
-        ...state.bookmark.library,
-        books: [...state.bookmark.library.books, book],
-      }
-      // Reassign the entire library object
-      Vue.set(state.bookmark, 'library', updatedLibrary)
-      console.log(state.bookmark.library.books)
+      state.bookmark.library.books = [...state.bookmark.library.books, book]
     },
     addNewLibraryBookCode(state, newCode) {
       state.bookmark.library.books.push({ code: newCode })
@@ -246,8 +240,8 @@ export default new Vuex.Store({
       Vue.set(state.bookmark.library.books[index], 'code', code)
       //console.log(`Book code set to ${code} at index ${index}.`);
     },
-    setLibraryBooks: (state, selectedBooks) => {
-      state.bookmark.library.books = selectedBooks
+    setLibraryBooks(state, books) {
+      state.bookmark.library.books = books
     },
     setLibraryBookCodes: (state, value) => {
       state.libraryBookCodes = value

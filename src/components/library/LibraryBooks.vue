@@ -77,6 +77,17 @@ export default {
       'setBookTemplates',
       'setCkEditorStyleSets',
     ]),
+    refreshBooks() {
+      const directStateBooks = this.$store.state.bookmark.library.books
+      console.log('Direct state access:', directStateBooks) // Should show 7 items
+
+      const getterBooks = this.getLibraryBooks
+      console.log('Getter access:', getterBooks) // Check if it’s also showing 7
+
+      if (directStateBooks.length !== getterBooks.length) {
+        console.log('Mismatch detected between direct state and getter')
+      }
+    },
     isOdd(id) {
       return id % 2 === 0 // Even index (since arrays are 0-based, this means odd items in 1-based logic)
     },
