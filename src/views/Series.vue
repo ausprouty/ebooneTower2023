@@ -14,7 +14,7 @@
             <img
               v-on:click="returnToIndex()"
               v-bind:src="
-                process.env.VUE_APP_SITE_CONTENT +
+                process.env.VUE_APP_SITE_CONTENT_URL +
                 this.bookmark.language.image_dir +
                 '/' +
                 this.bookmark.book.image

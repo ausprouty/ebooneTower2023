@@ -3,7 +3,7 @@ use xampp to left (xampp73)
 npm run serve-mc2
 npm run build-mc2
 
-I am working on library edit
+I am working on 
 
 
 installed nvm by going to https://github.com/coreybutler/nvm-windows

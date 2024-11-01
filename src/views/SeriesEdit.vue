@@ -117,7 +117,7 @@
                 <div v-if="chapter.image.$model">
                   <img
                     v-bind:src="
-                      process.env.VUE_APP_SITE_CONTENT +
+                      process.env.VUE_APP_SITE_CONTENT_URL +
                       series_image_dir +
                       '/' +
                       chapter.image.$model

@@ -7,7 +7,9 @@
       <a v-bind:href="'/languages/' + this.bookmark.country.code">
         <img
           v-bind:src="
-            process.env.VUE_APP_SITE_CONTENT + this.image_dir + '/journey.jpg'
+            process.env.VUE_APP_SITE_CONTENT_URL +
+            this.image_dir +
+            '/journey.jpg'
           "
           class="app-img-header"
         />

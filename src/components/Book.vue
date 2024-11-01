@@ -32,7 +32,7 @@ export default {
   },
   created() {
     this.image_dir = process.env.VUE_APP_IMAGE_DIR
-    this.site_content_dir = process.env.VUE_APP_SITE_CONTENT
+    this.site_content_dir = process.env.VUE_APP_SITE_CONTENT_URL
     if (typeof this.bookmark.language.image_dir != 'undefined') {
       LogService.consoleLogMessage('USING BOOKMARK')
       this.image_dir = this.bookmark.language.image_dir

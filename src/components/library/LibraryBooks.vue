@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      v-for="(book, id) in libraryBooks"
+      v-for="(book, id) in getLibraryBooks"
       :key="id"
       :book="book"
       :class="{
@@ -59,14 +59,8 @@ export default {
 
   computed: {
     ...mapGetters(['getLibraryBooks']),
-    libraryBooks: {
-      get() {
-        var temp = this.getLibraryBooks
-        console.log(temp)
-        return temp
-      },
-    },
   },
+
   created() {
     console.log('about to store in state')
     this.storeBookImagesInState()
@@ -109,7 +103,7 @@ export default {
     async storeCkEditorStyleSetsInState() {
       var params = []
       var styles = await this.getCkEditorStyleSets(params)
-      console.log ('styles in storeCkEditorStyleSetsInState')
+      console.log('styles in storeCkEditorStyleSetsInState')
       console.log(styles)
       this.setCkEditorStyleSets(styles)
     },

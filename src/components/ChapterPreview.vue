@@ -24,7 +24,7 @@
       <div v-if="this.chapter.image">
         <img
           v-bind:src="
-            process.env.VUE_APP_SITE_CONTENT +
+            process.env.VUE_APP_SITE_CONTENT_URL +
             this.series_image_dir +
             '/' +
             chapter.image

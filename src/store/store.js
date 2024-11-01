@@ -106,6 +106,7 @@ export default new Vuex.Store({
       }
     },
     getLibraryBooks: (state) => {
+      console.log('getLibraryBooks from store')
       return state.bookmark.library.books
     },
     getLibraryBookCodes: (state) => {
@@ -150,11 +151,19 @@ export default new Vuex.Store({
   },
   mutations: {
     addBook(state, book) {
-      state.bookmark.library.books.push(book)
+      console.log('addBook in store')
+      // Create a shallow clone of library with a new books array
+      const updatedLibrary = {
+        ...state.bookmark.library,
+        books: [...state.bookmark.library.books, book],
+      }
+      // Reassign the entire library object
+      Vue.set(state.bookmark, 'library', updatedLibrary)
+      console.log(state.bookmark.library.books)
     },
     addNewLibraryBookCode(state, newCode) {
-      state.bookmark.library.books.push({ code: newCode });
-      console.log(`New book code added: ${newCode}`);
+      state.bookmark.library.books.push({ code: newCode })
+      console.log(`New book code added: ${newCode}`)
     },
     removeBook(state, index) {
       state.bookmark.library.books.splice(index, 1)
@@ -196,16 +205,16 @@ export default new Vuex.Store({
       state.bookImages.push(image)
     },
     setBookPermissionHide(state, { index, value }) {
-      state.bookmark.library.books[index].hide = value;
+      state.bookmark.library.books[index].hide = value
     },
     setBookPermissionPassword(state, { index, value }) {
-      state.bookmark.library.books[index].password = value;
+      state.bookmark.library.books[index].password = value
     },
     setBookPermissionPrototype(state, { index, value }) {
-      state.bookmark.library.books[index].prototype = value;
+      state.bookmark.library.books[index].prototype = value
     },
     setBookPermissionPublish(state, { index, value }) {
-      state.bookmark.library.books[index].publish = value;
+      state.bookmark.library.books[index].publish = value
     },
     setBookStyleSheets(state, styleSheets) {
       state.bookStyleSheets = styleSheets
@@ -230,11 +239,11 @@ export default new Vuex.Store({
     },
     setLibraryBookCode(state, { index, code }) {
       if (!state.bookmark.library.books[index]) {
-        console.warn(`Book at index ${index} not found.`);
-        return;
+        console.warn(`Book at index ${index} not found.`)
+        return
       }
       // Use Vue.set to ensure reactivity
-      Vue.set(state.bookmark.library.books[index], 'code', code);
+      Vue.set(state.bookmark.library.books[index], 'code', code)
       //console.log(`Book code set to ${code} at index ${index}.`);
     },
     setLibraryBooks: (state, selectedBooks) => {

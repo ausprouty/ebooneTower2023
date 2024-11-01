@@ -33,24 +33,13 @@ export default {
       'setAllBooksPrototypeToTrue',
       'setAllBooksPublishToFalse',
       'setAllBooksPublishToTrue',
+      'addBook',
     ]),
     addNewBook() {
       const newBook = {
-        code: '',
-        format: '',
-        id: '',
-        image: {
-          image: '',
-          title: '',
-        },
-        pages: '',
-        prototype: '',
-        publish: '',
-        style: '',
-        style_set: '',
-        template: '',
-        title: '',
+        title: 'New Book',
       }
+      console.log('addNewBook', newBook)
       this.addBook(newBook)
     },
     prototypeAll() {
