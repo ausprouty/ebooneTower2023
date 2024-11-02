@@ -37,13 +37,29 @@ export default {
     ]),
     addNewBook() {
       const newBook = {
-        title: 'New Book',
+        code: 'unknown',
+        format: 'series',
+        hide: false,
+        id: '998',
+        image: {
+          image: '',
+          title: '',
+        },
+        password: '',
+        prototype: 'N',
+        publish: 'N',
+        style: '',
+        styles_set: '',
+        title: 'New Book', // Provide a default title for clarity
+        template: '',
       }
+
       console.log('addNewBook', newBook)
-      this.addBook(newBook)
-      console.log ('I am emitting bookAdded')
+      this.addBook(newBook) // Call the mutation to add the book to the store
+      console.log('I am emitting bookAdded')
       this.$emit('bookAdded')
     },
+
     prototypeAll() {
       this.setAllBooksPrototypeToTrue()
     },

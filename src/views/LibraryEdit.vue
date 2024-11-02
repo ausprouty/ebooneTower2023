@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :key="renderKey">
     <NavBar called_by="library" />
     <div class="loading" v-if="loading">Loading...</div>
     <div class="error" v-if="error">
@@ -89,6 +89,7 @@ export default {
       prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
       publish_date: null,
       recnum: null,
+      renderKey: 0,
       site_dir: process.env.VUE_APP_SITE_DIR,
     }
   },
@@ -127,7 +128,8 @@ export default {
         this.$refs.libraryBooks.refreshBooks()
       }
 
-      this.$forceUpdate()
+      //this.$forceUpdate()
+      //this.renderKey += 1
     },
 
     async showForm() {

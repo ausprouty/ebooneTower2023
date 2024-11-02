@@ -153,7 +153,9 @@ export default new Vuex.Store({
   },
   mutations: {
     addBook(state, book) {
-      state.bookmark.library.books = [...state.bookmark.library.books, book]
+      const updatedBooks = [...state.bookmark.library.books, book];
+      // Chain setLibraryBooks to replace the entire array
+      this.commit('setLibraryBooks', updatedBooks);
     },
     addNewLibraryBookCode(state, newCode) {
       state.bookmark.library.books.push({ code: newCode })
@@ -241,6 +243,7 @@ export default new Vuex.Store({
       //console.log(`Book code set to ${code} at index ${index}.`);
     },
     setLibraryBooks(state, books) {
+      console.log('setLibraryBooks called:', books)
       state.bookmark.library.books = books
     },
     setLibraryBookCodes: (state, value) => {

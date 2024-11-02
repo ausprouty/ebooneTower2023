@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div :key="renderKey">
     <div
-      v-for="(book, id) in getLibraryBooks"
+      v-for="(book, id) in this.$store.state.bookmark.library.books"
       :key="id"
       :book="book"
       :class="{
@@ -43,7 +43,7 @@ import LibraryBookTitle from '@/components/library/LibraryBookTitle'
 import AuthorService from '@/services/AuthorService.js'
 import LogService from '@/services/LogService.js'
 import { libraryGetMixin } from '@/mixins/library/LibraryGetMixin.js'
-import { mapGetters, mapMutations } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import '@/assets/css/vueSelect.css'
 export default {
   mixins: [libraryGetMixin],
@@ -56,9 +56,15 @@ export default {
     LibraryBookTemplate,
     LibraryBookTitle,
   },
-
+  data() {
+    return {
+      renderKey: 0, // Initialize renderKey
+    }
+  },
   computed: {
-    ...mapGetters(['getLibraryBooks']),
+    ...mapState({
+      libraryBooks: (state) => state.bookmark.library.books,
+    }),
   },
 
   created() {
@@ -78,15 +84,9 @@ export default {
       'setCkEditorStyleSets',
     ]),
     refreshBooks() {
-      const directStateBooks = this.$store.state.bookmark.library.books
-      console.log('Direct state access:', directStateBooks) // Should show 7 items
-
-      const getterBooks = this.getLibraryBooks
-      console.log('Getter access:', getterBooks) // Check if it’s also showing 7
-
-      if (directStateBooks.length !== getterBooks.length) {
-        console.log('Mismatch detected between direct state and getter')
-      }
+      console.log('But State is:', this.$store.state.bookmark.library.books)
+      console.log('Refreshine LibraryBooks:', this.libraryBooks)
+      //this.renderKey += 1 // Change the renderKey value to force re-render
     },
     isOdd(id) {
       return id % 2 === 0 // Even index (since arrays are 0-based, this means odd items in 1-based logic)
@@ -120,25 +120,26 @@ export default {
     },
     async deleteBookForm(id) {
       try {
+        // Remove the book from the store
         this.removeBook(id)
-        // update library file
-        var library = this.$store.state.bookmark.library
-        this.content.text = JSON.stringify(library)
-        var route = this.$route.params
-        route.filename = route.library_code
-        delete route.folder_name
-        this.content.route = JSON.stringify(route)
-        this.content.filetype = 'json'
-        await AuthorService.createContentData(this.content)
-        this.$router.push({
-          name: 'previewLibrary',
-          params: {
-            country_code: this.$route.params.country_code,
-            language_iso: this.$route.params.language_iso,
-            library_code: this.$route.params.library_code,
-          },
-        })
+
+        // Update library file
+        var libraryObject = this.$store.state.bookmark.library
+        var content = {
+          text: JSON.stringify(libraryObject),
+          route: JSON.stringify({
+            ...this.$route.params,
+            filename: this.$route.params.library_code,
+          }),
+          filetype: 'json',
+        }
+
+        await AuthorService.createContentData(content)
+
+        // Force a re-render by updating renderKey
+        this.renderKey += 1
       } catch (error) {
+        console.log('Error in deleteBookForm', error)
         LogService.consoleLogError(
           'LIBRARY EDIT There was an error in Saving Form ',
           error
