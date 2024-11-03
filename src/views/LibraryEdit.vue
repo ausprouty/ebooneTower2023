@@ -117,20 +117,7 @@ export default {
     console.log('at end of  Created of  Library Edit')
   },
   methods: {
-    onBookAdded() {
-      console.log('onBookAdded event triggered in LibraryEdit')
-
-      // Ensure Vue re-renders by resetting the array in Vuex
-      const updatedBooks = [...this.$store.state.bookmark.library.books]
-      this.$store.commit('setLibraryBooks', updatedBooks) // Assume setLibraryBooks mutation sets the array
-
-      if (this.$refs.libraryBooks && this.$refs.libraryBooks.refreshBooks) {
-        this.$refs.libraryBooks.refreshBooks()
-      }
-
-      //this.$forceUpdate()
-      //this.renderKey += 1
-    },
+    
 
     async showForm() {
       try {

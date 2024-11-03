@@ -35,12 +35,16 @@ export default {
       'setAllBooksPublishToTrue',
       'addBook',
     ]),
-    addNewBook() {
+    async addNewBook() {
+      const newBookId = toString(
+        this.$store.state.bookmark.library.books.length + 1
+      )
+      // Step 1: Define the new book object with default values
       const newBook = {
-        code: 'unknown',
+        code: 'unknown' + newBookId,
         format: 'series',
         hide: false,
-        id: '998',
+        id: newBookId,
         image: {
           image: '',
           title: '',
@@ -50,14 +54,40 @@ export default {
         publish: 'N',
         style: '',
         styles_set: '',
-        title: 'New Book', // Provide a default title for clarity
+        title: 'New Book ' + newBookId,
         template: '',
       }
 
       console.log('addNewBook', newBook)
+
+      // Step 2: Add the new book to the state
       this.addBook(newBook) // Call the mutation to add the book to the store
       console.log('I am emitting bookAdded')
-      this.$emit('bookAdded')
+
+      // Step 3: Update the library file to reflect the new book
+      const libraryObject = this.$store.state.bookmark.library
+      const content = {
+        text: JSON.stringify(libraryObject),
+        route: JSON.stringify({
+          ...this.$route.params,
+          filename: this.$route.params.library_code,
+        }),
+        filetype: 'json',
+      }
+
+      try {
+        await AuthorService.createContentData(content)
+        console.log('Book added successfully')
+        this.$emit('onBookAdded')
+        // Step 4: Force a re-render by updating renderKey
+        //.this.renderKey += 1
+      } catch (error) {
+        console.log('Error in addNewBook', error)
+        LogService.consoleLogError(
+          'LIBRARY EDIT There was an error in Adding Book ',
+          error
+        )
+      }
     },
 
     prototypeAll() {

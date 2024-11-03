@@ -86,6 +86,7 @@ export default {
     refreshBooks() {
       console.log('But State is:', this.$store.state.bookmark.library.books)
       console.log('Refreshine LibraryBooks:', this.libraryBooks)
+      this.renderKey += 1
       //this.renderKey += 1 // Change the renderKey value to force re-render
     },
     isOdd(id) {
