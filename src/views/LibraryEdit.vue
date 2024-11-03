@@ -28,7 +28,6 @@
           <LibraryFormatTemplate />
           <LibraryText :value="libraryText" @input="libraryText = $event" />
           <LibraryBooks ref="libraryBooks" />
-          <LibraryPublishButtons @bookAdded="onBookAdded" />
         </div>
       </div>
     </div>
@@ -40,7 +39,6 @@ import NavBar from '@/components/NavBarAdmin.vue'
 import LibraryFormatTemplate from '@/components/library/LibraryFormatTemplate.vue'
 import LibraryText from '@/components/library/LibraryText.vue'
 import LibraryBooks from '@/components/library/LibraryBooks.vue'
-import LibraryPublishButtons from '@/components/library/LibraryPublishButtons.vue'
 
 import LogService from '@/services/LogService.js'
 // see https://stackoverflow.com/questions/55479380/adding-images-to-vue-select-dropdown
@@ -57,7 +55,6 @@ export default {
     LibraryBooks,
     LibraryFormatTemplate,
     LibraryText,
-    LibraryPublishButtons,
   },
   props: ['country_code', 'language_iso', 'library_code'],
   computed: {
@@ -117,8 +114,6 @@ export default {
     console.log('at end of  Created of  Library Edit')
   },
   methods: {
-    
-
     async showForm() {
       try {
         this.error = null

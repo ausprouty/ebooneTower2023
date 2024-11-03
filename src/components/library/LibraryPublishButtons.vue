@@ -36,9 +36,9 @@ export default {
       'addBook',
     ]),
     async addNewBook() {
-      const newBookId = toString(
-        this.$store.state.bookmark.library.books.length + 1
-      )
+      const newBookId = this.$store.state.bookmark.library.books.length + 1
+
+      console.log(newBookId)
       // Step 1: Define the new book object with default values
       const newBook = {
         code: 'unknown' + newBookId,
@@ -62,7 +62,7 @@ export default {
 
       // Step 2: Add the new book to the state
       this.addBook(newBook) // Call the mutation to add the book to the store
-      console.log('I am emitting bookAdded')
+     
 
       // Step 3: Update the library file to reflect the new book
       const libraryObject = this.$store.state.bookmark.library
@@ -78,6 +78,7 @@ export default {
       try {
         await AuthorService.createContentData(content)
         console.log('Book added successfully')
+        console.log('I am emitting onBookAdded')
         this.$emit('onBookAdded')
         // Step 4: Force a re-render by updating renderKey
         //.this.renderKey += 1

@@ -30,6 +30,7 @@
         </div>
       </div>
     </div>
+    <LibraryPublishButtons @onBookAdded="onBookAdded" />
   </div>
 </template>
 <script>
@@ -40,6 +41,7 @@ import LibraryBookPermission from '@/components/library/LibraryBookPermission'
 import LibraryBookStyle from '@/components/library/LibraryBookStyle'
 import LibraryBookTemplate from '@/components/library/LibraryBookTemplate'
 import LibraryBookTitle from '@/components/library/LibraryBookTitle'
+import LibraryPublishButtons from '@/components/library/LibraryPublishButtons.vue'
 import AuthorService from '@/services/AuthorService.js'
 import LogService from '@/services/LogService.js'
 import { libraryGetMixin } from '@/mixins/library/LibraryGetMixin.js'
@@ -55,6 +57,7 @@ export default {
     LibraryBookStyle,
     LibraryBookTemplate,
     LibraryBookTitle,
+    LibraryPublishButtons,
   },
   data() {
     return {
@@ -83,11 +86,9 @@ export default {
       'setBookTemplates',
       'setCkEditorStyleSets',
     ]),
-    refreshBooks() {
-      console.log('But State is:', this.$store.state.bookmark.library.books)
-      console.log('Refreshine LibraryBooks:', this.libraryBooks)
-      this.renderKey += 1
-      //this.renderKey += 1 // Change the renderKey value to force re-render
+    onBookAdded() {
+      console.log ('I am adding one to renderKety in LibraryBooks')
+      this.renderKey += 1 // Change the renderKey value to force re-render
     },
     isOdd(id) {
       return id % 2 === 0 // Even index (since arrays are 0-based, this means odd items in 1-based logic)
