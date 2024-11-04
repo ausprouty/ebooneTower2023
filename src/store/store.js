@@ -88,6 +88,12 @@ export default new Vuex.Store({
   },
 
   getters: {
+    getBookProperty: (state) => (index, property) => {
+      if (state.bookmark.library.books[index]) {
+        return state.bookmark.library.books[index][property]
+      }
+      return null // or undefined, or any default value you'd like
+    },
     getCkEditStyleSets: (state) => {
       return state.standard.ckEditStyleSets
     },
@@ -114,6 +120,7 @@ export default new Vuex.Store({
     getLibraryBookCodes: (state) => {
       return state.bookmark.library.books.map((book) => book.code).sort()
     },
+    
     getLibraryFormatBackButton: (state) => {
       return state.bookmark.library.format.back_button
     },
@@ -150,12 +157,26 @@ export default new Vuex.Store({
     getLibraryText: (state) => {
       return state.bookmark.library.text
     },
+    getLibraryProperty: (state) => (path) => {
+      const properties = path.split('.')
+      let result = state.bookmark.library
+
+      for (const prop of properties) {
+        if (result && typeof result[prop] !== 'undefined') {
+          result = result[prop]
+        } else {
+          return null // Return null if any part of the path is undefined
+        }
+      }
+
+      return result
+    },
   },
   mutations: {
     addBook(state, book) {
-      const updatedBooks = [...state.bookmark.library.books, book];
+      const updatedBooks = [...state.bookmark.library.books, book]
       // Chain setLibraryBooks to replace the entire array
-      this.commit('setLibraryBooks', updatedBooks);
+      this.commit('setLibraryBooks', updatedBooks)
     },
     addNewLibraryBookCode(state, newCode) {
       state.bookmark.library.books.push({ code: newCode })
@@ -183,6 +204,14 @@ export default new Vuex.Store({
       state.bookmark.library.books.forEach((book) => {
         book.publish = true
       })
+    },
+    setBookCkEditorStyleSelected: (state, { index, value }) => {
+      state.bookmark.library.books[index].ckEditorStyleSelected = value
+    },
+    setBookProperty: (state, { index, property, value }) => {
+      if (state.bookmark.library.books[index]) {
+        Vue.set(state.bookmark.library.books[index], property, value)
+      }
     },
     setBookCode: (state, payload) => {
       const { index, value } = payload

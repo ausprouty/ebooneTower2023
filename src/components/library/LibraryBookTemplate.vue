@@ -42,15 +42,20 @@ export default {
     bookTemplates() {
       return this.$store.state.bookTemplates
     },
-    libraryBookTemplate() {
-      return this.getBookProperty('template')
+    libraryBookTemplate: {
+      get() {
+        return this.$store.getters.getBookProperty(this.index, 'template')
+      },
+      set(value) {
+        this.$store.commit('setBookProperty', {
+          index: this.index,
+          property: 'template',
+          value,
+        }) // Update book template in store
+      },
     },
   },
-  watch: {
-    libraryBookTemplate(newValue) {
-      this.setBookTemplate(this.index, newValue)
-    },
-  },
+
   methods: {
     async createOrEditTemplate() {
       await this.saveForm('stay')
@@ -67,17 +72,6 @@ export default {
     },
     saveForm() {
       alert('Is there a way to save the form?')
-    },
-    getBookProperty(property) {
-      const books = this.$store.state.bookmark.library.books
-      if (books && books[this.index] && books[this.index][property]) {
-        return books[this.index][property]
-      }
-      return ''
-    },
-    setBookTemplate(index, value) {
-      console.log('setBookTemplate ' + index)
-      this.$store.commit('setBookTemplate', { index, value })
     },
   },
 }

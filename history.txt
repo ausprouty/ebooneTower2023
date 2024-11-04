@@ -2,8 +2,29 @@ nvm use 16.18.1
 use xampp to left (xampp73)
 npm run serve-mc2
 npm run build-mc2
+   please delete node modules unless you are sure you have the right styles in here
+zip
 
 I am working on 
+
+// Set book format
+store.commit('setBookProperty', { index: 1, property: 'format', value: 'hardcover' });
+
+
+/ Get format back button
+const backButton = store.getters.getLibraryProperty('format.back_button');
+
+// Get format custom
+const custom = store.getters.getLibraryProperty('format.custom');
+
+// Get format image
+const image = store.getters.getLibraryProperty('format.image');
+
+// Get format no ribbon
+const noRibbon = store.getters.getLibraryProperty('format.no_ribbon');
+
+// Get format replace header
+const replaceHeader = store.getters.getLibraryProperty('format.replace_header');
 
 
 installed nvm by going to https://github.com/coreybutler/nvm-windows
