@@ -23,11 +23,7 @@
       <div v-if="authorImagePermission">
         <label>
           Add new Image&nbsp;&nbsp;&nbsp;&nbsp;
-          <input
-            type="file"
-            ref="image"
-            v-on:change="onAddNewImage($event.target.files[0])"
-          />
+          <input type="file" ref="image" v-on:change="onAddNewImage($event)" />
         </label>
       </div>
     </div>
@@ -65,7 +61,8 @@ export default {
   },
   computed: {
     imageOptions() {
-      return this.$store.state.BookImages
+      console.log(this.$store.state.bookImages)
+      return this.$store.state.bookImages
     },
   },
   watch: {
@@ -76,31 +73,30 @@ export default {
   methods: {
     ...mapMutations(['setBookImage']),
     displayBookImage() {
-      if (this.selectedBookImage) {
-        return this.selectedBookImage.image
+      // Retrieve the book at the specified index
+      let book = this.$store.state.bookmark.library.books[this.index]
+      if (book && book.image && book.image.image) {
+        // Return the actual image URL
+        return book.image.image
       }
-      const bookImage =
-        this.$store.state.bookmark.library.books[this.index].image
-      if (bookImage) {
-        return bookImage.image
-      }
-      return null
+      return null // Return null if no valid image found
     },
     onSelectedBookImageChange(newVal) {
       this.$store.commit('setBookImage', {
         index: this.index,
-        image: newVal,
+        image: newVal, // Pass the entire newVal object, which includes image and title
       })
     },
-    async onAddNewImage(fileName) {
+    async onAddNewImage(event) {
+      // Prevent the default form behavior that might cause a refresh
+      event.preventDefault()
+
+      const fileName = event.target.files[0]
+      if (!fileName) return
+
       await this.handleImageUpload(fileName)
-      console.log(fileName)
-      const newFile = {
-        title: fileName.name,
-        image:
-          this.$store.state.bookmark.language.image_dir + '/' + fileName.name,
-      }
-      this.selectedBookImage = newFile
+
+      this.selectedBookImage = `${this.$store.state.bookmark.language.image_dir}/${fileName.name}`
     },
   },
 }
