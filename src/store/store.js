@@ -256,6 +256,9 @@ export default new Vuex.Store({
     setBookTitle: (state, { index, value }) => {
       state.bookmark.library.books[index].title = value
     },
+    setBooks: (state, value) => {
+      state.bookmark.library.books = value
+    },
     setCkEditorStyleSets(state, styles) {
       state.ckEditorStyleSets = styles
     },

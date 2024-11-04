@@ -13,7 +13,10 @@ export const libraryGetMixin = {
       await AuthorService.bookmark(this.$route.params)
     },
     async getBookmark() {
+      console.log('getBookmark started')
+      console.log (this.$route.params)
       await AuthorService.bookmark(this.$route.params)
+      console.log('getBookmark finsihed')
     },
     async getCkEditorStyleSets(param) {
       console.log('getCkEditorStyleSets', param)

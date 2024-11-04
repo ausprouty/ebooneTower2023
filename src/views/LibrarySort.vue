@@ -3,25 +3,29 @@
     <NavBar called_by="library" />
 
     <div class="loading" v-if="loading">Loading...</div>
-    <div class="error" v-if="error">There was an error... {{ this.error }}</div>
+    <div class="error" v-if="error">
+      There was an error... {{ error_message }}
+    </div>
+
     <div class="content" v-if="loaded">
-      <div v-if="!this.authorized">
+      <div v-if="!authorized">
         <BaseNotAuthorized />
       </div>
 
-      <div v-if="this.authorized">
+      <div v-else>
         <h1>
           Library
           <a
             target="_blank"
             class="help"
-            v-bind:href="this.prototype_url + 'HD/eng/help-1/library_sort.html'"
+            :href="prototype_url + 'HD/eng/help-1/library_sort.html'"
           >
             <img class="help-icon" src="/sites/default/images/icons/help.png" />
           </a>
         </h1>
         <div>
-          <draggable v-model="books">
+          <!-- Draggable component for reordering books -->
+          <draggable v-model="books" @end="updateBooksOrder">
             <transition-group>
               <div v-for="book in books" :key="book.title" :book="book">
                 <div class="shadow-card -shadow">
@@ -37,9 +41,6 @@
         </div>
         <button class="button" @click="saveForm">Save</button>
       </div>
-      <div v-if="!this.authorized">
-        <BaseNotAuthorized />
-      </div>
     </div>
   </div>
 </template>
@@ -50,14 +51,18 @@ import ContentService from '@/services/ContentService.js'
 import AuthorService from '@/services/AuthorService.js'
 import LogService from '@/services/LogService.js'
 import draggable from 'vuedraggable'
-import { mapState } from 'vuex'
-
+import { mapState, mapMutations } from 'vuex'
+import { libraryGetMixin } from '@/mixins/library/LibraryGetMixin.js'
 import { libraryUpdateMixin } from '@/mixins/library/LibraryUpdateMixin.js'
 import { authorizeMixin } from '@/mixins/AuthorizeMixin.js'
+
 export default {
-  mixins: [libraryUpdateMixin, authorizeMixin],
+  mixins: [libraryGetMixin, libraryUpdateMixin, authorizeMixin],
   props: ['country_code', 'language_iso', 'library_code'],
-  computed: mapState(['bookmark', 'cssURL', 'standard']),
+  computed: {
+    ...mapState(['bookmark', 'cssURL', 'standard']),
+  },
+
   components: {
     NavBar,
     draggable,
@@ -65,43 +70,33 @@ export default {
   data() {
     return {
       authorized: false,
-      format: '',
+      books:[],
+      content: {},
       prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
-      text: '',
+      loading: true, // Initialize loading state
+      loaded: false, // Initialize loaded state
+      error: false, // Initialize error state
+      error_message: '', // Error message for display
     }
   },
   methods: {
-    addNewBookForm() {
-      this.library.push({
-        id: '',
-        book: '',
-        title: '',
-        folder: '',
-        index: '',
-        style: process.env.VUE_APP_SITE_STYLE,
-        image: process.env.VUE_APP_SITE_IMAGE,
-        format: 'series',
-      })
-    },
-    deleteBookForm(index) {
-      this.library.splice(index, 1)
+    ...mapMutations(['setBooks']),
+    updateBooksOrder() {
+      this.setBooks(this.books) // Commit reordered books to Vuex
     },
     async saveForm() {
       try {
-        var output = {}
-        output.books = this.books
-        output.format = this.format
-        output.text = this.text
-        //console.log('this output')
-        //console.log(output)
-        var valid = ContentService.validate(output)
+        const valid = this.$store.state.bookmark.library
         this.content.text = JSON.stringify(valid)
-        var route = this.$route.params
-        route.filename = this.$route.params.library_code
+        const route = {
+          ...this.$route.params,
+          filename: this.$route.params.library_code,
+        }
         this.content.route = JSON.stringify(route)
         this.content.filetype = 'json'
-        var response = await AuthorService.createContentData(this.content)
-        if (response.data.error != true) {
+        console.log (this.content)
+        const response = await AuthorService.createContentData(this.content)
+        if (response.data.error !== true) {
           this.$router.push({
             name: 'previewLibrary',
             params: {
@@ -116,32 +111,25 @@ export default {
           this.error_message = response.data.message
         }
       } catch (error) {
-        LogService.consoleLogError(
-          'LIBRARY SORT says there was an error ',
-          error
-        )
+        LogService.consoleLogError('LIBRARY SORT encountered an error:', error)
         this.error = true
         this.loaded = false
-        this.error_message = response.data.message
+        this.error_message = 'An unexpected error occurred while saving.'
       }
     },
   },
-  beforeCreate() {
-    this.$route.params.version = 'latest'
-  },
   async created() {
     try {
-      await this.getLibrary(this.$route.params)
+      await this.getBookmark()
+      this.books = this.$store.state.bookmark.library.books
       this.authorized = this.authorize('write', this.$route.params)
       this.loaded = true
       this.loading = false
-      this.format = this.bookmark.library.format
-      this.text = this.bookmark.library.text
     } catch (error) {
-      LogService.consoleLogError(
-        'There was an error in LibrarySort.vue:',
-        error
-      )
+      LogService.consoleLogError('Error in LibrarySort.vue:', error)
+      this.error = true
+      this.loading = false
+      this.error_message = 'Failed to load library data.'
     }
   },
 }

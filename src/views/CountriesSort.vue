@@ -72,17 +72,7 @@ export default {
   },
 
   methods: {
-    deleteCountryForm(index) {
-      this.countries.splice(index, 1)
-    },
-    addNewCountryForm() {
-      this.countries.push({
-        code: '',
-        english: '',
-        name: '',
-        index: '',
-      })
-    },
+   
     async saveForm() {
       try {
         //this.$store.dispatch('newBookmark', 'clear')
