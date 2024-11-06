@@ -3,62 +3,17 @@ import ContentService from '@/services/ContentService.js'
 import LogService from '@/services/LogService.js'
 
 export const seriesMixin = {
-  data() {
-    return {
-      seriesDetails: {
-        series: '',
-        language: '',
-        description: '',
-        download_now: 'Download for offline use',
-        download_ready: 'Ready for offline use',
-      },
-      chapter: {},
-      chapters: [
-        {
-          id: '',
-          title: '',
-          desciption: '',
-          count: '',
-          filename: '',
-        },
-      ],
-      rldir: 'ltr',
-      image_dir: '/sites/default/images/',
-      series_image_dir: '/sites/default/images/',
-      loading: false,
-      loaded: null,
-      error: null,
-      error_message: null,
-      prototype: false,
-      prototype_date: null,
-      prototype_series: false,
-      publish: false,
-      publish_date: null,
-      download_now: 'Download for offline use',
-      download_ready: 'Ready for offline use',
-      recnum: null,
-      content: {
-        recnum: '',
-        version: '',
-        edit_date: '',
-        edit_uid: '',
-        publish_uid: '',
-        publish_date: '',
-        language_iso: '',
-        country_code: '',
-        folder: '',
-        filetype: '',
-        title: '',
-        filename: '',
-        text: '',
-      },
-    }
-  },
   methods: {
     async getSeries(params) {
       try {
-        LogService.consoleLogMessage('params in SeriesMixin ')
-        LogService.consoleLogMessage(params)
+        console.log('params in SeriesMixin ')
+        console.log(params)
+        console.log(
+          'VUE_APP_SITE_IMAGE_DIR:',
+          process.env.VUE_APP_SITE_IMAGE_DIR
+        )
+        console.log('VUE_APP_SITE_STYLE:', process.env.VUE_APP_SITE_STYLE)
+
         this.error = this.loaded = null
         this.loading = true
         await AuthorService.bookmark(params)
@@ -69,14 +24,13 @@ export const seriesMixin = {
         )
         this.$router.push({
           name: 'login',
-
         })
       }
       try {
         var response = await ContentService.getSeries(params)
 
         if (typeof response == 'undefined') {
-          LogService.consoleLogMessage('No Series Data obtained')
+          console.log('No Series Data obtained')
           this.chapters = []
           this.new = true
           this.description = null
@@ -85,19 +39,19 @@ export const seriesMixin = {
           return
         }
         if (typeof response.text != 'undefined') {
-          LogService.consoleLogMessage('Series Data obtained')
-          LogService.consoleLogMessage(response)
+          console.log('Series Data obtained')
+          console.log(response)
           // latest data
           if (typeof response.recnum != 'undefined') {
             this.recnum = response.recnum
             this.publish_date = response.publish_date
             this.prototype_date = response.prototype_date
           }
-          LogService.consoleLogMessage(response.text)
+          console.log(response.text)
           // this.seriesDetails = JSON.parse(response.text)
           this.seriesDetails = response.text
-          LogService.consoleLogMessage('Series Details')
-          LogService.consoleLogMessage(this.seriesDetails)
+          console.log('Series Details')
+          console.log(this.seriesDetails)
           this.chapters = this.seriesDetails.chapters
           this.description = this.seriesDetails.description
           this.download_now = this.seriesDetails.download_now
@@ -114,7 +68,7 @@ export const seriesMixin = {
 
         this.image_dir = process.env.VUE_APP_SITE_IMAGE_DIR
         if (typeof this.bookmark.language.image_dir != 'undefined') {
-          LogService.consoleLogMessage('USING BOOKMARK')
+          console.log('USING BOOKMARK')
           this.image_dir = this.bookmark.language.image_dir
         }
         //console.log('look at vue app site dir')
@@ -124,21 +78,24 @@ export const seriesMixin = {
         }
 
         this.style = process.env.VUE_APP_SITE_STYLE
+        console.log(this.style)
         if (typeof this.bookmark.book.style != 'undefined') {
-          LogService.consoleLogMessage('USING BOOKMARK')
+          console.log('USING BOOKMARK')
           this.style = this.bookmark.book.style
         }
         this.rldir = this.bookmark.language.rldir
-        LogService.consoleLogMessage('this.image_dir')
-        LogService.consoleLogMessage(this.image_dir)
+        console.log('this.image_dir')
+        console.log(this.image_dir)
         this.loaded = true
+        console.log('loaded ' + this.loaded)
         this.loading = false
-        LogService.consoleLogMessage('finished with get Series')
+        console.log('loading ' + this.loading)
+        console.log('finished with SeriesMizin')
       } catch (error) {
+        console.log('error in getSeries')
         LogService.consoleLogError('There was an error in SeriesMixin:', error) // Logs out the error
         this.$router.push({
           name: 'login',
-
         })
       }
     },

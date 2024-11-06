@@ -5,7 +5,7 @@ npm run build-mc2
    please delete node modules unless you are sure you have the right styles in here
 zip
 
-I am working on 
+I am working on Series Mixin
 
 // Set book format
 store.commit('setBookProperty', { index: 1, property: 'format', value: 'hardcover' });

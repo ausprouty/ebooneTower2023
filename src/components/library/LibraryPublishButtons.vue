@@ -62,7 +62,6 @@ export default {
 
       // Step 2: Add the new book to the state
       this.addBook(newBook) // Call the mutation to add the book to the store
-     
 
       // Step 3: Update the library file to reflect the new book
       const libraryObject = this.$store.state.bookmark.library

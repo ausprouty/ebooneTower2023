@@ -145,6 +145,7 @@ export default {
       download_ready: '',
       error: '',
       loaded: false,
+      loading: false,
       pdf: false,
       pdf_text: 'Publish Series and Chapters to PDF',
       prototype: false,

@@ -20,7 +20,7 @@
 
         <h2>Shortcuts you can use in templates</h2>
         <ul>
-          <li>[BiblePassage]</li>
+          <li>[BibleBlock]</li>
           <li>[Reference]</li>
         </ul>
 

@@ -417,8 +417,8 @@ export default {
     },
     async showForm() {
       try {
-        this.getSeries(this.$route.params)
-        LogService.consoleLogMessage('I got series')
+        await this.getSeries(this.$route.params)
+        console.log('I got series')
         // get images
         this.image_permission = this.authorize('write', this.$route.params)
         this.series_image_dir =
