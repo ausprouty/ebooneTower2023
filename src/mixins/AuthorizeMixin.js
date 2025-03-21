@@ -7,8 +7,13 @@ export const authorizeMixin = {
   //computed: mapState(['user']),
   methods: {
     authorize(reason, route) {
-      var scopeCountries = localStorage.getItem('scopeCountries');
-      var scopeLanguages = localStorage.getItem('scopeLanguages');
+      console.log('I am in in AuthorizeMixin')
+      console.log(reason)
+      console.log(route)
+      var scopeCountries = localStorage.getItem('scopeCountries')
+      console.log(scopeCountries)
+      var scopeLanguages = localStorage.getItem('scopeLanguages')
+      console.log(scopeLanguages)
       if (this.$route.path == '/login') {
         return true
       }
@@ -29,11 +34,16 @@ export const authorizeMixin = {
       }
       // can edit anything
       if (scopeCountries == '*' && scopeLanguages == '*') {
+        console.log('I am superuser')
         if (reason != 'readonly') {
+          //console.log ('I am returning true')
           return true
         } else {
+          //console.log ('I am returning false')
           return false
         }
+      } else {
+        console.log('I am not superuser')
       }
       // check route
       if (typeof route.country_code === 'undefined') {
@@ -73,8 +83,10 @@ export const authorizeMixin = {
       }
 
       // can edit anything in this language
-      if (scopeCountries == '|*|' 
-         && scopeLanguages.includes(route.language_iso) ) {
+      if (
+        scopeCountries == '|*|' &&
+        scopeLanguages.includes(route.language_iso)
+      ) {
         console.log('Can edit anything in this language')
         if (reason != 'readonly') {
           return true

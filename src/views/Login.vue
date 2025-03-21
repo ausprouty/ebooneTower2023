@@ -83,6 +83,7 @@ export default {
             localStorage.setItem('token', res.token)
             localStorage.setItem('uid', res.uid)
             localStorage.setItem('sessionExpires', res.expires)
+            this.$store.commit('setUser', res)
             var start_page = process.env.VUE_APP_SITE_START_PAGE
             if (typeof res.start_page !== 'undefined') {
               start_page = res.start_page

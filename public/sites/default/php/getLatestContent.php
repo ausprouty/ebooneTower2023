@@ -65,6 +65,7 @@ function getLatestContent($p)
                 AND folder_name = ''
                 AND filename = 'index'
                 ORDER BY recnum DESC LIMIT 1";
+                writelog ('getLatestContnt-68', $sql);
             break;
         case "series":
             //$debug .= 'Case is series' . "\n";

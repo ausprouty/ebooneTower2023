@@ -11,7 +11,7 @@
         </button>
       </div>
 
-      <div v-if="this.prototype">
+      <div v-if="prototype">
         <div>
           <button class="button" @click="localPublish('prototype')">
             {{ prototype_text }}
@@ -99,6 +99,7 @@ export default {
     return {
       back: 'country',
       back_image: null,
+      content: null,
       error: false,
       format: {},
       hide_cards: true,
@@ -223,8 +224,11 @@ export default {
     },
     async loadView() {
       try {
+        console.log('loading view')
         this.recnum = null
-        await this.getLibraryBookmark()
+        await this.getBookmark()
+        await this.getLibrary() // this should set recnum
+        console.log('after getLibrary')
         this.back = '/preview/languages/' + this.$route.params.country_code
         //todo: allow this to backtrack
         // this is only true if the library goes back to a custom library
@@ -259,6 +263,7 @@ export default {
         // authorize for prototype and publish
         this.prototype = false
         this.publish = false
+        console.log('Recnum is:  ' + this.recnum)
         if (this.recnum) {
           this.prototype = this.mayPrototypeLibrary()
           if (this.prototype) {
@@ -279,6 +284,8 @@ export default {
               }
             }
           }
+        } else {
+          console.log('I have no recnum')
         }
         // end of Prototype and Publish
         this.loaded = true

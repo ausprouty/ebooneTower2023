@@ -87,12 +87,18 @@ export const publishMixin = {
       return false
     },
     mayPrototypeLibrary() {
+      console.log('in mayPrototypeLibrary')
       if (!this.authorize('prototype', this.$route.params)) {
+        console.log('failed first test')
         return false
       }
+      console.log(this.bookmark)
       if (this.bookmark.country.prototype && this.bookmark.language.prototype) {
+        console.log('past second test')
         return true
       } else {
+        console.log(this.bookmark)
+        console.log('failed second test')
         return false
       }
     },
@@ -138,12 +144,16 @@ export const publishMixin = {
       return this.bookmark.country.publish
     },
     mayPublishLibrary() {
+      console.log('in mayPublishLibrary')
       if (!this.authorize('publish', this.$route.params)) {
+        console.log('failed first test')
         return false
       }
       if (this.bookmark.country.publish && this.bookmark.language.publish) {
+        console.log('past second test')
         return true
       } else {
+        console.log('failed second test')
         return false
       }
     },

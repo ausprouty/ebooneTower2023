@@ -14,7 +14,7 @@ export const libraryGetMixin = {
     },
     async getBookmark() {
       console.log('getBookmark started')
-      console.log (this.$route.params)
+      console.log(this.$route.params)
       await AuthorService.bookmark(this.$route.params)
       console.log('getBookmark finsihed')
     },
@@ -61,6 +61,23 @@ export const libraryGetMixin = {
     async getLibraryBookmark() {
       await AuthorService.bookmark(this.$route.params)
     },
+    async getLibrary() {
+      this.error = this.loaded = null
+      this.loading = true
+      this.recnum = null
+      this.publish_date = null
+      this.prototype_date = null
+      var response = await ContentService.getLibrary(this.$route.params)
+      if (response) {
+        console.log('I am in getLibrary')
+        console.log(response)
+        if (response.recnum) {
+          this.recnum = response.recnum
+          this.publish_date = response.publish_date
+          this.prototype_date = response.prototype_date
+        }
+      }
+    },
     async getLibraryIndex() {
       this.error = this.loaded = null
       this.loading = true
@@ -68,8 +85,11 @@ export const libraryGetMixin = {
       this.publish_date = null
       //await this.UnsetBookmarks()
       await AuthorService.bookmark(this.$route.params)
+      console.log(this.$route.params)
       var response = await ContentService.getLibraryIndex(this.$route.params)
       if (response) {
+        console.log('I am in getLibraryIndex')
+        console.log(response)
         if (response.recnum) {
           this.recnum = response.recnum
           this.publish_date = response.publish_date

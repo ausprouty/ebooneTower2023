@@ -40,6 +40,7 @@ Input is:
 Data structure:
  video Types from ArcLight:  https://api.arclight.org/videoPlayerUrl?refId=1_529-jf6159-30-0
     1_ = jfilm
+    1_21028-wl604444-0-0  is Magadela   https://api.arclight.org/videoPlayerUrl?refId=1_21028-wl604444-0-0
     2_ = acts
     6_= lumo
 

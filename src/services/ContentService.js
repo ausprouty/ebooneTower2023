@@ -31,6 +31,7 @@ export default {
     return res
   },
   async getLibrary(params) {
+    console.log('contentSevice.getLibrary')
     params.scope = 'library'
     //console.log('in getLibrary in Content Service with params')
     //console.log(params)
@@ -39,8 +40,11 @@ export default {
     return res
   },
   async getLibraryIndex(params) {
+    console.log('contentSevice.getLibraryIndex')
     params.scope = 'libraryIndex'
+    console.log(params)
     var res = await this.returnContent(params)
+    console.log(res)
     return res
   },
   async getSeries(params) {

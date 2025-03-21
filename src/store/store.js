@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import { saveStatePlugin } from '@/utils.js' // <-- Import saveStatePlugin
-import { add } from 'lodash'
+
 Vue.config.devtools = true
 Vue.use(Vuex)
 export default new Vuex.Store({
@@ -113,14 +113,12 @@ export default new Vuex.Store({
     },
     // Vuex getter (no complex logic, just return the books array)
     getLibraryBooks: (state) => {
-      console.log('getLibraryBooks recalculating')
       return state.bookmark.library.books
     },
 
     getLibraryBookCodes: (state) => {
       return state.bookmark.library.books.map((book) => book.code).sort()
     },
-    
     getLibraryFormatBackButton: (state) => {
       return state.bookmark.library.format.back_button
     },
@@ -138,10 +136,7 @@ export default new Vuex.Store({
       return state.bookmark.library.format.no_ribbon
     },
     getLibraryFormatReplaceHeader: (state) => {
-      if (
-        typeof state.bookmark.library.format.getLibraryFormatReplaceHeader ==
-        'undefined'
-      ) {
+      if (typeof state.bookmark.library.format.replace_header === 'undefined') {
         return null
       } else {
         return state.bookmark.library.format.replace_header
@@ -171,12 +166,11 @@ export default new Vuex.Store({
 
       return result
     },
+    getUser: (state) => state.user,
   },
   mutations: {
     addBook(state, book) {
-      const updatedBooks = [...state.bookmark.library.books, book]
-      // Chain setLibraryBooks to replace the entire array
-      this.commit('setLibraryBooks', updatedBooks)
+      state.bookmark.library.books = [...state.bookmark.library.books, book]
     },
     addNewLibraryBookCode(state, newCode) {
       state.bookmark.library.books.push({ code: newCode })
@@ -243,6 +237,9 @@ export default new Vuex.Store({
     },
     setBookStyleSheets(state, styleSheets) {
       state.bookStyleSheets = styleSheets
+    },
+    setUser(state, user) {
+      state.user = user
     },
     updateBookStyleSheets(state, styleSheet) {
       state.bookStyleSheets.push(styleSheet)
@@ -425,17 +422,8 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    updateAllBookmarks({ commit }, value) {
-      commit('UPDATE_ALL_BOOKMARKS', value)
-    },
     newBookmark({ commit }, value) {
       commit('UNSET_BOOKMARK', [value])
-    },
-    updateBookmark({ commit }, [mark, value]) {
-      commit('SET_BOOKMARK', [mark, value])
-    },
-    unsetBookmark({ commit }, [mark]) {
-      commit('UNSET_BOOKMARK', [mark])
     },
     setLanguages({ commit }, [value]) {
       commit('SET_LANGUAGES', [value])
@@ -448,6 +436,18 @@ export default new Vuex.Store({
     },
     setApk({ commit }, value) {
       commit('SET_APK', value)
+    },
+    updateAllBookmarks({ commit }, value) {
+      commit('UPDATE_ALL_BOOKMARKS', value)
+    },
+    updateBookmark({ commit }, [mark, value]) {
+      commit('SET_BOOKMARK', [mark, value])
+    },
+    unsetBookmark({ commit }, [mark]) {
+      commit('UNSET_BOOKMARK', [mark])
+    },
+    updateUser({ commit }, user) {
+      commit('setUser', user)
     },
   },
 })

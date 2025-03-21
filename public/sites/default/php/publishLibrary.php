@@ -64,12 +64,13 @@ function publishLibrary($p)
     //writeLogDebug('publishLibrary-default-56', $body);
     //writeLogDebug('publishLibrary-default-55', $fname);
     $body = publishLibraryAdjustText($body);
-    writeLogDebug('publishLibrary-default-59', $body);
+    writeLogDebug('publishLibrarY-default-59', $body);
     $body .= '<!--- Created by publishLibrary-->' . "\n";
     publishFiles($p, $fname, $body, STANDARD_CARD_CSS, $selected_css);
     //
     // update records
     //
+    writeLogDebug('publishLibrary-default-73', DESTINATION );
     $time = time();
     if (DESTINATION == 'staging') {
         $sql = "UPDATE content
