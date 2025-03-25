@@ -24,6 +24,7 @@ myRequireOnce('onLoadJS.php');
 // destination must be 'staging', 'website', 'pdf'  or 'sdcard'
 function publishFiles($p, $fname, $text, $standard_css, $selected_css)
 {
+    writeLogDebug('publishFiles-27', $text);
     $file_name_parts = explode('/', $fname);
     $fsname = array_pop($file_name_parts);
     $fsname = str_replace('.html', '', $fsname);
@@ -35,7 +36,6 @@ function publishFiles($p, $fname, $text, $standard_css, $selected_css)
     // webpage is used by Whatsapp 
     $pos = strpos($fname,'/content/');
     $webPage = substr($fname, $pos);
-    writeLogDebug('publishFiles-38', $webPage);
     // start with header
     $output = myGetPrototypeFile('header.html', $p['language_iso']);
     // see if there are links for Whatsapp or X
@@ -45,7 +45,7 @@ function publishFiles($p, $fname, $text, $standard_css, $selected_css)
         writeLogDebug('publishFiles-43', $shareLinks);
         $output = str_replace('[ShareLinks]', $shareLinks, $output);
     }
-
+    writeLogDebug('publishFiles-48', $output);
     // add onload only if notes  are here
     $onload_note_js = '';
     if (strpos($text, '<form') !== false) {
@@ -71,9 +71,10 @@ function publishFiles($p, $fname, $text, $standard_css, $selected_css)
     if (isset($p['recnum'])) {
         $title .= ' ' . getTitle($p['recnum']);
     }
-
+    writeLogDebug('publishFiles-74', $output);
     $language_iso = isset($p['language_iso']) ? $p['language_iso'] : DEFAULT_LANGUAGE_ISO;
     $language_google = languageHtml($p['language_iso']);
+    writeLogDebug('publishFiles-76',  $language_google);
     $placeholders = array(
         '{{ language.google }}',
         '{{ webPage }}',
@@ -99,18 +100,18 @@ function publishFiles($p, $fname, $text, $standard_css, $selected_css)
         ''
     );
     $output = str_replace($placeholders, $replace,  $output);
-    //// //writeLogDebug('publishFile-82-'. $fsname, $output);
+    writeLogDebug('publishFiles-103', $output);
     // insert text
     $output .= $text;
-
+    writeLogDebug('publishFiles-106', $output);
     // remove dupliate CSS
     $output = publishCSS($output, $p);
- 
+    writeLogDebug('publishFiles-108', $output);
     $footer = 'footer.html';
     $output .= myGetPrototypeFile($footer,  $p['language_iso'],);
     // copy all images and styles to the publish directory
     //$response = publishCopyImagesAndStyles($output, $destination);
-
+    writeLogDebug('publishFiles-113', $output);
     $output = modifyImages($output, $p);
     // make sure  all files are copied to destination directory
     publishFilesInPage($output, $p);

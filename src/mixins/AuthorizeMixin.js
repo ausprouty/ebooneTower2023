@@ -7,13 +7,13 @@ export const authorizeMixin = {
   //computed: mapState(['user']),
   methods: {
     authorize(reason, route) {
-      console.log('I am in in AuthorizeMixin')
-      console.log(reason)
-      console.log(route)
+      //console.log('I am in in AuthorizeMixin')
+      //console.log(reason)
+      //console.log(route)
       var scopeCountries = localStorage.getItem('scopeCountries')
-      console.log(scopeCountries)
+      //console.log(scopeCountries)
       var scopeLanguages = localStorage.getItem('scopeLanguages')
-      console.log(scopeLanguages)
+      //console.log(scopeLanguages)
       if (this.$route.path == '/login') {
         return true
       }
@@ -34,7 +34,7 @@ export const authorizeMixin = {
       }
       // can edit anything
       if (scopeCountries == '*' && scopeLanguages == '*') {
-        console.log('I am superuser')
+        //console.log('I am superuser')
         if (reason != 'readonly') {
           //console.log ('I am returning true')
           return true
@@ -43,7 +43,7 @@ export const authorizeMixin = {
           return false
         }
       } else {
-        console.log('I am not superuser')
+        //console.log('I am not superuser')
       }
       // check route
       if (typeof route.country_code === 'undefined') {
@@ -62,7 +62,7 @@ export const authorizeMixin = {
         scopeCountries.includes(route.country_code) &&
         scopeLanguages.includes(route.language_iso)
       ) {
-        console.log('Can edit this language in this country')
+        //console.log('Can edit this language in this country')
         if (reason != 'readonly') {
           return true
         } else {
@@ -74,7 +74,7 @@ export const authorizeMixin = {
         scopeCountries.includes(route.country_code) &&
         scopeLanguages == '|*|'
       ) {
-        console.log('Can edit anything in this country')
+        //console.log('Can edit anything in this country')
         if (reason != 'readonly') {
           return true
         } else {
@@ -87,14 +87,14 @@ export const authorizeMixin = {
         scopeCountries == '|*|' &&
         scopeLanguages.includes(route.language_iso)
       ) {
-        console.log('Can edit anything in this language')
+        //console.log('Can edit anything in this language')
         if (reason != 'readonly') {
           return true
         } else {
           return false
         }
       }
-      console.log('Fell through to bottom')
+      //console.log('Fell through to bottom')
       // can only read
       if (reason == 'readonly') {
         return true

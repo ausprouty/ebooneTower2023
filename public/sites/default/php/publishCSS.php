@@ -41,7 +41,7 @@ function publishCSS($text, $p)
         }
     }
 
-    if ($p['destination'] != 'pdf') {
+    if (DESTINATION != 'pdf') {
         //copy css
         $source_file = [];
         foreach ($css_files as $c) {
@@ -72,5 +72,6 @@ function publishCSS($text, $p)
             }
         }
     }
+    writeLogDebug('publishCSS-77', $text);
     return $text;
 }

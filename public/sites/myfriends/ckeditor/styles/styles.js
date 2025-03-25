@@ -118,6 +118,7 @@ window.CKEDITOR.stylesSet.add('myfriends', [
     element: ['h2', 'h3', 'h4', 'p', 'ol', 'ul', 'li'],
     attributes: { class: 'indent3' },
   },
+
   {
     name: 'zoom',
     element: 'span',
@@ -132,6 +133,11 @@ window.CKEDITOR.stylesSet.add('myfriends', [
   { name: 'bible', element: 'div', attributes: { class: 'bible' } },
   { name: 'lesson', element: 'div', attributes: { class: 'lesson' } },
   { name: 'lesson-icon', element: 'div', attributes: { class: 'lesson-icon' } },
+  {
+    name: 'bullet-icon',
+    element: ['li'],
+    attributes: { class: 'bullet-icon' },
+  },
   { name: 'note-area', element: 'div', attributes: { class: 'note-area' } },
   {
     name: 'lesson-image',

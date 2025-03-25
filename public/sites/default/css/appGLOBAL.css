@@ -188,6 +188,12 @@ li.nobreak {
   margin-left: -40px;
   margin-top: 12px;
 }
+.bullet-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 0.5em;
+  flex-shrink: 0;
+}
 .popup {
   color: green;
   font-style: italic;

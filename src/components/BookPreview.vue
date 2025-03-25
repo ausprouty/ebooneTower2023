@@ -49,7 +49,7 @@ export default {
   data() {
     return {
       image_dir: '',
-      defaultImage: '/path/to/default-image.png', // Fallback image
+      defaultImage: '/sites/default/images/book.png', // Fallback image
     }
   },
   computed: {

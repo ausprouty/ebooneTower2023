@@ -38,7 +38,7 @@ function publishLibrary($p)
     }
     //writeLogDebug('publishLibrary-default-31', $text);
     $res = createLibrary($p, $text);
-    //writeLogDebug('publishLibrary-default-33', $res);
+    writeLogDebug('publishLibrary-default-33', $res);
     $body = $res->body;
     $p['books'] = $res->books;
     $p['progress'] = $res->progress;
@@ -64,9 +64,11 @@ function publishLibrary($p)
     //writeLogDebug('publishLibrary-default-56', $body);
     //writeLogDebug('publishLibrary-default-55', $fname);
     $body = publishLibraryAdjustText($body);
-    writeLogDebug('publishLibrarY-default-59', $body);
+    writeLogDebug('publishLibrary-default-67', DESTINATION);
     $body .= '<!--- Created by publishLibrary-->' . "\n";
+    writeLogDebug('publishLibrary-default-70', STANDARD_CARD_CSS);
     publishFiles($p, $fname, $body, STANDARD_CARD_CSS, $selected_css);
+   
     //
     // update records
     //
@@ -107,6 +109,7 @@ function publishLibrary($p)
 */
 function publishLibraryAdjustText($body)
 {
+    writeLogDebug('publishLibraryAdjustText-112', $body);
     $body = str_replace('/preview/library', '/content', $body);
     // see if anyone is bypassing the library (there is only one book in this language)
     if (strpos($body, '/preview/series/')) {
@@ -133,6 +136,6 @@ function publishLibraryAdjustText($body)
             $body = str_replace($link1, $link2, $body);
         }
     }
-    //writeLogDebug('publishLibraryAdjustText-114', $body);
+    writeLogDebug('publishLibraryAdjustText-138', $body);
     return $body;
 }
