@@ -57,10 +57,10 @@ export default {
   },
   created() {
     if (this.bookmark && this.bookmark.language) {
-      LogService.consoleLogMessage('BOOK PREVIEW - Using bookmark directory')
+      LogService.consoleLogMessage('source','BOOK PREVIEW - Using bookmark directory')
       this.image_dir = this.bookmark.language.image_dir
     } else {
-      LogService.consoleLogMessage('BOOK PREVIEW - Using default directory')
+      LogService.consoleLogMessage('source','BOOK PREVIEW - Using default directory')
       this.image_dir = process.env.VUE_APP_SITE_IMAGE_DIR
     }
   },

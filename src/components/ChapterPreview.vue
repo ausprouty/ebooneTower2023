@@ -52,8 +52,8 @@ export default {
   computed: mapState(['bookmark']),
   methods: {
     showPage: function (chapter) {
-      LogService.consoleLogMessage('chapter')
-      LogService.consoleLogMessage(chapter)
+      LogService.consoleLogMessage('source','chapter')
+      LogService.consoleLogMessage('source',chapter)
       localStorage.setItem('lastPage', 'language/' + this.chapter.filename)
       var folder_name = ''
       // this section needed for legacy code
@@ -70,8 +70,8 @@ export default {
         folder_name: folder_name,
         filename: chapter.filename,
       }
-      LogService.consoleLogMessage('my_params')
-      LogService.consoleLogMessage(my_params)
+      LogService.consoleLogMessage('source','my_params')
+      LogService.consoleLogMessage('source',my_params)
       this.$router.push({
         name: 'previewPage',
         params: my_params,
@@ -86,10 +86,10 @@ export default {
       '/' +
       this.$route.params.folder_name
     if (typeof this.bookmark.language != 'undefined') {
-      LogService.consoleLogMessage('BOOK  PREVIEW -using bookmark')
+      LogService.consoleLogMessage('source','BOOK  PREVIEW -using bookmark')
       this.image_dir = this.bookmark.language.image_dir
     } else {
-      LogService.consoleLogMessage('BOOK  PREVIEW -using standard directory')
+      LogService.consoleLogMessage('source','BOOK  PREVIEW -using standard directory')
       this.image_dir = process.env.VUE_APP_SITE_IMAGE_DIR
     }
     this.rldir = this.bookmark.language.rldir

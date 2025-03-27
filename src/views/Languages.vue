@@ -59,7 +59,7 @@ export default {
     try {
       var params = {}
       this.languages = await AuthorService.getLanguagesAvailable(params)
-      LogService.consoleLogMessage(this.languages)
+      LogService.consoleLogMessage('source',this.languages)
       this.loaded = true
       this.loading = false
     } catch (error) {

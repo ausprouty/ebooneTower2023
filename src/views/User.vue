@@ -165,9 +165,9 @@ export default {
     async saveForm() {
       try {
         var params = this.member
-        LogService.consoleLogMessage('Save Form')
-        LogService.consoleLogMessage(this.member)
-        LogService.consoleLogMessage(this.$v.member.scope_countries.$model)
+        LogService.consoleLogMessage('source','Save Form')
+        LogService.consoleLogMessage('source',this.member)
+        LogService.consoleLogMessage('source',this.$v.member.scope_countries.$model)
         // for some strange reason it shows up as an array sometimes and other times as a string
         if (Array.isArray(this.$v.member.scope_countries.$model)) {
           params.scope_countries = this.formatCountryArray()
@@ -228,7 +228,7 @@ export default {
         await this.countryOptions()
         await this.languageOptions()
         this.member.password = null
-        LogService.consoleLogMessage(this.member)
+        LogService.consoleLogMessage('source',this.member)
       } catch (error) {
         LogService.consoleLogError('There was an error in User.vue:', error)
       }

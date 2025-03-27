@@ -227,7 +227,7 @@ export default {
       await this.getCountries()
       var options = []
       var option = {}
-      LogService.consoleLogMessage(this.countries)
+      LogService.consoleLogMessage('source',this.countries)
       var length = this.countries.length
       for (var i = 0; i < length; i++) {
         option = {}
@@ -243,7 +243,7 @@ export default {
       option.display = 'Global'
       option.code = '*'
       options.push(option)
-      LogService.consoleLogMessage(options)
+      LogService.consoleLogMessage('source',options)
       this.scope_options = options
       return
     },

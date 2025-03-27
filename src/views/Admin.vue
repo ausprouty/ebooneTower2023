@@ -61,10 +61,10 @@ export default {
   async created() {
     var response = await AuthorService.getCurrentBooks()
     this.source_options = JSON.parse(response.data)
-    LogService.consoleLogMessage(this.source_options)
+    LogService.consoleLogMessage('source',this.source_options)
     response = await AuthorService.getCurrentLanguages()
     this.destination_options = JSON.parse(response.data)
-    LogService.consoleLogMessage(this.destination_options)
+    LogService.consoleLogMessage('source',this.destination_options)
   },
 }
 </script>

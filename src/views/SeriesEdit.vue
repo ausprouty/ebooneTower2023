@@ -281,15 +281,15 @@ export default {
       this.chapters.splice(id, 1)
     },
     async handleImageUpload(code) {
-      LogService.consoleLogMessage('handleImageUpload: ' + code)
+      LogService.consoleLogMessage('source','handleImageUpload: ' + code)
       var checkfile = {}
       var i = 0
       var arrayLength = this.$refs.image.length
       for (i = 0; i < arrayLength; i++) {
         checkfile = this.$refs.image[i]['files']
         if (checkfile.length == 1) {
-          // LogService.consoleLogMessage(checkfile)
-          //  LogService.consoleLogMessage(checkfile[0])
+          // LogService.consoleLogMessage('source',checkfile)
+          //  LogService.consoleLogMessage('source',checkfile[0])
           var type = AuthorService.typeImage(checkfile[0])
           if (type) {
             var params = {}
@@ -309,21 +309,21 @@ export default {
       }
     },
     async importSeries() {
-      LogService.consoleLogMessage('about to import series')
+      LogService.consoleLogMessage('source','about to import series')
       this.file = this.$refs.file.files[0]
-      LogService.consoleLogMessage('this.file')
-      LogService.consoleLogMessage(this.file)
+      LogService.consoleLogMessage('source','this.file')
+      LogService.consoleLogMessage('source',this.file)
       var param = []
       param.route = JSON.stringify(this.$route.params)
       param.template = this.bookmark.book.template
       param.series_name = this.bookmark.book.title
       param.description = this.description
-      LogService.consoleLogMessage(param)
+      LogService.consoleLogMessage('source',param)
       await AuthorService.setupSeries(param, this.file)
-      LogService.consoleLogMessage('back from update')
+      LogService.consoleLogMessage('source','back from update')
       try {
         this.getSeries(this.$route.params)
-        LogService.consoleLogMessage('tried get series')
+        LogService.consoleLogMessage('source','tried get series')
         this.authorized = this.authorize('write', this.$route.params)
       } catch (error) {
         LogService.consoleLogError(
@@ -334,28 +334,28 @@ export default {
     },
     publishAll() {
       var arrayLength = this.chapters.length
-      LogService.consoleLogMessage(' Item count:' + arrayLength)
+      LogService.consoleLogMessage('source',' Item count:' + arrayLength)
       for (var i = 0; i < arrayLength; i++) {
         this.$v.chapters.$each.$iter[i].publish.$model = true
       }
     },
     prototypeAll() {
       var arrayLength = this.chapters.length
-      LogService.consoleLogMessage(' Item count:' + arrayLength)
+      LogService.consoleLogMessage('source',' Item count:' + arrayLength)
       for (var i = 0; i < arrayLength; i++) {
         this.$v.chapters.$each.$iter[i].prototype.$model = true
       }
     },
     publishNone() {
       var arrayLength = this.chapters.length
-      LogService.consoleLogMessage(' Item count:' + arrayLength)
+      LogService.consoleLogMessage('source',' Item count:' + arrayLength)
       for (var i = 0; i < arrayLength; i++) {
         this.$v.chapters.$each.$iter[i].publish.$model = false
       }
     },
     prototypeNone() {
       var arrayLength = this.chapters.length
-      LogService.consoleLogMessage(' Item count:' + arrayLength)
+      LogService.consoleLogMessage('source',' Item count:' + arrayLength)
       for (var i = 0; i < arrayLength; i++) {
         this.$v.chapters.$each.$iter[i].prototype.$model = false
       }
@@ -371,21 +371,21 @@ export default {
       this.recnum = res.content.recnum
     },
     async saveData() {
-      LogService.consoleLogMessage(this.content)
+      LogService.consoleLogMessage('source',this.content)
       var text = {}
       text.description = this.description
       text.download_now = this.download_now
       text.download_ready = this.download_ready
       text.chapters = this.chapters
-      LogService.consoleLogMessage('text')
-      LogService.consoleLogMessage(text)
+      LogService.consoleLogMessage('source','text')
+      LogService.consoleLogMessage('source',text)
       var valid = ContentService.validate(text)
       this.content.text = JSON.stringify(valid)
       this.$route.params.filename = 'index'
       this.content.route = JSON.stringify(this.$route.params)
       this.content.filetype = 'json'
-      LogService.consoleLogMessage('this.content')
-      LogService.consoleLogMessage(this.content)
+      LogService.consoleLogMessage('source','this.content')
+      LogService.consoleLogMessage('source',this.content)
       //this.$store.dispatch('newBookmark', 'clear')
       var response = await AuthorService.createContentData(this.content)
       return response
@@ -437,8 +437,8 @@ export default {
           img.push('')
           this.images = img.sort()
         }
-        LogService.consoleLogMessage('this.chapters')
-        LogService.consoleLogMessage(this.chapters)
+        LogService.consoleLogMessage('source','this.chapters')
+        LogService.consoleLogMessage('source',this.chapters)
         this.authorized = this.authorize('write', this.$route.params)
       } catch (error) {
         LogService.consoleLogError(

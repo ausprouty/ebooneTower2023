@@ -111,7 +111,7 @@ export const publishMixin = {
         this.bookmark.language.prototype &&
         this.bookmark.book.prototype
       ) {
-        LogService.consoleLogMessage('mayPrototypeSeries returned true')
+        LogService.consoleLogMessage('source','mayPrototypeSeries returned true')
         return true
       } else {
         return false
@@ -158,9 +158,9 @@ export const publishMixin = {
       }
     },
     mayPublishSeries() {
-      LogService.consoleLogMessage('mayPublishSeries called')
+      LogService.consoleLogMessage('source','mayPublishSeries called')
       if (!this.authorize('publish', this.$route.params)) {
-        LogService.consoleLogMessage('mayPublishSeries returned false')
+        LogService.consoleLogMessage('source','mayPublishSeries returned false')
         return false
       }
       if (
@@ -168,7 +168,7 @@ export const publishMixin = {
         this.bookmark.language.publish &&
         this.bookmark.book.publish
       ) {
-        LogService.consoleLogMessage('mayPublishSeries returned true')
+        LogService.consoleLogMessage('source','mayPublishSeries returned true')
         return true
       } else {
         return false

@@ -201,7 +201,7 @@ export default {
     },
     publishAll() {
       var arrayLength = this.languages.length
-      LogService.consoleLogMessage(' Item count:' + arrayLength)
+      LogService.consoleLogMessage('source',' Item count:' + arrayLength)
       for (var i = 0; i < arrayLength; i++) {
         this.$v.languages.$each.$iter[i].publish.$model = true
       }
@@ -214,15 +214,15 @@ export default {
         output.languages = this.languages
         output.more_languages = this.more_languages
         output.choose_language = this.choose_language
-        LogService.consoleLogMessage('output')
-        LogService.consoleLogMessage(output)
+        LogService.consoleLogMessage('source','output')
+        LogService.consoleLogMessage('source',output)
         var valid = ContentService.validate(output)
         this.content.text = JSON.stringify(valid)
         this.$route.params.filename = 'languages'
         this.content.filetype = 'json'
         this.content.route = JSON.stringify(this.$route.params)
-        LogService.consoleLogMessage('going to directory languages')
-        LogService.consoleLogMessage(this.content)
+        LogService.consoleLogMessage('source','going to directory languages')
+        LogService.consoleLogMessage('source',this.content)
         AuthorService.createDirectoryLanguages(this.content)
         var response = await AuthorService.createContentData(this.content)
         if (response.data.error != true) {
@@ -251,7 +251,7 @@ export default {
   async created() {
     try {
       this.authorized = this.authorize('write', this.$route.params)
-      LogService.consoleLogMessage('this authorized')
+      LogService.consoleLogMessage('source','this authorized')
       if (this.authorized) {
         await this.getLanguages(this.$route.params)
       }

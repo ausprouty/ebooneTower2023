@@ -196,10 +196,10 @@ export default {
           }
         }
         if (this.recnum && this.prototype_date) {
-          LogService.consoleLogMessage('I am checking to see if I can publish')
+          LogService.consoleLogMessage('source','I am checking to see if I can publish')
           this.publish = this.mayPublishCountries
           if (this.publish) {
-            LogService.consoleLogMessage('I can publish and prototype again')
+            LogService.consoleLogMessage('source','I can publish and prototype again')
             this.prototype = true
             this.language_prototype_text = 'Prototype Languages Again'
             this.country_prototype_text = 'Prototype Countrties Again'

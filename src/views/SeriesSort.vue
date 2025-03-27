@@ -94,7 +94,7 @@ export default {
     },
     async saveForm() {
       try {
-        LogService.consoleLogMessage(this.content)
+        LogService.consoleLogMessage('source',this.content)
         var text = {}
         text.description = this.seriesDetails.description
         text.chapters = this.chapters

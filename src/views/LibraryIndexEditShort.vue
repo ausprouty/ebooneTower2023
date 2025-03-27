@@ -190,29 +190,29 @@ export default {
       this.loaded = true
       if (this.bookmark.book.template) {
         this.$route.params.template = this.bookmark.book.template
-        LogService.consoleLogMessage('looking for template')
-        LogService.consoleLogMessage(this.$route.params)
+        LogService.consoleLogMessage('source','looking for template')
+        LogService.consoleLogMessage('source',this.$route.params)
         var res = await AuthorService.getTemplate(this.$route.params)
-        LogService.consoleLogMessage(res)
+        LogService.consoleLogMessage('source',res)
         if (res) {
-          LogService.consoleLogMessage('I found template')
+          LogService.consoleLogMessage('source','I found template')
           this.pageText = res
         }
       }
     },
     async handleStyleUpload(code) {
-      LogService.consoleLogMessage('code in handle Style:' + code)
+      LogService.consoleLogMessage('source','code in handle Style:' + code)
       var checkfile = ''
       var i = 0
       var arrayLength = this.$refs.style.length
-      LogService.consoleLogMessage(this.$refs.style)
+      LogService.consoleLogMessage('source',this.$refs.style)
       for (i = 0; i < arrayLength; i++) {
         checkfile = this.$refs.style[i]['files']
         if (checkfile.length == 1) {
-          LogService.consoleLogMessage(checkfile[0])
+          LogService.consoleLogMessage('source',checkfile[0])
           var type = AuthorService.typeStyle(checkfile[0])
           if (type) {
-            LogService.consoleLogMessage(checkfile)
+            LogService.consoleLogMessage('source',checkfile)
             var params = {}
             params.file = checkfile[0]
             params.country_code = this.$route.params.country_code
@@ -266,8 +266,8 @@ export default {
     },
   },
   async beforeCreate() {
-    LogService.consoleLogMessage('before Create in LibraryIndexEdit')
-    LogService.consoleLogMessage(this.$route.params)
+    LogService.consoleLogMessage('source','before Create in LibraryIndexEdit')
+    LogService.consoleLogMessage('source',this.$route.params)
     // set directory for custom images
     //see https://ckeditor.com/docs/ckfinder/ckfinder3-php/integration.html
     this.languageDirectory =
@@ -281,13 +281,13 @@ export default {
     this.$route.params.version = 'lastest'
     this.$route.params.filename = 'index'
     this.$route.params.css = '/sites/default/styles/freeformGLOBAL.css'
-    LogService.consoleLogMessage('final params')
-    LogService.consoleLogMessage(this.$route.params)
+    LogService.consoleLogMessage('source','final params')
+    LogService.consoleLogMessage('source',this.$route.params)
   },
   async created() {
     try {
-      LogService.consoleLogMessage('in Created')
-      LogService.consoleLogMessage(this.$route)
+      LogService.consoleLogMessage('source','in Created')
+      LogService.consoleLogMessage('source',this.$route)
       await this.getLibraryIndex()
       // get styles
       var param = {}

@@ -211,7 +211,7 @@ export default {
   },
   async beforeCreate() {
     this.$route.params.version = 'lastest'
-    LogService.consoleLogMessage(this.$route.params)
+    LogService.consoleLogMessage('source',this.$route.params)
     // set directory for custom images
     //see https://ckeditor.com/docs/ckfinder/ckfinder3-php/integration.html
     this.languageDirectory =

@@ -271,8 +271,8 @@ export default {
       param.recnum = recnum
       param.library_code = this.$route.params.library_code
       var bm = await PrototypeService.publish('bookmark', param)
-      LogService.consoleLogMessage('localBookmark')
-      LogService.consoleLogMessage(bm)
+      LogService.consoleLogMessage('source','localBookmark')
+      LogService.consoleLogMessage('source',bm)
     },
     async checkPublish() {
       if (this.prototype_date) {
@@ -340,7 +340,7 @@ export default {
     },
     async loadView() {
       try {
-        LogService.consoleLogMessage(this.$route.params)
+        LogService.consoleLogMessage('source',this.$route.params)
         await this.getSeries(this.$route.params)
         this.series_image_dir =
           this.$route.params.country_code +

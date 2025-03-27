@@ -269,37 +269,42 @@ export default {
       }
     },
     handleFileUpload(code) {
-      LogService.consoleLogMessage('code in handle:' + code)
+      console.log('started handleFileUpload')
       var checkfile = ''
       var i = 0
       var arrayLength = this.$refs.file.length
+
       for (i = 0; i < arrayLength; i++) {
         checkfile = this.$refs.file[i]['files']
         if (checkfile.length == 1) {
-          // LogService.consoleLogMessage(checkfile)
-          LogService.consoleLogMessage(checkfile[0])
-          var type = AuthorService.typeImage(checkfile[0])
+          console.log(checkfile[0])
+          var type = AuthorService.typeImage(checkfile[0].type)
+          console.log('type =', type)
           if (type) {
             var params = {}
             params.directory = 'images/country'
             params.rename = code
             AuthorService.imageStore(params, checkfile[0])
-
-            for (i = 0; i < arrayLength; i++) {
-              checkfile = this.$v.countries.$each[i]
-              if (checkfile.code.$model == code) {
-                this.$v.countries.$each[i].$model.image = 'default.png'
-                this.$v.countries.$each[i].$model.image = code + type
-                LogService.consoleLogMessage(
-                  ' I reset ' + i + 'to' + code + type
-                )
-                LogService.consoleLogMessage(this.$v.countries.$each)
+            console.log ('I am after imageStore')
+            for (let i = 0; i < this.countries.length; i++) {
+              const country = this.countries[i]
+              console.log('country.code =', country.code)
+              console.log('code =', code)
+              if (country.code === code) {
+                this.countries[i].image = code + type
+                console.log('Updated image to:', this.countries[i].image)
+                break
               }
             }
           }
         }
       }
-      this.saveForm('stay')
+      console.log(
+        'Before saving, countries[i].image =',
+        this.countries[i].image
+      )
+
+      //this.saveForm('stay')
     },
     async setupCountries() {
       try {
@@ -347,7 +352,10 @@ export default {
       try {
         //this.authorized = this.authorize('write', 'countries')
         this.authorized = this.authorize('write', this.$route.params)
-        LogService.consoleLogMessage('Authorized: ' + this.authorized)
+        LogService.consoleLogMessage(
+          'CountriesEdit',
+          'Authorized: ' + this.authorized
+        )
         await this.getCountries()
       } catch (error) {
         LogService.consoleLogError(

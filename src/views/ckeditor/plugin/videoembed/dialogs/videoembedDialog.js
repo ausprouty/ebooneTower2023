@@ -101,7 +101,7 @@ function detect(url) {
         url.lastIndexOf('/playlist/') + 10,
         url.indexOf('/1#video=')
       )
-      LogService.consoleLogMessage(id)
+      LogService.consoleLogMessage('source',id)
       return (embed_url =
         'https://www.dailymotion.com/widget/jukebox?list[]=%2Fplaylist%2F' +
         id +

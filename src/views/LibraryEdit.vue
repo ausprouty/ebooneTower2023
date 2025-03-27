@@ -125,7 +125,7 @@ export default {
         this.authorized = this.authorize('write', this.$route.params)
         this.loaded = true
         this.loading = false
-        LogService.consoleLogMessage('after loading is true')
+        LogService.consoleLogMessage('source','after loading is true')
       } catch (error) {
         LogService.consoleLogError('There was an error in Library.vue:', error) // Logs out the error
         this.error_message = error + 'Library Edit - showForm()'

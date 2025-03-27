@@ -24,9 +24,9 @@ export default {
   computed: mapState(['bookmark']),
   methods: {
     showPage: function (language) {
-      LogService.consoleLogMessage('showPage')
-      LogService.consoleLogMessage(language)
-      LogService.consoleLogMessage(this.bookmark.country.code)
+      LogService.consoleLogMessage('source','showPage')
+      LogService.consoleLogMessage('source',language)
+      LogService.consoleLogMessage('source',this.bookmark.country.code)
       localStorage.setItem('lastPage', 'language/' + language)
       var route = 'previewLibrary'
       if (language.custom) {

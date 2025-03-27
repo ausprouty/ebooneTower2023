@@ -5,18 +5,18 @@ const show_log = true
 export default {
   consoleLog(line1, line2, line3) {
     if (show_log == true) {
-      //console.log(line1)
+      console.log(line1)
       if (typeof line2 !== 'undefined') {
-        //console.log(line2)
+        console.log(line2)
       }
       if (typeof line3 !== 'undefined') {
-        //console.log(line3)
+        console.log(line3)
       }
     }
   },
-  consoleLogMessage(message) {
+  consoleLogMessage(source, message) {
     if (show_log == true) {
-      //console.log(message)
+      console.log(source + ': ' + message)
     }
   },
   consoleLogError(message, error, source) {
@@ -42,6 +42,6 @@ export default {
     }
 
     var output = source + ':  ' + message + '  ' + text
-    //console.log(output)
+    console.log(output)
   },
 }

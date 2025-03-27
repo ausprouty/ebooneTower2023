@@ -130,7 +130,7 @@ export default {
     this.myfriends = true
     this.authorized = this.authorize('read', this.$route.params)
     this.administrator = this.authorize('register', this.$route.params)
-    LogService.consoleLogMessage('I finished authorization')
+    LogService.consoleLogMessage('source','I finished authorization')
     var arrayLength = this.menu
     for (var i = 0; i < arrayLength; i++) {
       this.menu[i].show = false
@@ -178,7 +178,7 @@ export default {
       window.history.back()
     },
     toggleMenu() {
-      LogService.consoleLogMessage('tried to toggle')
+      LogService.consoleLogMessage('source','tried to toggle')
       if (this.showMenu) {
         this.showMenu = false
       } else {
@@ -278,7 +278,7 @@ export default {
           break
 
         default:
-          LogService.consoleLogMessage('Can not find route in NavBarAdmin')
+          LogService.consoleLogMessage('source','Can not find route in NavBarAdmin')
         // code block
       }
     },

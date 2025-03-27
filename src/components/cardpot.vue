@@ -123,21 +123,21 @@ export default {
   },
   methods: {
     handleHeaderUpload(code) {
-      LogService.consoleLogMessage('handleImageUpload: ' + code)
+      LogService.consoleLogMessage('source','handleImageUpload: ' + code)
       var checkfile = {}
       checkfile = this.$refs.imageHeader['files']
       if (checkfile.length == 1) {
-        LogService.consoleLogMessage(checkfile)
-        LogService.consoleLogMessage(checkfile[0])
+        LogService.consoleLogMessage('source',checkfile)
+        LogService.consoleLogMessage('source',checkfile[0])
         var type = AuthorService.typeImage(checkfile[0])
         if (type) {
           var params = {}
           params.directory = 'content/' + this.bookmark.language.image_dir
           params.name = code
-          LogService.consoleLogMessage(params)
+          LogService.consoleLogMessage('source',params)
           AuthorService.imageStore(params, checkfile[0])
           var filename = checkfile[0].name
-          LogService.consoleLogMessage('setting this image to ' + filename)
+          LogService.consoleLogMessage('source','setting this image to ' + filename)
           this.image = filename
           this.saveForm('stay')
           this.showForm()
@@ -145,21 +145,21 @@ export default {
       }
     },
     handleBackButtonUpload(code) {
-      LogService.consoleLogMessage('handleImageUpload: ' + code)
+      LogService.consoleLogMessage('source','handleImageUpload: ' + code)
       var checkfile = {}
       checkfile = this.$refs.imageHeader['files']
       if (checkfile.length == 1) {
-        LogService.consoleLogMessage(checkfile)
-        LogService.consoleLogMessage(checkfile[0])
+        LogService.consoleLogMessage('source',checkfile)
+        LogService.consoleLogMessage('source',checkfile[0])
         var type = AuthorService.typeImage(checkfile[0])
         if (type) {
           var params = {}
           params.directory = 'content/' + this.bookmark.language.image_dir
           params.name = code
-          LogService.consoleLogMessage(params)
+          LogService.consoleLogMessage('source',params)
           AuthorService.imageStore(params, checkfile[0])
           var filename = checkfile[0].name
-          LogService.consoleLogMessage('setting this image to ' + filename)
+          LogService.consoleLogMessage('source','setting this image to ' + filename)
           this.back_button = filename
           this.saveForm('stay')
           this.showForm()
@@ -173,7 +173,7 @@ export default {
     param.route = JSON.stringify(this.$route.params)
     param.image_dir = this.bookmark.language.image_dir
 
-    LogService.consoleLogMessage(
+    LogService.consoleLogMessage('source',
       'image dir: ' + param.image_dir.substring(0, 2)
     )
     // this.image_permission = this.authorize(
@@ -204,7 +204,7 @@ export default {
         formatted.image = '/content/' + param.image_dir + '/' + img[i]
 
         this.options.push(formatted)
-        //LogService.consoleLogMessage(pictures)
+        //LogService.consoleLogMessage('source',pictures)
       }
     }
   },

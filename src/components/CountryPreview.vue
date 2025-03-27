@@ -37,9 +37,9 @@ export default {
   computed: mapState(['bookmark']),
   methods: {
     showLanguagePage(country) {
-      LogService.consoleLogMessage('country')
-      LogService.consoleLogMessage(country)
-      LogService.consoleLogMessage(country.code)
+      LogService.consoleLogMessage('source','country')
+      LogService.consoleLogMessage('source',country)
+      LogService.consoleLogMessage('source',country.code)
       localStorage.setItem('lastPage', 'countries')
       this.$route.params.country_code = country.code
       var route = 'previewLanguages'

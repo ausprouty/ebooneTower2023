@@ -107,8 +107,8 @@ export default {
         output.languages = this.languages
         output.more_languages = this.more_languages
         output.choose_language = this.choose_language
-        LogService.consoleLogMessage('output')
-        LogService.consoleLogMessage(output)
+        LogService.consoleLogMessage('source','output')
+        LogService.consoleLogMessage('source',output)
         var valid = ContentService.validate(output)
         this.content.text = JSON.stringify(valid)
         this.$route.params.filename = 'languages'

@@ -105,7 +105,7 @@ export const userMixin = {
       // find all countries
       var options = []
       var option = {}
-      LogService.consoleLogMessage(this.countries)
+      LogService.consoleLogMessage('source',this.countries)
       var length = this.countries.length
       for (var i = 0; i < length; i++) {
         option = {}

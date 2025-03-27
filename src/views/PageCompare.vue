@@ -313,8 +313,8 @@ export default {
       this.block_selection = true
       var response = await AuthorService.getComparisons(params)
 
-      LogService.consoleLogMessage('getComparisons response')
-      LogService.consoleLogMessage(response)
+      LogService.consoleLogMessage('source','getComparisons response')
+      LogService.consoleLogMessage('source',response)
       this.getPageToCompare(response['params'])
       this.comparison_previous = response['params']
       this.comparison_countries = response['countries']['countries']
@@ -340,17 +340,17 @@ export default {
         this.block_count < 6
       ) {
         if (this.loading == true) {
-          LogService.consoleLogMessage(
+          LogService.consoleLogMessage('source',
             'I blocked getNewComparison because we not yet mounted'
           )
         }
         if (this.block_selection == true) {
-          LogService.consoleLogMessage(
+          LogService.consoleLogMessage('source',
             'I blocked getNewComparison because block_selection is true'
           )
         }
         if (this.block_count < 6) {
-          LogService.consoleLogMessage(
+          LogService.consoleLogMessage('source',
             'I blocked getNewComparison because count was ' + this.block_count
           )
           this.block_count = this.block_count + 1
@@ -358,13 +358,13 @@ export default {
         return
       }
       var params = this.comparison_previous
-      LogService.consoleLogMessage('I allowed getNewComparison for ' + scope)
+      LogService.consoleLogMessage('source','I allowed getNewComparison for ' + scope)
       this.block_selection = true
       var empty = ''
 
       switch (scope) {
         case 'country':
-          LogService.consoleLogMessage(this.comparison_country)
+          LogService.consoleLogMessage('source',this.comparison_country)
           params.country_code = this.comparison_country.country_code
             ? this.comparison_country.country_code
             : this.$route.params.country_code
@@ -372,7 +372,7 @@ export default {
           this.block_count = 1
           break
         case 'language':
-          LogService.consoleLogMessage(this.comparison_language)
+          LogService.consoleLogMessage('source',this.comparison_language)
           params.language_iso = this.comparison_language.language_iso
             ? this.comparison_language.language_iso
             : this.$route.params.language_iso
@@ -380,7 +380,7 @@ export default {
           this.block_count = 2
           break
         case 'library':
-          LogService.consoleLogMessage(this.comparison_library.library_code)
+          LogService.consoleLogMessage('source',this.comparison_library.library_code)
           params.library_code = this.comparison_library.library_code
             ? this.comparison_library.library_code
             : this.$route.params.library_code
@@ -388,7 +388,7 @@ export default {
           this.block_count = 3
           break
         case 'book':
-          LogService.consoleLogMessage(this.comparison_book)
+          LogService.consoleLogMessage('source',this.comparison_book)
           params.folder_name = this.comparison_book.book_code
             ? this.comparison_book.book_code
             : this.$route.params.folder_name
@@ -397,7 +397,7 @@ export default {
           this.block_count = 4
           break
         case 'chapter':
-          LogService.consoleLogMessage(this.comparison_chapter)
+          LogService.consoleLogMessage('source',this.comparison_chapter)
           params.filename = this.comparison_chapter.chapter_filename
             ? this.comparison_chapter.chapter_filename
             : this.$route.params.filename
@@ -405,23 +405,23 @@ export default {
           this.block_count = 5
           break
         case 'version':
-          LogService.consoleLogMessage(this.comparison_version.version_recnum)
+          LogService.consoleLogMessage('source',this.comparison_version.version_recnum)
           params.recnum = this.comparison_version.version_recnum
             ? this.comparison_version.version_recnum
             : empty
           this.block_count = 6
           break
       }
-      LogService.consoleLogMessage('getNewComparisons')
-      LogService.consoleLogMessage(params)
+      LogService.consoleLogMessage('source','getNewComparisons')
+      LogService.consoleLogMessage('source',params)
       this.getComparisons(params)
     },
     async getPageToCompare(params) {
-      LogService.consoleLogMessage('in getPageToCompare')
-      LogService.consoleLogMessage(params)
+      LogService.consoleLogMessage('source','in getPageToCompare')
+      LogService.consoleLogMessage('source',params)
       if (params.folder_name != null) {
         var response = await ContentService.getPageDatabase(params)
-        LogService.consoleLogMessage(response)
+        LogService.consoleLogMessage('source',response)
         this.compareText = response.text
       } else {
         this.compareText = 'Continue Selection Process'
@@ -437,17 +437,17 @@ export default {
       } else {
         params.bid = this.bookmark.language.bible_nt
       }
-      //LogService.consoleLogMessage('params for Get passage')
-      // LogService.consoleLogMessage(params)
+      //LogService.consoleLogMessage('source','params for Get passage')
+      // LogService.consoleLogMessage('source',params)
       var bible = await BibleService.getBiblePassage(params)
-      // LogService.consoleLogMessage('results of getBiblePassage')
-      // LogService.consoleLogMessage(bible)
+      // LogService.consoleLogMessage('source','results of getBiblePassage')
+      // LogService.consoleLogMessage('source',bible)
       if (typeof bible !== 'undefined') {
-        //LogService.consoleLogMessage('I am replacing text')
+        //LogService.consoleLogMessage('source','I am replacing text')
 
         var temp = this.pageText.replace('[BibleText]', bible.text)
-        // LogService.consoleLogMessage('temp')
-        // LogService.consoleLogMessage(temp)
+        // LogService.consoleLogMessage('source','temp')
+        // LogService.consoleLogMessage('source',temp)
         var temp2 = temp.replace(
           '"readmore" href=""',
           '"readmore" href="' + bible.link + '"'
@@ -462,13 +462,13 @@ export default {
           this.bookmark.language.read_more +
           '</a></p>'
         this.pageText = temp2.replace('[PassageLocation]', bible_block)
-        //LogService.consoleLogMessage('This is result of replace')
-        //LogService.consoleLogMessage(this.pageText)
+        //LogService.consoleLogMessage('source','This is result of replace')
+        //LogService.consoleLogMessage('source',this.pageText)
         this.request_passage = false
       }
     },
     async loadTemplate() {
-      //LogService.consoleLogMessage('in Load Template')
+      //LogService.consoleLogMessage('source','in Load Template')
       this.authorized = this.authorize('write', this.$route.params)
       this.loading = false
       this.loaded = true
@@ -479,12 +479,12 @@ export default {
         if (this.page_template) {
           this.$route.params.template = this.page_template
         }
-        // LogService.consoleLogMessage('looking for template')
-        // LogService.consoleLogMessage(this.$route.params)
+        // LogService.consoleLogMessage('source','looking for template')
+        // LogService.consoleLogMessage('source',this.$route.params)
         var res = await AuthorService.getTemplate(this.$route.params)
-        // LogService.consoleLogMessage(res)
+        // LogService.consoleLogMessage('source',res)
         if (res) {
-          // LogService.consoleLogMessage('I found template')
+          // LogService.consoleLogMessage('source','I found template')
           this.request_passage = true
           this.pageText = res
         }
@@ -522,8 +522,8 @@ export default {
     },
   },
   async beforeCreate() {
-    //LogService.consoleLogMessage('before Create')
-    //LogService.consoleLogMessage(this.$route.params)
+    //LogService.consoleLogMessage('source','before Create')
+    //LogService.consoleLogMessage('source',this.$route.params)
     // set directory for custom images
     //see https://ckeditor.com/docs/ckfinder/ckfinder3-php/integration.html
     this.languageDirectory =
@@ -531,8 +531,8 @@ export default {
       '/' +
       this.$route.params.language_iso +
       '/images/custom'
-    // LogService.consoleLogMessage('this.languageDirectory')
-    // LogService.consoleLogMessage(this.languageDirectory)
+    // LogService.consoleLogMessage('source','this.languageDirectory')
+    // LogService.consoleLogMessage('source',this.languageDirectory)
     // set style for ckeditor
     var styleSets = this.ckEditStyleSets
     this.$route.params.styles_set = styleSets[0]
@@ -546,15 +546,15 @@ export default {
     var css = this.$route.params.cssFORMATTED
     var clean = css.replace(/@/g, '/')
     this.$route.params.css = clean
-    // LogService.consoleLogMessage('final params')
-    // LogService.consoleLogMessage(this.$route.params)
+    // LogService.consoleLogMessage('source','final params')
+    // LogService.consoleLogMessage('source',this.$route.params)
   },
   async created() {
     try {
       this.block_selection = true
       this.mounted = false
       this.comparison_previous = {}
-      LogService.consoleLogMessage('mounted is now false')
+      LogService.consoleLogMessage('source','mounted is now false')
       this.authorized = this.authorize('write', this.$route.params)
       await this.getPage(this.$route.params)
       if (this.pageText.includes('[')) {
@@ -572,7 +572,7 @@ export default {
   mounted() {
     this.mounted = true
     this.block_selection = false
-    LogService.consoleLogMessage('mounted is now true')
+    LogService.consoleLogMessage('source','mounted is now true')
   },
 }
 </script>

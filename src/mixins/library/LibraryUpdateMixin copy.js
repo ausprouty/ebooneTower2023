@@ -165,28 +165,28 @@ export const libraryUpdateMixin = {
     },
     prototypeAll() {
       var arrayLength = this.books.length
-      LogService.consoleLogMessage(' Item count:' + arrayLength)
+      LogService.consoleLogMessage('source',' Item count:' + arrayLength)
       for (var i = 0; i < arrayLength; i++) {
         this.$v.books.$each.$iter[i].prototype.$model = true
       }
     },
     prototypeNone() {
       var arrayLength = this.books.length
-      LogService.consoleLogMessage(' Item count:' + arrayLength)
+      LogService.consoleLogMessage('source',' Item count:' + arrayLength)
       for (var i = 0; i < arrayLength; i++) {
         this.$v.books.$each.$iter[i].prototype.$model = false
       }
     },
     publishAll() {
       var arrayLength = this.books.length
-      LogService.consoleLogMessage(' Item count:' + arrayLength)
+      LogService.consoleLogMessage('source',' Item count:' + arrayLength)
       for (var i = 0; i < arrayLength; i++) {
         this.$v.books.$each.$iter[i].publish.$model = true
       }
     },
     publishNone() {
       var arrayLength = this.books.length
-      LogService.consoleLogMessage(' Item count:' + arrayLength)
+      LogService.consoleLogMessage('source',' Item count:' + arrayLength)
       for (var i = 0; i < arrayLength; i++) {
         this.$v.books.$each.$iter[i].publish.$model = false
       }

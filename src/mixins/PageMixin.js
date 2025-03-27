@@ -129,7 +129,7 @@ export const pageMixin = {
       If it is a book you will put the library here.
      */
       if (this.bookmark.book.format == 'series') {
-        LogService.consoleLogMessage('I am looking at a series')
+        LogService.consoleLogMessage('source','I am looking at a series')
         // image
         this.image_navigation = process.env.VUE_APP_SITE_IMAGE
         if (typeof this.bookmark.book !== 'undefined') {
@@ -177,7 +177,7 @@ export const pageMixin = {
       // if it is not a series
       //
       if (this.bookmark.book.format == 'page') {
-        LogService.consoleLogMessage('I am looking at a page')
+        LogService.consoleLogMessage('source','I am looking at a page')
         // image
         this.image_navigation = process.env.VUE_APP_SITE_IMAGE
         if (typeof this.bookmark.library.format.image !== 'undefined') {

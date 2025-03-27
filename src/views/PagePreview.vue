@@ -128,8 +128,8 @@ export default {
         cssFORMATTED: clean,
         styles_set: this.bookmark.book.styles_set,
       }
-      LogService.consoleLogMessage('params')
-      LogService.consoleLogMessage(params)
+      LogService.consoleLogMessage('source','params')
+      LogService.consoleLogMessage('source',params)
       this.$router.push({
         name: 'editPage',
         params: params,
@@ -138,7 +138,7 @@ export default {
     goBack() {
       // can not use  window.history.back() as this may lead to endless loop with edit
       if (this.bookmark.book.format == 'series') {
-        LogService.consoleLogMessage('goBack in series')
+        LogService.consoleLogMessage('source','goBack in series')
         this.$router.push({
           name: 'previewSeries',
           params: {
@@ -149,7 +149,7 @@ export default {
           },
         })
       } else {
-        LogService.consoleLogMessage('goBack Page')
+        LogService.consoleLogMessage('source','goBack Page')
         this.$router.push({
           name: 'previewLibrary',
           params: {
@@ -230,8 +230,8 @@ export default {
       param.recnum = recnum
       param.library_code = this.$route.params.library_code
       var bm = await PrototypeService.publish('bookmark', param)
-      LogService.consoleLogMessage('localBookmark')
-      LogService.consoleLogMessage(bm)
+      LogService.consoleLogMessage('source','localBookmark')
+      LogService.consoleLogMessage('source',bm)
       return bm
     },
     async loadView() {

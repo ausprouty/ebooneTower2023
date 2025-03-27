@@ -204,21 +204,21 @@ export default {
       this.back_buttons = await this.getImages('site', 'images/ribbons')
     },
     async handleHeaderUpload(code) {
-      LogService.consoleLogMessage('handleImageUpload: ' + code)
+      LogService.consoleLogMessage('source','handleImageUpload: ' + code)
       var checkfile = {}
       checkfile = this.$refs.imageHeader['files']
       if (checkfile.length == 1) {
-        LogService.consoleLogMessage(checkfile)
-        LogService.consoleLogMessage(checkfile[0])
+        LogService.consoleLogMessage('source',checkfile)
+        LogService.consoleLogMessage('source',checkfile[0])
         var type = AuthorService.typeImage(checkfile[0])
         if (type) {
           var params = {}
           params.directory = 'content/' + this.bookmark.language.image_dir
           params.name = code
-          LogService.consoleLogMessage(params)
+          LogService.consoleLogMessage('source',params)
           await AuthorService.imageStore(params, checkfile[0])
           var filename = checkfile[0].name
-          LogService.consoleLogMessage('setting this image to ' + filename)
+          LogService.consoleLogMessage('source','setting this image to ' + filename)
           this.image = filename
           this.images = await this.getImages(
             'content',
@@ -228,21 +228,21 @@ export default {
       }
     },
     async handleBackButtonUpload(code) {
-      LogService.consoleLogMessage('handleImageUpload' + code.title)
+      LogService.consoleLogMessage('source','handleImageUpload' + code.title)
       var checkfile = {}
       checkfile = this.$refs.imageBackButton['files']
       if (checkfile.length == 1) {
-        LogService.consoleLogMessage(checkfile)
-        LogService.consoleLogMessage(checkfile[0])
+        LogService.consoleLogMessage('source',checkfile)
+        LogService.consoleLogMessage('source',checkfile[0])
         var type = AuthorService.typeImage(checkfile[0])
         if (type) {
           var params = {}
           params.directory = '/images/ribbons'
           params.name = code.title
-          LogService.consoleLogMessage(params)
+          LogService.consoleLogMessage('source',params)
           await AuthorService.imageStore(params, checkfile[0])
           var filename = checkfile[0].name
-          LogService.consoleLogMessage('setting this image to ' + filename)
+          LogService.consoleLogMessage('source','setting this image to ' + filename)
           this.back_button = filename
           this.back_buttons = await this.getImages('site', 'images/ribbons')
         }

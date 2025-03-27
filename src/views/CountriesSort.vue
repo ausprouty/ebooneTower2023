@@ -106,7 +106,7 @@ export default {
     try {
       // this.authorized = this.authorize('write', 'countries')
       this.authorized = this.authorize('write', this.$route.params)
-      LogService.consoleLogMessage('Authorized: ' + this.authorized)
+      LogService.consoleLogMessage('source','Authorized: ' + this.authorized)
       await this.getCountries()
     } catch (error) {
       LogService.consoleLogError(

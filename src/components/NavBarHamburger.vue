@@ -84,12 +84,12 @@ export default {
       window.history.back()
     },
     toggleMenu() {
-      LogService.consoleLogMessage('tried to toggle this')
+      LogService.consoleLogMessage('source','tried to toggle this')
       if (this.showMenu) {
         this.showMenu = false
-        LogService.consoleLogMessage('toggle off')
+        LogService.consoleLogMessage('source','toggle off')
       } else {
-        LogService.consoleLogMessage('toggle on')
+        LogService.consoleLogMessage('source','toggle on')
         this.showMenu = true
       }
     },
@@ -97,8 +97,8 @@ export default {
       this.showMenu = false
       switch (selectedOption) {
         case 'page':
-          LogService.consoleLogMessage('this route')
-          LogService.consoleLogMessage(this.$route)
+          LogService.consoleLogMessage('source','this route')
+          LogService.consoleLogMessage('source',this.$route)
           this.$router.push({
             path: '/edit/' + this.$route.path,
           })
@@ -127,7 +127,7 @@ export default {
           })
           break
         default:
-          LogService.consoleLogMessage('Can not find route in NavBarAdmin')
+          LogService.consoleLogMessage('source','Can not find route in NavBarAdmin')
         // code block
       }
     },

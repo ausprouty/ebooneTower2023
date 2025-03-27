@@ -27,7 +27,7 @@ export const languageMixin = {
         this.error = this.loaded = null
         this.loading = true
         this.languages = []
-        // LogService.consoleLogMessage('about the check bookmarks')
+        // LogService.consoleLogMessage('source','about the check bookmarks')
         await AuthorService.bookmark(this.$route.params)
       } catch (error) {
         LogService.consoleLogError(

@@ -39,14 +39,14 @@ export default {
       this.scope_countries = 'Global'
     } else {
       await this.getCountries()
-      LogService.consoleLogMessage('scope_countries')
-      LogService.consoleLogMessage(localStorage.scope_countries)
+      LogService.consoleLogMessage('source','scope_countries')
+      LogService.consoleLogMessage('source',localStorage.scope_countries)
       var country_count = localStorage.scope_countries.length
       var c = 0
       this.scope = ''
       var user_scope = localStorage.scope_countries.split('|')
       var length = user_scope.length
-      LogService.consoleLogMessage(length)
+      LogService.consoleLogMessage('source',length)
       for (var i = 0; i < length; i++) {
         for (c = 0; c < country_count; c++) {
           if (this.countries[c].code == user_scope[i]) {

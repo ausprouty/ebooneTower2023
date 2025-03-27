@@ -34,9 +34,9 @@ export default {
     this.image_dir = process.env.VUE_APP_IMAGE_DIR
     this.site_content_dir = process.env.VUE_APP_SITE_CONTENT_URL
     if (typeof this.bookmark.language.image_dir != 'undefined') {
-      LogService.consoleLogMessage('USING BOOKMARK')
+      LogService.consoleLogMessage('source','USING BOOKMARK')
       this.image_dir = this.bookmark.language.image_dir
-      LogService.consoleLogMessage(this.image_dir)
+      LogService.consoleLogMessage('source',this.image_dir)
     } else {
       //console.log('can not find image dir')
       //console.log(this.bookmark)
@@ -44,11 +44,11 @@ export default {
   },
   methods: {
     showPage: function (book) {
-      LogService.consoleLogMessage('book')
-      LogService.consoleLogMessage(book)
+      LogService.consoleLogMessage('source','book')
+      LogService.consoleLogMessage('source',book)
       localStorage.setItem('lastPage', 'library/country/language')
       if (book.format == 'series') {
-        LogService.consoleLogMessage('BOOK - this is a series')
+        LogService.consoleLogMessage('source','BOOK - this is a series')
         this.$router.push({
           name: 'series',
           params: {
@@ -59,7 +59,7 @@ export default {
           },
         })
       } else if (book.format == 'page') {
-        LogService.consoleLogMessage('BOOK - this is a NOT a series')
+        LogService.consoleLogMessage('source','BOOK - this is a NOT a series')
         this.$router.push({
           name: 'page',
           params: {
@@ -71,7 +71,7 @@ export default {
           },
         })
       } else if (book.format == 'library') {
-        LogService.consoleLogMessage('BOOK - this is a LIBRARY')
+        LogService.consoleLogMessage('source','BOOK - this is a LIBRARY')
         this.$router.push({
           name: 'previewLibrary2',
           params: {

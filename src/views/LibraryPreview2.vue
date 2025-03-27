@@ -198,8 +198,8 @@ export default {
       param.recnum = recnum
       param.library_code = this.$route.params.library_code
       var bm = await PrototypeService.publish('bookmark', param)
-      LogService.consoleLogMessage('localBookmark')
-      LogService.consoleLogMessage(bm)
+      LogService.consoleLogMessage('source','localBookmark')
+      LogService.consoleLogMessage('source',bm)
     },
     async loadView() {
       try {

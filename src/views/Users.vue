@@ -45,7 +45,7 @@ export default {
         var params = {}
         params.scope = '*'
         this.users = await AuthorService.getUsers(params)
-        LogService.consoleLogMessage(this.users)
+        LogService.consoleLogMessage('source',this.users)
       } catch (error) {
         LogService.consoleLogError(
           'There was an error in Countries.vue:',

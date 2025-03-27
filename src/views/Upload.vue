@@ -28,7 +28,7 @@ export default {
   methods: {
     handleFileUpload() {
       this.file = this.$refs.file.files[0]
-      LogService.consoleLogMessage(this.$refs)
+      LogService.consoleLogMessage('source',this.$refs)
     },
     submitFile() {
       var params = {}

@@ -31,8 +31,8 @@ export default {
   consoleLog(params, response) {
     if (log == true) {
       if (params.action !== 'login') {
-        //console.log(params)
-        //console.log(response)
+        console.log(params)
+        console.log(response)
       }
     }
   },
@@ -517,6 +517,7 @@ export default {
   async imageStore(params, image) {
     params.page = 'image'
     params.action = 'imageStore'
+    console.log('I am want to store images')
     var contentForm = this.toAuthorizedFormData(params)
     contentForm.append('file', image)
     console.log('I am storing images')
@@ -524,20 +525,12 @@ export default {
     return apiIMAGE.post(postDestination, contentForm)
   },
   typeImage(filetype) {
-    var type = null
-    switch (filetype) {
-      case 'image/jpeg':
-        type = '.jpg'
-        break
-      case 'image/png':
-        type = '.png'
-        break
-      case 'image/gif':
-        type = '.gif'
-        break
-      default:
+    const types = {
+      'image/jpeg': '.jpg',
+      'image/png': '.png',
+      'image/gif': '.gif',
     }
-    return type
+    return types[filetype] || null
   },
   typeStyle(file) {
     var type = null
