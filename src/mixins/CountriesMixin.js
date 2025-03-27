@@ -51,13 +51,16 @@ export const countriesMixin = {
         this.countries = []
         AuthorService.bookmarkClear()
         var response = await ContentService.getCountries(this.$route.params)
-        //console.log (response)
-        if (response.text !== null) {
+        console.log(response)
+        if (Array.isArray(response.text) && response.text.length > 0) {
+          console.log('Countries found:', response.text.length)
           this.countries = response.text
         } else {
+          console.log('No countries in the list.')
           this.countries = []
         }
-        //console.log(this.countries);
+        console.log(this.countries)
+        console.log(response.recnum)
         if (response.recnum) {
           this.recnum = response.recnum
           this.publish_date = response.publish_date
@@ -65,16 +68,14 @@ export const countriesMixin = {
         }
         this.loaded = true
         this.loading = false
-        //console.log ('CountryMixin Finished Get Countries')
+        console.log('CountryMixin Finished Get Countries')
       } catch (error) {
         LogService.consoleLogError(
           'There was an error with ContentService.getCountries of CountriesMixin:',
           error
         )
         console.log('error line 73')
-        this.$router.push({
-          name: 'login2',
-        })
+        
       }
     },
     async showPage(country) {

@@ -19,7 +19,7 @@
       </template>
       <BaseInput
         v-model="password"
-        label="Password"
+        label="PassWord"
         type="password"
         placeholder
         class="field"
@@ -68,6 +68,7 @@ export default {
 
   methods: {
     async saveForm() {
+      console.log('saveForm')
       if (this.submitted == false) {
         try {
           this.submitted = true
@@ -75,6 +76,7 @@ export default {
           //var response = {}
           params.username = this.username
           params.password = this.password
+          console.log('awaiting login')
           let res = await AuthorService.login(params)
           console.log(res)
           if (res.authorized == 'authorized') {

@@ -1,9 +1,9 @@
 nvm use 16.18.1
 nvm current (to show what you are using)
 use xampp to left (xampp73)
-npm run serve-mc2
-npm run build-mc2
 npm run serve-intro
+npm run build-intro
+
    please delete node modules unless you are sure you have the right styles in here
 zip
 

@@ -33,7 +33,7 @@ export const authorizeMixin = {
         this.$router.push({ name: 'login' })
       }
       // can edit anything
-      if (scopeCountries == '*' && scopeLanguages == '*') {
+      if (scopeCountries == '|*|' && scopeLanguages == '|*|') {
         //console.log('I am superuser')
         if (reason != 'readonly') {
           //console.log ('I am returning true')
