@@ -34,10 +34,7 @@ export const languageMixin = {
           'There was an error withcheckBookmarks in getLanguages:',
           error
         )
-        this.$router.push({
-          name: 'login',
-
-        })
+        this.error = error
       }
     },
     async getLanguages() {
@@ -46,7 +43,13 @@ export const languageMixin = {
         //console.log('route params')
         //console.log(this.$route.params)
         var response = await ContentService.getLanguages(this.$route.params)
-        if (typeof response !== 'undefined') {
+        console.log('response')
+        console.log(response)
+        if (
+          response &&
+          response.text &&
+          Array.isArray(response.text.languages)
+        ) {
           this.languages = response.text.languages
           // need to have id so we can delete them
           // now deal with legacy data
@@ -81,10 +84,8 @@ export const languageMixin = {
           'There was an error in LanguageMixin:',
           error
         )
-        this.$router.push({
-          name: 'login',
-
-        })
+        this.error = error
+        this.error_message = error.message
       }
     },
   },

@@ -30,7 +30,7 @@ const apiIMAGE = axios.create({
 export default {
   consoleLog(params, response) {
     if (log == true) {
-      if (params.action !== 'login') {
+      if (params.action !== 'XloginX') {
         console.log(params)
         console.log(response)
       }
@@ -47,8 +47,13 @@ export default {
         this.$router.push({
           name: 'login',
         })
+      } else {
+        if (response.data.status == 'error') {
+          this.error = response.data.message + ' ' + params.action
+          return 'error'
+        }
+        return response.data.result
       }
-      return response
     } catch (error) {
       this.error = error.toString() + ' ' + params.action
       LogService.consoleLogError(
@@ -65,7 +70,8 @@ export default {
       var contentForm = this.toAuthorizedFormData(params)
       var response = await apiSELECT.post(postDestination, contentForm)
       params.function = 'aReturnContent'
-      this.consoleLog(params, response)
+      console.log(params)
+      console.log(response)
       if (response.data.login) {
         //console.log('Author Service is pushing you to login')
         this.$router.push({
@@ -75,7 +81,7 @@ export default {
       //this.clearActionAndPage()
       if (typeof response.data !== 'undefined') {
         //console.log(' have data content')
-        content = response.data
+        content = response.data.result
       } else if (typeof response !== 'undefined') {
         //console.log(' have  content')
         content = response
@@ -105,8 +111,8 @@ export default {
           name: 'login',
         })
       }
-      if (response.data) {
-        parse = JSON.parse(response.data)
+      if (response.data.result) {
+        parse = JSON.parse(response.data.result)
       }
       //this.clearActionAndPage()
       return parse
@@ -125,7 +131,8 @@ export default {
       var data = {}
       var contentForm = this.toAuthorizedFormData(params)
       var response = await apiSELECT.post(postDestination, contentForm)
-      //console.log(response)
+      console.log('aReturnData')
+      console.log(response)
       params.function = 'aReturn'
       this.consoleLog(params, response)
       if (response.data.login) {
@@ -137,7 +144,8 @@ export default {
       if (response.data) {
         data = response.data
       }
-      //this.clearActionAndPage()
+
+      console.log(data)
       return data
     } catch (error) {
       this.error = error.toString() + ' ' + params.action
@@ -201,7 +209,7 @@ export default {
 
   clearActionAndPage() {
     this.$route.params.page = null
-    this.$rout.params.action = null
+    this.$route.params.action = null
   },
   async copyBook(params) {
     params.page = 'sql'
@@ -213,7 +221,7 @@ export default {
     params.edit_date = d.getTime()
     params.page = 'create'
     params.action = 'createContent'
-    var res = await this.aReturnResponse(params)
+    var res = await this.aReturnData(params)
     //console.log(res)
     return res
   },
@@ -342,10 +350,10 @@ export default {
     params.action = 'getImagesForSite'
     params.image_dir = directory
     var content = await this.aReturnContent(params)
-    if (content) {
-      var images = JSON.parse(content)
-    }
-    return images
+    //if (content) {
+    //  var images = JSON.parse(content)
+    //}
+    return content
   },
   async getImagesInContentDirectories(directories) {
     // var images = {}
@@ -362,16 +370,15 @@ export default {
     return content
   },
   async getImagesInContentDirectory(directory) {
-    var images = {}
     var params = {}
     params.image_dir = directory
     params.page = 'getImagesInContentDirectory'
     params.action = 'getImagesInContentDirectory'
     var content = await this.aReturnContent(params)
-    if (content) {
-      images = JSON.parse(content)
-    }
-    return images
+    //if (content) {
+    // images = JSON.parse(content)
+    //}
+    return content
   },
   async getLanguageOptionsForEditors(params) {
     params.page = 'getLanguageOptionsForEditors'
@@ -426,6 +433,7 @@ export default {
     params.page = 'get'
     params.action = 'getTemplates'
     var templates = this.aReturnContentParsed(params)
+    console.log(templates)
     return templates
   },
   async getUser(params) {
@@ -522,7 +530,9 @@ export default {
     contentForm.append('file', image)
     console.log('I am storing images')
     console.log(params)
-    return apiIMAGE.post(postDestination, contentForm)
+    var response = await apiIMAGE.post(postDestination, contentForm)
+    console.log(response)
+    return response
   },
   typeImage(filetype) {
     const types = {

@@ -262,7 +262,7 @@ export default {
   },
   methods: {
     foldersFilter() {
-      LogService.consoleLogMessage('source','I want to filter folders')
+      LogService.consoleLogMessage('source', 'I want to filter folders')
     },
     deleteLanguageForm(id) {
       //console.log(this.language.id.$model)
@@ -312,7 +312,7 @@ export default {
     params.country_code = this.$route.params.country_code
     params.language_iso = this.language.$model.iso
     this.image_folders = await AuthorService.getFoldersImages(params)
-    LogService.consoleLogMessage('source',this.image_folders)
+    LogService.consoleLogMessage('source', this.image_folders)
     // LogService.consoleLogMessage('source',this.content_folders)
     this.ot = null
     this.nt = null
@@ -324,12 +324,12 @@ export default {
         params.testament = 'OT'
         //console.log(params)
         this.ot = await this.getBibleVersions(params)
-        LogService.consoleLogMessage('source','OT')
-        LogService.consoleLogMessage('source',this.ot)
+        LogService.consoleLogMessage('source', 'OT')
+        LogService.consoleLogMessage('source', this.ot)
         params.testament = 'NT'
         this.nt = await this.getBibleVersions(params)
-        LogService.consoleLogMessage('source','NT')
-        LogService.consoleLogMessage('source',this.nt)
+        LogService.consoleLogMessage('source', 'NT')
+        LogService.consoleLogMessage('source', this.nt)
       }
     }
   },

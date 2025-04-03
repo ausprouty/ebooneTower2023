@@ -9,20 +9,29 @@ export const bibleMixin = {
     */
     async getBibleVersions(params) {
       try {
-        var versions = []
-        if (params.language_iso.length > 2) {
-          var response = await BibleService.getBibleVersions(params)
-          if (response !== false) {
-            versions = response
-          }
+        const versions = []
+
+        const iso = params.language_iso
+        console.log('Get Bible Versions For:', iso)
+
+        if (iso.length < 2) {
           return versions
         }
+
+        const response = await BibleService.getBibleVersions(params)
+        console.log('Bible Versions Response:', response)
+
+        if (response !== false) {
+          return response
+        }
+
+        return versions
       } catch (error) {
         LogService.consoleLogError(
           'BIBLE MIXIN -- There was an error finding Bible Versions:',
           error
         )
-        this.error = error.toString() + 'BIBLE MIXIN -- getBibleVersions'
+        this.error = error.toString() + ' BIBLE MIXIN -- getBibleVersions'
         return null
       }
     },

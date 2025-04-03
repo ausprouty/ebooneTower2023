@@ -4,47 +4,48 @@ myRequireOnce('dirMake.php');
 
 function imageStore($p)
 {
-	//writeLog('image-3', ' I entered image Store');
-	if (!isset($p['directory'])) {
-		$message = "Directory not set in uploadImage ";
-		trigger_error($message, E_USER_ERROR);
-		return NULL;
-	}
-	$debug = 'I am in imageStore' . "\n";
-	$debug .= 'filetype: ' . $_FILES['file']['type'] . "\n";
+    if (!isset($p['directory'])) {
+        trigger_error("Directory not set in uploadImage", E_USER_ERROR);
+        return null;
+    }
 
-	if ($_FILES['file']['type'] == 'image/png' || $_FILES['file']['type'] == 'image/jpeg' || $_FILES['file']['type'] == 'image/gif') {
+    $file = $_FILES['file'] ?? null;
+    if (!$file || !isset($file['type'], $file['name'], $file['tmp_name'])) {
+        trigger_error("Invalid file upload", E_USER_ERROR);
+        return null;
+    }
 
-		$dir = ROOT_EDIT . $p['directory'];  // ROOT_EDIT = ROOT_EDIT .  ''
-		$debug .= 'directory: ' . $dir . "\n";
-		if (!file_exists($dir)) {
-			dirMake($dir);
-		}
-		$name = $_FILES["file"]["name"];
-		if (isset($p['rename'])) {
-			switch ($_FILES['file']['type']) {
-				case 'image/png':
-					$name = $p['rename'] . '.png';
-					break;
-				case 'image/jpeg':
-					$name = $p['rename'] . '.jpg';
-					break;
-				case 'image/gif':
-					$name = $p['rename'] . '.gif';
-					break;
-			}
-		}
-		$fname = $dir . '/' . $name;
-		$debug .= 'fname: ' . $fname . "\n";
-		if (move_uploaded_file($_FILES["file"]["tmp_name"], $fname)) {
+    $allowedTypes = [
+        'image/png'  => '.png',
+        'image/jpeg' => '.jpg',
+        'image/gif'  => '.gif',
+    ];
 
-			$debug .= "Image Saved";
-			$debug .= "Image Saved";
-		} else {
-			$message = "Image NOT Saved";
-			trigger_error($message, E_USER_ERROR);
-		}
-	}
-	//writeLog('image-49', $debug);
-	return null;
+    writeLog('image-15', "I am in imageStore\nfiletype: {$file['type']}");
+
+    if (!array_key_exists($file['type'], $allowedTypes)) {
+        trigger_error("Attempting to upload a file that is not an image", E_USER_ERROR);
+        return "Invalid file type";
+    }
+
+    $dir = ROOT_EDIT . $p['directory'];
+    writeLog('image-20', 'directory: ' . $dir);
+
+    if (!file_exists($dir)) {
+        dirMake($dir);
+    }
+
+    $extension = $allowedTypes[$file['type']];
+    $filename = isset($p['rename']) ? $p['rename'] . $extension : $file['name'];
+    $destination = $dir . '/' . $filename;
+
+    writeLog('image-30', 'Saving to: ' . $destination);
+
+    if (move_uploaded_file($file['tmp_name'], $destination)) {
+        writeLog('image-41', 'Image Saved');
+        return 'success';
+    }
+
+    trigger_error("Image NOT Saved", E_USER_ERROR);
+    return "Failed to save image";
 }

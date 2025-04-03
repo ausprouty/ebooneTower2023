@@ -18,7 +18,9 @@ export default {
   async getBibleVersions(params) {
     params.page = 'bibleVersions'
     params.action = 'getBibleVersions'
+    console.log('getBibleVersions', params)
     var res = await AuthorService.aReturnContent(params)
+    console.log(res)
     return res
   },
 

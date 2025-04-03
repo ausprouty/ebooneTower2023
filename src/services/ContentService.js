@@ -36,7 +36,8 @@ export default {
     //console.log('in getLibrary in Content Service with params')
     //console.log(params)
     var res = await this.returnContent(params)
-    //console.log(res)
+    console.log('getLibrary response')
+    console.log(res)
     return res
   },
   async getLibraryIndex(params) {
@@ -44,6 +45,7 @@ export default {
     params.scope = 'libraryIndex'
     console.log(params)
     var res = await this.returnContent(params)
+    
     console.log(res)
     return res
   },
@@ -61,9 +63,11 @@ export default {
       var contentForm = this.toFormData(params)
       var response = await apiCONTENT.post(postContentDestination, contentForm)
       LogService.consoleLog('returnContent', response)
+      console.log('returnContent response')
+      console.log(response)
       params.function = 'returnContent'
       if (response.data) {
-        content = response.data
+        content = response.data.result
       }
       return content
     } catch (error) {

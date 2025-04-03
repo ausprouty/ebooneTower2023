@@ -53,10 +53,24 @@ $debug .= json_encode($out, JSON_UNESCAPED_UNICODE) . "\n";
 $fn = "ContentApi-" . $p['scope'];
 writeLog($fn, $debug);
 
+// Wrap output in consistent response format
+$response = [
+    'status' => isset($out['error']) ? 'error' : 'ok',
+    'error' => $out['error'] ?? null,
+    'text' => $out['text'] ?? null,
+    'result' => $out
+];
+
+$response = [
+    'status' => isset($out->error) ? 'error' : 'ok',
+    'error' => $out->error ?? null,
+    'result' => $out
+];
+
 
 header("Content-type: application/json");
-echo json_encode($out, JSON_UNESCAPED_UNICODE);
-die();
+echo json_encode($response, JSON_UNESCAPED_UNICODE);
+exit;
 
 //
 //   FUNCTIONS
@@ -64,7 +78,6 @@ die();
 // we clean parameters because people may be adding crummy stuff
 function getParameters()
 {
-    $out = array();
     $p['country_code'] = NULL;
     $p['language_iso'] = NULL;
     $p['library_code'] = NULL;
@@ -75,7 +88,6 @@ function getParameters()
     $p['filename'] = NULL;
     $p['text'] = NULL;
     $debug = 'parameters:' . "\n";
-    $conn = new mysqli(HOST, USER, PASS, DATABASE_CONTENT, DATABASE_PORT);
     foreach ($_POST as $param_name => $param_value) {
         //$p[$param_name] = $conn->real_escape_string($param_value);
         $p[$param_name] = $param_value;

@@ -16,7 +16,7 @@ export const libraryGetMixin = {
       console.log('getBookmark started')
       console.log(this.$route.params)
       await AuthorService.bookmark(this.$route.params)
-      console.log('getBookmark finsihed')
+      console.log('getBookmark finished')
     },
     async getCkEditorStyleSets(param) {
       console.log('getCkEditorStyleSets', param)
@@ -31,7 +31,8 @@ export const libraryGetMixin = {
       return folders
     },
     async getImages(where, directory) {
-      //console.log('getting Images for ', directory)
+      console.log('getting Images for ', where)
+      console.log('in directory ', directory)
       // get images for library formatted for dropdown
       var image_options = []
       var img = []
@@ -40,20 +41,20 @@ export const libraryGetMixin = {
       } else {
         img = await AuthorService.getImagesForSite(directory)
       }
-      //console.log (img)
-      if (typeof img !== 'undefined') {
-        if (img.length > 0) {
-          img = img.sort()
-          var length = img.length
-          var i = 0
-          var pos = 0
-          for (i = 0; i < length; i++) {
-            var formatted = {}
-            pos = img[i].lastIndexOf('/') + 1
-            formatted.title = img[i].substring(pos)
-            formatted.image = img[i]
-            image_options.push(formatted)
-          }
+      console.log('getImages response')
+      console.log(img)
+      console.log('img is', img) // Check what you're getting
+      if (Array.isArray(img) && img.length > 0) {
+        img = img.sort()
+        var length = img.length
+        var i = 0
+        var pos = 0
+        for (i = 0; i < length; i++) {
+          var formatted = {}
+          pos = img[i].lastIndexOf('/') + 1
+          formatted.title = img[i].substring(pos)
+          formatted.image = img[i]
+          image_options.push(formatted)
         }
       }
       return image_options
@@ -114,7 +115,9 @@ export const libraryGetMixin = {
       return styles
     },
     async getTemplates(param) {
+      console.log('getTemplates', param)
       var templates = await AuthorService.getTemplates(param)
+      console.log('getTemplates response' + templates)
       return templates
     },
   },

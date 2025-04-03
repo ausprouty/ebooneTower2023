@@ -202,19 +202,7 @@ export default {
     return {
       file: null,
       error_message: null,
-      countries: {
-        name: null,
-        english: null,
-        code: null,
-        language: null,
-        website: null,
-        url: null,
-        index: null,
-        custom: null,
-        image: null,
-        prototype: null,
-        publish: null,
-      },
+      countries: [],
       prototype_url: process.env.VUE_APP_PROTOTYPE_CONTENT_URL,
       authorized: false,
     }
@@ -268,7 +256,7 @@ export default {
         }
       }
     },
-    handleFileUpload(code) {
+    async handleFileUpload(code) {
       console.log('started handleFileUpload')
       var checkfile = ''
       var i = 0
@@ -282,15 +270,17 @@ export default {
           console.log('type =', type)
           if (type) {
             var params = {}
-            params.directory = 'images/country'
+            params.directory = '/sites/default/images/country'
             params.rename = code
-            AuthorService.imageStore(params, checkfile[0])
-            console.log ('I am after imageStore')
+            await AuthorService.imageStore(params, checkfile[0])
+            console.log('I am after imageStore')
             for (let i = 0; i < this.countries.length; i++) {
               const country = this.countries[i]
               console.log('country.code =', country.code)
               console.log('code =', code)
               if (country.code === code) {
+                console.log('Found country:', country)
+                console.log(this.countries[i])
                 this.countries[i].image = code + type
                 console.log('Updated image to:', this.countries[i].image)
                 break
@@ -299,12 +289,7 @@ export default {
           }
         }
       }
-      console.log(
-        'Before saving, countries[i].image =',
-        this.countries[i].image
-      )
-
-      //this.saveForm('stay')
+      this.saveForm('stay')
     },
     async setupCountries() {
       try {
@@ -326,12 +311,15 @@ export default {
         this.content.filename = 'countries'
         this.content.filetype = 'json'
         var response = await AuthorService.createContentData(this.content)
-        if (response.data.error != true && action != 'stay') {
+        console.log ('SaveForm')
+        console.log('response =', response)
+
+        if (response.result == 'Success' && action != 'stay') {
           this.$router.push({
             name: 'previewCountries',
           })
         }
-        if (response.data.error != true && action == 'stay') {
+        if (response.result == 'Success' && action == 'stay') {
           this.showForm()
         } else {
           this.error = true

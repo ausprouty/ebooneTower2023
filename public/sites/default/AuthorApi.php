@@ -20,65 +20,92 @@ require_once('php/myRequireOnce.php');
 require_once('php/sql.php');
 require_once('php/writeLog.php');
 myHeaders(); // send cors headers
+
+set_exception_handler('jsonExceptionHandler');
+
+
 // assign variables
-$out = array();
 $p = setParameters($_POST);
-if (isset($p['my_uid'])) {
+$out = [];
+
+// Optional my_uid setup
+if (!empty($p['my_uid'])) {
 	myRequireOnceSetup($p['my_uid']);
 }
-// get is used in prototype and publish and overrides $p
+
+// Override from querystring
 if (isset($_GET['page'])) {
 	$p['page'] = $_GET['page'];
 }
 if (isset($_GET['action'])) {
 	$p['action'] = $_GET['action'];
 }
-if (isset($p['action'])) {
-	// login routine
-	if ($p['action'] == 'login') {
-		$out = myApiLogin($p);
-	} else {
-		// take action if authorized user
-		if (!isset($p['token'])) {
-			$message = "Token is not set";
-			trigger_error($message, E_USER_ERROR);
-			die;
-		}
-		$ok = myApiAuthorize($p['token']);
-		unset($p['token']);  // so it will not be sent back
-		if ($ok || $p['action'] == 'bookmark') {
-			myRequireOnce('dirMake.php');
-			if (isset($p['page'])) {
-				$subdirectory = null;
-				if (isset($p['subdirectory'])) {
-					$subdirectory  = $p['subdirectory'];
-				}
-				writeLogDebug('AuthorApi-62-p', $p);
-				myRequireOnce($p['page'], $subdirectory);
-				$action = $p['action'];
-				$out = $action($p);
-			} else {
-				$message = $p['page']  . "is not set";
-				trigger_error($message, E_USER_ERROR);
-			}
-		} else {
-			$message = "Not Authorized";
-			$debug .= $message;
-			trigger_error($message, E_USER_ERROR);
-		}
-	}
-} else {
-	$message = "No Action";
-	$debug .= $message;
-	trigger_error($message, E_USER_ERROR);
+
+// Handle action
+if (empty($p['action'])) {
+	http_response_code(400);
+	echo json_encode([
+		'status' => 'error',
+		'error' => "No action provided",
+		'data' => null
+	], JSON_UNESCAPED_UNICODE);
+	exit;
 }
 
+if ($p['action'] === 'login') {
+	$out = myApiLogin($p);
+} else {
+	if (empty($p['token'])) {
+		http_response_code(401);
+		echo json_encode([
+			'status' => 'error',
+			'error' => "Token is not set",
+			'data' => null
+		], JSON_UNESCAPED_UNICODE);
+		exit;
+	}
 
-$debug .= "\n\nHERE IS JSON_ENCODE OF DATA THAT IS NOT ESCAPED\n";
-$debug .= json_encode($out) . "\n";
-writeLog($p['action'],   $debug);
+	$ok = myApiAuthorize($p['token']);
+	unset($p['token']); // Remove token from output
+
+	if ($ok || $p['action'] === 'bookmark') {
+		myRequireOnce('dirMake.php');
+		$subdirectory = $p['subdirectory'] ?? null;
+
+		if (!empty($p['page'])) {
+			myRequireOnce($p['page'], $subdirectory);
+			$action = $p['action'];
+			$out = $action($p);
+		} else {
+			http_response_code(400);
+			echo json_encode([
+				'status' => 'error',
+				'error' => "Page is not set",
+				'data' => null
+			], JSON_UNESCAPED_UNICODE);
+			exit;
+		}
+	} else {
+		http_response_code(403);
+		echo json_encode([
+			'status' => 'error',
+			'error' => "Not Authorized",
+			'data' => null
+		], JSON_UNESCAPED_UNICODE);
+		exit;
+	}
+}
+writelogDebug('AuthorApi-98-'.$p['action'], $out);
+// Wrap output in consistent response format
+$response = [
+	'status' => isset($out->error) ? 'error' : 'ok',
+	'error' => $out->error ?? null,
+	'result' => $out
+];
+writelogDebug('AuthorApi-105-'. $p['action'], $response);
 header("Content-type: application/json");
-echo json_encode($out, JSON_UNESCAPED_UNICODE);
+echo json_encode($response, JSON_UNESCAPED_UNICODE);
+exit;
 
 // return response
 
@@ -125,4 +152,17 @@ function setParameters($post)
 	myDestination($p);  // set DESTINATION
 	writeLogDebug('AuthorSetParameters-p', $p);
 	return $p;
+}
+
+function jsonExceptionHandler($exception)
+{
+	http_response_code(500);
+	$response = [
+		'status' => 'error',
+		'error' => $exception->getMessage(),
+		'data' => null
+	];
+	header('Content-Type: application/json');
+	echo json_encode($response, JSON_UNESCAPED_UNICODE);
+	exit;
 }

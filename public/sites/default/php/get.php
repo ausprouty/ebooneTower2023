@@ -3,52 +3,64 @@ myRequireOnce('writeLog.php');
 
 function getFoldersContent($p)
 {
-	$debug = 'getFoldersContent' . "\n";
-	if (!$p['language_iso']) {
+	writeLogDebug('getFoldersContent', $p);
+
+	if (empty($p['language_iso'])) {
 		writeLogError('getFoldersContent', 'language_iso not set');
 		return false;
 	}
-	$exclude = array('images', 'styles', 'templates');
+
+	$exclude = ['images', 'styles', 'templates'];
 	$path = ROOT_EDIT_CONTENT . $p['country_code'] . '/' . $p['language_iso'] . '/';
-	$results = null;
-	if (file_exists($path)) {
-		$results = '[';
-		$dir = new DirectoryIterator($path);
-		foreach ($dir as $fileinfo) {
-			if ($fileinfo->isDir() && !$fileinfo->isDot()) {
-				$name = $fileinfo->getFilename();
-				if (!in_array($name, $exclude)) {
-					$results .= '"' . $name . '",';
-				}
+
+	if (!file_exists($path)) {
+		return [];
+	}
+
+	$folders = findFoldersInDirectory($path, $exclude);
+
+	if (empty($folders)) {
+		$folders = makeFoldersContent($path);
+	}
+
+	return $folders;
+}
+
+function findFoldersInDirectory($path, $exclude = [])
+{
+	$results = [];
+
+	foreach (new DirectoryIterator($path) as $fileinfo) {
+		if ($fileinfo->isDir() && !$fileinfo->isDot()) {
+			$name = $fileinfo->getFilename();
+			if (!in_array($name, $exclude)) {
+				$results[] = $name;
 			}
 		}
-		if (strlen($results) > 1) {
-			$results = substr($results, 0, -1) . ']';
-		} else {
-			$results = makeFoldersContent($path);
-		}
 	}
+
 	return $results;
 }
 
 function makeFoldersContent($path)
 {
-	if (STANDARD_SERIES == NULL) {
+	if (empty(STANDARD_SERIES)) {
 		writeLogError('getFoldersContent', 'STANDARD_SERIES not set');
-		return null;
+		return [];
 	}
-	$results = '[';
-	$folders = explode(',', STANDARD_SERIES);
+
+	$folders = array_map('trim', explode(',', STANDARD_SERIES));
+	$results = [];
+
 	foreach ($folders as $folder) {
 		dirMake($path . $folder);
-		$results .= '"' . $folder . '",';
+		$results[] = $folder;
 	}
-	if (strlen($results) > 1) {
-		$results = substr($results, 0, -1) . ']';
-	} else {
-		$results = null;
+
+	if (empty($results)) {
 		writeLogError('getFoldersContent', 'STANDARD_SERIES has no items');
 	}
+
 	return $results;
 }
 
@@ -58,7 +70,7 @@ function makeFoldersContent($path)
 // and then returns as content
 function getTemplate($p)
 {
-	$debug = 'getTemplate' . "\n";
+	writeLogDebug('getTemplate-61', $p);
 	if (!$p['language_iso']) {
 		$message = "language_iso not set\n";
 		trigger_error($message, E_USER_ERROR);
@@ -80,82 +92,66 @@ function getTemplate($p)
 	} else {
 		$message = "NO Templates found ";
 		trigger_error($message, E_USER_ERROR);
-		return NULL;
+		return [];
 	}
 
 	return $out;
 }
-// use country and language
+
 function getTemplates($p)
 {
-	$debug = 'getTemplates' . "\n";
-	if (!$p['language_iso']) {
-		$message = "language_iso not set\n";
-		trigger_error($message, E_USER_ERROR);
+	writeLogDebug('getTemplates-102', $p);
+	$templates = [];
+
+	if (empty($p['language_iso'])) {
+		trigger_error("language_iso not set\n", E_USER_ERROR);
 		return null;
 	}
 
-	$results = '[';
 	$template_directory = ROOT_EDIT_CONTENT . $p['country_code'] . '/' . $p['language_iso'] . '/templates/';
-	$debug .= $template_directory . "\n";
-	// find folders
+	writeLogDebug('getTemplates-110', $template_directory);
+
 	if (!file_exists($template_directory)) {
-		$include = 'setup.php';
 		myRequireOnce('setup.php');
-		$debug .= ' template directory does not exist so going to Setup Templates' . "\n";
 		setupTemplatesLanguage($p);
 	}
-	if (file_exists($template_directory)) {
-		$results = '[';
-		$folders =  array();
-		$handler = opendir($template_directory);
-		while ($mfile = readdir($handler)) {
-			if ($mfile != '.' && $mfile != '..') {
-				$folders[] =  $mfile;
-			}
-		}
-		closedir($handler);
-		foreach ($folders as $folder) {
-			if (is_dir($template_directory . $folder)) {
-				$handler = opendir($template_directory . $folder);
-				while ($mfile = readdir($handler)) {
-					if ($mfile != '.' && $mfile != '..') {
-						$results .= '"' . $folder . '/' . $mfile . '",';
-					}
-				}
-				closedir($handler);
-			} else { // there are some files in the root directory
-				$results .= '"' . $folder  . '",';
-			}
-		}
-		if (strlen($results) > 1) {
-			$results = substr($results, 0, -1) . ']';
-		} else {
-			$debug .= ' No templates so going to Setup Templates' . "\n";
-			myRequireOnce('setup.php');
-			setupTemplatesLanguage($p);
-			$handler = opendir($template_directory);
-			while ($mfile = readdir($handler)) {
-				if ($mfile != '.' && $mfile != '..') {
-					$foldernames[] =  $mfile;
-				}
-			}
-			closedir($handler);
-			foreach ($folders as $folder) {
-				$handler = opendir($template_directory . $folder);
-				while ($mfile = readdir($handler)) {
-					if ($mfile != '.' && $mfile != '..') {
-						$results .= '"' . $folder . '/' . $mfile . '",';
-					}
-				}
-				closedir($handler);
-			}
-			if (strlen($results) > 1) {
-				$results = substr($results, 0, -1) . ']';
-				$debug .= "Templates found";
-			}
-		}
-		$out = $results;
+
+	// Attempt to fetch templates after setup
+	if (!file_exists($template_directory)) {
+		return $templates;
 	}
-	return $out;
+
+	$templates = findTemplatesInDirectory($template_directory);
+
+	// Retry setup if no templates found
+	if (empty($templates)) {
+		myRequireOnce('setup.php');
+		setupTemplatesLanguage($p);
+		$templates = findTemplatesInDirectory($template_directory);
+	}
+
+	return $templates;
+}
+
+function findTemplatesInDirectory($directory)
+{
+	$results = [];
+
+	foreach (scandir($directory) as $item) {
+		if ($item === '.' || $item === '..') {
+			continue;
+		}
+		$path = $directory . $item;
+		if (is_dir($path)) {
+			foreach (scandir($path) as $file) {
+				if ($file !== '.' && $file !== '..') {
+					$results[] = $item . '/' . $file;
+				}
+			}
+		} else {
+			$results[] = $item;
+		}
+	}
+
+	return $results;
 }
