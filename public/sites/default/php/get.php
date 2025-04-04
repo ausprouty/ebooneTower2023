@@ -71,32 +71,52 @@ function makeFoldersContent($path)
 function getTemplate($p)
 {
 	writeLogDebug('getTemplate-61', $p);
-	if (!$p['language_iso']) {
-		$message = "language_iso not set\n";
-		trigger_error($message, E_USER_ERROR);
-		return null;
-	}
-	if (!$p['template']) {
-		$message = "template not set\n";
-		trigger_error($message, E_USER_ERROR);
-		return null;
+
+	// Validate input
+	if (empty($p['language_iso'])) {
+		return [
+			'status' => 'error',
+			'error' => 'language_iso not set',
+			'result' => null
+		];
 	}
 
+	if (empty($p['template'])) {
+		return [
+			'status' => 'error',
+			'error' => 'template not set',
+			'result' => null
+		];
+	}
+
+	// Build full path
 	$language_dir = ROOT_EDIT_CONTENT . $p['country_code'] . '/' . $p['language_iso'];
 	$template = $language_dir . '/templates/' . $p['template'];
-	$debug = ' template is ' . $p['template'] . "\n";
-	if (file_exists($template)) {
-		$debug .= "Template Found: $template" . "\n";
-		$debug .= file_get_contents($template) . "\n";
-		$out = file_get_contents($template);
-	} else {
-		$message = "NO Templates found ";
-		trigger_error($message, E_USER_ERROR);
-		return [];
+
+	// Ensure it ends with .html
+	if (strpos($template, '.html') === false) {
+		$template .= '.html';
 	}
 
-	return $out;
+	// Attempt to load file
+	if (file_exists($template)) {
+		$content = file_get_contents($template);
+		writeLogDebug('getTemplate-found', $template);
+		
+		return [
+			'status' => 'ok',
+			'error' => null,
+			'result' => $content
+		];
+	} else {
+		return [
+			'status' => 'error',
+			'error' => 'Template not found: ' . $p['template'],
+			'result' => null
+		];
+	}
 }
+
 
 function getTemplates($p)
 {

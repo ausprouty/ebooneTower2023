@@ -73,7 +73,7 @@ export const languageMixin = {
           this.choose_language = 'Choose Language'
           this.more_languages = 'More Languages'
         }
-
+        console.log('line 76')
         if (typeof response.recnum != 'undefined') {
           this.recnum = response.recnum
           this.publish_date = response.publish_date

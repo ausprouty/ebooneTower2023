@@ -49,7 +49,7 @@
           <LanguageEdit
             v-for="language in $v.languages.$each.$iter"
             :language="language"
-            :key="language.iso"
+            :key="language.$model.iso"
             @clicked="onClickChild"
           />
 
@@ -225,7 +225,8 @@ export default {
         LogService.consoleLogMessage('source', this.content)
         AuthorService.createDirectoryLanguages(this.content)
         var response = await AuthorService.createContentData(this.content)
-        if (response.data.error != true) {
+        console.log('response', response)
+        if (response.status == 'ok') {
           this.$router.push({
             name: 'previewLanguages',
             params: {
@@ -235,7 +236,7 @@ export default {
         } else {
           this.error = true
           this.loaded = false
-          this.error_message = response.data.message
+          this.error_message = response.error
         }
       } catch (error) {
         LogService.consoleLogError('LANGUAGES EDIT There was an error ', error)

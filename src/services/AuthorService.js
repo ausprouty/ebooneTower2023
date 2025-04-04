@@ -43,22 +43,22 @@ export default {
       params.function = 'aReturnContentParsed'
       LogService.consoleLog('aReturnResponse', params, response)
       if (response.data.login) {
-        //console.log('Author Service is pushing you to login')
         this.$router.push({
           name: 'login',
         })
       } else {
         if (response.data.status == 'error') {
-          this.error = response.data.message + ' ' + params.action
+          const thisError = params.action + ':' + response.data.error
+          console.log(thisError)
           return 'error'
         }
         return response.data.result
       }
     } catch (error) {
-      this.error = error.toString() + ' ' + params.action
+      const thisError = error.toString() + ' ' + params.action
       LogService.consoleLogError(
         'something went wrong when AuthorService was called',
-        this.error,
+        thisError,
         'aReturnResponse'
       )
       return 'error'
@@ -73,13 +73,16 @@ export default {
       console.log(params)
       console.log(response)
       if (response.data.login) {
-        //console.log('Author Service is pushing you to login')
         this.$router.push({
           name: 'login',
         })
       }
-      //this.clearActionAndPage()
       if (typeof response.data !== 'undefined') {
+        if (response.data.status == 'error') {
+          const thisError = params.action + ':' + response.data.error
+          console.log(thisError)
+          return 'error'
+        }
         //console.log(' have data content')
         content = response.data.result
       } else if (typeof response !== 'undefined') {
@@ -89,10 +92,10 @@ export default {
       //this.clearActionAndPage()
       return content
     } catch (error) {
-      this.error = error.toString() + ' ' + params.action
+      const thisError = error.toString() + ' ' + params.action
       LogService.consoleLogError(
         'something went wrong',
-        this.error,
+        thisError,
         'aReturnContent'
       )
       return 'error'
@@ -103,27 +106,42 @@ export default {
       var parse = {}
       var contentForm = this.toAuthorizedFormData(params)
       var response = await apiSELECT.post(postDestination, contentForm)
-      params.function = 'aReturnContentParsed'
-      this.consoleLog(params, response)
+      console.log(params.action)
+      console.log(response)
       if (response.data.login) {
-        //console.log('Author Service is pushing you to login')
         this.$router.push({
           name: 'login',
         })
       }
-      if (response.data.result) {
-        parse = JSON.parse(response.data.result)
+      console.log(response.data)
+      console.log(response.data.result)
+      if (response.data.status == 'error') {
+        const thisError = params.action + ':' + response.data.error
+        console.log(thisError)
+        return 'error'
       }
-      //this.clearActionAndPage()
+      if (response.data.result) {
+        if (typeof response.data.result === 'string') {
+          parse = JSON.parse(response.data.result)
+        } else if (Array.isArray(response.data.result)) {
+          parse = response.data.result
+        } else {
+          console.warn(
+            'Unexpected type for result:',
+            typeof response.data.result
+          )
+        }
+      }
       return parse
     } catch (error) {
-      this.error = error.toString() + ' ' + params.action
+      const thisError = error.toString() + ' ' + params.action
+      console.log(thisError)
       LogService.consoleLogError(
         'something went wrong',
-        this.error,
+        thisError,
         'aReturnContentParsed'
       )
-      return 'error'
+      return 'error in aReturnContentParsed'
     }
   },
   async aReturnData(params) {
@@ -132,14 +150,19 @@ export default {
       var contentForm = this.toAuthorizedFormData(params)
       var response = await apiSELECT.post(postDestination, contentForm)
       console.log('aReturnData')
+      console.log(params.action)
       console.log(response)
       params.function = 'aReturn'
       this.consoleLog(params, response)
       if (response.data.login) {
-        //console.log('Author Service is pushing you to login')
         this.$router.push({
           name: 'login',
         })
+      }
+      if (response.data.status == 'error') {
+        const thisError = params.action + ':' + response.data.error
+        console.log(thisError)
+        return 'error'
       }
       if (response.data) {
         data = response.data
@@ -148,10 +171,10 @@ export default {
       console.log(data)
       return data
     } catch (error) {
-      this.error = error.toString() + ' ' + params.action
+      const thisError = error.toString() + ' ' + params.action
       LogService.consoleLogError(
         'something went Wrong',
-        this.error,
+        thisError,
         'aReturnData'
       )
       return 'error'
@@ -222,7 +245,7 @@ export default {
     params.page = 'create'
     params.action = 'createContent'
     var res = await this.aReturnData(params)
-    //console.log(res)
+    console.log(res)
     return res
   },
   async createContentFolder(params) {
@@ -432,6 +455,8 @@ export default {
   async getTemplates(params) {
     params.page = 'get'
     params.action = 'getTemplates'
+    console.log('AuthorService.getTemplates')
+    console.log(params)
     var templates = this.aReturnContentParsed(params)
     console.log(templates)
     return templates

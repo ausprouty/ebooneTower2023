@@ -15,8 +15,12 @@ export default {
     }
   },
   consoleLogMessage(source, message) {
-    if (show_log == true) {
-      console.log(source + ': ' + message)
+    if (show_log === true) {
+      if (typeof message === 'object') {
+        console.log(`${source}:`, message) // cleaner for objects
+      } else {
+        console.log(`${source}: ${message}`)
+      }
     }
   },
   consoleLogError(message, error, source) {

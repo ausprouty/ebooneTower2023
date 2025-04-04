@@ -111,6 +111,8 @@ export default {
       params['country_code'] = this.$route.params.country_code
       params['language_iso'] = this.$route.params.language_iso
       var templates = await this.getTemplates(params)
+      console.log('templates in storeBookTemplatesInState')
+      console.log(templates)
       this.setBookTemplates(templates)
     },
     async storeCkEditorStyleSetsInState() {

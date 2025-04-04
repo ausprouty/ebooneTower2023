@@ -13,7 +13,7 @@
       <div v-if="this.authorized">
         <BaseInput
           label="Filename:"
-          v-model="template_filename"
+          v-model="templateFilename"
           type="text"
           class="field"
         />
@@ -59,6 +59,7 @@ export default {
   data() {
     return {
       authorized: false,
+      templateFilename: '',
       config: {
         extraAllowedContent: [
           '*(*)[id]',
@@ -178,21 +179,23 @@ export default {
       try {
         console.log('saveForm called')
         this.content.text = ContentService.validate(this.pageText)
-        console.log(this.book.template)
+        console.log('Finsihed validating')
+        console.log(this.templateFilename)
         //todo: save all of library data
-        //remove any dots for safety
-        //  var safe_name = this.template_filename.replace('.', '')
-        var safe_name = this.book.template
+        const safeName = this.templateFilename
         var params = this.$route.params
         params.text = this.pageText
         params.book_format = this.book.format
         if (this.book.format == 'series') {
           params.series = this.book.code
         }
-        params.template = safe_name
+        console.log(this.params)
+        params.template = this.templateFilename
         params.destination = 'edit'
+        console.log('TemplateViesw saveForm')
         console.log(params)
         await AuthorService.editTemplate(params)
+        this.book.template = safeName
         this.$router.push({
           name: 'editLibrary',
           params: {
@@ -211,7 +214,7 @@ export default {
   },
   async beforeCreate() {
     this.$route.params.version = 'lastest'
-    LogService.consoleLogMessage('source',this.$route.params)
+    LogService.consoleLogMessage('source', this.$route.params)
     // set directory for custom images
     //see https://ckeditor.com/docs/ckfinder/ckfinder3-php/integration.html
     this.languageDirectory =
@@ -224,6 +227,7 @@ export default {
   async created() {
     try {
       this.authorized = this.authorize('write', this.$route.params)
+      this.templateFilename = this.book ? this.book.template : ''
       await this.loadTemplate()
       this.loaded = true
       this.loading = false

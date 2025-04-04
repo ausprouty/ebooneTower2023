@@ -115,9 +115,9 @@ export const libraryGetMixin = {
       return styles
     },
     async getTemplates(param) {
-      console.log('getTemplates', param)
+      console.log('LibraryMixinGetTemplates', param)
       var templates = await AuthorService.getTemplates(param)
-      console.log('getTemplates response' + templates)
+      console.log('getTemplates response: ' + templates)
       return templates
     },
   },

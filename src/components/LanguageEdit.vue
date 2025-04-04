@@ -197,7 +197,7 @@
           <select v-model="language.bible_ot.$model">
             <option
               v-for="o in this.ot"
-              v-bind:key="o.bid"
+              v-bind:key="'ot-' + o.bid"
               v-bind:value="o.bid"
             >
               {{ o.volume_name }}
@@ -208,11 +208,11 @@
         <div>
           <br />New Testament:
           <select v-model="language.bible_nt.$model">
-            <option
+            '<option
               v-for="n in this.nt"
-              v-bind:key="n.bid"
+              v-bind:key="'nt-' + n.bid"
               v-bind:value="n.bid"
-            >
+            >'
               {{ n.volume_name }}
             </option>
           </select>
