@@ -95,7 +95,7 @@ if ($p['action'] === 'login') {
 		exit;
 	}
 }
-writelogDebug('AuthorApi-98-' . $p['action'], $out);
+
 // Wrap output in consistent response format// If $out is already a structured response, just return it
 if (is_array($out) && isset($out['status']) && array_key_exists('result', $out)) {
 	$response = $out;

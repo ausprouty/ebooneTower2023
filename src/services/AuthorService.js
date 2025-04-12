@@ -149,11 +149,9 @@ export default {
       var data = {}
       var contentForm = this.toAuthorizedFormData(params)
       var response = await apiSELECT.post(postDestination, contentForm)
-      console.log('aReturnData')
-      console.log(params.action)
+      console.log('aReturnData for:' + params.action)
       console.log(response)
       params.function = 'aReturn'
-      this.consoleLog(params, response)
       if (response.data.login) {
         this.$router.push({
           name: 'login',
@@ -165,10 +163,9 @@ export default {
         return 'error'
       }
       if (response.data) {
-        data = response.data
+        data = response.data.result
       }
 
-      console.log(data)
       return data
     } catch (error) {
       const thisError = error.toString() + ' ' + params.action
@@ -482,6 +479,7 @@ export default {
   async login(params) {
     params.action = 'login'
     var check = await this.aReturnData(params)
+    console.log('Login Check')
     console.log(check)
     return check
   },

@@ -179,20 +179,16 @@ export default {
       try {
         console.log('saveForm called')
         this.content.text = ContentService.validate(this.pageText)
-        console.log('Finsihed validating')
+        console.log('Template SaveFormFinsihed validating')
         console.log(this.templateFilename)
         //todo: save all of library data
         const safeName = this.templateFilename
         var params = this.$route.params
         params.text = this.pageText
-        params.book_format = this.book.format
-        if (this.book.format == 'series') {
-          params.series = this.book.code
-        }
         console.log(this.params)
         params.template = this.templateFilename
         params.destination = 'edit'
-        console.log('TemplateViesw saveForm')
+        console.log('TemplateView Params')
         console.log(params)
         await AuthorService.editTemplate(params)
         this.book.template = safeName
@@ -205,7 +201,7 @@ export default {
           },
         })
       } catch (error) {
-        LogService.consoleLogError('LIBRARY EDIT There was an error ', error)
+        LogService.consoleLogError('TEMPLATE Vue There was an error ', error)
         this.error = true
         this.loaded = false
         this.error_message = error
