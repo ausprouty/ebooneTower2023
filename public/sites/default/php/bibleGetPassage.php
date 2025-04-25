@@ -27,7 +27,9 @@ function bibleGetPassage($p)
 {
     $out = [];
     // make sure bid is set
+    writeLogDebug('bibleGetPassage-30', $p);
     if (!isset($p['bid'])) {
+        writeLogDebug('bibleGetPassage-32', $p['collection_code']);
         if (isset($p['collection_code'])) {
             if ($p['collection_code'] == 'OT') {
                 if (isset($p['version_ot'])) {
@@ -66,6 +68,7 @@ function bibleGetPassage($p)
         myRequireOnce('bibleGetPassageBibleBrain.php');
         $p['damId'] = $data['dam_id'];
         $out = bibleGetPassageBibleBrain($p);
+        writeLogDebug('bibleGetPassage-66', $out);
         return $out;
     }
     if ($data['source']  == 'bible_server') {

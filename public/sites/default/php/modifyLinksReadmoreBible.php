@@ -3,37 +3,34 @@
 <a class="bible-readmore" href="https://biblegateway.com/passage/?search=Matthew%202:19-23&amp;version=NIV">
 
 //to <a class="bible-readmore" href="https://biblegateway.com/passage/?search=Matthew%202:19-&amp;version=NIV">
+// if no dash in the href, do nothing
 */
 function modifyLinksReadmoreBible($text)
 {
-    //writeLogDebug('modifyLinksReadmoreBibler-6', $text);
-    $readmore = array();
-    $readmore[] = '<a class="readmore"';
-    $readmore[] = '<a class="bible-readmore"';
+    writeLogDebug('modifyLinksReadmoreBible-10', $text);
 
-    foreach ($readmore as $find) {
-        $length_find = strlen($find);
-        $count = substr_count($text, $find);
-        $pos_start = 1;
-        for ($i = 1; $i <= $count; $i++) {
-            $pos_start = strpos($text, $find, $pos_start);
-            $pos_end = strpos($text, '</a>', $pos_start + $length_find);
-            $length = $pos_end - $pos_start + 4;
-            $old_link = substr($text, $pos_start, $length);
-            if (strpos($text, '-') !== false) {
-                $pos_href = strpos($old_link, 'href');
-                $pos_dash = strpos($old_link, '-', $pos_href) + 1;
-                $pos_amp = strpos($old_link, '&amp;', $pos_dash);
-                $verse_len = $pos_amp - $pos_dash;
-                $remove = substr($old_link, $pos_dash, $verse_len);
-                $new_link = substr_replace($old_link, '', $pos_dash, $verse_len);
-            }
-            $message = $old_link . " -- " . $new_link;
-            //writeLogAppend('readmoreLinksRepair-27', $message);
-            $text = substr_replace($text, $new_link, $pos_start, $length);
-            $pos_start = $pos_end;
+    // Match <a> tags with class="readmore" or class="bible-readmore"
+    $pattern = '/<a\s+class="(?:readmore|bible-readmore)"[^>]*href="([^"]*?)"[^>]*>(.*?)<\/a>/i';
+
+    $text = preg_replace_callback($pattern, function ($matches) {
+        $full_link = $matches[0]; // the whole <a>...</a>
+        $href = $matches[1];      // the href value
+        //$link_text = $matches[2]; // the visible link text
+
+        // Only modify if the href contains a dash "-"
+        if (strpos($href, '-') !== false) {
+            $href = preg_replace('/-(\d+)(?=&amp;)/', '-', $href);
         }
-    }
-    //writeLogDebug('modifyLinksReadmoreBible-28', $text);
+
+        // Rebuild the <a> tag
+        $new_link = str_replace($matches[1], $href, $full_link);
+
+        // Log the change
+        writeLogAppend('modifyLinksReadmoreBible-29', $full_link . ' -- ' . $new_link);
+
+        return $new_link;
+    }, $text);
+
+    writeLogDebug('modifyLinksReadmoreBible-34', $text);
     return $text;
 }

@@ -57,8 +57,9 @@ function createBibleDbtArray($p)
     if ($book_lookup == 'Psalm') {
         $book_lookup = 'Psalms';
     }
+    $book_lookup =  html_entity_decode($book_lookup, ENT_QUOTES | ENT_HTML5, 'UTF-8');
     $book_details = [];
-    //writeLogAppend('createBibleDbtArray-53', $book_lookup);
+    writeLogAppend('createBibleDbtArray-62', $book_lookup);
     $book_details = createBibleDbtArrayNameFromDBM($language_iso,  $book_lookup);
     if (!isset($book_details['testament'])) {
         $book_details = createBibleDbtArrayNameFromHL($language_iso,  $book_lookup);
@@ -77,7 +78,7 @@ function createBibleDbtArray($p)
     $i = strpos($pass, ':');
     // checking for German: Matthäus 7, 7-11
     $comma = strpos($pass, ',');
-    if ($i == FALSE && $comma !== FALSE){
+    if ($i == FALSE && $comma !== FALSE) {
         $pass = str_replace(',', ':', $pass);
         $i = strpos($pass, ':');
     }
@@ -118,39 +119,71 @@ function createBibleDbtArray($p)
 }
 
 
-function createBibleDbtArrayNameFromDBM($language_iso,  $book_lookup)
+function createBibleDbtArrayNameFromDBM($language_iso, $book_lookup)
 {
-    $book_details = [];
-    $book_details['lookup'] = $book_lookup;
+    $book_details = [
+        'lookup' => $book_lookup
+    ];
+
     $conn = new mysqli(HOST, USER, PASS, DATABASE_BIBLE);
-    $conn->set_charset("utf8");
-    $sql2 = "SELECT book_id FROM dbm_bible_book_names
-        WHERE language_iso = '$language_iso' AND name = '$book_lookup'";
-    $query = $conn->query($sql2);
-    $data = $query->fetch_object();
+    $conn->set_charset("utf8mb4");
+
+    // First try to get book_id in the specified language
+    $stmt = $conn->prepare("
+            SELECT book_id 
+            FROM dbm_bible_book_names 
+            WHERE language_iso = ? AND name = ?
+        ");
+    $stmt->bind_param("ss", $language_iso, $book_lookup);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $data = $result->fetch_object();
+
+    // If not found, fall back to English
     if (!isset($data->book_id)) {
-        $sql3 = "SELECT book_id FROM dbm_bible_book_names
-         WHERE language_iso = 'eng' AND name = '$book_lookup'";
-        $query = $conn->query($sql3);
-        $data = $query->fetch_object();
-    }
-    if (!isset($data->book_id)) {
-        writeLogAppend('ERROR-createBibleDbtArrayNameFromDBM', $sql3);
-    }
-    if (isset($data->book_id)) {
-        $book_details['book_id'] = $data->book_id;
-        $book_id = $book_details['book_id'];
-        $sql = "SELECT bid, testament FROM hl_online_bible_book
-          WHERE book_id = '$book_id'";
-        $data = sqlBibleArray($sql);
-        if (isset($data['testament'])) {
-            $book_details['testament'] = $data['testament'];
-            $book_details['book_number'] = $data['bid'];
+        $stmt = $conn->prepare("
+                SELECT book_id 
+                FROM dbm_bible_book_names 
+                WHERE language_iso = 'eng' AND name = ?
+            ");
+        $stmt->bind_param("s", $book_lookup);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_object();
+
+        if (!isset($data->book_id)) {
+            writeLogAppend('ERROR-createBibleDbtArrayNameFromDBM', [
+                'language_iso' => $language_iso,
+                'book_lookup' => $book_lookup
+            ]);
         }
     }
-    //  //writeLogDebug('createBibleDbtArrayNameFromDBM-135', $book_details);
+
+    // Lookup Bible internal info
+    if (isset($data->book_id)) {
+        $book_details['book_id'] = $data->book_id;
+
+        $sql = "
+                SELECT bid, testament 
+                FROM hl_online_bible_book 
+                WHERE book_id = ?
+            ";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $data->book_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $book_data = $result->fetch_assoc();
+
+        if (!empty($book_data)) {
+            $book_details['testament'] = $book_data['testament'];
+            $book_details['book_number'] = $book_data['bid'];
+        }
+    }
+
     return $book_details;
 }
+
+
 
 function createBibleDbtArrayNameFromHL($language_iso,  $book_lookup)
 {

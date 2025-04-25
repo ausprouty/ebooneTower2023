@@ -42,7 +42,7 @@ function modifyPage($text, $p, $data, $bookmark)
     if (strpos($text, '<div class="reveal audio">') !== FALSE) {
         $text = modifyRevealAudio($text, $bookmark, $p);
     }
-    //writeLogDebug('modifyPages-52-ZOOM', $text);
+    //writeLogDebug('modifyPage-52-ZOOM', $text);
     //
     // modify note fields
     //
@@ -66,14 +66,14 @@ function modifyPage($text, $p, $data, $bookmark)
     $text = str_replace('<a  ', '<a ', $text);
     //$text = str_replace('href="http' ,' target="_blank" href="http', $text);
     //
-    //writeLogDebug('modify-page-65', $text);
+    //writeLogDebug('modifyPage-65', $text);
     //  change internal links for easy return:
     // for SDCard we may need to remove all external references; esp those to Bible sites
     //writeLogDebug('modifyPage-85-ZOOM', $text);
     if (strpos($text, '<a href=') !== FALSE || strpos($text, '<a class="readmore"') !== FALSE) {
         $text = modifyLinks($text, $p);
     }
-    //writeLogDebug('modifyPage-88-ZOOM', $text);
+    writeLogDebug('modifyPage-88', $text);
 
     // popup text needs to be visible to editor but hidden in prototype and production
     if (strpos($text, 'class="popup"') !== FALSE) {

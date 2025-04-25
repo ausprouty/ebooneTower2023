@@ -10,12 +10,14 @@
          'version_nt' => '134'
      )
 
-    returns an array:
-    $output['content']= [
+
+   returns an array:
+	$output= [
 		'reference' =>  $output['passage_name'],
 		'text' => $output['bible'],
 		'link' => $output['link']
 	];
+
 
 		BASED ON THE LOGIC OF JANUARY 2020
 */
@@ -23,21 +25,8 @@ myRequireOnce('getElementsByClass.php');
 myRequireOnce('simple_html_dom.php', 'libraries/simplehtmldom_1_9_1');
 myRequireOnce('writeLog.php');
 
-// returns array (and I have no idea why both verse and reference; why k.
-//1 =>
-//array (
-//  'verse' =>
-//  array (
-//    1 => 'John 14:15-26',
-//  ),
-//  'k' =>
-//  array (
-//    1 => '<h3>Jesus Promises the Holy Spirit</h3><p><sup>15 </sup>&#8220;If you love'
-//  'bible' => '<h3>Jesus Promises the Holy Spirit</h3><p><sup>15 </sup>&#8220;If you love me, keep my commands.  you of everything I have said to you.</p>
-//
-//<p><strong><a href="http://mobile.biblegateway.com/versions/New-International-Version-NIV-Bible/">New International Version</a> (NIV)</strong> <p>Holy Bible, New International Version®, NIV® Copyright ©  1973, 1978, 1984, 2011 by <a href="http://www.biblica.com/">Biblica, Inc.®</a> Used by permission. All rights reserved worldwide.</p>',
-//   'reference' => 'John 14:15-26',
-// ),
+
+
 
 function bibleGetPassageBiblegateway($p)
 {
@@ -68,7 +57,7 @@ function bibleGetPassageBiblegateway($p)
 	curl_setopt($ch, CURLOPT_LOW_SPEED_TIME, 90); // Wait 30 seconds for download
 	curl_setopt($ch, CURLOPT_TIMEOUT, 90); // Wait 30 seconds for download
 	$url = 'https://biblegateway.com/passage/?search=' . $reference_shaped . '&version=' . $p['version_code']; // URL
-	$output['link'] = $url;
+
 	curl_setopt($ch, CURLOPT_URL, $url);
 	$string = curl_exec($ch);  // grab URL and pass it to the variable.
 	// see https://code.tutsplus.com/tutorials/html-parsing-and-screen-scraping-with-the-simple-html-dom-library--net-11856
@@ -78,23 +67,23 @@ function bibleGetPassageBiblegateway($p)
 	$reference = $e->innertext;
 	writeLogAppend('bibleGetPassageBiblegateway-83', $reference);
 	$passages = $html->find('.passage-text');
-	$bible = '';
+	$text = '';
 	foreach ($passages as $passage) {
-		$bible .= $passage;
+		$text .= $passage;
 	}
 	$html->clear();
 	unset($html);
-	if ($bible) {
-		$bible = bibleGetPassageBiblegatewayClean($bible);
-		$output['bible'] =   "\n" . '<!-- begin bible -->' . $bible;
-		$output['bible'] .=  "\n" . '<!-- end bible -->' . "\n";
+	if ($text) {
+		$text = bibleGetPassageBiblegatewayClean($text);
+		$bible_text =   "\n" . '<!-- begin bible -->' . $text;
+		$bible_text .=  "\n" . '<!-- end bible -->' . "\n";
 	} else {
-		$output['bible'] = null;
+		$bible_text = null;
 	}
 	$output['content'] = [
 		'reference' =>  $reference,
-		'text' => $output['bible'],
-		'link' => $output['link']
+		'text' => $bible_text,
+		'link' => $url
 	];
 	//writeLogDebug('bibleGetPassageBiblegateway-110', $output);
 	return $output['content'];

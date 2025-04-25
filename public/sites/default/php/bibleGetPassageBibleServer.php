@@ -21,21 +21,12 @@
 myRequireOnce('getElementsByClass.php');
 myRequireOnce('simple_html_dom.php', 'libraries/simplehtmldom_1_9_1');
 
-// returns array (and I have no idea why both verse and reference; why k.
-//1 =>
-//array (
-//  'verse' =>
-//  array (
-//    1 => 'John 14:15-26',
-//  ),
-//  'k' =>
-//  array (
-//    1 => '<h3>Jesus Promises the Holy Spirit</h3><p><sup>15 </sup>&#8220;If you love'
-//  'bible' => '<h3>Jesus Promises the Holy Spirit</h3><p><sup>15 </sup>&#8220;If you love me, keep my commands.  you of everything I have said to you.</p>
-//
-//<p><strong><a href="http://mobile.BibleServer.com/versions/New-International-Version-NIV-Bible/">New International Version</a> (NIV)</strong> <p>Holy Bible, New International Version®, NIV® Copyright ©  1973, 1978, 1984, 2011 by <a href="http://www.biblica.com/">Biblica, Inc.®</a> Used by permission. All rights reserved worldwide.</p>',
-//   'reference' => 'John 14:15-26',
-// ),
+/returns an array:
+$output= [
+	'reference' =>  $output['passage_name'],
+	'text' => $output['bible'],
+	'link' => $output['link']
+];
 
 function bibleGetPassageBibleServer($p)
 {
@@ -63,7 +54,7 @@ function bibleGetPassageBibleServer($p)
 	curl_setopt($ch, CURLOPT_LOW_SPEED_TIME, 90); // Wait 30 seconds for download
 	curl_setopt($ch, CURLOPT_TIMEOUT, 90); // Wait 30 seconds for download
 	$url = $reffer;
-	$output['link'] = $url;
+
 	writeLogDebug('bibleGetPassageBibleServer-66', $url);
 	curl_setopt($ch, CURLOPT_URL, $url);
 	$string = curl_exec($ch);  // grab URL and pass it to the variable.
@@ -77,15 +68,15 @@ function bibleGetPassageBibleServer($p)
 	if ($bible) {
 		$bible = bibleGetPassageBibleServerClean($bible);
 		$bible = bibleGetPassageBibleServerTrim($bible, $p['verseStart'], $p['verseEnd']);
-		$output['bible'] =   "\n" . '<!-- begin bible -->' . $bible;
-		$output['bible'] .=  "\n" . '<!-- end bible -->' . "\n";
+		$bible_text =   "\n" . '<!-- begin bible -->' . $bible;
+		$bible_text .=  "\n" . '<!-- end bible -->' . "\n";
 	} else {
-		$output['bible'] = null;
+		$bible_text = null;
 	}
 	$output['content'] = [
 		'reference' =>  $reference,
-		'text' => $output['bible'],
-		'link' => $output['link']
+		'text' => $bible_text,
+		'link' => $url
 	];
 	writeLogDebug('bibleGetPassageBibleServer-90', $output);
 	return $output['content'];

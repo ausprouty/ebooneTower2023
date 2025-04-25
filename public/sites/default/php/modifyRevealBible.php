@@ -14,6 +14,7 @@
 */
 function modifyRevealBible($text, $bookmark, $p)
 {
+    writeLogDebug('modifyRevealBible-17', $text);
     $read_phrase = trim($bookmark['language']->read);
     $template = '<button id="Button[id]" type="button" class="collapsible bible">[Show]</button>';
     $template .= '<div class="collapsed" id ="Text[id]">';
@@ -27,22 +28,28 @@ function modifyRevealBible($text, $bookmark, $p)
         $pos_end = mb_strpos($text, '</p>', $pos_start);
         $length = $pos_end - $pos_start + 4;
         $old = mb_substr($text, $pos_start, $length);
+        writeLogDebug('modifyRevealBible-31', $old);
         $word = trim(strip_tags($old));
-        // writeLogAppend('modifyRevealBible-30', $word);
+        writeLogDebug('modifyRevealBible-33', $word);
         $word = str_replace('&nbsp;', '', $word);
         $word = trim($word);
-        //writeLogAppend('modifyRevealBible-33', $word);
+        writeLogDebug('modifyRevealBible-36', $word);
         $reference = str_replace('  ', ' ', $word);
         $show = str_replace('%', $reference, $read_phrase);
         $new = str_replace('[id]', $i, $template);
         $new = str_replace('[Show]', $show, $new);
         $new = str_replace('[Reference]', $reference, $new);
+        // $new is the header for the reveal section
         // from https://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match
         // recalculate because not using multibyte function
         $pos_start = strpos($text, '<div class="reveal bible"');
         $pos_end = strpos($text, '</p>', $pos_start);
         $length = $pos_end - $pos_start + 4;
+        writeLogDebug('modifyRevealBible-47', $text);
+        writeLogDebug('modifyRevealBible-48', $new);
+        writeLogDebug('modifyRevealBible-49', $length);
         $text = substr_replace($text, $new, $pos_start, $length);
+        writeLogDebug('modifyRevealBible-51', $text);
     }
 
     return $text;

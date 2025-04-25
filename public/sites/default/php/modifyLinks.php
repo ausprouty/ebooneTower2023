@@ -16,7 +16,6 @@ function modifyLinks($text, $p)
 
     // take these out so we can put in proper links later.  The editors like the URL so they can follow links in the editor.
     $text = str_ireplace('target="_self"', '', $text);
-    $out = [];
     $find = '<a href="' . WEBADDRESS_EDIT;  //
     if (strpos($text, $find) !== false) {
         $text =  modifyLinksContent($text, $find);
@@ -45,16 +44,19 @@ function modifyLinks($text, $p)
         $text = str_ireplace('" >', '">', $text);
         $text  =  modifyLinksInternal($text, $find, $p);
     }
-    //writeLogDebug('modifyLinks-47', $text);
+    writeLogDebug('modifyLinks-47', $text);
     $find1 = '<a class="readmore"';
     $find2 = '<a class="bible-readmore"';
     if (strpos($text, $find1) !== false || strpos($text, $find2) !== false) {
+        writeLogDebug('modifyLinks-50', $text);
         $text = modifyLinksReadmoreBible($text);
+        writeLogDebug('modifyLinks-52', $text);
         myRequireOnce('removeLinksExternal.php', $p['destination']);
         if (removeLinksExternal($p)) {
             $text = _removeReadmoreLinks($text, $p);
         }
     }
+    writeLogDebug('modifyLinks-57', $text);
     $find = '"http';
     if (strpos($text, $find) !== false) {
         $text =  modifyLinksExternal($text, $find, $p);
@@ -66,7 +68,7 @@ function modifyLinks($text, $p)
         }
     }
 
-    //writeLog('modifyLinks', $debug);
+    writeLogDebug('modifyLinks-69', $text);
 
     return $text;
 }
@@ -78,7 +80,6 @@ function modifyLinks($text, $p)
 
 function modifyLinksPopup($text, $find)
 {
-    $out = [];
     $length_find = strlen($find);
     $count = substr_count($text, $find);
     $pos_start = 1;
@@ -91,7 +92,7 @@ function modifyLinksPopup($text, $find)
         $text = substr_replace($text, '', $pos_a_start, 4);
         $text = str_replace($old, '', $text);
     }
-    //writeLog(' modifyLinksContent',$text );
+    writeLog('modifyLinks-92', $text );
     return $text;
 }
 /*  <a href="https://generations.edit.myfriends.network/preview/page/A2/eng/library/emc/mc201">
@@ -100,7 +101,7 @@ function modifyLinksPopup($text, $find)
 */
 function  modifyLinksContent($text, $find)
 {
-    $out = [];
+
     $length_find = strlen($find);
     $count = substr_count($text, $find);
     $pos_start = 1;
@@ -114,7 +115,7 @@ function  modifyLinksContent($text, $find)
         $new = '<a href="' . $new_link . '">';
         $text = str_replace($old, $new, $text);
     }
-    //writeLog(' modifyLinksContent',$text );
+    writeLog('modifyLinks-115',$text );
     return $text;
 }
 
@@ -171,7 +172,7 @@ function  modifyLinksExternal($text, $find, $p)
             'new' => $substr_words,
             'text' => $text
         );
-        //writeLogDebug('modifyLinksExternal-161-' . $i, $values);
+        writeLogDebug('modifyLinksExternal-172-' . $i, $values);
         $text = str_replace($old, $substr_words, $text);
     }
     return $text;
@@ -180,7 +181,7 @@ function  modifyLinksExternal($text, $find, $p)
 // these need to come out in sensetive countries
 function _removeReadmoreLinks($text)
 {
-    //writeLogError('_removeReadmoreLinks-173', $text);
+    writeLogError('_removeReadmoreLinks-173', $text);
     $find = '<a class="readmore"';
     $length_find = strlen($find);
     $count = substr_count($text, $find);
@@ -192,7 +193,7 @@ function _removeReadmoreLinks($text)
         $text = substr_replace($text, '', $pos_start, $length);
         $pos_start = $pos_end;
     }
-    //writeLogError('_removeReadmoreLinks-185', $text);
+    writeLogError('_removeReadmoreLinks-193', $text);
     return $text;
 }
 /*
@@ -204,7 +205,7 @@ This is old code and is no longer supported
 */
 function _removeZoomLinks($text)
 {
-    //writeLogDebug('removeZoomLinks-203', $text);
+    writeLogDebug('modifyLinks-20', $text);
     $find_begin = '<span class="zoom"';
     $find_end = '</span>';
     $length_find_end = strlen($find_end);
@@ -216,16 +217,15 @@ function _removeZoomLinks($text)
         $pos_end = strpos($text, $find_end, $pos_start);
         $length = $pos_end - $pos_start + $length_find_end;
         $span = substr($text, $pos_start, $length);
-        //writeLogDebug('removeZoomLinks-218', $span);
+      
         //find image
         $pos_image_start = strpos($span, '<img');
         $pos_image_end = strpos($span, '>', $pos_image_start);
         $length_image = $pos_image_end - $pos_image_start + 1;
         $image = substr($span, $pos_image_start, $length_image);
         $text = str_replace($span, $image, $text);
-
         $pos_start = $pos_end;
     }
-    //writeLogDebug('removeZoomLinks-225', $text);
+    writeLogDebug('modifyLinks-225', $text);
     return $text;
 }
