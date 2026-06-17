@@ -6,6 +6,7 @@ function sqlBibleArray($sql)
     if ($conn->connect_error) {
         die("Connection has failed: " . $conn->connect_error);
     }
+    $conn->set_charset('utf8mb4');
     $query = $conn->query($sql);
     if ($query) {
         $output =  $query->fetch_array();
@@ -19,6 +20,7 @@ function sqlBibleInsert($sql)
     if ($conn->connect_error) {
         die("Connection has failed: " . $conn->connect_error);
     }
+    $conn->set_charset('utf8mb4');
     $query = $conn->query($sql);
     return $query;
 }
@@ -28,6 +30,7 @@ function sqlBibleMany($sql)
     if ($conn->connect_error) {
         die("Connection has failed: " . $conn->connect_error);
     }
+    $conn->set_charset('utf8mb4');
     $query = $conn->query($sql);
     $output =  $query;
     $conn->close();
@@ -41,6 +44,7 @@ function sqlArray($sql, $update = NULL)
     if ($conn->connect_error) {
         die("Connection has failed: " . $conn->connect_error);
     }
+    $conn->set_charset('utf8mb4');
     $query = $conn->query($sql);
     if (!$update) {
         if ($query) {
@@ -63,7 +67,8 @@ function sqlDelete($sql)
     if ($conn->connect_error) {
         die("Connection has failed: " . $conn->connect_error);
     }
-    $query = $conn->query($sql);
+    $conn->set_charset('utf8mb4');
+    $conn->query($sql);
     $conn->close();
     return;
 }
@@ -73,7 +78,8 @@ function sqlInsert($sql)
     if ($conn->connect_error) {
         die("Connection has failed: " . $conn->connect_error);
     }
-    $query = $conn->query($sql);
+    $conn->set_charset('utf8mb4');
+    $conn->query($sql);
     $conn->close();
     return 'done';
 }
@@ -83,6 +89,7 @@ function sqlMany($sql)
     if ($conn->connect_error) {
         die("Connection has failed: " . $conn->connect_error);
     }
+    $conn->set_charset('utf8mb4');
     $query = $conn->query($sql);
     $output =  $query;
     $conn->close();
@@ -94,6 +101,7 @@ function sqlFetchObject($sql, $update = NULL)
     if ($conn->connect_error) {
         die("Connection has failed: " . $conn->connect_error);
     }
+    $conn->set_charset('utf8mb4');
     $query = $conn->query($sql);
     if (!$update) {
         if ($query) {
@@ -116,6 +124,7 @@ function sqlText($sql, $update = NULL)
     if ($conn->connect_error) {
         die("Connection has failed: " . $conn->connect_error);
     }
+    $conn->set_charset('utf8mb4');
     $query = $conn->query($sql);
     $conn->close();
     if (!$update) {
@@ -146,6 +155,7 @@ function contentArrayFromRecnum($recnum)
         if ($conn->connect_error) {
             die("Connection has failed: " . $conn->connect_error);
         }
+        $conn->set_charset('utf8mb4');
         $query = $conn->query($sql);
         if ($query) {
             $output =  $query->fetch_array();
@@ -166,6 +176,7 @@ function contentObjectFromRecnum($recnum)
         if ($conn->connect_error) {
             die("Connection has failed: " . $conn->connect_error);
         }
+        $conn->set_charset('utf8mb4');
         $query = $conn->query($sql);
         if ($query) {
             $output =  $query->fetch_object();
@@ -183,7 +194,7 @@ function copyBookX($p)
     if ($conn->connect_error) {
         die("Connection has failed: " . $conn->connect_error);
     }
-
+    $conn->set_charset('utf8mb4');
     $debug = '';
     if (!$p['source'] || !$p['destination']) {
         return;
@@ -226,5 +237,6 @@ function copyBookX($p)
         $done = $conn->query($sql3);
         $debug .= '   Inserted ' . $filename . "\n";
     }
-    return $out;
+    $conn->close();
+    return $debug;
 }

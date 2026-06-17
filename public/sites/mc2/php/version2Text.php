@@ -25,5 +25,6 @@ function version2Text($text)
     $text = str_ireplace('/sites/mc2/content//sites/mc2/content/', '/sites/mc2/content/', $text);
     //$text = str_ireplace('sites/mc2/content/', 'content/', $text);
     //writeLog('version2Text-9', $text);
+
     return $text;
 }

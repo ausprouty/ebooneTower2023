@@ -34,12 +34,12 @@ function publishFiles($p, $fname, $text, $standard_css, $selected_css)
         $fname = str_replace('.html.html', '.html', $fname);
     }
     // webpage is used by Whatsapp 
-    $pos = strpos($fname,'/content/');
+    $pos = strpos($fname, '/content/');
     $webPage = substr($fname, $pos);
     // start with header
     $output = myGetPrototypeFile('header.html', $p['language_iso']);
     // see if there are links for Whatsapp or X
-    if (strpos($output, '[ShareLinks]') !== FALSE){
+    if (strpos($output, '[ShareLinks]') !== FALSE) {
         writeLogDebug('publishFiles-41', $output);
         $shareLinks = myGetPrototypeFile('shareLinks.html', $p['language_iso']);
         writeLogDebug('publishFiles-43', $shareLinks);
@@ -63,7 +63,7 @@ function publishFiles($p, $fname, $text, $standard_css, $selected_css)
     } else {
         $headers = ' ';
     }
-    if ( DESTINATION != 'staging') {
+    if (DESTINATION != 'staging') {
         // class="nobreak" need to be changed to class="nobreak-final" so color is correct
         $text = str_ireplace("nobreak", "nobreak-final", $text);
     }
@@ -106,6 +106,7 @@ function publishFiles($p, $fname, $text, $standard_css, $selected_css)
     writeLogDebug('publishFiles-106', $output);
     // remove dupliate CSS
     $output = publishCSS($output, $p);
+    // we don't get here
     writeLogDebug('publishFiles-108', $output);
     $footer = 'footer.html';
     $output .= myGetPrototypeFile($footer,  $p['language_iso'],);

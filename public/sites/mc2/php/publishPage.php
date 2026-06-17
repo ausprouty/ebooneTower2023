@@ -8,6 +8,35 @@ myRequireOnce('publishFilesInPage.php');
 myRequireOnce('syncController.php');
 myRequireOnce('writeLog.php');
 
+//these two functions are for removing BibleBlock and bible-link spans, 
+// which are not needed in the prototype and published version
+
+function removeBibleBlock($text)
+{
+    if (!is_string($text)) {
+        return $text;
+    }
+    return trim(preg_replace(
+        '/<p\b[^>]*>\s*\[BibleBlock\]\s*<\/p>/i',
+        '',
+        $text
+    ));
+}
+function removeBibleLinkSpans($text)
+{
+    if (!is_string($text)) {
+        return $text;
+    }
+
+    $result = preg_replace(
+        '/<span\b[^>]*class=["\'][^"\']*\bbible-link\b[^"\']*["\'][^>]*>(.*?)<\/span>/is',
+        '$1',
+        $text
+    );
+
+    return is_string($result) ? $result : $text;
+}
+
 
 // needs to return files in Page so we can include these when downloading a series for offline use.
 // required by publishSeriesAndChapters.php on line 44
@@ -15,7 +44,7 @@ myRequireOnce('writeLog.php');
 function publishPage($p)
 {
     syncController($p);
-    writeLogDebug('publishPage-18', 'returned from syncController');
+    writeLogDebug('publishPage-18-MC2', 'returned from syncController');
     $p['files_in_page'] = isset($p['files_in_page']) ? $p['files_in_page'] : [];
     $rand = random_int(0, 9999);
     $debug = '';
@@ -36,6 +65,10 @@ function publishPage($p)
     }
     //writeLogError ('publishPage-30-debug', $debug);
     $text  = createPage($p, $data);
+    // these two lines are for removing BibleBlock and bible-link spans, 
+    // which are not needed in the prototype and published version
+    $text = removeBibleBlock($text);
+    $text = removeBibleLinkSpans($text);
     $files_in_page  = publishFilesInPage($text, $p);
     $p['files_in_page'] = array_merge($p['files_in_page'], $files_in_page);
     // get bookmark for stylesheet
@@ -55,6 +88,7 @@ function publishPage($p)
     //
     writeLogDebug('publishPage-56', 'about to modify page');
     $text = modifyPage($text, $p, $data, $bookmark);
+
     $text .= '<!--- Created by publishPage-->' . "\n";
     writeLogDebug('publishPage-ZOOM-54', $text);
 

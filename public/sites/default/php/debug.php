@@ -85,6 +85,7 @@ function debugSeriesCrawlX($p)
                             '$country','$folder','json',
                             '','index','$text')";
                         $debug .= $sql . "\n";
+                        $conn->set_charset('utf8mb4');
                         $conn->query($sql);
                     }
                 }
@@ -148,6 +149,7 @@ function debugLibraryCrawl($p)
                         '$country','','json',
                         '','library','$text')";
                     $debug .= $sql . "\n";
+                    $conn->set_charset('utf8mb4');
                     $conn->query($sql);
                 }
             }
@@ -226,6 +228,7 @@ function debugLibraryX($p)
             '$data->country_code','$data->folder_name','$data->filetype',
             '$data->title','$data->filename','$text')";
         $debug .= $sql . "\n";
+        $conn->set_charset('utf8mb4');
         $conn->query($sql);
     }
     return $out;
@@ -252,6 +255,7 @@ function debugLife($p)
             '$data->country_code','$data->folder_name','$data->filetype',
             '$data->title','$data->filename','$text')";
         $debug .= $sql . "\n";
+        $conn->set_charset('utf8mb4');
         $conn->query($sql);
     }
     return $out;
@@ -312,6 +316,7 @@ function debugSeries($p)
             '$data->country_code','$data->folder_name','$data->filetype',
             '$data->title','$data->filename','$text')";
         $debug .= $sql . "\n";
+        $conn->set_charset('utf8mb4');
         $conn->query($sql);
     }
     return $out;

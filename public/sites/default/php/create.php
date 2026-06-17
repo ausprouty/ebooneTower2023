@@ -27,6 +27,7 @@ function createContent($p)
 		$filename = isset($p['filename']) ? $p['filename'] : NULL;
 		$page = 0;
 		$conn = new mysqli(HOST, USER, PASS, DATABASE_CONTENT);
+		$conn->set_charset('utf8mb4');
 		$text = $conn->real_escape_string($text);
 		if ($publish_date) { // used when importing data
 			$sql = "INSERT into content (version,edit_date,edit_uid,
@@ -120,12 +121,11 @@ function createStyle($p)
 		default:
 			$valid = false;
 	}
-	
+
 	if ($valid) {
-		if (isset($p['language_iso'])){
+		if (isset($p['language_iso'])) {
 			$dir = dirStandard('language', 'edit',  $p) . 'styles/';
-		}
-		else {
+		} else {
 			$dir = dirStandard('country', 'edit',  $p) . 'styles/';
 		}
 		$fname = $dir . $_FILES["file"]["name"];
@@ -136,13 +136,12 @@ function createStyle($p)
 			trigger_error($message, E_USER_ERROR);
 			return NULL;
 		}
-	}
-	else {
+	} else {
 		$message = "Style NOT Saved";
 		trigger_error($message, E_USER_ERROR);
 		return NULL;
 	}
-	
+
 	return NULL;
 }
 
