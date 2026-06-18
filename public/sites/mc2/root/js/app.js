@@ -209,9 +209,9 @@ function checkOfflineSeries(series) {
   console.log(series + " series is being checked");
   // set ios prompt if needed
   //https://www.netguru.co/codestories/few-tips-that-will-make-your-pwa-on-ios-feel-like-native
-
+  console.log("need to see prompt? " + this.needsToSeePrompt());
   if (this.needsToSeePrompt()) {
-    localStorage.setItem("lastSeenPrompt", new Date()); // set current time for prompt
+    localStorage.setItem("lastSeenPrompt", String(Date.now())); // set current time for prompt
     var myBtn = document.getElementById("offline-request"),
       myDiv = document.createElement("div");
     myDiv.setAttribute("class", "ios-notice-image");
@@ -349,6 +349,7 @@ function dlgOK() {
   dlg.style.display = "none";
 }
 function showDialog(message) {
+   console.log("showing dialog");
   var whitebg = document.getElementById("white-background");
   var dlg = document.getElementById("dlgbox");
   //	 whitebg.style.display = "block";
@@ -361,14 +362,31 @@ function showDialog(message) {
 }
 
 function needsToSeePrompt() {
+  console.log("checking if I need to see prompt");
   if (navigator.standalone) {
+    console.log("currently in standalone mode so don't need to see prompt");
     return false;
   }
-  let today = new Date();
-  let lastPrompt = localStorage.lastSeenPrompt;
-  let days = datediff(lastPrompt, today);
-  let isApple = ["iPhone", "iPad", "iPod"].includes(navigator.platform);
-  return (isNaN(days) || days > 14) && isApple;
+  console.log("checking if I am on Apple device");
+  var isApple = ["iPhone", "iPad", "iPod"].includes(navigator.platform);
+
+  if (!isApple) {
+    console.log("not on Apple device so I don't need to see prompt");
+    return false;
+  }
+  console.log("checking if Apple devices have seen prompt before");
+  var lastPrompt = Number(localStorage.getItem("lastSeenPrompt"));
+
+  if (!lastPrompt) {
+    return true;
+  }
+  console.log("checking if it has been 14 days since Apple Device has seen prompt");
+
+  var daysSincePrompt = Math.round(
+    (Date.now() - lastPrompt) / (1000 * 60 * 60 * 24)
+  );
+ console.log(daysSincePrompt + " days since Apple device saw prompt");
+  return daysSincePrompt > 14;
 }
 
 function datediff(first, second) {
