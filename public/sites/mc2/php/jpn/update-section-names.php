@@ -9,11 +9,13 @@ include __DIR__ . '/../../.env.api.remote.php';
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 $mysqli = new mysqli(
-    $_ENV['HOST'],
-    $_ENV['USER'],
-    $_ENV['PASS'],
-    $_ENV['DATABASE_CONTENT']
+    'HOST',
+    'USER',
+    'PASS',
+    'DATABASE_CONTENT'
 );
+
+
 
 $mysqli->set_charset('utf8mb4');
 
