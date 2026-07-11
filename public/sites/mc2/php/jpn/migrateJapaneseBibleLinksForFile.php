@@ -1,16 +1,15 @@
 <?php
 
 declare(strict_types=1);
-include __DIR__ . '/../../.env.api.remote.php';
-include './bible-blocks.php';
-include './bible-block-link.php';
 
+include __DIR__ . '/../../.env.api.remote.php';
+include './linkJapaneseReadAloudReferences.php';
 
 $mysqli = new mysqli(
-    'HOST',
-    'USER',
-    'PASS',
-    'DATABASE_CONTENT'
+    HOST,
+    USER,
+    PASS,
+    DATABASE_CONTENT
 );
 
 if ($mysqli->connect_error) {
@@ -21,30 +20,33 @@ $mysqli->set_charset('utf8mb4');
 
 migrateJapaneseBibleLinksForFile($mysqli, 'hope', 'hope01');
 
+$mysqli->close();
+
+
 function migrateJapaneseBibleLinksForFile(
     mysqli $mysqli,
     string $folderName,
     string $fileName
 ): void {
+    $languageIso = 'jpn';
+    $filetype = 'html';
+
     $selectSql = "
         SELECT *
         FROM content
         WHERE language_iso = ?
           AND folder_name = ?
           AND filetype = ?
-          AND file_name = ?
-        ORDER BY created_at DESC, id DESC
+          AND filename = ?
+        ORDER BY recnum DESC
         LIMIT 1
     ";
 
     $stmt = $mysqli->prepare($selectSql);
 
     if (!$stmt) {
-        throw new RuntimeException('Prepare failed: ' . $mysqli->error);
+        throw new RuntimeException('Select prepare failed: ' . $mysqli->error);
     }
-
-    $languageIso = 'jpn';
-    $filetype = 'html';
 
     $stmt->bind_param(
         'ssss',
@@ -54,7 +56,9 @@ function migrateJapaneseBibleLinksForFile(
         $fileName
     );
 
-    $stmt->execute();
+    if (!$stmt->execute()) {
+        throw new RuntimeException('Select execute failed: ' . $stmt->error);
+    }
 
     $result = $stmt->get_result();
     $row = $result->fetch_assoc();
@@ -66,19 +70,34 @@ function migrateJapaneseBibleLinksForFile(
         return;
     }
 
-    $oldText = $row['text'];
+    echo "Processing {$folderName}/{$fileName}, recnum {$row['recnum']}...\n";
+
+    $wasChanged = insertUpdatedBibleLinkRowIfChanged($mysqli, $row);
+
+    if (!$wasChanged) {
+        echo "No Bible reference links added for {$folderName}/{$fileName}.\n";
+    }
+}
+
+
+function insertUpdatedBibleLinkRowIfChanged(
+    mysqli $mysqli,
+    array $row
+): bool {
+    $oldText = $row['text'] ?? '';
     $newText = linkJapaneseReadAloudReferences($oldText);
 
     if ($newText === $oldText) {
-        echo "No Bible reference links added for {$folderName}/{$fileName}.\n";
-        return;
+        return false;
     }
 
-    unset($row['id']);
+    $oldRecnum = $row['recnum'];
+
+    // Remove primary key so MariaDB creates a new record.
+    unset($row['recnum']);
 
     $row['text'] = $newText;
-    echo $newText . "\n";
-    $row['created_at'] = date('Y-m-d H:i:s');
+    $row['edit_date'] = time();
 
     $columns = array_keys($row);
 
@@ -104,13 +123,20 @@ function migrateJapaneseBibleLinksForFile(
     $types = str_repeat('s', count($values));
 
     $insertStmt->bind_param($types, ...$values);
-    // $insertStmt->execute();
+
+    if (!$insertStmt->execute()) {
+        throw new RuntimeException('Insert execute failed: ' . $insertStmt->error);
+    }
 
     if ($insertStmt->affected_rows !== 1) {
         throw new RuntimeException('Insert failed or inserted unexpected number of rows.');
     }
 
+    $newRecnum = $mysqli->insert_id;
+
     $insertStmt->close();
 
-    echo "Inserted updated row for {$folderName}/{$fileName}.\n";
+    echo "Inserted updated row. Old recnum: {$oldRecnum}. New recnum: {$newRecnum}.\n";
+
+    return true;
 }
