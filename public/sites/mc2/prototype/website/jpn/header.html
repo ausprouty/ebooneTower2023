@@ -1,0 +1,120 @@
+<!doctype html>
+<!-- This header differs from standard in that it has a different UA in line 26-->
+<html lang="{{ language.google }}">
+  <head>
+    <!-- Google Tag Manager -->
+    <script>
+      ;(function (w, d, s, l, i) {
+        w[l] = w[l] || []
+        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != 'dataLayer' ? '&l=' + l : ''
+        j.async = true
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl
+        f.parentNode.insertBefore(j, f)
+      })(window, document, 'script', 'dataLayer', 'GTM-WS8NSL3')
+    </script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="MC2 Online" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/sites/mc2/images/icons/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/sites/mc2/images/icons/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/sites/mc2/images/icons/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/sites/mc2/images/icons/site.webmanifest" />
+    <link
+      rel="mask-icon"
+      href="/sites/mc2/images/icons/safari-pinned-tab.svg"
+      color="#ff0000"
+    />
+    <meta name="msapplication-TileColor" content="#00aba9" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <link
+      rel="apple-touch-icon"
+      href="/sites/mc2/images/icons/apple-touch-icon-60x60.png"
+      sizes="60x60"
+    />
+
+    <link
+      rel="apple-touch-icon"
+      href="/sites/mc2/images/icons/apple-touch-icon-76x76.png"
+      sizes="76x76"
+    />
+
+    <link
+      rel="apple-touch-icon"
+      href="/sites/mc2/images/icons/apple-touch-icon-120x120.png"
+      sizes="120x120"
+    />
+
+    <link
+      rel="apple-touch-icon"
+      href="/sites/mc2/images/icons/apple-touch-icon-152x152.png"
+      sizes="152x152"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="/sites/mc2/images/icons/apple-touch-icon-180x180.png"
+      sizes="180x180"
+    />
+    <meta
+      name="msapplication-TileImage"
+      content="/sites/mc2/images/icons/app-icon-144x144.png"
+    />
+    <meta name="msapplication-TileColor" content="#fff" />
+    <meta name="theme-color" content="#F2F5F8" />
+    <link rel="stylesheet" href="/sites/default/styles/appGLOBAL.css" />
+    <link rel="stylesheet" href="{{ standard.css }}" />
+    <link rel="stylesheet" href="{{ selected.css }}" />
+  </head>
+  <body id="app" class="container" {{ onload-note-js }}>
+    <div id="addToHomeScreen" class="hidden">
+      <div class="close" onclick="closeScreen()">
+        Close
+        <img
+          class="close"
+          src="/sites/mc2/images/standard/close.png"
+          alt="Close"
+        />
+      </div>
+
+      <div id="iosInstallInstructions" class="hidden">
+        <img
+          class="addToHomeScreenNotice"
+          src="/sites/mc2/content/M2/{{ language_iso }}/images/standard/add-to-homepage-ios.png"
+          alt="How to add this app to your home screen"
+        />
+      </div>
+
+      <div id="addToHomeScreenButton" class="hidden">
+        <img
+          class="addToHomeScreenNotice"
+          src="/sites/mc2/content/M2/{{ language_iso }}/images/standard/add-to-homepage-android.png"
+          alt="Add to Homepage"
+        />
+      </div>
+    </div>
+  </body>
+</html>

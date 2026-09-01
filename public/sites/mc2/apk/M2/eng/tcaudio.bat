@@ -1,0 +1,8 @@
+$link['https://api.soundcloud.com/tracks/1129152820'] = 'tc01'
+$link['https://api.soundcloud.com/tracks/1128625594'] = 'tc02'
+$link['https://api.soundcloud.com/tracks/1128625627'] = 'tc03'
+$link['https://api.soundcloud.com/tracks/1128625615'] = 'tc04'
+$link['https://api.soundcloud.com/tracks/1129149460'] = 'tc05'
+$link['https://api.soundcloud.com/tracks/1128625612'] = 'tc07'
+$link['https://api.soundcloud.com/tracks/1128625609'] = 'tc08'
+$link['https://api.soundcloud.com/tracks/1128625600'] = 'tc09'

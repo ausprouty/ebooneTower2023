@@ -63,7 +63,11 @@ function publishSeriesAndChapters($p)
                 $p['recnum'] = $data['recnum'];
                 // need to find latest record for recnum
                 $response =  publishPage($p);
-                $progress = progressMergeObjects($progress, $response->progress, 'publishSeriesAndChapters-75');
+                // will show filename of chapter that is being published
+                if ($response->filename) {
+                    $progress = progressMergeObjects($progress, $response->filename, 'publishSeriesAndChapters-75');
+                }
+                $files_in_pages = publishSeriesAndChaptersCombineArrays($files_in_pages, $response->files_in_pages);
             } else {
                 $response->message = "Record not found for $sql";
                 $progress->progress = 'notdone';

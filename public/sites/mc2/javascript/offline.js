@@ -4,18 +4,18 @@ var SHOW_PROMPT_EVERY_X_DAYS = 30
 // Initialize deferredPrompt for use later to show browser install prompt.
 var deferredPrompt = null
 
-// from https://web.dev/customize-install/
+// Chrome / Android install prompt
 window.addEventListener('beforeinstallprompt', function (e) {
   console.log("'beforeinstallprompt' event was fired.")
 
   // Prevent the browser mini-infobar from appearing
   e.preventDefault()
 
-  // Stash the event so it can be triggered later.
+  // Save the event so we can trigger it when the user clicks our button
   deferredPrompt = e
 
-  // Only show our custom prompt if enough time has passed
-  if (needsToShowHomescreenPrompt()) {
+  // Android / Chrome gets its prompt from this event
+  if (!isIOS() && needsToShowHomescreenPrompt()) {
     homescreenPromptShow()
   }
 })
@@ -34,33 +34,36 @@ function setupAddToHomeScreenButton() {
   }
 
   button.addEventListener('click', async function () {
-    // Hide the app provided install promotion
-    localStorage.setItem('installedPWA', String(Date.now()))
-    homescreenPromptHide()
-
+    // This button is only intended to trigger the browser install
+    // prompt on browsers that support beforeinstallprompt.
     if (!deferredPrompt) {
       console.log('No deferred PWA prompt available.')
       return
     }
 
-    // Show the browser install prompt
+    homescreenPromptHide()
+
+    // Show the browser's actual install prompt
     deferredPrompt.prompt()
 
-    // Wait for the user to respond to the prompt
+    // Wait for the user's response
     const choiceResult = await deferredPrompt.userChoice
-    console.log('User response to the install prompt: ' + choiceResult.outcome)
 
-    // We have used the prompt and cannot use it again
+    console.log(
+      'User response to the install prompt: ' + choiceResult.outcome
+    )
+
+    // The saved event can only be used once
     deferredPrompt = null
   })
-})
+}
 
 window.addEventListener('appinstalled', function (event) {
   console.log('👍 appinstalled', event)
 
+  // Record that installation really occurred
   localStorage.setItem('installedPWA', String(Date.now()))
 
-  // Clear the deferredPrompt so it can be garbage collected
   deferredPrompt = null
 
   homescreenPromptHide()
@@ -90,6 +93,7 @@ function offlineSeriesCheck(series) {
 
         if (result == '') {
           console.log(series + ' not available offline')
+
           link = document.getElementById('offline-request')
 
           if (link) {
@@ -97,6 +101,7 @@ function offlineSeriesCheck(series) {
           }
         } else {
           console.log(series + ' available offline')
+
           link = document.getElementById('offline-ready')
 
           if (link) {
@@ -125,9 +130,20 @@ function homescreenCheck() {
     return
   }
 
-  if (needsToShowHomescreenPrompt()) {
+  // iOS does not provide beforeinstallprompt.
+  // We therefore show our own iOS installation instructions.
+  if (isIOS() && needsToShowHomescreenPrompt()) {
     homescreenPromptShow()
   }
+
+  // Android / Chrome is handled by beforeinstallprompt.
+}
+
+function isIOS() {
+  return (
+    /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+  )
 }
 
 function needsToShowHomescreenPrompt() {
@@ -145,13 +161,13 @@ function needsToShowHomescreenPrompt() {
     return true
   }
 
-  var days = Math.round(
+  var days = Math.floor(
     (Date.now() - lastPrompt) / (1000 * 60 * 60 * 24)
   )
 
   console.log(days + ' days since PWA prompt')
 
-  return days > SHOW_PROMPT_EVERY_X_DAYS
+  return days >= SHOW_PROMPT_EVERY_X_DAYS
 }
 
 function getPWADisplayMode() {
@@ -169,13 +185,38 @@ function getPWADisplayMode() {
 }
 
 function homescreenPromptShow() {
-  localStorage.setItem('lastSeenPrompt', String(Date.now()))
-
   var dlg = document.getElementById('addToHomeScreen')
+  var iosInstructions = document.getElementById('iosInstallInstructions')
+  var androidButton = document.getElementById('addToHomeScreenButton')
 
   if (!dlg) {
     return
   }
+
+  if (isIOS()) {
+    console.log('Showing iOS PWA instructions')
+
+    if (iosInstructions) {
+      iosInstructions.classList.remove('hidden')
+    }
+
+    if (androidButton) {
+      androidButton.classList.add('hidden')
+    }
+  } else {
+    console.log('Showing Android PWA install prompt')
+
+    if (iosInstructions) {
+      iosInstructions.classList.add('hidden')
+    }
+
+    if (androidButton) {
+      androidButton.classList.remove('hidden')
+    }
+  }
+
+  // Record when the user actually sees our prompt
+  localStorage.setItem('lastSeenPrompt', String(Date.now()))
 
   dlg.classList.remove('hidden')
   dlg.classList.add('xhidden')
@@ -193,8 +234,12 @@ function homescreenPromptHide() {
 }
 
 function closeScreen() {
+  // User deliberately dismissed the prompt.
+  // Do not show it again for 30 days.
   localStorage.setItem('lastSeenPrompt', String(Date.now()))
+
   homescreenPromptHide()
+
   return false
 }
 
@@ -203,12 +248,14 @@ function closeScreen() {
 function inLocalStorage(key, id) {
   var deferred = $.Deferred()
   var result = ''
+
   console.log('looking offline for local storage')
 
   var key_value = localStorage.getItem(key)
 
   if (typeof key_value != 'undefined' && key_value) {
     key_value = JSON.parse(key_value)
+
     console.log(key_value)
 
     key_value.forEach(function (array_value) {
@@ -228,6 +275,7 @@ function inLocalStorage(key, id) {
   }
 
   deferred.resolve(result)
+
   return deferred.promise()
 }
 
@@ -287,9 +335,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
   el.addEventListener('click', function (event) {
     event.preventDefault()
+
     console.log('button pressed')
 
     var id = this.dataset.json
+
     console.log(id)
 
     fetch(id)
@@ -332,6 +382,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (already != 'Y') {
           offline.push(id)
+
           console.log(offline)
         }
 
